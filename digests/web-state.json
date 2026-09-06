@@ -1,6 +1,6 @@
 {
   "anthropic": {
-    "lastChecked": "2026-09-06T13:01:02.413Z",
+    "lastChecked": "2026-09-06T15:00:21.579Z",
     "seenUrls": {
       "https://www.anthropic.com/research/formalizing-fermats-last-theorem": "2026-09-04T18:21:03.000Z",
       "https://www.anthropic.com/research/india-brief-economic-index": "2026-09-04T18:19:02.000Z",
@@ -445,10 +445,10 @@
     }
   },
   "openai": {
-    "lastChecked": "2026-09-06T13:00:54.016Z",
+    "lastChecked": "2026-09-06T15:00:24.532Z",
     "seenUrls": {
-      "https://openai.com/index/gpt-6-astra/": "2026-09-06T13:00:08.282Z",
-      "https://openai.com/index/path-to-astra/": "2026-09-06T12:50:20.067Z",
+      "https://openai.com/index/gpt-6-astra/": "2026-09-06T14:53:02.507Z",
+      "https://openai.com/index/path-to-astra/": "2026-09-06T13:33:52.534Z",
       "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/": "2026-09-06T12:14:17.016Z",
       "https://openai.com/index/accelerating-cyber-defense-ecosystem/": "2026-09-06T12:14:16.798Z",
       "https://openai.com/index/putting-frontier-cyber-models-in-more-trusted-hands/": "2026-09-06T12:14:16.409Z",

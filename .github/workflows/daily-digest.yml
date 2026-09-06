@@ -171,3 +171,5 @@ jobs:
           DIGEST_REPO: ${{ github.repository }}
         run: pnpm close-stale
 
+
+# retrigger workflow registration

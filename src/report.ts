@@ -18,9 +18,34 @@ export const LLM_TOKENS_TRENDING = 6144;
  *  headroom for the multi-row tables plus 2-sentence summaries. */
 export const LLM_TOKENS_LISTING = 6144;
 export const LLM_TOKENS_WEB = 8192;
-import { type LlmProvider, createProvider } from "./providers/index.ts";
+import { type LlmProvider, type ProviderName, createProvider } from "./providers/index.ts";
 
 const provider: LlmProvider = createProvider();
+
+/**
+ * Optional second provider, tried once when the primary has exhausted its
+ * retry ladder. Configured via LLM_FALLBACK_PROVIDER (the workflow runs
+ * minimax as primary with glm as fallback). Lazily created and cached;
+ * `undefined` means "not yet resolved", `null` means disabled.
+ */
+let fallbackProvider: LlmProvider | null | undefined;
+
+function getFallbackProvider(): LlmProvider | null {
+  if (fallbackProvider === undefined) {
+    const name = process.env["LLM_FALLBACK_PROVIDER"];
+    if (!name) {
+      fallbackProvider = null;
+    } else {
+      try {
+        fallbackProvider = createProvider(name as ProviderName);
+      } catch (err) {
+        console.error(`[llm] Invalid LLM_FALLBACK_PROVIDER "${name}" — fallback disabled: ${err}`);
+        fallbackProvider = null;
+      }
+    }
+  }
+  return fallbackProvider;
+}
 
 // ---------------------------------------------------------------------------
 // Concurrency limiter — prevents rate-limit (429) errors when many LLM calls
@@ -71,10 +96,11 @@ export function llmFailureRatio(): number {
   return llmStats.attempted === 0 ? 0 : llmStats.failed / llmStats.attempted;
 }
 
-/** Test seam — the counters are module state shared by the whole run. */
+/** Test seam — the counters and fallback cache are module state shared by the whole run. */
 export function resetLlmStats(): void {
   llmStats.attempted = 0;
   llmStats.failed = 0;
+  fallbackProvider = undefined;
 }
 
 /**
@@ -133,8 +159,14 @@ export function reportLlmHealth(): void {
   }
 }
 
-/** A rate limit clears in seconds, so a short ladder is enough: 5 s, 10 s, 20 s. */
-const MAX_RETRIES_429 = 3;
+/**
+ * Provider rate limits are enforced per minute, so the old 5/10/20 s ladder
+ * never outlived the window — under sustained GLM load on 2026-09-06, 21 of 61
+ * calls exhausted it and failed. Four rungs spanning 5 minutes cover a
+ * per-minute limit window with room to spare.
+ */
+const RETRY_429_LADDER_MS = [15_000, 45_000, 90_000, 150_000] as const;
+const MAX_RETRIES_429 = RETRY_429_LADDER_MS.length;
 /**
  * Connection failures get a much longer ladder than 429s. A rate limit is the
  * provider pushing back on *us*; an unreachable endpoint is a network outage
@@ -198,30 +230,65 @@ export function isRetryable(err: unknown): boolean {
   return is429(err) || isConnectionError(err);
 }
 
-export async function callLlm(prompt: string, maxTokens = LLM_TOKENS_DEFAULT): Promise<string> {
-  llmStats.attempted++;
+/** Retry ladder for a single provider: 429s get the minute-window ladder,
+ *  connection failures the longer exponential one; everything else throws. */
+async function callWithRetries(p: LlmProvider, prompt: string, maxTokens: number): Promise<string> {
   for (let attempt = 0; ; attempt++) {
     await acquireSlot();
     let released = false;
     try {
-      return await provider.call(prompt, maxTokens);
+      return await p.call(prompt, maxTokens);
     } catch (err) {
       const rateLimited = is429(err);
       const maxRetries = rateLimited ? MAX_RETRIES_429 : MAX_RETRIES_CONNECTION;
       if (attempt < maxRetries && isRetryable(err)) {
         releaseSlot();
         released = true;
-        const wait = Math.min(RETRY_BASE_MS * 2 ** attempt, RETRY_MAX_MS);
+        const wait = rateLimited
+          ? RETRY_429_LADDER_MS[attempt]!
+          : Math.min(RETRY_BASE_MS * 2 ** attempt, RETRY_MAX_MS);
         const reason = rateLimited ? "429" : "connection error";
         console.error(`[llm] ${reason} — retry ${attempt + 1}/${maxRetries} in ${wait / 1000}s...`);
         await sleep(wait);
         continue;
       }
-      llmStats.failed++;
       throw err;
     } finally {
       if (!released) releaseSlot();
     }
+  }
+}
+
+/** One attempt through the concurrency limiter — used for the fallback call. */
+async function callOnce(p: LlmProvider, prompt: string, maxTokens: number): Promise<string> {
+  await acquireSlot();
+  try {
+    return await p.call(prompt, maxTokens);
+  } finally {
+    releaseSlot();
+  }
+}
+
+export async function callLlm(prompt: string, maxTokens = LLM_TOKENS_DEFAULT): Promise<string> {
+  llmStats.attempted++;
+  try {
+    return await callWithRetries(provider, prompt, maxTokens);
+  } catch (err) {
+    // The fallback provider gets exactly one attempt: the primary already
+    // burned minutes on its ladder, and a provider that is down is down.
+    const fallback = getFallbackProvider();
+    if (fallback) {
+      console.error(
+        `[llm] ${provider.name} exhausted its retries — trying fallback "${fallback.name}" once.`,
+      );
+      try {
+        return await callOnce(fallback, prompt, maxTokens);
+      } catch (fallbackErr) {
+        console.error(`[llm] fallback "${fallback.name}" also failed: ${fallbackErr}`);
+      }
+    }
+    llmStats.failed++;
+    throw err;
   }
 }
 

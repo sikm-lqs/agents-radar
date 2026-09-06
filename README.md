@@ -238,7 +238,7 @@ Go to **Settings → Secrets and variables → Actions** and add:
 
 | Secret | Required | Description |
 |--------|----------|-------------|
-| `LLM_PROVIDER` | optional | `anthropic` (default), `openai`, `github-copilot`, `openrouter`, `deepseek`, `qwen`, or `glm` |
+| `LLM_PROVIDER` | optional | `anthropic` (default), `openai`, `github-copilot`, `openrouter`, `deepseek`, `qwen`, `glm`, or `minimax` |
 | `ANTHROPIC_API_KEY` | if Anthropic | API key — works with both Anthropic and Kimi Code |
 | `ANTHROPIC_BASE_URL` | optional | API endpoint override. Set to `https://api.kimi.com/coding/` for Kimi Code; leave unset for Anthropic |
 | `OPENAI_API_KEY` | if OpenAI | OpenAI API key |
@@ -247,6 +247,7 @@ Go to **Settings → Secrets and variables → Actions** and add:
 | `DEEPSEEK_API_KEY` | if DeepSeek | DeepSeek API key |
 | `DASHSCOPE_API_KEY` | if Qwen | Alibaba Model Studio API key |
 | `GLM_API_KEY` | if GLM | Zhipu BigModel API key |
+| `MINIMAX_API_KEY` | if MiniMax | MiniMax API key |
 | `TELEGRAM_BOT_TOKEN` | optional | Telegram bot token from [@BotFather](https://t.me/BotFather). If set, a message is sent after each digest run |
 | `TELEGRAM_CHAT_ID` | optional | Telegram chat/channel/group ID to send notifications to |
 | `FEISHU_WEBHOOK_URLS` | optional | Comma-separated Feishu custom bot webhook URLs. If set, a card message is sent to each group after each digest run |
@@ -283,10 +284,13 @@ Set `LLM_PROVIDER` to choose which model backend powers the digest generation. D
 | DeepSeek | `deepseek` | `DEEPSEEK_API_KEY` | `deepseek-v4-flash` |
 | Qwen | `qwen` | `DASHSCOPE_API_KEY` | `qwen-flash` |
 | GLM (Zhipu) | `glm` | `GLM_API_KEY` | `glm-5.3` |
+| MiniMax | `minimax` | `MINIMAX_API_KEY` | `MiniMax-M3` |
 
-Override the model name with `ANTHROPIC_MODEL`, `OPENAI_MODEL`, `GITHUB_COPILOT_MODEL`, `OPENROUTER_MODEL`, `DEEPSEEK_MODEL`, `QWEN_MODEL`, or `GLM_MODEL` respectively. The Qwen endpoint can be overridden with `DASHSCOPE_BASE_URL`, the GLM endpoint with `GLM_BASE_URL`.
+Override the model name with `ANTHROPIC_MODEL`, `OPENAI_MODEL`, `GITHUB_COPILOT_MODEL`, `OPENROUTER_MODEL`, `DEEPSEEK_MODEL`, `QWEN_MODEL`, `GLM_MODEL`, or `MINIMAX_MODEL` respectively. The Qwen endpoint can be overridden with `DASHSCOPE_BASE_URL`, the GLM endpoint with `GLM_BASE_URL`, the MiniMax endpoint with `MINIMAX_BASE_URL`.
 
-The scheduled daily run uses `glm` / `glm-5.3`.
+Set `LLM_FALLBACK_PROVIDER` to a second provider name to hedge against rate limits and outages: when the primary provider has exhausted its retry ladder on a call, the fallback provider is tried once for that call. A call rescued by the fallback is not counted as a failure in the run's LLM health stats.
+
+The scheduled daily run uses `minimax` / `MiniMax-M3` as primary with `glm` / `glm-5.3` as fallback (`LLM_FALLBACK_PROVIDER=glm`).
 
 The provider abstraction lives in `src/providers/` — each provider is a separate file implementing the `LlmProvider` interface. Adding a new provider only requires creating a new file and registering it in the factory.
 
@@ -322,6 +326,13 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxxxxx
 # GLM (Zhipu BigModel)
 # export LLM_PROVIDER=glm
 # export GLM_API_KEY=xxxxxxxx
+
+# MiniMax
+# export LLM_PROVIDER=minimax
+# export MINIMAX_API_KEY=xxxxxxxx
+
+# Optional: fallback provider, tried once per call after the primary's retries are exhausted
+# export LLM_FALLBACK_PROVIDER=glm
 
 # Optional data sources (their reports are skipped when unset)
 # export TAVILY_API_KEY=tvly-xxxxxxxx        # ai-news report (AI news digest)

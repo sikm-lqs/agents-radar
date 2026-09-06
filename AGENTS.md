@@ -23,7 +23,7 @@ export GITHUB_TOKEN=ghp_xxxxx
 export DIGEST_REPO=owner/repo   # omit to skip GitHub issue creation
 
 # LLM provider (default: anthropic)
-export LLM_PROVIDER=anthropic   # anthropic | openai | github-copilot | openrouter | deepseek | glm
+export LLM_PROVIDER=anthropic   # anthropic | openai | github-copilot | openrouter | deepseek | glm | minimax
 
 # Anthropic (default)
 export ANTHROPIC_API_KEY=sk-ant-xxxxx
@@ -43,9 +43,16 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxx
 # export TAVILY_API_KEY=tvly-xxxxx
 # export PRODUCTHUNT_TOKEN=xxxxx
 
-# GLM (Zhipu BigModel) — provider used by the GitHub Actions cron
+# GLM (Zhipu BigModel) — fallback provider in the GitHub Actions cron
 # export LLM_PROVIDER=glm
 # export GLM_API_KEY=xxxxx
+
+# MiniMax — primary provider in the GitHub Actions cron
+# export LLM_PROVIDER=minimax
+# export MINIMAX_API_KEY=xxxxx
+
+# Optional: fallback provider, tried once per call after the primary's retries are exhausted
+# export LLM_FALLBACK_PROVIDER=glm
 ```
 
 ## Architecture
@@ -78,7 +85,8 @@ The pipeline runs in four sequential phases, each implemented as a named async f
 | `src/providers/github-copilot.ts` | `GitHubCopilotProvider` — extends `OpenAICompatibleProvider` |
 | `src/providers/openrouter.ts` | `OpenRouterProvider` — extends `OpenAICompatibleProvider` |
 | `src/providers/deepseek.ts` | `DeepSeekProvider` — extends `OpenAICompatibleProvider` |
-| `src/providers/glm.ts` | `GlmProvider` — extends `OpenAICompatibleProvider`; Zhipu BigModel, used by the GitHub Actions cron |
+| `src/providers/glm.ts` | `GlmProvider` — extends `OpenAICompatibleProvider`; Zhipu BigModel, fallback in the GitHub Actions cron |
+| `src/providers/minimax.ts` | `MinimaxProvider` — extends `OpenAICompatibleProvider`; MiniMax, primary in the GitHub Actions cron |
 | `src/providers/index.ts` | `createProvider` factory + barrel re-exports |
 | `src/web.ts` | Sitemap-based web content fetching; state persisted to `digests/web-state.json` |
 | `src/trending.ts` | GitHub Trending HTML scraper + Search API topic queries |
@@ -119,9 +127,10 @@ Files written to `digests/YYYY-MM-DD/`:
 - Weekly and monthly rollups were removed in July 2026. `ai-weekly`/`ai-monthly` remain in `REPORT_LABELS` (`src/i18n.ts`) and `REPORT_FILES` (`src/generate-manifest.ts`) only so archived reports stay reachable — do not add generation code back.
 - `callLlm(prompt, maxTokens?)` defaults to 4096 tokens. Web report uses 8192, trending uses 6144. The table-formatted listing reports (HN, PH, ArXiv, HF, Community, News) use `LLM_TOKENS_LISTING` = 6144 to fit multi-row tables plus 2-sentence summaries.
 - Data-source listing reports (Trending, HN, PH, ArXiv, HF, Community, News) render their item lists as **Markdown tables** (not bullet lists). Numeric columns are copied verbatim from the fetched data; the summary column is 2 sentences. Tables already have CSS in `index.html` and render natively in GitHub Issues too.
-- On 429 rate-limit errors `callLlm` retries up to 3 times with exponential backoff (5 s / 10 s / 20 s); the concurrency slot is released during the wait.
+- On 429 rate-limit errors `callLlm` retries up to 4 times on a minute-window ladder (15 s / 45 s / 90 s / 150 s); the concurrency slot is released during the wait.
 - The concurrency limiter (`LLM_CONCURRENCY = 5`) prevents 429s when many parallel LLM calls fire. Do not bypass it by calling SDK clients directly.
-- LLM provider is selected via `LLM_PROVIDER` env var (default: `anthropic`). Valid values: `anthropic`, `openai`, `github-copilot`, `openrouter`, `deepseek`, `glm`.
+- LLM provider is selected via `LLM_PROVIDER` env var (default: `anthropic`). Valid values: `anthropic`, `openai`, `github-copilot`, `openrouter`, `deepseek`, `glm`, `minimax`.
+- `LLM_FALLBACK_PROVIDER` names an optional second provider. When a `callLlm` call has exhausted the primary's retry ladder, the fallback is tried once for that call; a rescued call is not counted in `llmStats.failed`. The fallback is created lazily via `createProvider` and cached — an invalid name logs a warning and disables the fallback rather than failing the run.
 - Provider implementations live in `src/providers/`. Each file implements the `LlmProvider` interface. The factory in `src/providers/index.ts` validates the provider name and logs only the provider name — never API keys or endpoint URLs.
 - GitHub issue label colors are defined in `LABEL_COLORS` in `src/github.ts`. Add new labels there.
 - GitHub Discussions have no REST API, so `fetchRecentDiscussions` uses GraphQL. Enable per-repo with `discussions: true` — most tracked repos have the board enabled but dormant, and an unconditional fetch would just burn quota. Only `buildCliPrompt` renders a Discussions section, and it is omitted entirely when there is no data.

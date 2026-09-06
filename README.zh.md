@@ -237,7 +237,7 @@ infra_repos:
 
 | Secret | 必填 | 说明 |
 |--------|------|------|
-| `LLM_PROVIDER` | 可选 | `anthropic`（默认）、`openai`、`github-copilot`、`openrouter`、`deepseek`、`qwen` 或 `glm` |
+| `LLM_PROVIDER` | 可选 | `anthropic`（默认）、`openai`、`github-copilot`、`openrouter`、`deepseek`、`qwen`、`glm` 或 `minimax` |
 | `ANTHROPIC_API_KEY` | Anthropic 时 | API 密钥，兼容 Anthropic 和 Kimi Code |
 | `ANTHROPIC_BASE_URL` | 可选 | API 地址覆盖。使用 Kimi Code 时设置为 `https://api.kimi.com/coding/`，使用 Anthropic 时留空 |
 | `OPENAI_API_KEY` | OpenAI 时 | OpenAI API 密钥 |
@@ -246,6 +246,7 @@ infra_repos:
 | `DEEPSEEK_API_KEY` | DeepSeek 时 | DeepSeek API 密钥 |
 | `DASHSCOPE_API_KEY` | Qwen 时 | 阿里云百炼 API 密钥 |
 | `GLM_API_KEY` | GLM 时 | 智谱 BigModel API 密钥 |
+| `MINIMAX_API_KEY` | MiniMax 时 | MiniMax API 密钥 |
 | `TELEGRAM_BOT_TOKEN` | 可选 | Telegram bot token，从 [@BotFather](https://t.me/BotFather) 获取。设置后每次 digest 完成自动推送通知 |
 | `TELEGRAM_CHAT_ID` | 可选 | 接收通知的 Telegram 频道 / 群组 / 用户 ID |
 | `FEISHU_WEBHOOK_URLS` | 可选 | 飞书自定义机器人 Webhook URL，多个用英文逗号分隔。设置后每次 digest 完成自动推送卡片通知到所有群 |
@@ -282,10 +283,13 @@ infra_repos:
 | DeepSeek | `deepseek` | `DEEPSEEK_API_KEY` | `deepseek-v4-flash` |
 | Qwen | `qwen` | `DASHSCOPE_API_KEY` | `qwen-flash` |
 | GLM（智谱） | `glm` | `GLM_API_KEY` | `glm-5.3` |
+| MiniMax | `minimax` | `MINIMAX_API_KEY` | `MiniMax-M3` |
 
-可通过 `ANTHROPIC_MODEL`、`OPENAI_MODEL`、`GITHUB_COPILOT_MODEL`、`OPENROUTER_MODEL`、`DEEPSEEK_MODEL`、`QWEN_MODEL` 或 `GLM_MODEL` 分别覆盖默认模型名称；Qwen 的接入点可用 `DASHSCOPE_BASE_URL` 覆盖，GLM 的接入点可用 `GLM_BASE_URL` 覆盖。
+可通过 `ANTHROPIC_MODEL`、`OPENAI_MODEL`、`GITHUB_COPILOT_MODEL`、`OPENROUTER_MODEL`、`DEEPSEEK_MODEL`、`QWEN_MODEL`、`GLM_MODEL` 或 `MINIMAX_MODEL` 分别覆盖默认模型名称；Qwen 的接入点可用 `DASHSCOPE_BASE_URL` 覆盖，GLM 的接入点可用 `GLM_BASE_URL` 覆盖，MiniMax 的接入点可用 `MINIMAX_BASE_URL` 覆盖。
 
-每日定时任务使用 `glm` / `glm-5.3`。
+可设置 `LLM_FALLBACK_PROVIDER` 为第二个 provider 名称，对冲限流和故障：当主 provider 的一次调用用尽全部重试仍失败时，fallback provider 会为该调用补试一次。被 fallback 挽救的调用不会计入本次运行的 LLM 失败统计。
+
+每日定时任务使用 `minimax` / `MiniMax-M3` 为主、`glm` / `glm-5.3` 兜底（`LLM_FALLBACK_PROVIDER=glm`）。
 
 Provider 抽象层位于 `src/providers/`，每个供应商对应独立文件并实现 `LlmProvider` 接口。新增供应商只需创建新文件并在工厂函数中注册。
 
@@ -321,6 +325,13 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxxxxx
 # GLM（智谱 BigModel）
 # export LLM_PROVIDER=glm
 # export GLM_API_KEY=xxxxxxxx
+
+# MiniMax
+# export LLM_PROVIDER=minimax
+# export MINIMAX_API_KEY=xxxxxxxx
+
+# 可选：fallback provider，主 provider 重试耗尽后为该调用补试一次
+# export LLM_FALLBACK_PROVIDER=glm
 
 # 可选数据源（不配置则自动跳过对应报告）
 # export TAVILY_API_KEY=tvly-xxxxxxxx        # ai-news 报告（AI 快讯）

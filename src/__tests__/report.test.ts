@@ -6,15 +6,20 @@ import fs from "node:fs";
 // in report.ts uses our controllable mock instead of a real SDK client.
 // ---------------------------------------------------------------------------
 
-const { mockCall } = vi.hoisted(() => ({
+const { mockCall, mockFallbackCall } = vi.hoisted(() => ({
   mockCall: vi.fn<(prompt: string, maxTokens: number) => Promise<string>>(),
+  mockFallbackCall: vi.fn<(prompt: string, maxTokens: number) => Promise<string>>(),
 }));
 
 vi.mock("../providers/index.ts", async (importOriginal) => {
   const orig = await importOriginal<typeof import("../providers/index.ts")>();
   return {
     ...orig,
-    createProvider: () => ({ name: "mock", call: mockCall }),
+    // Module-level primary provider calls createProvider() with no name; the
+    // LLM_FALLBACK_PROVIDER path calls it with a name — route the two to
+    // separate mocks so tests can steer them independently.
+    createProvider: (name?: string) =>
+      name ? { name, call: mockFallbackCall } : { name: "mock", call: mockCall },
   };
 });
 
@@ -259,6 +264,8 @@ describe("callLlm", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     mockCall.mockReset();
+    mockFallbackCall.mockReset();
+    delete process.env["LLM_FALLBACK_PROVIDER"];
     resetLlmStats();
   });
 
@@ -284,15 +291,15 @@ describe("callLlm", () => {
     expect(mockCall).toHaveBeenCalledWith("prompt", 4096);
   });
 
-  it("retries on 429 with exponential backoff", async () => {
+  it("retries on 429 with the minute-window backoff ladder", async () => {
     const err429 = Object.assign(new Error("rate limited"), { status: 429 });
     mockCall.mockRejectedValueOnce(err429);
     mockCall.mockResolvedValueOnce("success after retry");
 
     const promise = callLlm("prompt", 1024);
 
-    // First call rejects with 429 — advance past the 5 s backoff
-    await vi.advanceTimersByTimeAsync(5_000);
+    // First call rejects with 429 — advance past the 15 s backoff
+    await vi.advanceTimersByTimeAsync(15_000);
 
     const result = await promise;
     expect(result).toBe("success after retry");
@@ -305,6 +312,7 @@ describe("callLlm", () => {
       .mockRejectedValueOnce(err429)
       .mockRejectedValueOnce(err429)
       .mockRejectedValueOnce(err429)
+      .mockRejectedValueOnce(err429)
       .mockRejectedValueOnce(err429);
 
     const promise = callLlm("prompt", 1024);
@@ -312,14 +320,15 @@ describe("callLlm", () => {
     // before the expect() below gets a chance to inspect the rejection.
     promise.catch(() => {});
 
-    // Advance through all 3 retry backoffs: 5s, 10s, 20s
-    await vi.advanceTimersByTimeAsync(5_000);
-    await vi.advanceTimersByTimeAsync(10_000);
-    await vi.advanceTimersByTimeAsync(20_000);
+    // Advance through all 4 retry backoffs: 15s, 45s, 90s, 150s
+    await vi.advanceTimersByTimeAsync(15_000);
+    await vi.advanceTimersByTimeAsync(45_000);
+    await vi.advanceTimersByTimeAsync(90_000);
+    await vi.advanceTimersByTimeAsync(150_000);
 
     await expect(promise).rejects.toThrow("rate limited");
-    // 1 initial + 3 retries = 4 total calls
-    expect(mockCall).toHaveBeenCalledTimes(4);
+    // 1 initial + 4 retries = 5 total calls
+    expect(mockCall).toHaveBeenCalledTimes(5);
   });
 
   it("retries on a connection error", async () => {
@@ -347,7 +356,7 @@ describe("callLlm", () => {
     mockCall.mockResolvedValueOnce("ok");
 
     const promise = callLlm("prompt");
-    await vi.advanceTimersByTimeAsync(5_000);
+    await vi.advanceTimersByTimeAsync(15_000);
     await promise;
 
     // If slots leaked, subsequent calls would hang. Fire LLM_CONCURRENCY (5)
@@ -396,19 +405,88 @@ describe("callLlm", () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it("keeps the 429 ladder at 3 retries", async () => {
+  it("keeps the 429 ladder at 4 retries spanning 5 minutes", async () => {
     const err429 = Object.assign(new Error("rate limited"), { status: 429 });
     mockCall.mockRejectedValue(err429);
 
     const promise = callLlm("prompt");
     promise.catch(() => {});
 
-    for (const ms of [5_000, 10_000, 20_000, 60_000]) {
+    for (const ms of [15_000, 45_000, 90_000, 150_000]) {
       await vi.advanceTimersByTimeAsync(ms);
     }
 
     await expect(promise).rejects.toThrow("rate limited");
-    expect(mockCall).toHaveBeenCalledTimes(4);
+    expect(mockCall).toHaveBeenCalledTimes(5);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// callLlm fallback provider (LLM_FALLBACK_PROVIDER)
+// ---------------------------------------------------------------------------
+
+describe("callLlm fallback provider", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    mockCall.mockReset();
+    mockFallbackCall.mockReset();
+    process.env["LLM_FALLBACK_PROVIDER"] = "glm";
+    resetLlmStats();
+  });
+
+  afterEach(() => {
+    delete process.env["LLM_FALLBACK_PROVIDER"];
+    vi.useRealTimers();
+  });
+
+  it("falls back once after the primary's retries are exhausted", async () => {
+    const err429 = Object.assign(new Error("rate limited"), { status: 429 });
+    mockCall.mockRejectedValue(err429); // primary: 1 initial + 4 retries, all 429
+    mockFallbackCall.mockResolvedValueOnce("from fallback");
+
+    const promise = callLlm("prompt", 1024);
+    for (const ms of [15_000, 45_000, 90_000, 150_000]) {
+      await vi.advanceTimersByTimeAsync(ms);
+    }
+
+    expect(await promise).toBe("from fallback");
+    expect(mockCall).toHaveBeenCalledTimes(5);
+    expect(mockFallbackCall).toHaveBeenCalledTimes(1);
+    expect(mockFallbackCall).toHaveBeenCalledWith("prompt", 1024);
+    // A rescued call is not a failure — the health stats stay clean.
+    expect(llmStats).toEqual({ attempted: 1, failed: 0 });
+  });
+
+  it("throws the primary error and counts one failure when the fallback also fails", async () => {
+    const err429 = Object.assign(new Error("rate limited"), { status: 429 });
+    mockCall.mockRejectedValue(err429);
+    mockFallbackCall.mockRejectedValueOnce(new Error("fallback down"));
+
+    const promise = callLlm("prompt");
+    promise.catch(() => {});
+    for (const ms of [15_000, 45_000, 90_000, 150_000]) {
+      await vi.advanceTimersByTimeAsync(ms);
+    }
+
+    await expect(promise).rejects.toThrow("rate limited");
+    expect(llmStats).toEqual({ attempted: 1, failed: 1 });
+  });
+
+  it("never touches the fallback while the primary succeeds", async () => {
+    mockCall.mockResolvedValueOnce("ok");
+
+    expect(await callLlm("prompt")).toBe("ok");
+    expect(mockFallbackCall).not.toHaveBeenCalled();
+  });
+
+  it("keeps the original behavior when LLM_FALLBACK_PROVIDER is unset", async () => {
+    delete process.env["LLM_FALLBACK_PROVIDER"];
+    resetLlmStats(); // drop the cached fallback created by earlier tests
+    mockCall.mockRejectedValueOnce(new Error("fatal"));
+
+    await expect(callLlm("prompt")).rejects.toThrow("fatal");
+    expect(mockFallbackCall).not.toHaveBeenCalled();
+    expect(llmStats).toEqual({ attempted: 1, failed: 1 });
   });
 });
 
@@ -420,6 +498,8 @@ describe("llm health accounting", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     mockCall.mockReset();
+    mockFallbackCall.mockReset();
+    delete process.env["LLM_FALLBACK_PROVIDER"];
     resetLlmStats();
   });
 
@@ -437,7 +517,7 @@ describe("llm health accounting", () => {
     mockCall.mockRejectedValueOnce(err429).mockResolvedValueOnce("ok");
 
     const promise = callLlm("prompt");
-    await vi.advanceTimersByTimeAsync(5_000);
+    await vi.advanceTimersByTimeAsync(15_000);
     await promise;
 
     expect(llmStats).toEqual({ attempted: 1, failed: 0 });

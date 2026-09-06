@@ -6,6 +6,7 @@ import {
   OpenRouterProvider,
   QwenProvider,
   GlmProvider,
+  MinimaxProvider,
   createProvider,
   VALID_PROVIDER_NAMES,
   type LlmProvider,
@@ -112,6 +113,11 @@ describe("LlmProvider interface", () => {
     expect(p.name).toBe("glm");
   });
 
+  it("MinimaxProvider has correct name", () => {
+    const p = new MinimaxProvider({ apiKey: "test" });
+    expect(p.name).toBe("minimax");
+  });
+
   it("all providers implement LlmProvider with call()", () => {
     const providers: LlmProvider[] = [
       new AnthropicProvider(),
@@ -120,6 +126,7 @@ describe("LlmProvider interface", () => {
       new OpenRouterProvider({ apiKey: "k" }),
       new QwenProvider({ apiKey: "k" }),
       new GlmProvider({ apiKey: "k" }),
+      new MinimaxProvider({ apiKey: "k" }),
     ];
     for (const p of providers) {
       expect(typeof p.name).toBe("string");
@@ -133,7 +140,7 @@ describe("LlmProvider interface", () => {
 // ---------------------------------------------------------------------------
 
 describe("VALID_PROVIDER_NAMES", () => {
-  it("contains all seven supported providers", () => {
+  it("contains all eight supported providers", () => {
     expect(VALID_PROVIDER_NAMES).toEqual([
       "anthropic",
       "openai",
@@ -142,6 +149,7 @@ describe("VALID_PROVIDER_NAMES", () => {
       "deepseek",
       "qwen",
       "glm",
+      "minimax",
     ]);
   });
 });
@@ -442,6 +450,59 @@ describe("GlmProvider", () => {
 });
 
 // ---------------------------------------------------------------------------
+// MinimaxProvider
+// ---------------------------------------------------------------------------
+
+describe("MinimaxProvider", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("call returns text", async () => {
+    const mockCreate = await getOpenAIMockCreate();
+    mockCreate.mockResolvedValueOnce({
+      choices: [{ message: { content: "Hello from MiniMax" } }],
+    });
+
+    const p = new MinimaxProvider({ apiKey: "sk-test" });
+    const result = await p.call("prompt", 256);
+    expect(result).toBe("Hello from MiniMax");
+  });
+
+  it(
+    "uses MINIMAX_MODEL env",
+    withEnv({ MINIMAX_MODEL: "MiniMax-M2" }, async () => {
+      const mockCreate = await getOpenAIMockCreate();
+      mockCreate.mockResolvedValueOnce({ choices: [{ message: { content: "ok" } }] });
+
+      const p = new MinimaxProvider({ apiKey: "k" });
+      await p.call("prompt", 128);
+      expect(mockCreate).toHaveBeenCalledWith(expect.objectContaining({ model: "MiniMax-M2" }));
+    }),
+  );
+
+  it(
+    "defaults to MiniMax-M3 when MINIMAX_MODEL is unset",
+    withEnv({ MINIMAX_MODEL: undefined }, async () => {
+      const mockCreate = await getOpenAIMockCreate();
+      mockCreate.mockResolvedValueOnce({ choices: [{ message: { content: "ok" } }] });
+
+      const p = new MinimaxProvider({ apiKey: "k" });
+      await p.call("prompt", 128);
+      expect(mockCreate).toHaveBeenCalledWith(expect.objectContaining({ model: "MiniMax-M3" }));
+    }),
+  );
+
+  it("throws on empty response", async () => {
+    const mockCreate = await getOpenAIMockCreate();
+    mockCreate.mockResolvedValueOnce({ choices: [{ message: { content: "" } }] });
+
+    const p = new MinimaxProvider({ apiKey: "k" });
+    await expect(p.call("prompt", 100)).rejects.toThrow("Unexpected empty response from minimax");
+  });
+});
+
+// ---------------------------------------------------------------------------
 // createProvider factory
 // ---------------------------------------------------------------------------
 
@@ -493,6 +554,11 @@ describe("createProvider", () => {
     expect(p).toBeInstanceOf(GlmProvider);
   });
 
+  it("creates minimax provider", () => {
+    const p = createProvider("minimax");
+    expect(p).toBeInstanceOf(MinimaxProvider);
+  });
+
   it(
     "reads LLM_PROVIDER from env",
     withEnv({ LLM_PROVIDER: "openai" }, () => {
@@ -503,7 +569,7 @@ describe("createProvider", () => {
 
   it("throws descriptive error for unknown provider", () => {
     expect(() => createProvider("bogus" as never)).toThrow(
-      /Invalid LLM provider: "bogus".*Valid providers are: anthropic, openai, github-copilot, openrouter, deepseek, qwen, glm/,
+      /Invalid LLM provider: "bogus".*Valid providers are: anthropic, openai, github-copilot, openrouter, deepseek, qwen, glm, minimax/,
     );
   });
 

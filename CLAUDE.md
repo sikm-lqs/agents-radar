@@ -23,7 +23,7 @@ export GITHUB_TOKEN=ghp_xxxxx
 export DIGEST_REPO=owner/repo   # omit to skip GitHub issue creation
 
 # LLM provider (default: anthropic)
-export LLM_PROVIDER=anthropic   # anthropic | openai | github-copilot | openrouter | deepseek | qwen | glm
+export LLM_PROVIDER=anthropic   # anthropic | openai | github-copilot | openrouter | deepseek | qwen | glm | minimax
 
 # Anthropic (default)
 export ANTHROPIC_API_KEY=sk-ant-xxxxx
@@ -42,8 +42,14 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxx
 # Qwen (Alibaba Model Studio)
 # export DASHSCOPE_API_KEY=sk-xxxxx
 
-# GLM (Zhipu BigModel) — provider used by the GitHub Actions cron
+# GLM (Zhipu BigModel) — fallback provider in the GitHub Actions cron
 # export GLM_API_KEY=xxxxx
+
+# MiniMax — primary provider in the GitHub Actions cron
+# export MINIMAX_API_KEY=xxxxx
+
+# Optional: fallback provider, tried once per call after the primary's retries are exhausted
+# export LLM_FALLBACK_PROVIDER=glm
 
 # Optional data sources (their reports are skipped when unset)
 # export TAVILY_API_KEY=tvly-xxxxx
@@ -91,7 +97,8 @@ Report bodies are generated **once in English** and translated to Chinese. Gener
 | `src/providers/openrouter.ts` | `OpenRouterProvider` — extends `OpenAICompatibleProvider` |
 | `src/providers/deepseek.ts` | `DeepSeekProvider` — extends `OpenAICompatibleProvider` |
 | `src/providers/qwen.ts` | `QwenProvider` — extends `OpenAICompatibleProvider`; Alibaba Model Studio |
-| `src/providers/glm.ts` | `GlmProvider` — extends `OpenAICompatibleProvider`; Zhipu BigModel, used by the GitHub Actions cron |
+| `src/providers/glm.ts` | `GlmProvider` — extends `OpenAICompatibleProvider`; Zhipu BigModel, fallback in the GitHub Actions cron |
+| `src/providers/minimax.ts` | `MinimaxProvider` — extends `OpenAICompatibleProvider`; MiniMax, primary in the GitHub Actions cron |
 | `src/providers/index.ts` | `createProvider` factory + barrel re-exports |
 | `src/web.ts` | Sitemap-based web content fetching; state persisted to `digests/web-state.json` |
 | `src/trending.ts` | GitHub Trending HTML scraper + Search API topic queries |
@@ -137,13 +144,14 @@ Files written to `digests/YYYY-MM-DD/`:
 - `callLlm(prompt, maxTokens?)` defaults to 4096 tokens. Web report uses 8192, trending uses 6144. The table-formatted listing reports (HN, PH, ArXiv, HF, Community, News) use `LLM_TOKENS_LISTING` = 6144 to fit multi-row tables plus 2-sentence summaries.
 - Data-source listing reports (Trending, HN, PH, ArXiv, HF, Community, News) render their item lists as **Markdown tables** (not bullet lists). Numeric columns are copied verbatim from the fetched data; the summary column is 2 sentences. Tables already have CSS in `index.html` and render natively in GitHub Issues too.
 - `callLlm` retries on two error classes, with separate budgets; the concurrency slot is released during every wait.
-  - **429** — 3 retries, 5 s / 10 s / 20 s. A rate limit clears in seconds.
+  - **429** — 4 retries, 15 s / 45 s / 90 s / 150 s. Provider rate limits are per-minute windows; the old 5/10/20 s ladder never outlived one (on 2026-09-06, 21 of 61 calls 429'd to failure under sustained GLM load).
   - **Connection failure** (DNS/TCP/TLS, detected by `isConnectionError` walking the SDK's `cause` chain) — 6 retries, 5 / 10 / 20 / 40 / 60 / 60 s, capped by `RETRY_MAX_MS`. A network outage between the runner and the provider lasts minutes, not seconds. On 2026-09-03 the DashScope cn-beijing endpoint was unreachable from the GitHub runner for the whole LLM phase; the old shared 3-retry ladder gave up 35 s in and the run published a digest of nothing but "generation failed" placeholders.
+  - **Fallback** — when the primary's ladder is exhausted, the provider named by `LLM_FALLBACK_PROVIDER` is tried once for that call. A rescued call is not counted in `llmStats.failed`; a fallback that also fails preserves the original throw. The fallback provider is created lazily and cached.
 - Every LLM call site degrades gracefully (a failed summary becomes a fixed notice, a failed translation falls back to English), which is right per report and wrong for the run as a whole. `llmStats` in `src/report.ts` counts attempts and final failures across the run, and `assertLlmHealthy(stage)` throws when at least `LLM_MIN_SAMPLES` (5) calls have run and at least `LLM_ABORT_RATIO` (50%) of them failed. `main()` calls it at two gates — after the summary/translation phase and after the save phase — so a provider outage exits non-zero *before* anything is committed, no issues are opened and no Telegram/Feishu message is sent. A missing day is recoverable by `workflow_dispatch`; a published day of placeholders is not.
 - `reportLlmHealth()` logs the final tally and, when any call was lost, appends a warning to `$GITHUB_STEP_SUMMARY` so a partially degraded run is visible on the Actions run page without a log dive.
 - The concurrency limiter (`LLM_CONCURRENCY = 5`) prevents 429s when many parallel LLM calls fire. Do not bypass it by calling SDK clients directly.
-- LLM provider is selected via `LLM_PROVIDER` env var (default: `anthropic`). Valid values: `anthropic`, `openai`, `github-copilot`, `openrouter`, `deepseek`, `qwen`, `glm`.
-- The daily GitHub Actions run uses `glm` (`glm-5.3`, Zhipu BigModel). It replaced `qwen` in September 2026 when the fork switched to the owner's GLM key. glm-5.3 is a reasoning model — responses carry `reasoning_content`, but the final answer is still in `choices[0].message.content`, which is what `OpenAICompatibleProvider` reads.
+- LLM provider is selected via `LLM_PROVIDER` env var (default: `anthropic`). Valid values: `anthropic`, `openai`, `github-copilot`, `openrouter`, `deepseek`, `qwen`, `glm`, `minimax`.
+- The daily GitHub Actions run uses `minimax` (`MiniMax-M3`) as primary with `glm` (`glm-5.3`) as fallback (`LLM_FALLBACK_PROVIDER=glm`). Load testing on 2026-09-06: MiniMax-M3 finished 25 requests in 113 s with zero 429s; glm-5.3 429'd under the same load. glm-5.3 is a reasoning model — responses carry `reasoning_content`, but the final answer is still in `choices[0].message.content`, which is what `OpenAICompatibleProvider` reads.
 - The daily workflow only ever produces one digest per CST day. Two mechanisms enforce it: a workflow-level `concurrency: daily-digest` group (`cancel-in-progress: false`) serializes overlapping runs, and a `guard` job skips **scheduled** runs whose `digests/YYYY-MM-DD` folder is already committed (checked via `gh api .../contents/...`, so no second checkout). `workflow_dispatch` always proceeds — that is the escape hatch for regenerating a day. This exists because GitHub delayed the 2026-08-26 scheduled run by 5h07m; the manual catch-up run and the late scheduled run both completed and opened 18 duplicate issues for 2026-08-27.
 - Provider implementations live in `src/providers/`. Each file implements the `LlmProvider` interface. The factory in `src/providers/index.ts` validates the provider name and logs only the provider name — never API keys or endpoint URLs.
 - `closeSupersededIssues` in `src/github.ts` (run by `pnpm close-stale`, the workflow's last step) keeps only the most recent digest day's issues open and closes the rest. The retained day is the newest **open digest issue**, not today's date, so a failed run leaves yesterday's reports up instead of closing everything. Days are compared as CST dates via `toCstDateStr`, matching the `digests/YYYY-MM-DD` folders — a delayed cron and its manual catch-up run land on the same day and are both retained. Eligibility requires a label in `ISSUE_LABELS` (plus the legacy `weekly`/`monthly`), and pull requests are excluded: the `/issues` REST endpoint returns PRs too, and the previous `closeStaleIssues` would have closed any open PR older than its cutoff.

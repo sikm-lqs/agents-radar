@@ -14,6 +14,7 @@ export { OpenRouterProvider } from "./openrouter.ts";
 export { DeepSeekProvider } from "./deepseek.ts";
 export { QwenProvider } from "./qwen.ts";
 export { GlmProvider } from "./glm.ts";
+export { MinimaxProvider } from "./minimax.ts";
 
 import type { LlmProvider, ProviderFactory } from "./types.ts";
 import { AnthropicProvider } from "./anthropic.ts";
@@ -23,6 +24,7 @@ import { OpenRouterProvider } from "./openrouter.ts";
 import { DeepSeekProvider } from "./deepseek.ts";
 import { QwenProvider } from "./qwen.ts";
 import { GlmProvider } from "./glm.ts";
+import { MinimaxProvider } from "./minimax.ts";
 
 // ---------------------------------------------------------------------------
 // Single source of truth — add new providers here only.
@@ -36,6 +38,7 @@ const PROVIDERS = {
   deepseek: () => new DeepSeekProvider(),
   qwen: () => new QwenProvider(),
   glm: () => new GlmProvider(),
+  minimax: () => new MinimaxProvider(),
 } satisfies Record<string, ProviderFactory>;
 
 /** Supported provider name — derived from the PROVIDERS registry. */

@@ -97,7 +97,13 @@ jobs:
       - name: Run daily digest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LLM_PROVIDER: glm
+          # Primary: MiniMax-M3 — fastest and no 429s under sustained load in
+          # testing; GLM glm-5.3 rate-limits under load, so it serves as the
+          # fallback (tried once per call after the primary's retries exhaust).
+          # To switch back: set LLM_PROVIDER to glm and drop MINIMAX_API_KEY.
+          LLM_PROVIDER: minimax
+          MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
+          LLM_FALLBACK_PROVIDER: glm
           GLM_API_KEY: ${{ secrets.GLM_API_KEY }}
           PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}

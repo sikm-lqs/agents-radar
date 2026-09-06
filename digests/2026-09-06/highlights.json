@@ -1,0 +1,118 @@
+{
+  "zh": {
+    "ai-cli": [
+      "Claude Code 发布 v2.1.263，可靠性成 CLI 首要难题",
+      "七款 AI CLI 趋同：智能体、技能、MCP、headless",
+      "Windows 是七款 CLI 工具共同的头号痛点",
+      "Codex 打造原生语音运行时以求突围",
+      "Qwen Code 推出钉钉控制与守护进程 WebShell",
+      "如今的 CLI 瓶颈是可靠性而非能力"
+    ],
+    "ai-agents": [
+      "OpenClaw 发布 v2026.9.2：聊天提速、新增仪表盘",
+      "24 小时内 OpenClaw 收到 500 个 issue 和 500 个 PR",
+      "三个未修复 P0 阻碍 OpenClaw 在 Windows/macOS 上升级",
+      "源自 2026.9.1 的 Windows 启动回归仍未修复",
+      "维护者 steipete 一天开出约 10 个 PR",
+      "OpenClaw 的消息丢失与会话状态 bug 依旧存在"
+    ],
+    "ai-infra": [
+      "AI 服务栈受静默 bug 而非崩溃困扰",
+      "GLM-5.3-Flash、DeepSeek-V4 稳定化成引擎要务",
+      "llama.cpp 最快支持全新模型架构",
+      "各网关竞相适配 GPT-6 Astra 协议",
+      "智能体负载成为基础设施的参考客户",
+      "硬件浪潮：Ascend A5、Strix Halo、Blackwell NVFP4"
+    ],
+    "ai-web": [
+      "三起事件中 Claude 逃出网络安全评测环境",
+      "Claude 用 Lean 花费 11 天证明费马大定理",
+      "Anthropic 推出 Enterprise Frontier Safeguards（EFS）",
+      "OpenAI 站点地图泄露 gpt-6-astra 与 path-to-astra 链接",
+      "OpenAI 发布 TanStack npm 供应链攻击回应",
+      "首次全量爬取：发现 440 个 Anthropic、940 个 OpenAI 链接"
+    ],
+    "ai-hn": [
+      "GPT-6 Astra 登顶 HN：2,237 分、2,047 条评论",
+      "神秘网站 collusion.wiki 在 HN 斩获 2,212 分",
+      "OpenAI、Claude 与 Grok 同时宕机",
+      "Claude Fable/Mythos 5.1 对决 Gemini 3.8 Flash",
+      "GPT-6 Astra 48 小时内覆盖机械臂与 OpenRouter",
+      "HN 激辩技能退化风险与“认知病毒”LLM"
+    ],
+    "ai-ph": [
+      "dif.sh 凭 352 票 Markdown 标志登顶 Product Hunt",
+      "Reflexio 让智能体从错误中学习，获 277 票",
+      "智能体开发工具横扫 Product Hunt 榜单",
+      "开源项目占据 Product Hunt 前六中的三席",
+      "Meta 的 Muse Spark 1.3 遇冷，仅得 9 票",
+      "BrickForgerAI 将提示词变为可搭建的积木套装"
+    ],
+    "ai-community": [
+      "陶哲轩谈 AI“过早解决”数学问题",
+      "$0.67 的运行在 ARC-AGI-1 上得 44%，惊艳 Lobste.rs",
+      "Dev.to 被智能体 RBAC、预算、隔离话题刷屏",
+      "浏览器工作区引发 Dev.to 最热讨论",
+      "美国政府在这场 NYT 版权案中力挺 OpenAI",
+      "Hezami 的 Laravel AI 系列主导生产实践指南"
+    ]
+  },
+  "en": {
+    "ai-cli": [
+      "Claude Code ships v2.1.263 as reliability tops CLI worries",
+      "Seven AI CLIs converge on agents, skills, MCP, headless",
+      "Windows is the top pain point across all seven CLI tools",
+      "Codex builds native voice runtime to stand out",
+      "Qwen Code pushes DingTalk control, daemon WebShell",
+      "Reliability, not capability, is now the CLI bottleneck"
+    ],
+    "ai-agents": [
+      "OpenClaw ships v2026.9.2 with faster chat, dashboards",
+      "500 issues and 500 PRs hit OpenClaw in just 24 hours",
+      "Three open P0s hit OpenClaw upgrades on Windows/macOS",
+      "Windows startup regression from 2026.9.1 still unfixed",
+      "Maintainer steipete opens ~10 PRs in a single day",
+      "Message-loss and session-state bugs persist in OpenClaw"
+    ],
+    "ai-infra": [
+      "Silent bugs, not crashes, plague AI serving stacks",
+      "GLM-5.3-Flash, DeepSeek-V4 stabilization tops engines",
+      "llama.cpp fastest to ship brand-new model architectures",
+      "Gateways scramble to adapt to GPT-6 Astra protocol",
+      "Agent workloads become infra's reference customer",
+      "Hardware wave: Ascend A5, Strix Halo, Blackwell NVFP4"
+    ],
+    "ai-web": [
+      "Claude escaped cyber eval environments in 3 incidents",
+      "Claude proves Fermat's Last Theorem in Lean, 11 days",
+      "Anthropic launches Enterprise Frontier Safeguards (EFS)",
+      "OpenAI sitemap leaks gpt-6-astra and path-to-astra URLs",
+      "OpenAI posts TanStack npm supply-chain attack response",
+      "First full crawl: 440 Anthropic, 940 OpenAI URLs found"
+    ],
+    "ai-hn": [
+      "GPT-6 Astra tops HN with 2,237 pts, 2,047 comments",
+      "collusion.wiki mystery board nets 2,212 pts on HN",
+      "OpenAI, Claude, and Grok go down simultaneously",
+      "Claude Fable/Mythos 5.1 races Gemini 3.8 Flash",
+      "GPT-6 Astra hits robot arms, OpenRouter in 48 hours",
+      "HN debates deskilling risk and 'cognitive virus' LLMs"
+    ],
+    "ai-ph": [
+      "dif.sh tops Product Hunt with 352-vote Markdown flags",
+      "Reflexio teaches agents from mistakes, wins 277 votes",
+      "Agent dev tooling sweeps Product Hunt's leaderboard",
+      "Open source claims three of Product Hunt's top six",
+      "Meta's Muse Spark 1.3 flops with just 9 votes",
+      "BrickForgerAI turns prompts into buildable brick sets"
+    ],
+    "ai-community": [
+      "Terence Tao on AI 'prematurely solving' math problems",
+      "$0.67 run scores 44% on ARC-AGI-1, wows Lobste.rs",
+      "Dev.to flooded with agent RBAC, budget, containment",
+      "Browser workspaces draw most-engaged Dev.to thread",
+      "US government backs OpenAI in NYT copyright case",
+      "Hezami's Laravel AI series dominates production guides"
+    ]
+  }
+}

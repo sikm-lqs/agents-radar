@@ -1,6 +1,6 @@
 {
   "anthropic": {
-    "lastChecked": "2026-09-06T15:00:21.579Z",
+    "lastChecked": "2026-09-06T15:33:23.471Z",
     "seenUrls": {
       "https://www.anthropic.com/research/formalizing-fermats-last-theorem": "2026-09-04T18:21:03.000Z",
       "https://www.anthropic.com/research/india-brief-economic-index": "2026-09-04T18:19:02.000Z",
@@ -445,25 +445,25 @@
     }
   },
   "openai": {
-    "lastChecked": "2026-09-06T15:00:24.532Z",
+    "lastChecked": "2026-09-06T15:33:25.985Z",
     "seenUrls": {
-      "https://openai.com/index/gpt-6-astra/": "2026-09-06T14:53:02.507Z",
+      "https://openai.com/index/gpt-6-astra/": "2026-09-06T15:33:02.358Z",
       "https://openai.com/index/path-to-astra/": "2026-09-06T13:33:52.534Z",
-      "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/": "2026-09-06T12:14:17.016Z",
-      "https://openai.com/index/accelerating-cyber-defense-ecosystem/": "2026-09-06T12:14:16.798Z",
-      "https://openai.com/index/putting-frontier-cyber-models-in-more-trusted-hands/": "2026-09-06T12:14:16.409Z",
-      "https://openai.com/index/safety-bug-bounty/": "2026-09-06T12:14:15.283Z",
-      "https://openai.com/index/our-response-to-the-tanstack-npm-supply-chain-attack/": "2026-09-06T12:14:14.864Z",
-      "https://openai.com/news/engineering/": "2026-09-06T12:14:14.657Z",
-      "https://openai.com/news/company-announcements/": "2026-09-06T12:14:14.609Z",
+      "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/": "2026-09-06T15:26:31.655Z",
+      "https://openai.com/index/accelerating-cyber-defense-ecosystem/": "2026-09-06T15:26:31.498Z",
+      "https://openai.com/index/putting-frontier-cyber-models-in-more-trusted-hands/": "2026-09-06T15:26:31.600Z",
+      "https://openai.com/index/safety-bug-bounty/": "2026-09-06T15:26:29.893Z",
+      "https://openai.com/index/our-response-to-the-tanstack-npm-supply-chain-attack/": "2026-09-06T15:26:30.215Z",
+      "https://openai.com/news/engineering/": "2026-09-06T15:26:30.714Z",
+      "https://openai.com/news/company-announcements/": "2026-09-06T15:26:36.435Z",
       "https://openai.com/news/safety-alignment/": "2026-09-06T12:14:14.601Z",
-      "https://openai.com/news/product-releases/": "2026-09-06T12:14:14.245Z",
-      "https://openai.com/news/": "2026-09-06T12:14:13.867Z",
-      "https://openai.com/index/hugging-face-incident-and-the-road-ahead/": "2026-09-06T12:14:13.858Z",
-      "https://openai.com/index/why-codex-security-doesnt-include-sast/": "2026-09-06T12:14:13.443Z",
-      "https://openai.com/index/codex-security-now-in-research-preview/": "2026-09-06T12:14:13.302Z",
-      "https://openai.com/index/introducing-aardvark/": "2026-09-06T12:14:12.638Z",
-      "https://openai.com/index/trusted-access-for-cyber/": "2026-09-06T12:14:12.144Z",
+      "https://openai.com/news/product-releases/": "2026-09-06T15:26:30.131Z",
+      "https://openai.com/news/": "2026-09-06T15:26:30.823Z",
+      "https://openai.com/index/hugging-face-incident-and-the-road-ahead/": "2026-09-06T15:26:30.197Z",
+      "https://openai.com/index/why-codex-security-doesnt-include-sast/": "2026-09-06T15:26:29.079Z",
+      "https://openai.com/index/codex-security-now-in-research-preview/": "2026-09-06T15:26:28.801Z",
+      "https://openai.com/index/introducing-aardvark/": "2026-09-06T15:26:27.995Z",
+      "https://openai.com/index/trusted-access-for-cyber/": "2026-09-06T15:26:26.765Z",
       "https://openai.com/index/safety-overview-gpt-6-astra/": "2026-09-05T22:26:01.021Z",
       "https://openai.com/signals/enterprise-data/": "2026-09-05T14:15:23.966Z",
       "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/": "2026-09-05T13:52:56.595Z",
@@ -1222,7 +1222,8 @@
       "https://openai.com/index/scaling-postgresql/": "2026-04-30T08:47:21.531Z",
       "https://openai.com/index/openai-o3-mini/": "2026-04-30T06:51:16.703Z",
       "https://openai.com/index/gpt-5-4-thinking-system-card/": "2026-04-23T05:45:21.943Z",
-      "https://openai.com/index/openai-pioneers-program/": "2026-04-06T21:28:00.206Z"
+      "https://openai.com/index/openai-pioneers-program/": "2026-04-06T21:28:00.206Z",
+      "https://openai.com/index/research-acceleration-view-inside-openai/": "2026-09-06T15:01:11.338Z"
     }
   }
 }

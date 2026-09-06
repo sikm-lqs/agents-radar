@@ -290,7 +290,9 @@ Override the model name with `ANTHROPIC_MODEL`, `OPENAI_MODEL`, `GITHUB_COPILOT_
 
 Set `LLM_FALLBACK_PROVIDER` to a second provider name to hedge against rate limits and outages: when the primary provider has exhausted its retry ladder on a call, the fallback provider is tried once for that call. A call rescued by the fallback is not counted as a failure in the run's LLM health stats.
 
-The scheduled daily run uses `minimax` / `MiniMax-M3` as primary with `glm` / `glm-5.3` as fallback (`LLM_FALLBACK_PROVIDER=glm`).
+Set `LLM_DEEP_PROVIDER` to route a small number of high-value analysis calls to a reasoning-grade model (`callLlm(prompt, maxTokens, "deep")`): the three cross-repo comparisons, the trending report, and the web report — about 5 calls per run. Everything else (per-repo summaries, listing reports, translations, highlights — 50+ calls) stays on the default tier. This split exists because reasoning models like glm-5.3 rate-limit under bulk load; a deep-tier call that exhausts its retries falls to the default-tier provider, then to `LLM_FALLBACK_PROVIDER`. When `LLM_DEEP_PROVIDER` is unset, deep-tier calls simply use the primary provider.
+
+The scheduled daily run uses `minimax` / `MiniMax-M3` as the default tier, `glm` / `glm-5.3` as the deep tier (`LLM_DEEP_PROVIDER=glm`) and as fallback (`LLM_FALLBACK_PROVIDER=glm`).
 
 The provider abstraction lives in `src/providers/` — each provider is a separate file implementing the `LlmProvider` interface. Adding a new provider only requires creating a new file and registering it in the factory.
 
@@ -333,6 +335,10 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxxxxx
 
 # Optional: fallback provider, tried once per call after the primary's retries are exhausted
 # export LLM_FALLBACK_PROVIDER=glm
+
+# Optional: deep-tier provider (strong reasoning) for the few high-value
+# analysis calls — 3 comparisons + trending + web report; unset = primary
+# export LLM_DEEP_PROVIDER=glm
 
 # Optional data sources (their reports are skipped when unset)
 # export TAVILY_API_KEY=tvly-xxxxxxxx        # ai-news report (AI news digest)

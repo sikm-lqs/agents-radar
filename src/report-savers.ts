@@ -35,6 +35,7 @@ import {
   autoGenFooter,
   LLM_TOKENS_WEB,
   LLM_TOKENS_LISTING,
+  type LlmTier,
 } from "./report.ts";
 import { createGitHubIssue } from "./github.ts";
 import { saveWebState, type WebFetchResult, type WebState } from "./web.ts";
@@ -57,9 +58,11 @@ export type BilingualBody = Record<Lang, string>;
  * Generate a report body once in English, then translate it to Chinese.
  * Throws if the English generation fails — there is nothing to save then.
  * A failed translation degrades to English rather than throwing.
+ * The tier applies to the English generation only; translation is mechanical
+ * work and always stays on the default tier.
  */
-async function bilingualBody(enPrompt: string, maxTokens: number): Promise<BilingualBody> {
-  const en = await callLlm(enPrompt, maxTokens);
+async function bilingualBody(enPrompt: string, maxTokens: number, tier?: LlmTier): Promise<BilingualBody> {
+  const en = await callLlm(enPrompt, maxTokens, tier);
   const zh = await translateToZh(en, maxTokens);
   return { en, zh };
 }
@@ -80,7 +83,11 @@ export async function saveWebReport(
   if (hasNewContent) {
     console.log("  [web] Calling LLM for web content report (EN) + translation (ZH)...");
     try {
-      const summary = await bilingualBody(buildWebReportPrompt(webResults, dateStr, "en"), LLM_TOKENS_WEB);
+      const summary = await bilingualBody(
+        buildWebReportPrompt(webResults, dateStr, "en"),
+        LLM_TOKENS_WEB,
+        "deep",
+      );
       const isFirstRun = webResults.some((r) => r.isFirstRun);
       const totalNew = webResults.reduce((sum, r) => sum + r.newItems.length, 0);
 

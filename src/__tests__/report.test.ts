@@ -6,9 +6,10 @@ import fs from "node:fs";
 // in report.ts uses our controllable mock instead of a real SDK client.
 // ---------------------------------------------------------------------------
 
-const { mockCall, mockFallbackCall } = vi.hoisted(() => ({
+const { mockCall, mockFallbackCall, mockDeepCall } = vi.hoisted(() => ({
   mockCall: vi.fn<(prompt: string, maxTokens: number) => Promise<string>>(),
   mockFallbackCall: vi.fn<(prompt: string, maxTokens: number) => Promise<string>>(),
+  mockDeepCall: vi.fn<(prompt: string, maxTokens: number) => Promise<string>>(),
 }));
 
 vi.mock("../providers/index.ts", async (importOriginal) => {
@@ -16,10 +17,14 @@ vi.mock("../providers/index.ts", async (importOriginal) => {
   return {
     ...orig,
     // Module-level primary provider calls createProvider() with no name; the
-    // LLM_FALLBACK_PROVIDER path calls it with a name — route the two to
-    // separate mocks so tests can steer them independently.
-    createProvider: (name?: string) =>
-      name ? { name, call: mockFallbackCall } : { name: "mock", call: mockCall },
+    // LLM_DEEP_PROVIDER / LLM_FALLBACK_PROVIDER paths call it with a name —
+    // route them to separate mocks so tests can steer each independently.
+    // Tests use the sentinel name "deep-mock" for the deep tier.
+    createProvider: (name?: string) => {
+      if (name === "deep-mock") return { name, call: mockDeepCall };
+      if (name) return { name, call: mockFallbackCall };
+      return { name: "mock", call: mockCall };
+    },
   };
 });
 
@@ -265,7 +270,9 @@ describe("callLlm", () => {
     vi.useFakeTimers();
     mockCall.mockReset();
     mockFallbackCall.mockReset();
+    mockDeepCall.mockReset();
     delete process.env["LLM_FALLBACK_PROVIDER"];
+    delete process.env["LLM_DEEP_PROVIDER"];
     resetLlmStats();
   });
 
@@ -430,6 +437,8 @@ describe("callLlm fallback provider", () => {
     vi.useFakeTimers();
     mockCall.mockReset();
     mockFallbackCall.mockReset();
+    mockDeepCall.mockReset();
+    delete process.env["LLM_DEEP_PROVIDER"];
     process.env["LLM_FALLBACK_PROVIDER"] = "glm";
     resetLlmStats();
   });
@@ -491,6 +500,93 @@ describe("callLlm fallback provider", () => {
 });
 
 // ---------------------------------------------------------------------------
+// callLlm deep tier (LLM_DEEP_PROVIDER)
+// ---------------------------------------------------------------------------
+
+describe("callLlm deep tier", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    mockCall.mockReset();
+    mockFallbackCall.mockReset();
+    mockDeepCall.mockReset();
+    delete process.env["LLM_FALLBACK_PROVIDER"];
+    delete process.env["LLM_DEEP_PROVIDER"];
+    resetLlmStats();
+  });
+
+  afterEach(() => {
+    delete process.env["LLM_DEEP_PROVIDER"];
+    vi.useRealTimers();
+  });
+
+  it("routes deep calls to LLM_DEEP_PROVIDER", async () => {
+    process.env["LLM_DEEP_PROVIDER"] = "deep-mock";
+    resetLlmStats();
+    mockDeepCall.mockResolvedValueOnce("deep result");
+
+    const result = await callLlm("prompt", 1024, "deep");
+
+    expect(result).toBe("deep result");
+    expect(mockDeepCall).toHaveBeenCalledTimes(1);
+    expect(mockDeepCall).toHaveBeenCalledWith("prompt", 1024);
+    expect(mockCall).not.toHaveBeenCalled();
+  });
+
+  it("uses the primary provider for deep calls when LLM_DEEP_PROVIDER is unset", async () => {
+    mockCall.mockResolvedValueOnce("main result");
+
+    const result = await callLlm("prompt", 1024, "deep");
+
+    expect(result).toBe("main result");
+    expect(mockCall).toHaveBeenCalledTimes(1);
+    expect(mockDeepCall).not.toHaveBeenCalled();
+  });
+
+  it("deep chain: deep provider fails → primary → LLM_FALLBACK_PROVIDER", async () => {
+    process.env["LLM_DEEP_PROVIDER"] = "deep-mock";
+    process.env["LLM_FALLBACK_PROVIDER"] = "glm";
+    resetLlmStats();
+    mockDeepCall.mockRejectedValueOnce(new Error("deep down"));
+    mockCall.mockRejectedValueOnce(new Error("main down"));
+    mockFallbackCall.mockResolvedValueOnce("from fallback");
+
+    const result = await callLlm("prompt", 1024, "deep");
+
+    expect(result).toBe("from fallback");
+    expect(mockDeepCall).toHaveBeenCalledTimes(1);
+    expect(mockCall).toHaveBeenCalledTimes(1);
+    expect(mockFallbackCall).toHaveBeenCalledTimes(1);
+    // A call rescued anywhere in the chain is not a failure.
+    expect(llmStats).toEqual({ attempted: 1, failed: 0 });
+  });
+
+  it("deep chain stops at the primary when no fallback is configured", async () => {
+    process.env["LLM_DEEP_PROVIDER"] = "deep-mock";
+    resetLlmStats();
+    mockDeepCall.mockRejectedValueOnce(new Error("deep down"));
+    mockCall.mockResolvedValueOnce("from main");
+
+    const result = await callLlm("prompt", 1024, "deep");
+
+    expect(result).toBe("from main");
+    expect(mockDeepCall).toHaveBeenCalledTimes(1);
+    expect(mockFallbackCall).not.toHaveBeenCalled();
+  });
+
+  it("deep chain counts one failure when every link fails", async () => {
+    process.env["LLM_DEEP_PROVIDER"] = "deep-mock";
+    process.env["LLM_FALLBACK_PROVIDER"] = "glm";
+    resetLlmStats();
+    mockDeepCall.mockRejectedValueOnce(new Error("deep down"));
+    mockCall.mockRejectedValueOnce(new Error("main down"));
+    mockFallbackCall.mockRejectedValueOnce(new Error("fallback down"));
+
+    await expect(callLlm("prompt", 1024, "deep")).rejects.toThrow("deep down");
+    expect(llmStats).toEqual({ attempted: 1, failed: 1 });
+  });
+});
+
+// ---------------------------------------------------------------------------
 // llmStats / llmFailureRatio
 // ---------------------------------------------------------------------------
 
@@ -499,7 +595,9 @@ describe("llm health accounting", () => {
     vi.useFakeTimers();
     mockCall.mockReset();
     mockFallbackCall.mockReset();
+    mockDeepCall.mockReset();
     delete process.env["LLM_FALLBACK_PROVIDER"];
+    delete process.env["LLM_DEEP_PROVIDER"];
     resetLlmStats();
   });
 

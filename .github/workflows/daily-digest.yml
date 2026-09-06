@@ -105,6 +105,12 @@ jobs:
           MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
           LLM_FALLBACK_PROVIDER: glm
           GLM_API_KEY: ${{ secrets.GLM_API_KEY }}
+          # Tiering: deep = GLM glm-5.3 (strong reasoning) for the few
+          # high-value analysis calls (3 comparisons + trending + web report);
+          # everything else (per-repo summaries, listing reports, translation,
+          # highlights) runs on MiniMax-M3. Deep-tier failures fall to MiniMax,
+          # then to LLM_FALLBACK_PROVIDER.
+          LLM_DEEP_PROVIDER: glm
           PRODUCTHUNT_TOKEN: ${{ secrets.PRODUCTHUNT_TOKEN }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
           DIGEST_REPO: ${{ github.repository }}

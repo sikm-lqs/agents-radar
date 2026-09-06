@@ -289,7 +289,9 @@ infra_repos:
 
 可设置 `LLM_FALLBACK_PROVIDER` 为第二个 provider 名称，对冲限流和故障：当主 provider 的一次调用用尽全部重试仍失败时，fallback provider 会为该调用补试一次。被 fallback 挽救的调用不会计入本次运行的 LLM 失败统计。
 
-每日定时任务使用 `minimax` / `MiniMax-M3` 为主、`glm` / `glm-5.3` 兜底（`LLM_FALLBACK_PROVIDER=glm`）。
+可设置 `LLM_DEEP_PROVIDER` 把少量高价值分析调用路由到推理更强的模型（`callLlm(prompt, maxTokens, "deep")`）：3 个跨仓横向对比、trending 趋势报告和 web 官网动态报告——每次运行约 5 次调用。其余调用（逐仓总结、各类 listing 报告、全部翻译、highlights 提取，50+ 次）都走默认档。这样分级是因为 glm-5.3 这类推理模型在批量负载下会按分钟限流；deep 档调用重试耗尽后依次回落到默认档主 provider 和 `LLM_FALLBACK_PROVIDER`。未配置 `LLM_DEEP_PROVIDER` 时，deep 档调用直接使用主 provider。
+
+每日定时任务使用 `minimax` / `MiniMax-M3` 作默认档，`glm` / `glm-5.3` 作 deep 档（`LLM_DEEP_PROVIDER=glm`）兼 fallback（`LLM_FALLBACK_PROVIDER=glm`）。
 
 Provider 抽象层位于 `src/providers/`，每个供应商对应独立文件并实现 `LlmProvider` 接口。新增供应商只需创建新文件并在工厂函数中注册。
 
@@ -332,6 +334,10 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxxxxx
 
 # 可选：fallback provider，主 provider 重试耗尽后为该调用补试一次
 # export LLM_FALLBACK_PROVIDER=glm
+
+# 可选：deep 档 provider（推理更强的模型），只承担少量高价值分析调用
+# （3 个横向对比 + trending + web 报告），未设置时回落到主 provider
+# export LLM_DEEP_PROVIDER=glm
 
 # 可选数据源（不配置则自动跳过对应报告）
 # export TAVILY_API_KEY=tvly-xxxxxxxx        # ai-news 报告（AI 快讯）

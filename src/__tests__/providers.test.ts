@@ -500,6 +500,39 @@ describe("MinimaxProvider", () => {
     const p = new MinimaxProvider({ apiKey: "k" });
     await expect(p.call("prompt", 100)).rejects.toThrow("Unexpected empty response from minimax");
   });
+
+  it("strips a leading <think> block from the response", async () => {
+    const mockCreate = await getOpenAIMockCreate();
+    mockCreate.mockResolvedValueOnce({
+      choices: [
+        {
+          message: {
+            content: "<think>Let me reason about this…\nover several lines.</think>\n\nThe answer.",
+          },
+        },
+      ],
+    });
+
+    const p = new MinimaxProvider({ apiKey: "k" });
+    expect(await p.call("prompt", 100)).toBe("The answer.");
+  });
+
+  it("strips multiple <think> blocks at arbitrary positions", async () => {
+    const mockCreate = await getOpenAIMockCreate();
+    mockCreate.mockResolvedValueOnce({
+      choices: [
+        {
+          message: {
+            content:
+              "<think>first</think>Result line 1\n\n<think>second\nmultiline</think>\nResult line 2<think>third</think>",
+          },
+        },
+      ],
+    });
+
+    const p = new MinimaxProvider({ apiKey: "k" });
+    expect(await p.call("prompt", 100)).toBe("Result line 1\n\n\nResult line 2");
+  });
 });
 
 // ---------------------------------------------------------------------------

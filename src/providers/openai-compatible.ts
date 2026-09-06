@@ -7,6 +7,18 @@
 import OpenAI from "openai";
 import type { LlmProvider } from "./types.ts";
 
+/**
+ * Some models (observed: MiniMax-M3) inline their reasoning into the content
+ * field as `<think>...</think>` blocks — possibly several, possibly multiline,
+ * not necessarily at the start. Left in, they leak raw chain-of-thought into
+ * the generated markdown reports (seen in the 2026-09-07 digest files).
+ * Reasoning models that use a separate `reasoning_content` field (GLM) are
+ * unaffected — that field never lands in `content`.
+ */
+function stripThinkBlocks(text: string): string {
+  return text.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
+}
+
 export abstract class OpenAICompatibleProvider implements LlmProvider {
   abstract readonly name: string;
   protected readonly client: OpenAI;
@@ -28,6 +40,6 @@ export abstract class OpenAICompatibleProvider implements LlmProvider {
     });
     const text = response.choices[0]?.message?.content;
     if (!text) throw new Error(`Unexpected empty response from ${this.name}`);
-    return text;
+    return stripThinkBlocks(text);
   }
 }

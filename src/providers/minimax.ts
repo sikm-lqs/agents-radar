@@ -6,9 +6,11 @@
  *   MINIMAX_BASE_URL  - endpoint override (default: the endpoint below)
  *   MINIMAX_MODEL     - model name (default: MiniMax-M3)
  *
- * MiniMax-M3 is not a reasoning model and showed no 429s under sustained load
- * in load testing (25 requests in 113 s), which is why the workflow uses it as
- * the primary provider with GLM as the fallback.
+ * MiniMax-M3 does not use a separate reasoning field — it inlines its
+ * chain-of-thought into `content` as `<think>...</think>` blocks, which the
+ * response parsing in OpenAICompatibleProvider strips. It showed no 429s
+ * under sustained load in load testing (25 requests in 113 s), which is why
+ * the workflow uses it as the default tier with GLM as deep tier + fallback.
  */
 
 import { OpenAICompatibleProvider } from "./openai-compatible.ts";

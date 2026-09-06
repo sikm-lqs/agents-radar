@@ -42,6 +42,7 @@ import {
   assertLlmHealthy,
   reportLlmHealth,
   llmHealthLine,
+  type LlmTier,
 } from "./report.ts";
 import {
   buildCliReportContent,
@@ -225,11 +226,19 @@ async function fetchAllData(
 // Phase 2: LLM summaries
 // ---------------------------------------------------------------------------
 
-/** Call LLM with logging and error fallback. */
-async function summarize(id: string, prompt: string, failMsg: string, maxTokens?: number): Promise<string> {
+/** Call LLM with logging and error fallback. `tier: "deep"` routes the call to
+ *  the reasoning-grade LLM_DEEP_PROVIDER (see report.ts) — reserved for the
+ *  few high-value analysis calls, not bulk summarization or translation. */
+async function summarize(
+  id: string,
+  prompt: string,
+  failMsg: string,
+  maxTokens?: number,
+  tier?: LlmTier,
+): Promise<string> {
   console.log(`  [${id}] Calling LLM for summary...`);
   try {
-    return await callLlm(prompt, maxTokens);
+    return await callLlm(prompt, maxTokens, tier);
   } catch (err) {
     console.error(`  [${id}] LLM call failed: ${err}`);
     return failMsg;
@@ -341,6 +350,7 @@ async function generateSummaries(
           buildTrendingPrompt(trendingData, dateStr, lang),
           MSG.trendingFailed[lang],
           LLM_TOKENS_TRENDING,
+          "deep",
         );
       })(),
     ]);
@@ -480,16 +490,22 @@ async function main(): Promise<void> {
       "cli-comparison",
       buildComparisonPrompt(enSummaries.cliDigests, dateStr, "en"),
       MSG.comparisonFailed.en,
+      undefined,
+      "deep",
     ),
     summarize(
       "peers-comparison",
       buildPeersComparisonPrompt(makeOpenclawDigest("en"), enSummaries.peerDigests, dateStr, "en"),
       MSG.comparisonFailed.en,
+      undefined,
+      "deep",
     ),
     summarize(
       "infra-comparison",
       buildInfraComparisonPrompt(enSummaries.infraDigests, dateStr, "en"),
       MSG.comparisonFailed.en,
+      undefined,
+      "deep",
     ),
   ]);
 

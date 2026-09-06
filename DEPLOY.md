@@ -17,8 +17,8 @@ git push -u origin main
 
 | Secret | 必填 | 说明 |
 |--------|------|------|
-| `MINIMAX_API_KEY` | 是 | 主 LLM provider 密钥。workflow 默认 `LLM_PROVIDER: minimax`（默认模型 `MiniMax-M3`，端点 `https://api.minimax.cn/v1`）。压测结论：MiniMax-M3 持续负载下零 429，速度快 |
-| `GLM_API_KEY` | 推荐 | fallback LLM 密钥。workflow 配了 `LLM_FALLBACK_PROVIDER: glm`（`glm-5.3`，端点 `https://open.bigmodel.cn/api/coding/paas/v4`）：GLM 持续负载下会按分钟限流（429），所以不当主力；但主 provider 单次调用重试耗尽后由它补试一次，防止整天报告占位符化。不配则 fallback 自动禁用。如改用其他 provider，修改 `.github/workflows/daily-digest.yml` 中的 `LLM_PROVIDER` 并配置对应 key（`ANTHROPIC_API_KEY` / `OPENAI_API_KEY` / `OPENROUTER_API_KEY` / `DEEPSEEK_API_KEY` / `DASHSCOPE_API_KEY`） |
+| `MINIMAX_API_KEY` | 是 | 默认档 LLM 密钥，承担量产调用（22 个仓库逐个总结、各数据源报告、全部翻译、highlights，50+ 次/场）。workflow 默认 `LLM_PROVIDER: minimax`（默认模型 `MiniMax-M3`，端点 `https://api.minimax.cn/v1`）。压测结论：MiniMax-M3 持续负载下零 429，速度快 |
+| `GLM_API_KEY` | 推荐 | deep 档 + fallback 密钥（`glm-5.3`，端点 `https://open.bigmodel.cn/api/coding/paas/v4`）。workflow 配了 `LLM_DEEP_PROVIDER: glm` + `LLM_FALLBACK_PROVIDER: glm`：GLM 推理强但持续负载下会按分钟限流（429），所以只承担少量高价值分析调用（3 个横向对比 + trending + web 报告，约 5 次/场），并在默认档调用重试耗尽后兜底一次。不配则 deep 档回落到 MiniMax、fallback 自动禁用。如改用其他 provider，修改 `.github/workflows/daily-digest.yml` 中的 `LLM_PROVIDER` 并配置对应 key（`ANTHROPIC_API_KEY` / `OPENAI_API_KEY` / `OPENROUTER_API_KEY` / `DEEPSEEK_API_KEY` / `DASHSCOPE_API_KEY`） |
 | `TAVILY_API_KEY` | 推荐 | [tavily.com](https://tavily.com) 注册免费获取（1000 次/月额度，本仓库每天 2 场 × 4 个查询 ≈ 240 次/月，够用）。用于生成「AI 快讯日报」（ai-news）。**不配置则自动跳过该报告，不影响其他报告** |
 | `FEISHU_WEBHOOK_URLS` | 推荐 | 飞书自定义机器人 Webhook 地址，多个地址用英文逗号分隔。配置方法见下文第 4 节 |
 | `FEISHU_SECRET` | 视情况 | 飞书机器人开启「签名校验」安全设置时**必填**，值为机器人详情页的签名密钥；使用「自定义关键词」或不开安全设置时留空即可 |

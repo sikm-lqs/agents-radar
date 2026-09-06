@@ -43,7 +43,7 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxx
 # export TAVILY_API_KEY=tvly-xxxxx
 # export PRODUCTHUNT_TOKEN=xxxxx
 
-# GLM (Zhipu BigModel) — fallback provider in the GitHub Actions cron
+# GLM (Zhipu BigModel) — deep-tier + fallback provider in the GitHub Actions cron
 # export LLM_PROVIDER=glm
 # export GLM_API_KEY=xxxxx
 
@@ -53,6 +53,10 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxx
 
 # Optional: fallback provider, tried once per call after the primary's retries are exhausted
 # export LLM_FALLBACK_PROVIDER=glm
+
+# Optional: deep-tier provider (strong reasoning) for the few high-value
+# analysis calls — 3 comparisons + trending + web report; unset = primary
+# export LLM_DEEP_PROVIDER=glm
 ```
 
 ## Architecture
@@ -131,6 +135,7 @@ Files written to `digests/YYYY-MM-DD/`:
 - The concurrency limiter (`LLM_CONCURRENCY = 5`) prevents 429s when many parallel LLM calls fire. Do not bypass it by calling SDK clients directly.
 - LLM provider is selected via `LLM_PROVIDER` env var (default: `anthropic`). Valid values: `anthropic`, `openai`, `github-copilot`, `openrouter`, `deepseek`, `glm`, `minimax`.
 - `LLM_FALLBACK_PROVIDER` names an optional second provider. When a `callLlm` call has exhausted the primary's retry ladder, the fallback is tried once for that call; a rescued call is not counted in `llmStats.failed`. The fallback is created lazily via `createProvider` and cached — an invalid name logs a warning and disables the fallback rather than failing the run.
+- `LLM_DEEP_PROVIDER` names an optional reasoning-grade provider for `callLlm(prompt, maxTokens, "deep")` calls — currently the three cross-repo comparisons, the trending summary, and the web report (~5 calls/run; everything else stays on the default tier, translations included). A failed deep call falls to the default-tier provider, then to `LLM_FALLBACK_PROVIDER`. Unset means deep calls use the primary.
 - Provider implementations live in `src/providers/`. Each file implements the `LlmProvider` interface. The factory in `src/providers/index.ts` validates the provider name and logs only the provider name — never API keys or endpoint URLs.
 - GitHub issue label colors are defined in `LABEL_COLORS` in `src/github.ts`. Add new labels there.
 - GitHub Discussions have no REST API, so `fetchRecentDiscussions` uses GraphQL. Enable per-repo with `discussions: true` — most tracked repos have the board enabled but dormant, and an unconditional fetch would just burn quota. Only `buildCliPrompt` renders a Discussions section, and it is omitted entirely when there is no data.

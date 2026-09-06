@@ -47,6 +47,35 @@ function getFallbackProvider(): LlmProvider | null {
   return fallbackProvider;
 }
 
+/**
+ * Optional reasoning-grade provider for the "deep" tier — a small number of
+ * high-value analysis calls (cross-repo comparisons, trend signals). Set via
+ * LLM_DEEP_PROVIDER; when unset, deep-tier calls use the primary provider.
+ * Lazily created and cached; an invalid name logs a warning and disables the
+ * tier (deep falls back to the primary), mirroring the fallback's behavior.
+ */
+let deepProvider: LlmProvider | null | undefined;
+
+function getDeepProvider(): LlmProvider | null {
+  if (deepProvider === undefined) {
+    const name = process.env["LLM_DEEP_PROVIDER"];
+    if (!name) {
+      deepProvider = null;
+    } else {
+      try {
+        deepProvider = createProvider(name as ProviderName);
+      } catch (err) {
+        console.error(`[llm] Invalid LLM_DEEP_PROVIDER "${name}" — deep tier uses primary: ${err}`);
+        deepProvider = null;
+      }
+    }
+  }
+  return deepProvider;
+}
+
+/** Call tier. "deep" routes to LLM_DEEP_PROVIDER; omitted means the default tier. */
+export type LlmTier = "deep";
+
 // ---------------------------------------------------------------------------
 // Concurrency limiter — prevents rate-limit (429) errors when many LLM calls
 // are fired in parallel. At most LLM_CONCURRENCY requests are in-flight at
@@ -101,6 +130,7 @@ export function resetLlmStats(): void {
   llmStats.attempted = 0;
   llmStats.failed = 0;
   fallbackProvider = undefined;
+  deepProvider = undefined;
 }
 
 /**
@@ -269,22 +299,30 @@ async function callOnce(p: LlmProvider, prompt: string, maxTokens: number): Prom
   }
 }
 
-export async function callLlm(prompt: string, maxTokens = LLM_TOKENS_DEFAULT): Promise<string> {
+export async function callLlm(
+  prompt: string,
+  maxTokens = LLM_TOKENS_DEFAULT,
+  tier?: LlmTier,
+): Promise<string> {
   llmStats.attempted++;
+  const primary = tier === "deep" ? (getDeepProvider() ?? provider) : provider;
   try {
-    return await callWithRetries(provider, prompt, maxTokens);
+    return await callWithRetries(primary, prompt, maxTokens);
   } catch (err) {
-    // The fallback provider gets exactly one attempt: the primary already
-    // burned minutes on its ladder, and a provider that is down is down.
+    // Each provider after the first gets exactly one attempt: the previous one
+    // already burned minutes on its ladder, and a provider that is down is
+    // down. Deep-tier calls fall to the default-tier provider first, then to
+    // LLM_FALLBACK_PROVIDER; default-tier calls go straight to the fallback.
+    const chain: LlmProvider[] = [];
+    if (tier === "deep" && primary !== provider) chain.push(provider);
     const fallback = getFallbackProvider();
-    if (fallback) {
-      console.error(
-        `[llm] ${provider.name} exhausted its retries — trying fallback "${fallback.name}" once.`,
-      );
+    if (fallback && !chain.includes(fallback)) chain.push(fallback);
+    for (const next of chain) {
+      console.error(`[llm] ${primary.name} exhausted its retries — trying "${next.name}" once.`);
       try {
-        return await callOnce(fallback, prompt, maxTokens);
-      } catch (fallbackErr) {
-        console.error(`[llm] fallback "${fallback.name}" also failed: ${fallbackErr}`);
+        return await callOnce(next, prompt, maxTokens);
+      } catch (nextErr) {
+        console.error(`[llm] fallback "${next.name}" also failed: ${nextErr}`);
       }
     }
     llmStats.failed++;

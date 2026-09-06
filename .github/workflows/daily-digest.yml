@@ -72,9 +72,11 @@ jobs:
     needs: guard
     if: needs.guard.outputs.should_run == 'true'
     runs-on: ubuntu-latest
-    # Web content fetching adds ~60-120 s of HTTP requests on incremental runs;
-    # the first-ever run (fetching 50 articles) may need up to 20 min.
-    timeout-minutes: 40
+    # Web content fetching adds ~60-120 s of HTTP requests on incremental runs.
+    # With glm-5.3 (a reasoning model) the LLM phases are slow: ~11 min for
+    # per-repo summaries plus translation, with occasional 429 back-off. The
+    # first full run once exceeded the old 40-min budget and was cancelled.
+    timeout-minutes: 120
 
     steps:
       - name: Checkout
@@ -172,4 +174,3 @@ jobs:
         run: pnpm close-stale
 
 
-# retrigger workflow registration

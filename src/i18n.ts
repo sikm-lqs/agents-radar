@@ -112,6 +112,12 @@ export const COMMUNITY_REPORT = {
     lang === "en" ? `💬 Tech Community AI Digest ${dateStr}` : `💬 技术社区 AI 动态日报 ${dateStr}`,
 } as const;
 
+export const TAVILY_REPORT = {
+  title: t("AI 快讯日报", "AI News Digest"),
+  issueTitle: (dateStr: string, lang: Lang) =>
+    lang === "en" ? `📡 AI News Digest ${dateStr}` : `📡 AI 快讯日报 ${dateStr}`,
+} as const;
+
 export const ISSUE_LABELS = {
   cli: t("digest", "digest-en"),
   openclaw: t("openclaw", "openclaw-en"),
@@ -123,6 +129,7 @@ export const ISSUE_LABELS = {
   arxiv: t("arxiv", "arxiv-en"),
   hf: t("hf", "hf-en"),
   community: t("community", "community-en"),
+  news: t("news", "news-en"),
 } as const;
 
 export const CLI_ISSUE_TITLE = (dateStr: string, lang: Lang) =>
@@ -171,6 +178,8 @@ export const REPORT_LABELS: Record<string, string> = {
   "ai-hf-en": "Hugging Face Trending Models Weekly",
   "ai-community": "技术社区 AI 动态日报",
   "ai-community-en": "Tech Community AI Digest",
+  "ai-news": "AI 快讯日报",
+  "ai-news-en": "AI News Digest",
   // Weekly/monthly rollups are no longer generated; kept so archived reports
   // still render a proper title in the sidebar and RSS feed.
   "ai-weekly": "AI 工具生态周报",
@@ -190,4 +199,5 @@ export const NOTIFY_LABELS: Record<string, Record<Lang, string>> = {
   "ai-arxiv": t("ArXiv 研究", "ArXiv Research"),
   "ai-hf": t("HF 模型", "HF Models"),
   "ai-community": t("技术社区", "Tech Community"),
+  "ai-news": t("AI 快讯", "AI News"),
 };

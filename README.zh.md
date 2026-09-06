@@ -237,7 +237,7 @@ infra_repos:
 
 | Secret | 必填 | 说明 |
 |--------|------|------|
-| `LLM_PROVIDER` | 可选 | `anthropic`（默认）、`openai`、`github-copilot`、`openrouter`、`deepseek` 或 `qwen` |
+| `LLM_PROVIDER` | 可选 | `anthropic`（默认）、`openai`、`github-copilot`、`openrouter`、`deepseek`、`qwen` 或 `glm` |
 | `ANTHROPIC_API_KEY` | Anthropic 时 | API 密钥，兼容 Anthropic 和 Kimi Code |
 | `ANTHROPIC_BASE_URL` | 可选 | API 地址覆盖。使用 Kimi Code 时设置为 `https://api.kimi.com/coding/`，使用 Anthropic 时留空 |
 | `OPENAI_API_KEY` | OpenAI 时 | OpenAI API 密钥 |
@@ -245,9 +245,11 @@ infra_repos:
 | `OPENROUTER_API_KEY` | OpenRouter 时 | OpenRouter API 密钥 |
 | `DEEPSEEK_API_KEY` | DeepSeek 时 | DeepSeek API 密钥 |
 | `DASHSCOPE_API_KEY` | Qwen 时 | 阿里云百炼 API 密钥 |
+| `GLM_API_KEY` | GLM 时 | 智谱 BigModel API 密钥 |
 | `TELEGRAM_BOT_TOKEN` | 可选 | Telegram bot token，从 [@BotFather](https://t.me/BotFather) 获取。设置后每次 digest 完成自动推送通知 |
 | `TELEGRAM_CHAT_ID` | 可选 | 接收通知的 Telegram 频道 / 群组 / 用户 ID |
 | `FEISHU_WEBHOOK_URLS` | 可选 | 飞书自定义机器人 Webhook URL，多个用英文逗号分隔。设置后每次 digest 完成自动推送卡片通知到所有群 |
+| `FEISHU_SECRET` | 可选 | 飞书自定义机器人签名密钥——机器人开启「签名校验」安全设置时必填 |
 
 > `GITHUB_TOKEN` 由 GitHub Actions 自动提供，无需手动添加。使用 `github-copilot` 作为 Provider 时，同一 `GITHUB_TOKEN` 也用于 LLM 调用。
 
@@ -279,10 +281,11 @@ infra_repos:
 | OpenRouter | `openrouter` | `OPENROUTER_API_KEY` | `anthropic/claude-sonnet-4` |
 | DeepSeek | `deepseek` | `DEEPSEEK_API_KEY` | `deepseek-v4-flash` |
 | Qwen | `qwen` | `DASHSCOPE_API_KEY` | `qwen-flash` |
+| GLM（智谱） | `glm` | `GLM_API_KEY` | `glm-5.3` |
 
-可通过 `ANTHROPIC_MODEL`、`OPENAI_MODEL`、`GITHUB_COPILOT_MODEL`、`OPENROUTER_MODEL`、`DEEPSEEK_MODEL` 或 `QWEN_MODEL` 分别覆盖默认模型名称；Qwen 的接入点可用 `DASHSCOPE_BASE_URL` 覆盖。
+可通过 `ANTHROPIC_MODEL`、`OPENAI_MODEL`、`GITHUB_COPILOT_MODEL`、`OPENROUTER_MODEL`、`DEEPSEEK_MODEL`、`QWEN_MODEL` 或 `GLM_MODEL` 分别覆盖默认模型名称；Qwen 的接入点可用 `DASHSCOPE_BASE_URL` 覆盖，GLM 的接入点可用 `GLM_BASE_URL` 覆盖。
 
-每日定时任务使用 `qwen` / `qwen-flash`。
+每日定时任务使用 `glm` / `glm-5.3`。
 
 Provider 抽象层位于 `src/providers/`，每个供应商对应独立文件并实现 `LlmProvider` 接口。新增供应商只需创建新文件并在工厂函数中注册。
 
@@ -315,6 +318,14 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxxxxx
 # export LLM_PROVIDER=qwen
 # export DASHSCOPE_API_KEY=sk-xxxxxxxx
 
+# GLM（智谱 BigModel）
+# export LLM_PROVIDER=glm
+# export GLM_API_KEY=xxxxxxxx
+
+# 可选数据源（不配置则自动跳过对应报告）
+# export TAVILY_API_KEY=tvly-xxxxxxxx        # ai-news 报告（AI 快讯）
+# export PRODUCTHUNT_TOKEN=xxxxxxxx          # ai-ph 报告（Product Hunt）
+
 export DIGEST_REPO=your-username/agents-radar  # 可选，留空则仅写入本地文件
 
 pnpm start
@@ -332,6 +343,7 @@ pnpm start
 | `ai-web.md` | 官网内容报告（仅在有新内容时生成） | `web` |
 | `ai-trending.md` | GitHub AI 趋势热榜 — 按维度分类 + 趋势信号分析（仅在有数据时生成） | `trending` |
 | `ai-hn.md` | Hacker News AI 社区动态 — 热门帖子分类 + 情绪分析（仅在抓取成功时生成） | `hn` |
+| `ai-news.md` | AI 快讯日报 — Tavily 搜索官方博客（OpenAI/Anthropic）+ 网络资讯 + X/Twitter（仅在配置 `TAVILY_API_KEY` 且有数据时生成） | `news` |
 
 `digests/web-state.json` 用于记录已处理的 URL，随每日简报一并提交。
 
@@ -438,18 +450,23 @@ OpenAI 内容精选            (research / release / company / safety / ...)
 
 ## 定时计划
 
-默认 cron 表达式 `"37 22 * * *"` = **22:37 UTC = 次日 06:37 CST**。
+每天两场定时运行（cron 表达式见 `.github/workflows/daily-digest.yml`）：
 
-GitHub 的定时任务是排队执行的，并不准时 —— 本工作流实测延迟通常在 10~15 分钟，所以 06:37 CST 启动、约 07:00 CST 出报告。分钟数刻意避开整点：`:00` 是排队最挤的时段，工作流用 `0 23 * * *` 期间延迟从几分钟恶化到几小时（2026-08-26 那次晚了 5 小时 07 分才派发，2026-08-27 那次干脆没被创建）。
+| 场次 | UTC cron | 北京时间 | 说明 |
+|------|----------|----------|------|
+| 早场 | `37 23 * * *` | 次日 07:37 | 主报告：生成全部报告、开 Issue、推送通知 |
+| 晚场 | `37 11 * * *` | 19:37 | 内容更新版：覆盖当天 markdown，**不开新 Issue**；规范化 diff（忽略「生成时间」时间戳与 `highlights.json`）无实质变化时跳过提交和通知 |
 
-定时任务迟到、你手动补跑一次之后，延迟的定时任务仍可能再跑一遍，生成同一天的报告并开出重复 issue。两道保险防止这种情况：workflow 级 `concurrency: daily-digest` 让重叠的 run 串行执行；`guard` job 会跳过 `digests/YYYY-MM-DD`（CST 日期）已提交的**定时** run。手动 `workflow_dispatch` 永远照常执行，需要重新生成时不受影响。
+GitHub 的定时任务是排队执行的，并不准时 —— 本工作流实测延迟通常在 10~15 分钟，所以 07:37 CST 启动、约 08:00 CST 出报告。分钟数刻意避开整点：`:00` 是排队最挤的时段，工作流用 `0 23 * * *` 期间延迟从几分钟恶化到几小时（2026-08-26 那次晚了 5 小时 07 分才派发，2026-08-27 那次干脆没被创建）。
+
+定时任务迟到、你手动补跑一次之后，延迟的定时任务仍可能再跑一遍，生成同一天的报告并开出重复 issue。两道保险防止这种情况：workflow 级 `concurrency: daily-digest` 让重叠的 run 串行执行；`guard` job 会跳过 `digests/YYYY-MM-DD`（CST 日期）已提交的**定时**早场 run（晚场 run 不跳过，而是作为内容更新版刷新当天报告）。手动 `workflow_dispatch` 永远照常执行，需要重新生成时不受影响。
 
 修改时间请编辑 `.github/workflows/daily-digest.yml` 中的 cron 表达式：
 
 | CST      | UTC cron       |
 |----------|----------------|
-| 06:37 次日 | `37 22 * * *` |
 | 07:37 次日 | `37 23 * * *` |
+| 19:37    | `37 11 * * *`  |
 | 08:37    | `37 0 * * *`   |
 
 ## Star History

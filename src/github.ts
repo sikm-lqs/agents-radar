@@ -354,6 +354,8 @@ const LABEL_COLORS: Record<string, string> = {
   "community-en": "60a5fa",
   infra: "0891b2",
   "infra-en": "22d3ee",
+  news: "7c3aed",
+  "news-en": "a78bfa",
 };
 
 /**
@@ -465,6 +467,12 @@ export async function closeSupersededIssues(): Promise<number> {
 }
 
 export async function createGitHubIssue(title: string, body: string, label: string): Promise<string> {
+  // The evening (pm) run sets SKIP_ISSUES=true: it only refreshes the day's
+  // markdown files in place, so it must not open a second set of issues.
+  if (process.env["SKIP_ISSUES"] === "true") {
+    console.log(`[github] SKIP_ISSUES=true — skipping issue "${title}"`);
+    return "";
+  }
   const digestRepo = process.env["DIGEST_REPO"] ?? "";
   body = neutralizeGitHubRefs(body);
   if (body.length > GITHUB_ISSUE_BODY_LIMIT) {

@@ -75,6 +75,15 @@ const DEFAULT_INFRA_REPOS: RepoConfig[] = [
   { id: "ollama", repo: "ollama/ollama", name: "Ollama" },
   { id: "litellm", repo: "BerriAI/litellm", name: "LiteLLM", paginated: true },
   { id: "unsloth", repo: "unslothai/unsloth", name: "Unsloth", paginated: true },
+  // Token routing / account management layer for AI CLIs
+  {
+    id: "claude-code-router",
+    repo: "musistudio/claude-code-router",
+    name: "Claude Code Router",
+    paginated: true,
+  },
+  { id: "cc-switch", repo: "farion1231/cc-switch", name: "CC Switch", paginated: true },
+  { id: "new-api", repo: "QuantumNous/new-api", name: "New API", paginated: true },
 ];
 
 // ---------------------------------------------------------------------------

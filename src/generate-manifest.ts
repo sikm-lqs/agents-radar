@@ -6,7 +6,7 @@ import { REPORT_LABELS } from "./i18n.ts";
 const DIGESTS_DIR = "digests";
 const MANIFEST_PATH = "manifest.json";
 const FEED_PATH = "feed.xml";
-const SITE_URL = "https://duanyytop.github.io/agents-radar";
+const SITE_URL = process.env["PAGES_URL"] || "https://duanyytop.github.io/agents-radar";
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const REPORT_FILES = [
   "ai-cli",
@@ -29,6 +29,8 @@ const REPORT_FILES = [
   "ai-hf-en",
   "ai-community",
   "ai-community-en",
+  "ai-news",
+  "ai-news-en",
   // Rollups are no longer generated — listed only so archived reports stay
   // reachable from the sidebar and RSS feed.
   "ai-weekly",

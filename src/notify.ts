@@ -52,7 +52,9 @@ export function buildMessage(
   pagesUrl?: string,
   highlights?: Highlights | null,
 ): string {
-  const PAGES_URL = (pagesUrl ?? process.env["PAGES_URL"] ?? PAGES_URL_DEFAULT).replace(/\/$/, "");
+  // `||` (not `??`): the workflow injects `${{ vars.PAGES_URL }}`, which is an
+  // empty string when the var is unset — that must fall back to the default.
+  const PAGES_URL = ((pagesUrl ?? process.env["PAGES_URL"]) || PAGES_URL_DEFAULT).replace(/\/$/, "");
   const ordered = reports.filter((r) => !r.endsWith("-en"));
   const lines: string[] = [`📡 <b>agents-radar · ${date}</b>`];
 

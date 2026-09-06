@@ -16,6 +16,7 @@ import {
   ARXIV_REPORT,
   HF_REPORT,
   COMMUNITY_REPORT,
+  TAVILY_REPORT,
   ISSUE_LABELS,
 } from "./i18n.ts";
 import {
@@ -25,6 +26,7 @@ import {
   buildArxivPrompt,
   buildHfPrompt,
   buildCommunityPrompt,
+  buildTavilyPrompt,
 } from "./prompts-data.ts";
 import {
   callLlm,
@@ -43,6 +45,7 @@ import type { ArxivData } from "./arxiv.ts";
 import type { HfData } from "./hf.ts";
 import type { DevtoData } from "./devto.ts";
 import type { LobstersData } from "./lobsters.ts";
+import type { TavilyData } from "./tavily.ts";
 
 /** Output languages, in the order reports are written. */
 export const LANGS = ["zh", "en"] as const;
@@ -279,11 +282,11 @@ export async function saveArxivReport(
       const header =
         lang === "en"
           ? `# ${ARXIV_REPORT.title[lang]} ${dateStr}\n\n` +
-            `> Source: [ArXiv](https://arxiv.org/) (cs.AI, cs.CL, cs.LG) | ` +
+            `> Source: [ArXiv](https://arxiv.org/) (cs.AI, cs.CL, cs.LG, cs.MA) | ` +
             `${arxivData.papers.length} papers | Generated: ${utcStr} UTC\n\n` +
             `---\n\n`
           : `# ${ARXIV_REPORT.title[lang]} ${dateStr}\n\n` +
-            `> 数据来源: [ArXiv](https://arxiv.org/) (cs.AI, cs.CL, cs.LG) | ` +
+            `> 数据来源: [ArXiv](https://arxiv.org/) (cs.AI, cs.CL, cs.LG, cs.MA) | ` +
             `共 ${arxivData.papers.length} 篇论文 | 生成时间: ${utcStr} UTC\n\n` +
             `---\n\n`;
 
@@ -401,5 +404,53 @@ export async function saveCommunityReport(
     }
   } catch (err) {
     console.error(`  [community] Report generation failed: ${err}`);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// AI news report (Tavily)
+// ---------------------------------------------------------------------------
+
+export async function saveTavilyReport(
+  tavilyData: TavilyData,
+  utcStr: string,
+  dateStr: string,
+  digestRepo: string,
+): Promise<void> {
+  if (!tavilyData.fetchSuccess) {
+    console.log("  [tavily] No data available, skipping report.");
+    return;
+  }
+
+  console.log("  [tavily] Calling LLM for AI news report (EN) + translation (ZH)...");
+  try {
+    const summary = await bilingualBody(buildTavilyPrompt(tavilyData, dateStr, "en"), LLM_TOKENS_LISTING);
+
+    for (const lang of LANGS) {
+      const fileName = lang === "en" ? "ai-news-en.md" : "ai-news.md";
+      const header =
+        lang === "en"
+          ? `# ${TAVILY_REPORT.title[lang]} ${dateStr}\n\n` +
+            `> Source: [Tavily Search](https://tavily.com/) — official blogs + web + X/Twitter | ` +
+            `${tavilyData.items.length} items | Generated: ${utcStr} UTC\n\n` +
+            `---\n\n`
+          : `# ${TAVILY_REPORT.title[lang]} ${dateStr}\n\n` +
+            `> 数据来源: [Tavily Search](https://tavily.com/) — 官方博客 + 网络资讯 + X/Twitter | ` +
+            `共 ${tavilyData.items.length} 条 | 生成时间: ${utcStr} UTC\n\n` +
+            `---\n\n`;
+
+      const content = header + summary[lang] + autoGenFooter(lang);
+
+      console.log(`  Saved ${saveFile(content, dateStr, fileName)}`);
+
+      if (digestRepo) {
+        const title = TAVILY_REPORT.issueTitle(dateStr, lang);
+        const label = ISSUE_LABELS.news[lang];
+        const url = await createGitHubIssue(title, content, label);
+        console.log(`  Created AI news issue (${lang}): ${url}`);
+      }
+    }
+  } catch (err) {
+    console.error(`  [tavily] Report generation failed: ${err}`);
   }
 }

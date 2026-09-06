@@ -2,7 +2,7 @@
 
 ## Project overview
 
-agents-radar is a daily digest generator for the AI open-source ecosystem. A GitHub Actions cron job runs at 00:00 UTC (08:00 CST) and produces bilingual (Chinese + English) reports, published as GitHub Issues and committed Markdown files.
+agents-radar is a daily digest generator for the AI open-source ecosystem. A GitHub Actions cron job runs twice a day (~07:37 and ~19:37 CST; the evening run refreshes the day's files and skips issues/notifications when nothing changed) and produces bilingual (Chinese + English) reports, published as GitHub Issues and committed Markdown files.
 
 ## Commands
 
@@ -23,7 +23,7 @@ export GITHUB_TOKEN=ghp_xxxxx
 export DIGEST_REPO=owner/repo   # omit to skip GitHub issue creation
 
 # LLM provider (default: anthropic)
-export LLM_PROVIDER=anthropic   # anthropic | openai | github-copilot | openrouter | deepseek
+export LLM_PROVIDER=anthropic   # anthropic | openai | github-copilot | openrouter | deepseek | glm
 
 # Anthropic (default)
 export ANTHROPIC_API_KEY=sk-ant-xxxxx
@@ -38,6 +38,14 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxx
 
 # DeepSeek
 # export DEEPSEEK_API_KEY=sk-xxxxx
+
+# Optional data sources (their reports are skipped when unset)
+# export TAVILY_API_KEY=tvly-xxxxx
+# export PRODUCTHUNT_TOKEN=xxxxx
+
+# GLM (Zhipu BigModel) — provider used by the GitHub Actions cron
+# export LLM_PROVIDER=glm
+# export GLM_API_KEY=xxxxx
 ```
 
 ## Architecture
@@ -70,10 +78,12 @@ The pipeline runs in four sequential phases, each implemented as a named async f
 | `src/providers/github-copilot.ts` | `GitHubCopilotProvider` — extends `OpenAICompatibleProvider` |
 | `src/providers/openrouter.ts` | `OpenRouterProvider` — extends `OpenAICompatibleProvider` |
 | `src/providers/deepseek.ts` | `DeepSeekProvider` — extends `OpenAICompatibleProvider` |
+| `src/providers/glm.ts` | `GlmProvider` — extends `OpenAICompatibleProvider`; Zhipu BigModel, used by the GitHub Actions cron |
 | `src/providers/index.ts` | `createProvider` factory + barrel re-exports |
 | `src/web.ts` | Sitemap-based web content fetching; state persisted to `digests/web-state.json` |
 | `src/trending.ts` | GitHub Trending HTML scraper + Search API topic queries |
 | `src/hn.ts` | Hacker News top AI stories via Algolia HN Search API |
+| `src/tavily.ts` | AI news via the Tavily Search API (official blogs, web, X/Twitter); skipped when `TAVILY_API_KEY` is unset |
 | `src/generate-manifest.ts` | Generates `manifest.json` (sidebar data for Web UI) and `feed.xml` (RSS 2.0 feed) |
 
 ## Report outputs
@@ -88,33 +98,36 @@ Files written to `digests/YYYY-MM-DD/`:
 | `ai-web.md` | `web` | Skipped if no new sitemap content |
 | `ai-trending.md` | `trending` | Skipped if both data sources fail |
 | `ai-hn.md` | `hn` | Skipped if Algolia fetch fails |
+| `ai-news.md` | `news` | Skipped if `TAVILY_API_KEY` is unset or the fetch fails |
 
 ## Tracked sources
 
 - **CLI_REPOS** (9): claude-code, codex, gemini-cli, copilot-cli, opencode, pi, qwen-code, codewhale, deepseek-harness
 - **Discussions** (`discussions: true` in `config.yml`): codex, pi, codewhale, deepseek-harness. deepseek-harness has Issues/PRs disabled upstream — Discussions is its only community channel.
 - **OPENCLAW** + **OPENCLAW_PEERS** (12): openclaw/openclaw + 11 peer projects (sorted by stars)
-- **INFRA_REPOS** (6): vllm, sglang, llama-cpp, ollama, litellm, unsloth — inference engines, gateway and fine-tuning layer
+- **INFRA_REPOS** (9): vllm, sglang, llama-cpp, ollama, litellm, unsloth — inference engines, gateway and fine-tuning layer; plus claude-code-router, cc-switch, new-api — token routing / account management for AI CLIs
 - **CLAUDE_SKILLS_REPO**: anthropics/skills — no date filter, sorted by popularity
 - **Web**: anthropic.com + openai.com via sitemap, state in `digests/web-state.json`
-- **Trending**: github.com/trending (HTML) + GitHub Search API (6 AI topics, 7-day window)
+- **Trending**: github.com/trending (HTML) + GitHub Search API (6 AI topics: ai-agent, llm, reinforcement-learning, ai-coding, mcp, llm-agent; 7-day window)
 - **HN**: Algolia HN Search API — 6 parallel queries, top-30 AI stories by points, last 24h
+- **Tavily**: Tavily Search API (4 queries: openai.com, anthropic.com, general web, x.com/twitter.com; 48h window) — skipped when `TAVILY_API_KEY` is unset
 
 ## Key conventions
 
 - All bilingual strings (titles, labels, footers, messages) are centralized in `src/i18n.ts`. Use the `Lang` type (`"zh" | "en"`) and `Record<Lang, string>` maps. Do not add inline bilingual ternaries elsewhere.
 - LLM prompt builders are split across two files: `src/prompts.ts` (repo-level prompts) and `src/prompts-data.ts` (data-source prompts). Each report type has its own builder function.
 - Weekly and monthly rollups were removed in July 2026. `ai-weekly`/`ai-monthly` remain in `REPORT_LABELS` (`src/i18n.ts`) and `REPORT_FILES` (`src/generate-manifest.ts`) only so archived reports stay reachable — do not add generation code back.
-- `callLlm(prompt, maxTokens?)` defaults to 4096 tokens. Web report uses 8192, trending uses 6144. The table-formatted listing reports (HN, PH, ArXiv, HF, Community) use `LLM_TOKENS_LISTING` = 6144 to fit multi-row tables plus 2-sentence summaries.
-- Data-source listing reports (Trending, HN, PH, ArXiv, HF, Community) render their item lists as **Markdown tables** (not bullet lists). Numeric columns are copied verbatim from the fetched data; the summary column is 2 sentences. Tables already have CSS in `index.html` and render natively in GitHub Issues too.
+- `callLlm(prompt, maxTokens?)` defaults to 4096 tokens. Web report uses 8192, trending uses 6144. The table-formatted listing reports (HN, PH, ArXiv, HF, Community, News) use `LLM_TOKENS_LISTING` = 6144 to fit multi-row tables plus 2-sentence summaries.
+- Data-source listing reports (Trending, HN, PH, ArXiv, HF, Community, News) render their item lists as **Markdown tables** (not bullet lists). Numeric columns are copied verbatim from the fetched data; the summary column is 2 sentences. Tables already have CSS in `index.html` and render natively in GitHub Issues too.
 - On 429 rate-limit errors `callLlm` retries up to 3 times with exponential backoff (5 s / 10 s / 20 s); the concurrency slot is released during the wait.
 - The concurrency limiter (`LLM_CONCURRENCY = 5`) prevents 429s when many parallel LLM calls fire. Do not bypass it by calling SDK clients directly.
-- LLM provider is selected via `LLM_PROVIDER` env var (default: `anthropic`). Valid values: `anthropic`, `openai`, `github-copilot`, `openrouter`, `deepseek`.
+- LLM provider is selected via `LLM_PROVIDER` env var (default: `anthropic`). Valid values: `anthropic`, `openai`, `github-copilot`, `openrouter`, `deepseek`, `glm`.
 - Provider implementations live in `src/providers/`. Each file implements the `LlmProvider` interface. The factory in `src/providers/index.ts` validates the provider name and logs only the provider name — never API keys or endpoint URLs.
 - GitHub issue label colors are defined in `LABEL_COLORS` in `src/github.ts`. Add new labels there.
 - GitHub Discussions have no REST API, so `fetchRecentDiscussions` uses GraphQL. Enable per-repo with `discussions: true` — most tracked repos have the board enabled but dormant, and an unconditional fetch would just burn quota. Only `buildCliPrompt` renders a Discussions section, and it is omitted entirely when there is no data.
 - `sampleNote(total, sampled, lang, by)` in `src/prompts.ts` formats the "(共 N 条，展示前 M 条)" note. Reuse it — do not inline the same string format. Pass `by: "engagement"` when the sample was ranked by comments + upvotes (discussions) instead of comments alone.
 - Web state (`digests/web-state.json`) is committed to git on every run. It is the source of truth for which URLs have been seen.
+- The evening (pm) workflow run sets `SKIP_ISSUES=true`; `createGitHubIssue` in `src/github.ts` checks it and skips issue creation — the pm run only refreshes the day's markdown in place. The workflow's commit step detects substantive changes via a normalized diff that excludes "生成时间/Generated" timestamp lines and `highlights.json`.
 
 ## Web UI & RSS Feed
 

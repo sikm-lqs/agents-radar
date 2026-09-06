@@ -2,7 +2,7 @@
 
 ## Project overview
 
-agents-radar is a daily digest generator for the AI open-source ecosystem. A GitHub Actions cron job runs at 22:37 UTC (06:37 CST next day) and produces bilingual (Chinese + English) reports, published as GitHub Issues and committed Markdown files.
+agents-radar is a daily digest generator for the AI open-source ecosystem. A GitHub Actions cron job runs twice a day (~07:37 and ~19:37 CST; the evening run refreshes the day's files and skips issues/notifications when nothing changed) and produces bilingual (Chinese + English) reports, published as GitHub Issues and committed Markdown files.
 
 ## Commands
 
@@ -23,7 +23,7 @@ export GITHUB_TOKEN=ghp_xxxxx
 export DIGEST_REPO=owner/repo   # omit to skip GitHub issue creation
 
 # LLM provider (default: anthropic)
-export LLM_PROVIDER=anthropic   # anthropic | openai | github-copilot | openrouter | deepseek | qwen
+export LLM_PROVIDER=anthropic   # anthropic | openai | github-copilot | openrouter | deepseek | qwen | glm
 
 # Anthropic (default)
 export ANTHROPIC_API_KEY=sk-ant-xxxxx
@@ -39,8 +39,15 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxx
 # DeepSeek
 # export DEEPSEEK_API_KEY=sk-xxxxx
 
-# Qwen (Alibaba Model Studio) — provider used by the GitHub Actions cron
+# Qwen (Alibaba Model Studio)
 # export DASHSCOPE_API_KEY=sk-xxxxx
+
+# GLM (Zhipu BigModel) — provider used by the GitHub Actions cron
+# export GLM_API_KEY=xxxxx
+
+# Optional data sources (their reports are skipped when unset)
+# export TAVILY_API_KEY=tvly-xxxxx
+# export PRODUCTHUNT_TOKEN=xxxxx
 ```
 
 ## Architecture
@@ -84,10 +91,12 @@ Report bodies are generated **once in English** and translated to Chinese. Gener
 | `src/providers/openrouter.ts` | `OpenRouterProvider` — extends `OpenAICompatibleProvider` |
 | `src/providers/deepseek.ts` | `DeepSeekProvider` — extends `OpenAICompatibleProvider` |
 | `src/providers/qwen.ts` | `QwenProvider` — extends `OpenAICompatibleProvider`; Alibaba Model Studio |
+| `src/providers/glm.ts` | `GlmProvider` — extends `OpenAICompatibleProvider`; Zhipu BigModel, used by the GitHub Actions cron |
 | `src/providers/index.ts` | `createProvider` factory + barrel re-exports |
 | `src/web.ts` | Sitemap-based web content fetching; state persisted to `digests/web-state.json` |
 | `src/trending.ts` | GitHub Trending HTML scraper + Search API topic queries |
 | `src/hn.ts` | Hacker News top AI stories via Algolia HN Search API |
+| `src/tavily.ts` | AI news via the Tavily Search API (official blogs, web, X/Twitter); skipped when `TAVILY_API_KEY` is unset |
 | `src/generate-manifest.ts` | Generates `manifest.json` (sidebar data for Web UI) and `feed.xml` (RSS 2.0 feed) |
 
 ## Report outputs
@@ -102,6 +111,7 @@ Files written to `digests/YYYY-MM-DD/`:
 | `ai-web.md` | `web` | Skipped if no new sitemap content |
 | `ai-trending.md` | `trending` | Skipped if both data sources fail |
 | `ai-hn.md` | `hn` | Skipped if Algolia fetch fails |
+| `ai-news.md` | `news` | Skipped if `TAVILY_API_KEY` is unset or the fetch fails |
 | `ai-hf.md` | `hf` | **Weekly** — only on `HF_REPORT_WEEKDAY` (Monday, CST) |
 
 ## Tracked sources
@@ -109,11 +119,12 @@ Files written to `digests/YYYY-MM-DD/`:
 - **CLI_REPOS** (7): claude-code, codex, gemini-cli, copilot-cli, opencode, pi, qwen-code
 - **Discussions** (`discussions: true` in `config.yml`): codex, pi.
 - **OPENCLAW** + **OPENCLAW_PEERS** (5): openclaw/openclaw + 4 peer projects (sorted by stars)
-- **INFRA_REPOS** (6): vllm, sglang, llama-cpp, ollama, litellm, unsloth — inference engines, gateway and fine-tuning layer
+- **INFRA_REPOS** (9): vllm, sglang, llama-cpp, ollama, litellm, unsloth — inference engines, gateway and fine-tuning layer; plus claude-code-router, cc-switch, new-api — token routing / account management for AI CLIs
 - **CLAUDE_SKILLS_REPO**: anthropics/skills — no date filter, sorted by popularity
 - **Web**: anthropic.com + openai.com via sitemap, state in `digests/web-state.json`
-- **Trending**: github.com/trending (HTML) + GitHub Search API (6 AI topics, 7-day window)
+- **Trending**: github.com/trending (HTML) + GitHub Search API (6 AI topics: ai-agent, llm, reinforcement-learning, ai-coding, mcp, llm-agent; 7-day window)
 - **HN**: Algolia HN Search API — 6 parallel queries, top-30 AI stories by points, last 24h
+- **Tavily**: Tavily Search API (4 queries: openai.com, anthropic.com, general web, x.com/twitter.com; 48h window) — skipped when `TAVILY_API_KEY` is unset
 - **HF**: Hugging Face Hub trending models — **weekly**, gated on `HF_REPORT_WEEKDAY` in `src/index.ts`. The Hub list is ranked by cumulative downloads and 90.5% of a day's models carried over from the previous day, so daily generation was re-summarizing the same table. The fetch is gated too, not just the report.
 
 ## Key conventions
@@ -123,16 +134,16 @@ Files written to `digests/YYYY-MM-DD/`:
 - `translateToZh(text, maxTokens)` must be passed the same token budget the English body was generated with, or a long report gets truncated mid-translation.
 - LLM prompt builders are split across two files: `src/prompts.ts` (repo-level prompts) and `src/prompts-data.ts` (data-source prompts). Each report type has its own builder function.
 - Weekly and monthly rollups were removed in July 2026. `ai-weekly`/`ai-monthly` remain in `REPORT_LABELS` (`src/i18n.ts`) and `REPORT_FILES` (`src/generate-manifest.ts`) only so archived reports stay reachable — do not add generation code back.
-- `callLlm(prompt, maxTokens?)` defaults to 4096 tokens. Web report uses 8192, trending uses 6144. The table-formatted listing reports (HN, PH, ArXiv, HF, Community) use `LLM_TOKENS_LISTING` = 6144 to fit multi-row tables plus 2-sentence summaries.
-- Data-source listing reports (Trending, HN, PH, ArXiv, HF, Community) render their item lists as **Markdown tables** (not bullet lists). Numeric columns are copied verbatim from the fetched data; the summary column is 2 sentences. Tables already have CSS in `index.html` and render natively in GitHub Issues too.
+- `callLlm(prompt, maxTokens?)` defaults to 4096 tokens. Web report uses 8192, trending uses 6144. The table-formatted listing reports (HN, PH, ArXiv, HF, Community, News) use `LLM_TOKENS_LISTING` = 6144 to fit multi-row tables plus 2-sentence summaries.
+- Data-source listing reports (Trending, HN, PH, ArXiv, HF, Community, News) render their item lists as **Markdown tables** (not bullet lists). Numeric columns are copied verbatim from the fetched data; the summary column is 2 sentences. Tables already have CSS in `index.html` and render natively in GitHub Issues too.
 - `callLlm` retries on two error classes, with separate budgets; the concurrency slot is released during every wait.
   - **429** — 3 retries, 5 s / 10 s / 20 s. A rate limit clears in seconds.
   - **Connection failure** (DNS/TCP/TLS, detected by `isConnectionError` walking the SDK's `cause` chain) — 6 retries, 5 / 10 / 20 / 40 / 60 / 60 s, capped by `RETRY_MAX_MS`. A network outage between the runner and the provider lasts minutes, not seconds. On 2026-09-03 the DashScope cn-beijing endpoint was unreachable from the GitHub runner for the whole LLM phase; the old shared 3-retry ladder gave up 35 s in and the run published a digest of nothing but "generation failed" placeholders.
 - Every LLM call site degrades gracefully (a failed summary becomes a fixed notice, a failed translation falls back to English), which is right per report and wrong for the run as a whole. `llmStats` in `src/report.ts` counts attempts and final failures across the run, and `assertLlmHealthy(stage)` throws when at least `LLM_MIN_SAMPLES` (5) calls have run and at least `LLM_ABORT_RATIO` (50%) of them failed. `main()` calls it at two gates — after the summary/translation phase and after the save phase — so a provider outage exits non-zero *before* anything is committed, no issues are opened and no Telegram/Feishu message is sent. A missing day is recoverable by `workflow_dispatch`; a published day of placeholders is not.
 - `reportLlmHealth()` logs the final tally and, when any call was lost, appends a warning to `$GITHUB_STEP_SUMMARY` so a partially degraded run is visible on the Actions run page without a log dive.
 - The concurrency limiter (`LLM_CONCURRENCY = 5`) prevents 429s when many parallel LLM calls fire. Do not bypass it by calling SDK clients directly.
-- LLM provider is selected via `LLM_PROVIDER` env var (default: `anthropic`). Valid values: `anthropic`, `openai`, `github-copilot`, `openrouter`, `deepseek`, `qwen`.
-- The daily GitHub Actions run uses `qwen` (`qwen-flash`). It replaced `deepseek-v4-flash` in August 2026, after DeepSeek's 8/16 repricing pushed a run to ~¥3; qwen-flash is ~¥0.5. `qwen-flash` is tier-priced by single-request input length — every prompt here stays inside the cheapest 0–128K tier.
+- LLM provider is selected via `LLM_PROVIDER` env var (default: `anthropic`). Valid values: `anthropic`, `openai`, `github-copilot`, `openrouter`, `deepseek`, `qwen`, `glm`.
+- The daily GitHub Actions run uses `glm` (`glm-5.3`, Zhipu BigModel). It replaced `qwen` in September 2026 when the fork switched to the owner's GLM key. glm-5.3 is a reasoning model — responses carry `reasoning_content`, but the final answer is still in `choices[0].message.content`, which is what `OpenAICompatibleProvider` reads.
 - The daily workflow only ever produces one digest per CST day. Two mechanisms enforce it: a workflow-level `concurrency: daily-digest` group (`cancel-in-progress: false`) serializes overlapping runs, and a `guard` job skips **scheduled** runs whose `digests/YYYY-MM-DD` folder is already committed (checked via `gh api .../contents/...`, so no second checkout). `workflow_dispatch` always proceeds — that is the escape hatch for regenerating a day. This exists because GitHub delayed the 2026-08-26 scheduled run by 5h07m; the manual catch-up run and the late scheduled run both completed and opened 18 duplicate issues for 2026-08-27.
 - Provider implementations live in `src/providers/`. Each file implements the `LlmProvider` interface. The factory in `src/providers/index.ts` validates the provider name and logs only the provider name — never API keys or endpoint URLs.
 - `closeSupersededIssues` in `src/github.ts` (run by `pnpm close-stale`, the workflow's last step) keeps only the most recent digest day's issues open and closes the rest. The retained day is the newest **open digest issue**, not today's date, so a failed run leaves yesterday's reports up instead of closing everything. Days are compared as CST dates via `toCstDateStr`, matching the `digests/YYYY-MM-DD` folders — a delayed cron and its manual catch-up run land on the same day and are both retained. Eligibility requires a label in `ISSUE_LABELS` (plus the legacy `weekly`/`monthly`), and pull requests are excluded: the `/issues` REST endpoint returns PRs too, and the previous `closeStaleIssues` would have closed any open PR older than its cutoff.
@@ -140,6 +151,7 @@ Files written to `digests/YYYY-MM-DD/`:
 - GitHub Discussions have no REST API, so `fetchRecentDiscussions` uses GraphQL. Enable per-repo with `discussions: true` — most tracked repos have the board enabled but dormant, and an unconditional fetch would just burn quota. Only `buildCliPrompt` renders a Discussions section, and it is omitted entirely when there is no data.
 - `sampleNote(total, sampled, lang, by)` in `src/prompts.ts` formats the "(共 N 条，展示前 M 条)" note. Reuse it — do not inline the same string format. Pass `by: "engagement"` when the sample was ranked by comments + upvotes (discussions) instead of comments alone.
 - Web state (`digests/web-state.json`) is committed to git on every run. It is the source of truth for which URLs have been seen. `saveWebReport` writes it once at the end, regardless of whether a report was generated.
+- The evening (pm) workflow run sets `SKIP_ISSUES=true`; `createGitHubIssue` in `src/github.ts` checks it and skips issue creation — the pm run only refreshes the day's markdown in place. The workflow's commit step detects substantive changes via a normalized diff that excludes "生成时间/Generated" timestamp lines and `highlights.json`.
 - Tracked repos are pruned when they go quiet. Removed August 2026 after an activity audit:
   - `deepseek-harness` — Issues/PRs disabled upstream and the Discussions board dormant: 13/13 days of zero data.
   - `zeptoclaw`, `nullclaw` — no upstream push for 30+ days; 90% and 50% of days had no activity at all.

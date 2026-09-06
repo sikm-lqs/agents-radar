@@ -2,7 +2,7 @@
  * agents-radar: daily digest for AI CLI tools and OpenClaw.
  *
  * Env vars:
- *   LLM_PROVIDER        - "anthropic" | "openai" | "github-copilot" | "openrouter" (default: anthropic)
+ *   LLM_PROVIDER        - "anthropic" | "openai" | "github-copilot" | "openrouter" | "deepseek" | "qwen" | "glm" (default: anthropic)
  *   GITHUB_TOKEN        - GitHub token for API access and issue creation
  *   DIGEST_REPO         - owner/repo where digest issues are posted (optional)
  *
@@ -58,6 +58,7 @@ import {
   saveArxivReport,
   saveHfReport,
   saveCommunityReport,
+  saveTavilyReport,
 } from "./report-savers.ts";
 import { loadWebState, fetchSiteContent, type WebFetchResult, type WebState } from "./web.ts";
 import { fetchTrendingData, type TrendingData } from "./trending.ts";
@@ -67,6 +68,7 @@ import { fetchArxivData, type ArxivData } from "./arxiv.ts";
 import { fetchHfData, type HfData } from "./hf.ts";
 import { fetchDevtoData, type DevtoData } from "./devto.ts";
 import { fetchLobstersData, type LobstersData } from "./lobsters.ts";
+import { fetchTavilyData, type TavilyData } from "./tavily.ts";
 import { loadConfig } from "./config.ts";
 import { toCstDateStr, toUtcStr, weekdayOf } from "./date.ts";
 import {
@@ -119,11 +121,12 @@ async function fetchAllData(
   hfData: HfData;
   devtoData: DevtoData;
   lobstersData: LobstersData;
+  tavilyData: TavilyData;
 }> {
   const allConfigs = [...CLI_REPOS, OPENCLAW, ...OPENCLAW_PEERS, ...INFRA_REPOS];
   console.log(
     `  Tracking: ${allConfigs.map((r) => r.id).join(", ")}, claude-code-skills, web, hn, ph, arxiv, ` +
-      `${fetchHf ? "hf, " : ""}devto, lobsters`,
+      `${fetchHf ? "hf, " : ""}devto, lobsters, tavily`,
   );
 
   const [
@@ -137,6 +140,7 @@ async function fetchAllData(
     hfData,
     devtoData,
     lobstersData,
+    tavilyData,
   ] = await Promise.all([
     Promise.all(
       allConfigs.map(async (cfg) => {
@@ -199,6 +203,7 @@ async function fetchAllData(
       : Promise.resolve<HfData>({ models: [], fetchSuccess: false }),
     fetchDevtoData().catch((): DevtoData => ({ articles: [], fetchSuccess: false })),
     fetchLobstersData().catch((): LobstersData => ({ stories: [], fetchSuccess: false })),
+    fetchTavilyData().catch((): TavilyData => ({ items: [], fetchSuccess: false })),
   ]);
 
   return {
@@ -212,6 +217,7 @@ async function fetchAllData(
     hfData,
     devtoData,
     lobstersData,
+    tavilyData,
   };
 }
 
@@ -419,6 +425,7 @@ async function main(): Promise<void> {
     hfData,
     devtoData,
     lobstersData,
+    tavilyData,
   } = await fetchAllData(since, webState, isHfWeek);
 
   const peerIds = new Set(OPENCLAW_PEERS.map((p) => p.id));
@@ -564,6 +571,7 @@ async function main(): Promise<void> {
     savePhReport(phData, utcStr, dateStr, digestRepo),
     saveArxivReport(arxivData, utcStr, dateStr, digestRepo),
     saveCommunityReport(devtoData, lobstersData, utcStr, dateStr, digestRepo),
+    saveTavilyReport(tavilyData, utcStr, dateStr, digestRepo),
     ...(isHfWeek ? [saveHfReport(hfData, utcStr, dateStr, digestRepo)] : []),
   ]);
 
@@ -594,6 +602,7 @@ async function main(): Promise<void> {
     ["ai-arxiv", "ai-arxiv-en.md"],
     ["ai-hf", "ai-hf-en.md"],
     ["ai-community", "ai-community-en.md"],
+    ["ai-news", "ai-news-en.md"],
   ] as const) {
     const en = readReport(enFile);
     if (en) enReports[id] = en;

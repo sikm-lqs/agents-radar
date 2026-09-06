@@ -1,8 +1,8 @@
 /**
  * ArXiv AI papers fetched via the ArXiv API (Atom feed).
  *
- * Strategy: query cs.AI + cs.CL + cs.LG categories for the newest papers,
- * sorted by submission date, filtered to last 48h.
+ * Strategy: query cs.AI + cs.CL + cs.LG + cs.MA categories for the newest
+ * papers, sorted by submission date, filtered to last 48h.
  */
 
 // ---------------------------------------------------------------------------
@@ -33,8 +33,8 @@ export interface ArxivData {
 const ARXIV_MAX_RESULTS = 50;
 const API_URL = "https://export.arxiv.org/api/query";
 
-/** ArXiv categories to search. */
-const CATEGORIES = ["cs.AI", "cs.CL", "cs.LG"];
+/** ArXiv categories to search. cs.MA covers multi-agent systems. */
+const CATEGORIES = ["cs.AI", "cs.CL", "cs.LG", "cs.MA"];
 
 /** Delay between requests (ArXiv asks for 3s). */
 const REQUEST_DELAY_MS = 3000;

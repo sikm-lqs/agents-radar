@@ -41,6 +41,7 @@ skills_repo: anthropics/skills
 
 # ── OpenClaw (primary focus project) ─────────────────────────────────────────
 # Tracked with a dedicated deep-dive report. Set paginated: true for high-volume repos.
+# 如果不需要关注 OpenClaw 生态，openclaw 与 openclaw_peers 两段可整段删除。
 
 openclaw:
   id: openclaw
@@ -92,4 +93,20 @@ infra_repos:
   - id: unsloth
     repo: unslothai/unsloth
     name: Unsloth
+    paginated: true
+
+# ── Token routing / account management ────────────────────────────────────────
+# AI CLI 的 token 路由与账号管理工具（Claude Code / Codex 等模型的接入层）。
+# 已加入 infra_repos 组，随 ai-infra 报告一起跟踪；不需要可整段删除。
+  - id: claude-code-router
+    repo: musistudio/claude-code-router
+    name: Claude Code Router
+    paginated: true
+  - id: cc-switch
+    repo: farion1231/cc-switch
+    name: CC Switch
+    paginated: true
+  - id: new-api
+    repo: QuantumNous/new-api
+    name: New API
     paginated: true

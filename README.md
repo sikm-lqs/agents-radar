@@ -238,7 +238,7 @@ Go to **Settings → Secrets and variables → Actions** and add:
 
 | Secret | Required | Description |
 |--------|----------|-------------|
-| `LLM_PROVIDER` | optional | `anthropic` (default), `openai`, `github-copilot`, `openrouter`, `deepseek`, or `qwen` |
+| `LLM_PROVIDER` | optional | `anthropic` (default), `openai`, `github-copilot`, `openrouter`, `deepseek`, `qwen`, or `glm` |
 | `ANTHROPIC_API_KEY` | if Anthropic | API key — works with both Anthropic and Kimi Code |
 | `ANTHROPIC_BASE_URL` | optional | API endpoint override. Set to `https://api.kimi.com/coding/` for Kimi Code; leave unset for Anthropic |
 | `OPENAI_API_KEY` | if OpenAI | OpenAI API key |
@@ -246,9 +246,11 @@ Go to **Settings → Secrets and variables → Actions** and add:
 | `OPENROUTER_API_KEY` | if OpenRouter | OpenRouter API key |
 | `DEEPSEEK_API_KEY` | if DeepSeek | DeepSeek API key |
 | `DASHSCOPE_API_KEY` | if Qwen | Alibaba Model Studio API key |
+| `GLM_API_KEY` | if GLM | Zhipu BigModel API key |
 | `TELEGRAM_BOT_TOKEN` | optional | Telegram bot token from [@BotFather](https://t.me/BotFather). If set, a message is sent after each digest run |
 | `TELEGRAM_CHAT_ID` | optional | Telegram chat/channel/group ID to send notifications to |
 | `FEISHU_WEBHOOK_URLS` | optional | Comma-separated Feishu custom bot webhook URLs. If set, a card message is sent to each group after each digest run |
+| `FEISHU_SECRET` | optional | Feishu custom bot signature secret — required when the bot has signature verification (签名校验) enabled |
 
 > `GITHUB_TOKEN` is provided automatically by GitHub Actions. When using `github-copilot` as the provider, the same `GITHUB_TOKEN` is used for LLM calls.
 
@@ -280,10 +282,11 @@ Set `LLM_PROVIDER` to choose which model backend powers the digest generation. D
 | OpenRouter | `openrouter` | `OPENROUTER_API_KEY` | `anthropic/claude-sonnet-4` |
 | DeepSeek | `deepseek` | `DEEPSEEK_API_KEY` | `deepseek-v4-flash` |
 | Qwen | `qwen` | `DASHSCOPE_API_KEY` | `qwen-flash` |
+| GLM (Zhipu) | `glm` | `GLM_API_KEY` | `glm-5.3` |
 
-Override the model name with `ANTHROPIC_MODEL`, `OPENAI_MODEL`, `GITHUB_COPILOT_MODEL`, `OPENROUTER_MODEL`, `DEEPSEEK_MODEL`, or `QWEN_MODEL` respectively. The Qwen endpoint can be overridden with `DASHSCOPE_BASE_URL`.
+Override the model name with `ANTHROPIC_MODEL`, `OPENAI_MODEL`, `GITHUB_COPILOT_MODEL`, `OPENROUTER_MODEL`, `DEEPSEEK_MODEL`, `QWEN_MODEL`, or `GLM_MODEL` respectively. The Qwen endpoint can be overridden with `DASHSCOPE_BASE_URL`, the GLM endpoint with `GLM_BASE_URL`.
 
-The scheduled daily run uses `qwen` / `qwen-flash`.
+The scheduled daily run uses `glm` / `glm-5.3`.
 
 The provider abstraction lives in `src/providers/` — each provider is a separate file implementing the `LlmProvider` interface. Adding a new provider only requires creating a new file and registering it in the factory.
 
@@ -316,6 +319,14 @@ export ANTHROPIC_API_KEY=sk-ant-xxxxxxxx
 # export LLM_PROVIDER=qwen
 # export DASHSCOPE_API_KEY=sk-xxxxxxxx
 
+# GLM (Zhipu BigModel)
+# export LLM_PROVIDER=glm
+# export GLM_API_KEY=xxxxxxxx
+
+# Optional data sources (their reports are skipped when unset)
+# export TAVILY_API_KEY=tvly-xxxxxxxx        # ai-news report (AI news digest)
+# export PRODUCTHUNT_TOKEN=xxxxxxxx          # ai-ph report (Product Hunt)
+
 export DIGEST_REPO=your-username/agents-radar  # optional; omit to only write files
 
 pnpm start
@@ -334,9 +345,10 @@ Files are written to `digests/YYYY-MM-DD/`:
 | `ai-trending.md` | GitHub AI trending report — repos classified by dimension + trend signals (only written when data is available) | `trending` |
 | `ai-hn.md` | Hacker News AI community digest — top stories + sentiment analysis (only written when fetch succeeds) | `hn` |
 | `ai-ph.md` | Product Hunt AI products digest (only written when `PRODUCTHUNT_TOKEN` is set and data is available) | `ph` |
-| `ai-arxiv.md` | ArXiv AI research digest — key papers from cs.AI/cs.CL/cs.LG | `arxiv` |
+| `ai-arxiv.md` | ArXiv AI research digest — key papers from cs.AI/cs.CL/cs.LG/cs.MA, prioritizing agent/RL/LLM topics | `arxiv` |
 | `ai-hf.md` | Hugging Face trending models digest — sorted by weekly likes (**weekly**: written on Mondays only) | `hf` |
 | `ai-community.md` | Tech community AI digest — Dev.to articles + Lobste.rs stories combined | `community` |
+| `ai-news.md` | AI news digest — official blogs (OpenAI/Anthropic), web news and X/Twitter via Tavily (only written when `TAVILY_API_KEY` is set and data is available) | `news` |
 
 A shared state file `digests/web-state.json` tracks which web URLs have been seen; it is committed alongside the daily digests.
 
@@ -451,7 +463,10 @@ Weekly and monthly rollup reports were discontinued in July 2026; past ones rema
 
 | Workflow | Cron | UTC | CST |
 |----------|------|-----|-----|
-| Daily digest | `37 22 * * *` | 22:37 daily | 06:37 next day |
+| Daily digest (am) | `37 23 * * *` | 23:37 daily | 07:37 next day |
+| Daily digest (pm, evening update) | `37 11 * * *` | 11:37 daily | 19:37 |
+
+The **pm run** is an evening update: it rewrites the day's markdown in place, never opens issues (`SKIP_ISSUES=true`), and skips the commit plus notifications when a normalized diff (timestamp lines and `highlights.json` excluded) shows no substantive change from the am run.
 
 To change the schedule, edit the cron expression in `.github/workflows/daily-digest.yml`.
 

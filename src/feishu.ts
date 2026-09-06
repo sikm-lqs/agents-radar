@@ -6,9 +6,12 @@
  *   FEISHU_WEBHOOK_URLS — comma-separated list of custom bot webhook URLs
  *                         (also accepts legacy FEISHU_WEBHOOK_URL for one URL)
  * Optional:
+ *   FEISHU_SECRET       — custom bot signature secret; when set, every request
+ *                         carries `timestamp` + `sign` (HMAC-SHA256)
  *   PAGES_URL           — GitHub Pages base URL (defaults to the public deployment)
  */
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
@@ -25,24 +28,43 @@ function getWebhookUrls(): string[] {
     .filter(Boolean);
 }
 
+/**
+ * Custom-bot signature (official algorithm): the string to sign is
+ * `timestamp + "\n" + secret`, used as the HMAC-SHA256 *key* with an empty
+ * message; the digest is Base64-encoded.
+ */
+export function computeFeishuSign(timestamp: string, secret: string): string {
+  return crypto.createHmac("sha256", `${timestamp}\n${secret}`).update("").digest("base64");
+}
+
 async function sendToOneWebhook(webhookUrl: string, title: string, content: string): Promise<void> {
+  const body: Record<string, unknown> = {
+    msg_type: "interactive",
+    card: {
+      header: {
+        title: { tag: "plain_text", content: title },
+        template: "blue",
+      },
+      elements: [{ tag: "markdown", content }],
+    },
+  };
+
+  // Bots with signature verification enabled reject unsigned requests.
+  const secret = process.env["FEISHU_SECRET"] ?? "";
+  if (secret) {
+    const timestamp = String(Math.floor(Date.now() / 1000));
+    body["timestamp"] = timestamp;
+    body["sign"] = computeFeishuSign(timestamp, secret);
+  }
+
   const res = await fetch(webhookUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      msg_type: "interactive",
-      card: {
-        header: {
-          title: { tag: "plain_text", content: title },
-          template: "blue",
-        },
-        elements: [{ tag: "markdown", content }],
-      },
-    }),
+    body: JSON.stringify(body),
   });
   if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Feishu API ${res.status}: ${body}`);
+    const resBody = await res.text();
+    throw new Error(`Feishu API ${res.status}: ${resBody}`);
   }
 }
 
@@ -63,7 +85,9 @@ export function buildFeishuMessage(
   pagesUrl?: string,
   highlights?: Highlights | null,
 ): string {
-  const PAGES_URL = (pagesUrl ?? process.env["PAGES_URL"] ?? PAGES_URL_DEFAULT).replace(/\/$/, "");
+  // `||` (not `??`): the workflow injects `${{ vars.PAGES_URL }}`, which is an
+  // empty string when the var is unset — that must fall back to the default.
+  const PAGES_URL = ((pagesUrl ?? process.env["PAGES_URL"]) || PAGES_URL_DEFAULT).replace(/\/$/, "");
   const ordered = reports.filter((r) => !r.endsWith("-en"));
   const lines: string[] = [`📡 **agents-radar · ${date}**`];
 

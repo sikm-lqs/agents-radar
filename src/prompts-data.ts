@@ -12,6 +12,7 @@ import type { ArxivData } from "./arxiv.ts";
 import type { HfData } from "./hf.ts";
 import type { DevtoData } from "./devto.ts";
 import type { LobstersData } from "./lobsters.ts";
+import type { TavilyData } from "./tavily.ts";
 import type { Lang } from "./i18n.ts";
 export function buildTrendingPrompt(data: TrendingData, dateStr: string, lang: Lang = "zh"): string {
   const trendingSection =
@@ -558,7 +559,7 @@ export function buildArxivPrompt(data: ArxivData, dateStr: string, lang: Lang = 
     .join("\n\n");
 
   if (lang === "en") {
-    return `You are an AI research analyst. The following are recent AI-related papers from ArXiv as of ${dateStr} (${data.papers.length} papers from cs.AI, cs.CL, cs.LG):
+    return `You are an AI research analyst. The following are recent AI-related papers from ArXiv as of ${dateStr} (${data.papers.length} papers from cs.AI, cs.CL, cs.LG, cs.MA):
 
 ---
 
@@ -570,7 +571,7 @@ Generate a structured ArXiv AI Research Digest in English:
 
 1. **Today's Highlights** — 3-5 sentences on the most significant research directions and breakthroughs
 
-2. **Key Papers** — Select 8-15 most important papers, organized by theme. Under each theme header, render a **Markdown table** with exactly these columns:
+2. **Key Papers** — Select 8-15 most important papers, organized by theme. **Prioritize papers on agents, reinforcement learning (RL/RLHF), and LLMs** — these are the reader's core interests. Under each theme header, render a **Markdown table** with exactly these columns:
 
    | Paper | Authors | Summary |
    | :--- | :--- | :--- |
@@ -594,7 +595,7 @@ Style: English, concise and professional, preserve all ArXiv links.
 `;
   }
 
-  return `你是 AI 研究分析师。以下是 ${dateStr} ArXiv 上最新的 AI 相关论文（共 ${data.papers.length} 篇，来自 cs.AI、cs.CL、cs.LG）：
+  return `你是 AI 研究分析师。以下是 ${dateStr} ArXiv 上最新的 AI 相关论文（共 ${data.papers.length} 篇，来自 cs.AI、cs.CL、cs.LG、cs.MA）：
 
 ---
 
@@ -606,7 +607,7 @@ ${papersText}
 
 1. **今日速览** — 3~5 句话，概括今日最值得关注的研究方向和突破
 
-2. **重点论文** — 选出 8~15 篇最重要的论文，按主题分类。在每个主题标题下用 **Markdown 表格**呈现，列固定为：
+2. **重点论文** — 选出 8~15 篇最重要的论文，按主题分类。**优先挑选智能体（Agent）、强化学习（RL/RLHF）和大模型方向的论文**——这是读者的核心关注领域。在每个主题标题下用 **Markdown 表格**呈现，列固定为：
 
    | 论文 | 作者 | 简要说明 |
    | :--- | :--- | :--- |
@@ -872,5 +873,105 @@ ${lobstersText}
 5. **值得精读** — 2~3 篇最值得深入阅读的内容
 
 语言要求：中文，简洁专业，保留所有原文链接。
+`;
+}
+
+// ---------------------------------------------------------------------------
+// Tavily AI news prompt
+// ---------------------------------------------------------------------------
+
+export function buildTavilyPrompt(data: TavilyData, dateStr: string, lang: Lang = "zh"): string {
+  const itemsText = data.items
+    .map((it, i) => {
+      const host = (() => {
+        try {
+          return new URL(it.url).hostname.replace(/^www\./, "");
+        } catch {
+          return it.queryLabel;
+        }
+      })();
+      const date = it.publishedDate ? it.publishedDate.slice(0, 10) : "";
+      return lang === "en"
+        ? `${i + 1}. **${it.title}**\n` +
+            `   Link: ${it.url}\n` +
+            `   Source: ${host}${date ? ` | Published: ${date}` : ""}\n` +
+            `   Excerpt: ${it.content}`
+        : `${i + 1}. **${it.title}**\n` +
+            `   链接: ${it.url}\n` +
+            `   来源: ${host}${date ? ` | 发布: ${date}` : ""}\n` +
+            `   摘要: ${it.content}`;
+    })
+    .join("\n\n");
+
+  if (lang === "en") {
+    return `You are an AI industry news editor. The following are AI-related news items collected via web search as of ${dateStr} — official blogs (OpenAI, Anthropic), tech news sites, and X/Twitter discussions from the last 48 hours (${data.items.length} items):
+
+---
+
+${itemsText}
+
+---
+
+Generate a structured AI News Digest in English:
+
+1. **Today's Highlights** — 3-5 sentences on the most important AI news today
+
+2. **Top News** — Organized by category, render a **Markdown table** per category with exactly these columns:
+
+   | Title | Source | Summary |
+   | :--- | :--- | :--- |
+
+   - **Title**: title as a Markdown link to the original URL
+   - **Source**: site or domain (e.g. openai.com, x.com)
+   - **Summary**: 2 sentences — what happened and why it matters
+   - Select the most newsworthy items per category; omit a category's table if empty
+
+   Categories:
+   - 🏢 Official Announcements (OpenAI, Anthropic and other major labs' official blogs)
+   - 🤖 Agents & Models (agent frameworks, model releases, benchmarks)
+   - 🛠️ Tools & Engineering (dev tools, infrastructure, open-source projects)
+   - 💬 Community Buzz (notable X/Twitter threads and discussions)
+
+3. **Signal Analysis** — 100-200 words on the themes dominating today's AI news
+
+4. **Worth Reading** — 2-3 items most worth clicking through, with brief reasoning
+
+Rules: only use items from the input above — never invent news or links. Style: English, concise and professional, preserve all original links.
+`;
+  }
+
+  return `你是 AI 行业资讯编辑。以下是截至 ${dateStr} 通过网络搜索收集的 AI 相关资讯——官方博客（OpenAI、Anthropic）、科技媒体与 X/Twitter 讨论，时间范围为最近 48 小时（共 ${data.items.length} 条）：
+
+---
+
+${itemsText}
+
+---
+
+请生成一份结构清晰的《AI 快讯日报》，要求：
+
+1. **今日速览** — 3~5 句话，概括今日最重要的 AI 新闻
+
+2. **热门资讯** — 按以下分类整理，每个分类用 **Markdown 表格**呈现，列固定为：
+
+   | 标题 | 来源 | 简要说明 |
+   | :--- | :--- | :--- |
+
+   - **标题**：标题做成指向原文的 Markdown 链接
+   - **来源**：站点或域名（如 openai.com、x.com）
+   - **简要说明**：2 句话——发生了什么、为什么值得关注
+   - 每类选取最具新闻价值的条目；某分类为空则整张表省略
+
+   分类：
+   - 🏢 官方公告（OpenAI、Anthropic 等大厂官方博客）
+   - 🤖 智能体与模型（Agent 框架、模型发布、基准测试）
+   - 🛠️ 工具与工程（开发者工具、基础设施、开源项目）
+   - 💬 社区热议（值得关注的 X/Twitter 帖子和讨论）
+
+3. **信号分析** — 100~200 字，分析今日 AI 新闻的主导主题
+
+4. **值得深读** — 2~3 条最值得点开细读的内容，简述理由
+
+规则：只使用上面输入中的条目——绝不编造新闻或链接。语言要求：中文，简洁专业，保留所有原文链接。
 `;
 }

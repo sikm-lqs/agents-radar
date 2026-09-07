@@ -67,8 +67,51 @@ git push -u origin main
 | 早场 | 23:37 | 次日 07:37 | 全天主报告：生成全部报告、开 Issue、推送通知。若当天 digests 已存在（如手动跑过）则跳过 |
 | 晚场 | 11:37 | 19:37 | 内容更新版：重新抓取并覆盖当天 markdown；**不开新 Issue**；与早版做规范化 diff（忽略「生成时间」时间戳和 highlights.json），无实质变化则不提交、不推送通知 |
 
+## 8. 可选：本地 cron 定时触发（解决 GitHub 调度延迟/丢弃）
+
+GitHub Actions 的 cron 是"尽力而为"的：高峰期会延迟几十分钟甚至直接丢弃任务（实测：早场延迟 98 分钟、晚场整场未派发）。如果在意推送时间准点，可以用本地 cron 定时调用 `workflow_dispatch` 接口主动触发，GitHub 侧 cron 保留作双保险。
+
+### 原理
+
+- 不新增任何后台服务：cron 是 Linux 自带系统服务（本来就在运行），只是往**当前用户的 crontab** 里加两行
+- 到点执行 `trigger-agents-radar.sh`（一条 `gh workflow run` 调用，<1 秒），认证复用 gh CLI 登录态，脚本不含密钥
+- 资源占用：可忽略（无新增进程，每天两次毫秒级 HTTP 请求）
+
+### 配置存放在哪
+
+crontab 配置**不在你项目目录里**，而是存放在系统位置 `/var/spool/cron/crontabs/<用户名>`（仅 root 可直接读）。**不要直接编辑该文件**，一律通过 `crontab` 命令管理：
+
+```bash
+crontab -l        # 查看当前用户的全部定时任务
+crontab -e        # 编辑（用编辑器打开，保存即生效）
+```
+
+本项目安装的两行：
+
+```cron
+30 7 * * *  /path/to/trigger-agents-radar.sh    # 早场 ~07:30，报告 ~08:00 落地
+30 19 * * * /path/to/trigger-agents-radar.sh    # 晚场 ~19:30，报告 ~20:00 落地
+```
+
+触发记录写在脚本同目录的 `trigger-agents-radar.log`。
+
+### 如何撤掉
+
+```bash
+crontab -e        # 删掉带 trigger-agents-radar 的两行及注释行，保存退出
+rm /path/to/trigger-agents-radar.sh /path/to/trigger-agents-radar.log   # 删除脚本和日志
+```
+
+> 注意：不要用 `crontab -r`——它会删除该用户的**全部**定时任务，包括其他可能存在的任务。
+
+撤掉后系统恢复原状：GitHub 侧 cron 仍会照常工作（只是回到"可能延迟/丢弃"的状态）。
+
+### 双触发如何避免重复推送
+
+workflow 的 guard job 有去重逻辑：早场发现当天 digests 已生成则跳过；晚场发现当天 12:00（北京时间）后已有更新提交则跳过。本地 cron 和 GitHub cron 互为备份，都触发也只会跑一场。手动 **Run workflow** 不受此限制，永远会跑。
+
 ## 常见问题
 
 - **不想跟踪某个信息源**：Tavily / Product Hunt 不配 key 即自动跳过；GitHub 仓库组（`cli_repos` / `openclaw` / `infra_repos` 等）在 `config.yml` 中整段删除即可。
 - **飞书推送报关键词校验失败**：机器人安全设置的自定义关键词必须是推送内容中实际出现的字符串，建议就用 `agents-radar`。若机器人开的是「签名校验」，则必须配置 `FEISHU_SECRET` secret，否则推送会被拒绝（返回签名错误）。
-- **定时任务没按时跑**：GitHub Actions 的 cron 在高峰期可能延迟数分钟到几十分钟，属平台正常现象；也可以在 Actions 页面随时手动 Run workflow 补跑。
+- **定时任务没按时跑**：GitHub Actions 的 cron 在高峰期可能延迟数分钟到几十分钟、甚至整场丢弃，属平台正常现象；可在 Actions 页面随时手动 Run workflow 补跑。在意准点可配置第 8 节的本地 cron 触发。

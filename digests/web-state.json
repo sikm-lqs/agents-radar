@@ -1,6 +1,6 @@
 {
   "anthropic": {
-    "lastChecked": "2026-09-07T01:16:13.642Z",
+    "lastChecked": "2026-09-07T01:51:36.499Z",
     "seenUrls": {
       "https://www.anthropic.com/research/formalizing-fermats-last-theorem": "2026-09-04T18:21:03.000Z",
       "https://www.anthropic.com/research/india-brief-economic-index": "2026-09-04T18:19:02.000Z",
@@ -445,7 +445,7 @@
     }
   },
   "openai": {
-    "lastChecked": "2026-09-07T01:16:16.506Z",
+    "lastChecked": "2026-09-07T01:51:39.772Z",
     "seenUrls": {
       "https://openai.com/index/gpt-6-astra/": "2026-09-06T15:49:04.459Z",
       "https://openai.com/index/path-to-astra/": "2026-09-06T13:33:52.534Z",

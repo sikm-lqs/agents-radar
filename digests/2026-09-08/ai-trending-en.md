@@ -1,18 +1,18 @@
 # AI Open Source Trends 2026-09-08
 
-> Sources: GitHub Trending + GitHub Search API | Generated: 2026-09-07 16:38 UTC
+> Sources: GitHub Trending + GitHub Search API | Generated: 2026-09-07 23:30 UTC
 
 ---
 
 # AI Open Source Trends Report — 2026-09-08
 
-> **Filter note (Step 1):** Excluded as non-AI: `MoonTechLab/LunaTV` (video streaming), `BraveOPotato/FckSignups` (generic tool list), `pascalorg/editor` (3D architecture), `Developer-Y/cs-video-courses` (CS course list), `Snailclimb/JavaGuide` (Java interview guide), `netdata/netdata` (general observability), `medusajs/medusa` (commerce platform; agent mention is marketing-level only). `affaan-m/ECC` deduplicated across both data sources.
+> **Filter note:** Non-AI repos excluded: [MoonTechLab/LunaTV](https://github.com/MoonTechLab/LunaTV) (streaming), [BraveOPotato/FckSignups](https://github.com/BraveOPotato/FckSignups) (tool directory), [pascalorg/editor](https://github.com/pascalorg/editor) (3D architecture), [Snailclimb/JavaGuide](https://github.com/Snailclimb/JavaGuide) (interview guide), [Developer-Y/cs-video-courses](https://github.com/Developer-Y/cs-video-courses) (CS lectures), [netdata/netdata](https://github.com/netdata/netdata) (observability), [medusajs/medusa](https://github.com/medusajs/medusa) (commerce). Pure book/resource repos were AI-related but omitted from tables for space. ECC appears in both sources (merged). "—" = total stars unavailable in source (trending list reports today's gain only).
 
 ---
 
 ## 1. Today's Highlights
 
-Agent-harness optimization dominates today: [ECC](https://github.com/affaan-m/ECC) leads the trending list with **+1,905 stars (252,502 total)**, while [OpenAI's official skills catalog](https://github.com/openai/skills) (+372) and [ByteDance's deer-flow](https://github.com/bytedance/deer-flow) confirm the harness/skills layer as the ecosystem's center of gravity. [Heygen's hyperframes](https://github.com/heygen-com/hyperframes) (+734) debuts an HTML-to-video rendering pipeline "built for agents" — the strongest new application-stack signal of the day. Token/context economics is consolidating into real products ([rtk](https://github.com/rtk-ai/rtk) at 79,238 stars, [headroom](https://github.com/headroomlabs-ai/headroom) at 69,498, [context-mode](https://github.com/mksglu/context-mode) trending). Agent web access is escalating into an arms race, with stealth browsers [camofox](https://github.com/jo-inc/camofox-browser) (+117) and [lightpanda](https://github.com/lightpanda-io/browser) (+116) trending as anti-bot bypass becomes explicit infrastructure.
+Agent **harness optimization** is today's runaway story: [affaan-m/ECC](https://github.com/affaan-m/ECC) gained **+1,905 stars** — roughly 2.5× the next AI repo — for a "skills, instincts, memory, security" layer that turbocharges Claude Code, Codex, OpenCode, and Cursor. Official ecosystem moves landed simultaneously: [openai/skills](https://github.com/openai/skills) (+372) standardizes a Codex skills catalog, while HeyGen open-sourced [hyperframes](https://github.com/heygen-com/hyperframes) (+734), an HTML-to-video engine explicitly "built for agents." A **context-engineering cluster** is trending — [markitdown](https://github.com/microsoft/markitdown) (+771), [context-mode](https://github.com/mksglu/context-mode), [rtk](https://github.com/rtk-ai/rtk) — all attacking token cost and context pollution as agents run longer. **Agent-native browsers** surged, with [camofox-browser](https://github.com/jo-inc/camofox-browser) (+285) and [lightpanda](https://github.com/lightpanda-io/browser) rebuilding web access for (and against) bots. Finance autonomy got loud: [AutoHedge](https://github.com/The-Swarm-Corporation/AutoHedge) (+541) for swarm-driven hedge funds, alongside 60k+ starred [daily_stock_analysis](https://github.com/ZhuLinsen/daily_stock_analysis).
 
 ---
 
@@ -22,90 +22,89 @@ Agent-harness optimization dominates today: [ECC](https://github.com/affaan-m/EC
 
 | Project | Lang | Stars (total / today) | Summary |
 | :--- | :--- | ---: | :--- |
-| [ollama/ollama](https://github.com/ollama/ollama) | Go | 180,387 | Local runtime for Kimi-K2.6, GLM-5.2, DeepSeek, gpt-oss, Qwen, Gemma. Remains the default on-ramp for open-weight models and tracks each new release within days. |
-| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | Rust | 131,525 | Cross-platform desktop control panel for Claude Code, Codex, OpenCode, Grok Build & Hermes Agent. Its 131K stars prove users now juggle multiple coding CLIs and need a switchboard. |
-| [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | Rust | 79,238 | CLI proxy that cuts LLM token consumption 60–90% on common dev commands as a single zero-dependency binary. Signals that token-cost control has become default agent plumbing. |
-| [diegosouzapw/OmniRoute](https://github.com/diegosouzapw/OmniRoute) | TypeScript | 62,365 | MIT AI gateway: one endpoint, 352 providers (150+ free), 1,200+ models, quota-aware fallback and 15–95% token compression, built by 550+ contributors. Aggressive commoditization of model access. |
-| [oraios/serena](https://github.com/oraios/serena) | Python | 28,957 | MCP toolkit providing semantic retrieval and editing — "the IDE for your agent." A stable anchor of the MCP-based coding stack. |
-| [microsoft/markitdown](https://github.com/microsoft/markitdown) | Python | N/A* (+771) | Converts Office/PDF files to Markdown for LLM ingestion. +771 today shows document-to-context pipeline demand is still accelerating. |
-| [jo-inc/camofox-browser](https://github.com/jo-inc/camofox-browser) | JavaScript | N/A* (+117) | Stealth headless browser bypassing Cloudflare and bot detection as a drop-in Puppeteer/Playwright replacement. Anti-bot evasion is now openly packaged as agent infrastructure. |
-| [lightpanda-io/browser](https://github.com/lightpanda-io/browser) | Zig | N/A* (+116) | Headless browser purpose-built for AI and automation, written in Zig. The agent-serving stack is diversifying beyond Node/Chromium. |
+| [affaan-m/ECC](https://github.com/affaan-m/ECC) | JavaScript | 252,798 (+1,905) | Agent harness performance system adding skills, instincts, memory, and security to Claude Code, Codex, OpenCode, and Cursor. Today's biggest gainer by a wide margin, signaling demand for tuning existing agents rather than building new ones. |
+| [openai/skills](https://github.com/openai/skills) | Python | — (+372) | Official OpenAI skills catalog for Codex, standardizing reusable agent capabilities. Strong day-one traction for a first-party repo, reinforcing "skills" as the emerging extension format for coding agents. |
+| [ollama/ollama](https://github.com/ollama/ollama) | Go | 180,414 | Local runtime for Kimi-K2.6, GLM-5.2, MiniMax, DeepSeek, gpt-oss, Qwen, and Gemma. Still the default on-ramp for local inference; its model list doubles as a snapshot of which open weights matter. |
+| [firecrawl/firecrawl](https://github.com/firecrawl/firecrawl) | TypeScript | 177,642 | Web search/scrape "context API" turning pages into LLM-ready data at scale. A foundational layer for agent data access that consistently tops AI rankings. |
+| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | Rust | 131,541 | Desktop hub managing Claude Code, Codex, OpenCode, OpenClaw, Grok Build, and Hermes Agent configs in one place. Its 131k stars reflect how many coding agents a single developer now juggles daily. |
+| [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | Rust | 79,306 | Single-binary CLI proxy cutting LLM token consumption 60–90% on common dev commands. Embodies the "context economy" — cost optimization as a first-class infrastructure concern (see also [headroom](https://github.com/headroomlabs-ai/headroom), 70,057). |
+| [jo-inc/camofox-browser](https://github.com/jo-inc/camofox-browser) | JavaScript | — (+285) | Stealth headless browser for AI agents that bypasses Cloudflare and bot detection as a drop-in Puppeteer/Playwright replacement. Trending as agent devs push against anti-bot walls; [lightpanda](https://github.com/lightpanda-io/browser) (Zig, +116) targets the same agent-browser niche. |
+| [mksglu/context-mode](https://github.com/mksglu/context-mode) | TypeScript | — (+147) | Context-window optimization for coding agents — sandboxes tool output (98% reduction), persists session memory, and routes across 17 platforms via MCP + hooks. Small but emblematic of the context-engineering wave. |
 
 ### 🤖 AI Agents / Workflows
 
 | Project | Lang | Stars (total / today) | Summary |
 | :--- | :--- | ---: | :--- |
-| [affaan-m/ECC](https://github.com/affaan-m/ECC) | JavaScript | 252,502 (+1,905) | Agent harness performance system: skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor. Today's #1 trending repo overall. |
-| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Python | 242,955 | "The agent that grows with you" — a personal agent from Nous Research. Sits near the very top of the entire agent category by stars. |
-| [browser-use/browser-use](https://github.com/browser-use/browser-use) | Python | 112,912 | Makes websites accessible to AI agents for online task automation. The de facto browser-automation layer beneath dozens of agent stacks. |
-| [Panniantong/Agent-Reach](https://github.com/Panniantong/Agent-Reach) | Python | 78,561 | CLI giving agents read/search over Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu with zero API fees. 78K stars shows data access is a top-tier agent need. |
-| [QwenLM/qwen-code](https://github.com/QwenLM/qwen-code) | TypeScript | 27,700 | Official Qwen terminal coding agent. Evidence that model vendors are shipping native harnesses to own the agentic workflow. |
-| [ruvnet/ruflo](https://github.com/ruvnet/ruflo) | TypeScript | N/A* (+392) | "Agent meta-harness" deploying multi-player swarms with adaptive memory, self-learning, and RAG across Claude Code/Codex integrations. Meta-orchestration is stacking on top of existing harnesses. |
-| [openai/skills](https://github.com/openai/skills) | Python | N/A* (+372) | Official Skills Catalog for Codex. First-party blessing of the skills pattern — the key thing to watch for a portable cross-agent skill standard. |
-| [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | Python | N/A* (+188) | Long-horizon SuperAgent harness (sandboxes, memory, subagents, message gateway) for tasks lasting minutes to hours. ByteDance's bet on durable, long-running autonomy. |
+| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Python | 243,040 | "The agent that grows with you" — NousResearch's flagship personal agent. Highest total star count in the dataset, showing personal-agent frameworks have fully mainstreamed. |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | TypeScript | 203,667 | Fair-code workflow automation with native AI and 400+ integrations. The reference point for visual agentic workflow building at production scale. |
+| [Significant-Gravitas/AutoGPT](https://github.com/Significant-Gravitas/AutoGPT) | Python | 187,185 | The original autonomous-agent project, now a broader platform. Remains a top-5 starred AI repo and a barometer for the autonomy hype cycle. |
+| [langgenius/dify](https://github.com/langgenius/dify) | TypeScript | 154,849 | Collaborative workspace for agentic workflows and RAG pipelines with broad model/tool support. Continues to define the team-oriented "agent platform" category. |
+| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | Python | 145,883 | Now self-described as "the agent engineering platform," fully pivoted from LLM chaining to agents. Its repositioning mirrors the ecosystem-wide shift. |
+| [browser-use/browser-use](https://github.com/browser-use/browser-use) | Python | 112,938 | Makes websites operable by AI agents — the de facto browser-automation layer for agents. Pairs directly with today's agent-browser infrastructure momentum. |
+| [ruvnet/ruflo](https://github.com/ruvnet/ruflo) | TypeScript | — (+392) | "Agent meta-harness" for multi-player swarms, autonomous workflows, adaptive memory, and RAG, integrating Claude Code/Codex/Hermes. +392 today shows appetite for orchestration layers above individual agents. |
+| [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | Python | — (+188) | ByteDance's long-horizon "SuperAgent" harness combining sandboxes, memory, subagents, and a message gateway for tasks lasting minutes to hours. Big-lab validation of long-running agent architecture. |
+
+*Long tail keeps growing: [agentscope](https://github.com/agentscope-ai/agentscope) (30,999), [nanobot](https://github.com/HKUDS/nanobot) (47,853), [CowAgent](https://github.com/zhayujie/CowAgent) (46,812), [AIHawk](https://github.com/feder-cr/AIHawk) (30,318), [lobehub](https://github.com/lobehub/lobehub) (82,298), plus terminal coding agents [Codewhale](https://github.com/Hmbown/Codewhale) (40,925), [DeepSeek-Reasonix](https://github.com/esengine/DeepSeek-Reasonix) (35,440), [qwen-code](https://github.com/QwenLM/qwen-code) (27,700), [kilocode](https://github.com/Kilo-Org/kilocode) (27,219).*
 
 ### 📦 AI Applications
 
 | Project | Lang | Stars (total / today) | Summary |
 | :--- | :--- | ---: | :--- |
-| [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | TypeScript | N/A* (+734) | "Write HTML. Render video. Built for agents." Heygen's code-as-media pipeline is the day's strongest application-side signal and a new generative-video stack. |
-| [harry0703/MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) | Python | 121,307 | One-click HD short-video generation from a topic or keyword via LLM workflows. Evergreen content-automation demand at massive scale. |
-| [koala73/worldmonitor](https://github.com/koala73/worldmonitor) | TypeScript | 85,764 | Real-time global intelligence dashboard: AI news aggregation, geopolitical monitoring, and infrastructure tracking in one situational-awareness UI. |
-| [career-ops-hq/career-ops](https://github.com/career-ops-hq/career-ops) | JavaScript | 70,435 | Local AI job-search pipeline — scan portals, score listings (A–H, 1–5), tailor CVs, track applications — running inside Claude Code/Codex CLIs. |
-| [ZhuLinsen/daily_stock_analysis](https://github.com/ZhuLinsen/daily_stock_analysis) | Python | 64,742 | LLM-driven multi-market stock analysis with live news, decision dashboards, push notifications, and zero-cost scheduled runs. Huge traction in the Chinese retail-investor dev community. |
-| [hugohe3/ppt-master](https://github.com/hugohe3/ppt-master) | Python | 52,764 | Documents/topics → native PowerPoint decks with real shapes, charts, animations, and narration. Office-native output beats screenshot-style slide generation. |
-| [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) | Python | 32,941 | "Your personal trading agent" from HKUDS. Academic labs are now shipping polished vertical agents at commercial-grade adoption. |
-| [The-Swarm-Corporation/AutoHedge](https://github.com/The-Swarm-Corporation/AutoHedge) | Python | N/A* (+541) | Autonomous hedge fund in minutes: swarm intelligence + agents for market analysis, risk management, and execution. +541 today shows finance autonomy still pulls hard. |
+| [open-webui/open-webui](https://github.com/open-webui/open-webui) | Python | 151,256 | Self-hosted, user-friendly chat UI for Ollama/OpenAI-compatible APIs. The default front door for private LLM deployments. |
+| [harry0703/MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) | Python | 121,347 | One-click HD short-video generation from a topic via LLM workflows. Long-run traction proves AI content generation is a durable OSS category. |
+| [career-ops-hq/career-ops](https://github.com/career-ops-hq/career-ops) | JavaScript | 70,460 | Local-first AI job-search pipeline — scans portals, scores listings A–H, tailors CVs, tracks applications inside Claude Code/Codex-style CLIs. Striking example of vertical apps shipping as agent skills rather than standalone products. |
+| [ZhuLinsen/daily_stock_analysis](https://github.com/ZhuLinsen/daily_stock_analysis) | Python | 64,745 | LLM-powered multi-market stock analysis with news, dashboards, and zero-cost scheduled runs. Anchor of a strong Chinese-community finance-agent cluster. |
+| [hugohe3/ppt-master](https://github.com/hugohe3/ppt-master) | Python | 52,785 | Turns documents/topics into native PowerPoint decks with real shapes, charts, transitions, and narration. Office-native output (not markdown slides) is the differentiator. |
+| [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | TypeScript | — (+734) | HeyGen's "write HTML, render video" engine built for agents. The strongest non-ECC debut today, marking agent-native video generation as a new output surface. |
+| [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) | JavaScript | — (+602) | Marketing skill pack (CRO, copywriting, SEO, analytics, growth) for Claude Code and other agents. +602 today signals an emerging "skills economy" of vertical agent capabilities. |
+| [The-Swarm-Corporation/AutoHedge](https://github.com/The-Swarm-Corporation/AutoHedge) | Python | — (+541) | Build an autonomous hedge fund in minutes using swarm intelligence for analysis, risk, and execution. +541 today; finance autonomy is one of the day's loudest themes (see also [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading), 32,985). |
 
 ### 🧠 LLMs / Training
 
 | Project | Lang | Stars (total / today) | Summary |
 | :--- | :--- | ---: | :--- |
-| [huggingface/transformers](https://github.com/huggingface/transformers) | Python | 164,959 | The model-definition framework for SOTA text, vision, audio, and multimodal training/inference. Still the backbone of open ML. |
-| [rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch) | Jupyter Notebook | 104,526 | Build a ChatGPT-like LLM in PyTorch step by step. Education demand remains enormous as practitioners move up the stack. |
-| [unslothai/unsloth](https://github.com/unslothai/unsloth) | Python | 75,758 | Local UI to run and train LLMs and diffusion models (GGUF, MLX, Qwen3.8, DeepSeek-V4, MiniMax-H3, Gemma 4, FLUX). Local fine-tuning keeps compounding. |
-| [ray-project/ray](https://github.com/ray-project/ray) | Python | 43,726 | AI compute engine: distributed runtime plus libraries for ML workloads. The substrate beneath the scaling-training wave. |
-| [microsoft/agent-lightning](https://github.com/microsoft/agent-lightning) | Python | 18,014 | "The absolute trainer to light up AI agents" — RL training for agent stacks. A signal that RL-for-agents is going mainstream. |
-| [OpenPipe/ART](https://github.com/OpenPipe/ART) | Python | 10,705 | Agent Reinforcement Trainer using GRPO for multi-step, real-world tasks on Qwen3.6, GPT-OSS, Llama. On-the-job RL for agents. |
-| [jeinlee1991/chinese-llm-benchmark](https://github.com/jeinlee1991/chinese-llm-benchmark) | — | 6,425 | Tracks 374 models (GPT-5.4, Gemini-3.1-Pro, Claude-4.6, ERNIE-5.0, Qwen3.6, DeepSeek-V4…) plus a 2M-entry defect database. The best window into the Chinese model race. |
-| [areal-project/AReaL](https://github.com/areal-project/AReaL) | Python | 5,733 | RL bridge for LLM-based agent applications, made simple and flexible. Simplifies a notoriously messy training layer. |
+| [huggingface/transformers](https://github.com/huggingface/transformers) | Python | 164,963 | Model-definition framework for SOTA text/vision/audio/multimodal training and inference. The bedrock library of the open-model ecosystem. |
+| [rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch) | Jupyter Notebook | 104,540 | Step-by-step PyTorch implementation of a ChatGPT-like LLM. Sustained 100k+ stars show education keeping pace with model releases. |
+| [unslothai/unsloth](https://github.com/unslothai/unsloth) | Python | 75,777 | Local UI to run/train LLMs and diffusion models (GGUF, MLX, Qwen3.8, DeepSeek-V4, Gemma 4). Go-to for consumer-GPU fine-tuning; its model list tracks the open-weights frontier. |
+| [ray-project/ray](https://github.com/ray-project/ray) | Python | 43,729 | Distributed AI compute engine plus libraries for ML workloads. The scaling substrate beneath much agent/LLM training infrastructure. |
+| [AI4Finance-Foundation/FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) | Jupyter Notebook | 21,222 | Open-source financial LLMs with trained weights on HuggingFace. Anchors the finance-LLM theme also visible in today's trending AutoHedge. |
+| [microsoft/agent-lightning](https://github.com/microsoft/agent-lightning) | Python | 18,015 | "The absolute trainer to light up AI agents" — RL-based agent training from Microsoft. Signals the shift from prompting agents to actually training them. |
+| [OpenPipe/ART](https://github.com/OpenPipe/ART) | Python | 10,705 | Agent Reinforcement Trainer applying GRPO to multi-step, on-the-job agent training (Qwen3.6, GPT-OSS, Llama). RL-for-agents is consolidating into its own sub-field. |
+| [areal-project/AReaL](https://github.com/areal-project/AReaL) | Python | 5,733 | RL bridge purpose-built for LLM-based agent applications. Small, but part of a consistent agent-RL cluster with agent-lightning and ART. |
+
+*Classic RL stack remains active: [Gymnasium](https://github.com/Farama-Foundation/Gymnasium) (12,483), [stable-baselines3](https://github.com/DLR-RM/stable-baselines3) (13,776), [ml-agents](https://github.com/Unity-Technologies/ml-agents) (19,662); eval via [chinese-llm-benchmark](https://github.com/jeinlee1991/chinese-llm-benchmark) (6,425, 374 models).*
 
 ### 🔍 RAG / Knowledge
 
 | Project | Lang | Stars (total / today) | Summary |
 | :--- | :--- | ---: | :--- |
-| [firecrawl/firecrawl](https://github.com/firecrawl/firecrawl) | TypeScript | 177,544 | The context API to search, scrape, and interact with the web at scale. Default web-data layer for both RAG pipelines and agents. |
-| [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) | Python | 115,599 | Turns codebases, docs, SQL, and PDFs into queryable knowledge graphs via a skill for Claude Code/Cursor/Codex/Gemini — deterministic AST parsing, every edge explained, no vector store. Graph-over-vectors is a serious rising alternative. |
-| [D4Vinci/Scrapling](https://github.com/D4Vinci/Scrapling) | Python | 79,043 | Adaptive scraping framework from a single request to a full-scale crawl. Feeds the agent data appetite directly. |
-| [headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) | Python | 69,498 | Compresses tool outputs, logs, files, and RAG chunks before they reach the LLM — 20% token cut for coding agents, 60–95% for JSON with same answers. Context economics as a standalone product. |
-| [siyuan-note/siyuan](https://github.com/siyuan-note/siyuan) | TypeScript | 46,220 | Privacy-first, self-hosted knowledge workspace where humans and AI agents collaborate. The human-in-the-loop knowledge base pattern. |
-| [mksglu/context-mode](https://github.com/mksglu/context-mode) | TypeScript | N/A* (+147) | Context-window optimization for coding agents: sandboxes tool output (98% reduction), persists session memory, and enforces routing across 17 platforms via MCP + hooks. |
-
-\* *Trending-list repos report today's gains only; total star counts were not present in the source data (shown as N/A). All numbers copied verbatim from input.*
+| [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) | Python | 115,690 | Turns codebases, docs, SQL, and PDFs into queryable knowledge graphs via a /graphify skill for Claude Code/Cursor/Codex/Gemini CLI. Notable for deterministic AST parsing and "no vector store" — a graph-first challenge to embedding-centric RAG. |
+| [Panniantong/Agent-Reach](https://github.com/Panniantong/Agent-Reach) | Python | 78,616 | One CLI giving agents read/search access to Twitter, Reddit, YouTube, GitHub, Bilibili, and XiaoHongShu with zero API fees. Real-time external retrieval is becoming standard agent equipment. |
+| [siyuan-note/siyuan](https://github.com/siyuan-note/siyuan) | TypeScript | 46,224 | Privacy-first, self-hosted knowledge workspace explicitly built for human–agent collaboration. Representative of knowledge tools repositioning around agents. |
+| [oraios/serena](https://github.com/oraios/serena) | Python | 28,983 | MCP toolkit giving coding agents semantic retrieval and editing over code — "the IDE for your agent." Bridges retrieval techniques directly into the coding-agent toolchain. |
+| [microsoft/markitdown](https://github.com/microsoft/markitdown) | Python | — (+771) | Microsoft's converter from office documents and files to Markdown, the lingua franca of LLM context. +771 today — ingestion tooling trends as context quality becomes the bottleneck. |
 
 ---
 
 ## 3. Trend Signal Analysis
 
-The dominant signal today is the **agent harness maturing into a product category**. ECC (+1,905 stars/day; 252,502 total) heads a cluster including deer-flow, ruflo, and OpenAI's official skills catalog — value is shifting from raw model access to the orchestration layer: skills, memory, instincts, security, and routing across Claude Code, Codex, and Cursor. A skills marketplace is forming in real time (marketingskills +602 today; agentic-awesome-skills at 46,104; superpowers-zh at 8,012 all package capabilities as portable agent modules).
+**The harness/skills layer is exploding.** ECC's +1,905 stars is nearly 2.5× the next AI repo today, and it's not alone: marketingskills (+602), OpenAI's official Codex skills catalog (+372), and [agentic-awesome-skills](https://github.com/sickn33/agentic-awesome-skills) (46,119 ⭐, 2,100+ skills) all point the same direction. The community's unit of work is shifting from "build an agent" to "optimize the harness" — skills, memory, instincts, security — layered over Claude Code, Codex, Cursor, and OpenCode. Supporting evidence: cc-switch exists purely to manage six-plus coding agents, and [codeburn](https://github.com/getagentseal/codeburn) tracks token spend across 37 tools; even persona tuning scales ([ponytail](https://github.com/DietrichGebert/ponytail), 130,920 ⭐).
 
-Second, **token economics has hardened into infrastructure**. rtk (79,238), headroom (69,498), context-mode (+147), and codeburn (10,886) attack context burnout via proxies, compression, sandboxed tool output, and cost dashboards — "context ops" is becoming a standard budget line.
+**Context economics is a new infrastructure category.** rtk (60–90% token cuts), headroom (60–95% on JSON), context-mode (98% tool-output reduction), and [OmniRoute](https://github.com/diegosouzapw/OmniRoute) (compression inside the gateway) all attack the same bottleneck, with markitdown (+771) supplying clean ingestion.
 
-Third, **agent web access is escalating**: stealth browsers camofox and lightpanda trend alongside Agent-Reach (78,561), Scrapling (79,043), and firecrawl (177,544), marking an open arms race between agent data acquisition and site defenses.
+**First-time directions with unusual density:** agent-native browsers including stealth anti-bot evasion (camofox +285, lightpanda, browser-use, [Scrapling](https://github.com/D4Vinci/Scrapling) 79,117); agent-native media formats (hyperframes' HTML→video, +734); vector-free knowledge-graph RAG (graphify); and RL training for deployed agents (agent-lightning, ART, AReaL).
 
-Genuinely new directions: hyperframes (+734) establishes HTML-as-video for agents — code as a media substrate; "loop engineering" is being codified with dedicated CLIs; and RL-for-agents (agent-lightning, ART's GRPO trainer, AReaL) moves agent fine-tuning from papers into repos.
-
-Timing tracks the model cycle referenced across the data — GPT-5.4, Gemini-3.1-Pro, Claude-4.6, DeepSeek-V4, Kimi-K2.6, GLM-5.2, Qwen3.6. Each frontier or open-weight release resets harness economics, spawning vendor-native agents (qwen-code, DeepSeek-Reasonix) and multi-provider gateways (OmniRoute's 352 providers), while the Chinese-language ecosystem compounds in parallel (superpowers-zh, CowAgent, daily_stock_analysis).
+**LLM-release linkage:** current leaderboard coverage (GPT-5.4, Gemini-3.1-Pro, Claude-4.6, DeepSeek-V4, Qwen3.6, Kimi-K2.6, GLM-5.x) matches the model lists in ollama and unsloth — Chinese open weights are the default local stack. DeepSeek-Reasonix's prefix-cache-stability design ties directly to DeepSeek's caching economics, while HeyGen and OpenAI open-sourcing agent-facing surfaces confirms major vendors actively courting this ecosystem.
 
 ---
 
 ## 4. Community Hot Spots
 
-- **[openai/skills](https://github.com/openai/skills) (+372)** — OpenAI's first-party skills catalog is the likeliest catalyst for a portable skill-pack standard across Claude Code, Codex, and beyond; the surrounding marketplace (marketingskills, agentic-awesome-skills, superpowers-zh) is already forming around it.
-- **[affaan-m/ECC](https://github.com/affaan-m/ECC) (+1,905)** — fastest-moving repo today; its harness design (instincts, memory, security, research-first loops) is the reference playbook for anyone doing agent performance work.
-- **Context-optimization stack: [rtk](https://github.com/rtk-ai/rtk) + [headroom](https://github.com/headroomlabs-ai/headroom) + [context-mode](https://github.com/mksglu/context-mode)** — combining proxy, compression, and sandboxed tool output can cut token spend 60–95% before you even switch models; highest-ROI area right now.
-- **Agent data access: [jo-inc/camofox-browser](https://github.com/jo-inc/camofox-browser) + [Panniantong/Agent-Reach](https://github.com/Panniantong/Agent-Reach)** — stealth browsing plus free multi-platform reads form the emerging "eyes layer" for agents; watch the ToS/legal friction that will follow.
-- **RL for agent loops: [microsoft/agent-lightning](https://github.com/microsoft/agent-lightning) + [OpenPipe/ART](https://github.com/OpenPipe/ART)** — GRPO-based training of multi-step agent behavior is the next lever once prompting and skills plateau.
+- **The skills economy** — [ECC](https://github.com/affaan-m/ECC), [openai/skills](https://github.com/openai/skills), [marketingskills](https://github.com/coreyhaines31/marketingskills), [superpowers-zh](https://github.com/jnMetaCode/superpowers-zh), [distilly](https://github.com/titanwings/distilly). Today's fastest velocity; skills are becoming the distribution unit for agent capabilities — an "npm moment" for agents, with first-mover authoring advantages.
+- **Context & token engineering** — [rtk](https://github.com/rtk-ai/rtk), [headroom](https://github.com/headroomlabs-ai/headroom), [context-mode](https://github.com/mksglu/context-mode), [OmniRoute](https://github.com/diegosouzapw/OmniRoute), [codeburn](https://github.com/getagentseal/codeburn). As long-horizon agents ([deer-flow](https://github.com/bytedance/deer-flow)) run minutes-to-hours, context budget *is* the unit economics; tooling here compounds across every agent platform.
+- **Agent "senses": browsers + data access** — [camofox-browser](https://github.com/jo-inc/camofox-browser), [lightpanda](https://github.com/lightpanda-io/browser), [browser-use](https://github.com/browser-use/browser-use), [Agent-Reach](https://github.com/Panniantong/Agent-Reach), [firecrawl](https://github.com/firecrawl/firecrawl). The largest unlocked surface area; note that stealth scraping raises ToS/legal questions worth monitoring.
+- **RL for agents** — [agent-lightning](https://github.com/microsoft/agent-lightning), [ART](https://github.com/OpenPipe/ART), [AReaL](https://github.com/areal-project/AReaL). Post-deployment training is the credible path from brittle, prompted agents to reliable ones; early but high-leverage.
+- **Vertical, outcome-complete agents** — [AutoHedge](https://github.com/The-Swarm-Corporation/AutoHedge), [career-ops](https://github.com/career-ops-hq/career-ops), [ppt-master](https://github.com/hugohe3/ppt-master), [hyperframes](https://github.com/heygen-com/hyperframes). Today's user growth is in domain-complete outcomes (a hedge fund, a job hunt, a deck, a video) rather than frameworks — with autonomous trading carrying the most regulatory risk.
 
 ---
 *This digest is auto-generated by [agents-radar](https://github.com/sikm-lqs/agents-radar).*

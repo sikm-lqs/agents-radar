@@ -1,6 +1,6 @@
 {
   "anthropic": {
-    "lastChecked": "2026-09-07T16:38:44.711Z",
+    "lastChecked": "2026-09-07T23:30:34.613Z",
     "seenUrls": {
       "https://www.anthropic.com/research/formalizing-fermats-last-theorem": "2026-09-07T11:07:52.000Z",
       "https://www.anthropic.com/research/india-brief-economic-index": "2026-09-04T18:19:02.000Z",
@@ -445,33 +445,33 @@
     }
   },
   "openai": {
-    "lastChecked": "2026-09-07T16:38:47.812Z",
+    "lastChecked": "2026-09-07T23:30:36.773Z",
     "seenUrls": {
-      "https://openai.com/index/gpt-6-astra/": "2026-09-07T16:38:11.031Z",
-      "https://openai.com/index/path-to-astra/": "2026-09-07T16:37:22.703Z",
-      "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/": "2026-09-06T15:26:31.655Z",
-      "https://openai.com/index/accelerating-cyber-defense-ecosystem/": "2026-09-06T15:26:31.498Z",
-      "https://openai.com/index/putting-frontier-cyber-models-in-more-trusted-hands/": "2026-09-06T15:26:31.600Z",
-      "https://openai.com/index/safety-bug-bounty/": "2026-09-06T15:26:29.893Z",
-      "https://openai.com/index/our-response-to-the-tanstack-npm-supply-chain-attack/": "2026-09-06T15:26:30.215Z",
-      "https://openai.com/news/engineering/": "2026-09-06T15:26:30.714Z",
-      "https://openai.com/news/company-announcements/": "2026-09-06T15:26:36.435Z",
+      "https://openai.com/index/gpt-6-astra/": "2026-09-07T22:18:02.970Z",
+      "https://openai.com/index/path-to-astra/": "2026-09-07T21:42:36.946Z",
+      "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/": "2026-09-07T16:54:48.618Z",
+      "https://openai.com/index/accelerating-cyber-defense-ecosystem/": "2026-09-07T16:54:48.053Z",
+      "https://openai.com/index/putting-frontier-cyber-models-in-more-trusted-hands/": "2026-09-07T16:54:49.073Z",
+      "https://openai.com/index/safety-bug-bounty/": "2026-09-07T16:54:47.055Z",
+      "https://openai.com/index/our-response-to-the-tanstack-npm-supply-chain-attack/": "2026-09-07T16:54:46.533Z",
+      "https://openai.com/news/engineering/": "2026-09-07T16:54:47.305Z",
+      "https://openai.com/news/company-announcements/": "2026-09-07T16:54:48.568Z",
       "https://openai.com/news/safety-alignment/": "2026-09-06T12:14:14.601Z",
-      "https://openai.com/news/product-releases/": "2026-09-06T15:26:30.131Z",
-      "https://openai.com/news/": "2026-09-06T15:26:30.823Z",
-      "https://openai.com/index/hugging-face-incident-and-the-road-ahead/": "2026-09-06T15:26:30.197Z",
-      "https://openai.com/index/why-codex-security-doesnt-include-sast/": "2026-09-06T15:26:29.079Z",
-      "https://openai.com/index/codex-security-now-in-research-preview/": "2026-09-06T15:26:28.801Z",
-      "https://openai.com/index/introducing-aardvark/": "2026-09-06T15:26:27.995Z",
-      "https://openai.com/index/trusted-access-for-cyber/": "2026-09-06T15:26:26.765Z",
+      "https://openai.com/news/product-releases/": "2026-09-07T16:54:48.055Z",
+      "https://openai.com/news/": "2026-09-07T16:54:47.705Z",
+      "https://openai.com/index/hugging-face-incident-and-the-road-ahead/": "2026-09-07T16:55:01.775Z",
+      "https://openai.com/index/why-codex-security-doesnt-include-sast/": "2026-09-07T16:54:47.256Z",
+      "https://openai.com/index/codex-security-now-in-research-preview/": "2026-09-07T16:54:46.152Z",
+      "https://openai.com/index/introducing-aardvark/": "2026-09-07T16:54:44.239Z",
+      "https://openai.com/index/trusted-access-for-cyber/": "2026-09-07T16:54:43.764Z",
       "https://openai.com/index/safety-overview-gpt-6-astra/": "2026-09-07T12:05:46.285Z",
       "https://openai.com/signals/enterprise-data/": "2026-09-07T16:36:40.474Z",
       "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/": "2026-09-05T13:52:56.595Z",
       "https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads/": "2026-09-05T13:42:56.544Z",
-      "https://openai.com/index/supporting-next-generation-ai-startups-thailand/": "2026-09-05T07:08:31.444Z",
+      "https://openai.com/index/supporting-next-generation-ai-startups-thailand/": "2026-09-07T20:22:15.989Z",
       "https://openai.com/index/chatgpt-ads-expands-across-europe/": "2026-09-04T23:14:07.900Z",
       "https://openai.com/index/chatgpt-connects-health-records-and-healthcare-sources/": "2026-09-04T14:01:01.116Z",
-      "https://openai.com/index/supporting-california-bill-advance-ai-youth-safety/": "2026-09-07T07:07:17.454Z",
+      "https://openai.com/index/supporting-california-bill-advance-ai-youth-safety/": "2026-09-07T18:20:39.390Z",
       "https://openai.com/index/introducing-gpt-5/": "2026-09-03T21:51:37.144Z",
       "https://openai.com/index/gpt-5-6/": "2026-09-03T21:51:19.598Z",
       "https://openai.com/index/hello-gpt-4o/": "2026-09-03T21:51:06.223Z",
@@ -1224,7 +1224,7 @@
       "https://openai.com/index/gpt-5-4-thinking-system-card/": "2026-04-23T05:45:21.943Z",
       "https://openai.com/index/openai-pioneers-program/": "2026-04-06T21:28:00.206Z",
       "https://openai.com/index/research-acceleration-view-inside-openai/": "2026-09-06T15:01:11.338Z",
-      "https://openai.com/index/an-alien-mind/": "2026-09-06T16:02:34.689Z"
+      "https://openai.com/index/an-alien-mind/": "2026-09-07T20:14:08.462Z"
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "anthropic": {
-    "lastChecked": "2026-09-07T13:28:58.321Z",
+    "lastChecked": "2026-09-07T16:38:44.711Z",
     "seenUrls": {
       "https://www.anthropic.com/research/formalizing-fermats-last-theorem": "2026-09-07T11:07:52.000Z",
       "https://www.anthropic.com/research/india-brief-economic-index": "2026-09-04T18:19:02.000Z",
@@ -445,10 +445,10 @@
     }
   },
   "openai": {
-    "lastChecked": "2026-09-07T13:28:59.913Z",
+    "lastChecked": "2026-09-07T16:38:47.812Z",
     "seenUrls": {
-      "https://openai.com/index/gpt-6-astra/": "2026-09-07T11:47:01.593Z",
-      "https://openai.com/index/path-to-astra/": "2026-09-06T13:33:52.534Z",
+      "https://openai.com/index/gpt-6-astra/": "2026-09-07T16:38:11.031Z",
+      "https://openai.com/index/path-to-astra/": "2026-09-07T16:37:22.703Z",
       "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/": "2026-09-06T15:26:31.655Z",
       "https://openai.com/index/accelerating-cyber-defense-ecosystem/": "2026-09-06T15:26:31.498Z",
       "https://openai.com/index/putting-frontier-cyber-models-in-more-trusted-hands/": "2026-09-06T15:26:31.600Z",
@@ -465,7 +465,7 @@
       "https://openai.com/index/introducing-aardvark/": "2026-09-06T15:26:27.995Z",
       "https://openai.com/index/trusted-access-for-cyber/": "2026-09-06T15:26:26.765Z",
       "https://openai.com/index/safety-overview-gpt-6-astra/": "2026-09-07T12:05:46.285Z",
-      "https://openai.com/signals/enterprise-data/": "2026-09-05T14:15:23.966Z",
+      "https://openai.com/signals/enterprise-data/": "2026-09-07T16:36:40.474Z",
       "https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/": "2026-09-05T13:52:56.595Z",
       "https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads/": "2026-09-05T13:42:56.544Z",
       "https://openai.com/index/supporting-next-generation-ai-startups-thailand/": "2026-09-05T07:08:31.444Z",
@@ -599,7 +599,7 @@
       "https://openai.com/business/guides-and-resources/chatgpt-business-smb-guide/": "2026-09-02T06:45:10.024Z",
       "https://openai.com/business/guides-and-resources/inside-gpt5-our-best-model-for-work/": "2026-09-02T06:43:29.636Z",
       "https://openai.com/index/a-scorecard-for-the-ai-age/": "2026-09-02T05:22:41.743Z",
-      "https://openai.com/devday/": "2026-09-02T04:46:46.966Z",
+      "https://openai.com/devday/": "2026-09-07T16:35:57.825Z",
       "https://openai.com/index/put-ai-to-work-for-your-product-team/": "2026-09-02T00:20:45.696Z",
       "https://openai.com/index/people-first-ai-fund-grantees/": "2026-09-02T00:20:45.054Z",
       "https://openai.com/index/expanding-economic-opportunity-with-ai/": "2026-09-02T00:20:44.813Z",

@@ -1,0 +1,134 @@
+{
+  "zh": {
+    "ai-cli": [
+      "Codex /rewind 功能请求获 119 赞",
+      "Claude Code middleware-hooks 提案引 129 条评论",
+      "CLI 重心从能力转向成本与控制",
+      "Copilot CLI 改用 Responses 专用 API 路由",
+      "Windows 支持成各 CLI 下一个战场",
+      "Gemini CLI 在 5 个 P1 问题中发布新版"
+    ],
+    "ai-agents": [
+      "OpenClaw 24 小时内分诊 473 个 issue 和 500 个 PR",
+      "回归问题集中波及 OpenClaw 2026.8.1/8.2 版本",
+      "OpenClaw 2026.9.2 揭示 Discord 配置与 llama.cpp 缺陷",
+      "OpenClaw 未发新版;稳定化冲刺进行中",
+      "维护者 steipete 独扛 PR 队列大头",
+      "OpenClaw PR #141329 加速 status --all 日志汇总"
+    ],
+    "ai-infra": [
+      "llama.cpp 24 小时内发布 13 个带标签构建",
+      "Blackwell 上贪心解码不可靠,4 个项目受影响",
+      "CC Switch v3.20.2 与 New API v1.0.0-rc.35 发布",
+      "OpenAI Responses API 成互操作战场",
+      "vLLM 记录 6 个严重崩溃 bug,涉 SM120/121、MTP、GDN",
+      "价值从裸推理转向路由与计费"
+    ],
+    "ai-trending": [
+      "ECC 领跑趋势:+1,905 星,总计 252,502",
+      "Heygen hyperframes 推出面向 agent 的 HTML 转视频,+734",
+      "Agent-harness 与 skills 层成新重心",
+      "隐身浏览器 camofox (+117)、lightpanda (+116) 走红",
+      "Token 经济工具 rtk (79k) 与 headroom (69k) 增长",
+      "OpenAI 官方 skills 目录获 +372 星"
+    ],
+    "ai-hn": [
+      "GPT-6 Astra 登顶 HN:2,257 分、2,067 评论、观点分裂",
+      "Anthropic 的费马大定理形式化惊艳 HN",
+      "Gemini 3.8 Flash Cyber 被讽为营销噱头",
+      "RAMageddon 与 OpenAI 财务重燃成本之争",
+      "A/I 关停之际,唱反调者称泡沫正破",
+      "多人指出演示中 GPT-6 Astra 较 GPT-5 退化"
+    ],
+    "ai-ph": [
+      "AI Toolbox 3.0 以 418 票登顶 Product Hunt",
+      "Tadata(369 票)将 AI 同事带入 Slack",
+      "Google 在 Gemini 推出 Agentic Video Understanding",
+      "hi.new 推出可互聊的多人 Grok 机器人",
+      "MCPHub 与 Speakeasy 的 Kit 打造 AI 原生轨道",
+      "fal 的 H3 Max 领跑创意 AI 工具发布"
+    ],
+    "ai-community": [
+      "开发者分享护栏从未生效的故事",
+      "GPT-6 Astra 被赞发现零日漏洞",
+      "67 美分取得 44% ARC-AGI-1 分数惊艳 Lobste.rs",
+      "美国政府在 NYT 版权案中支持 OpenAI",
+      "共识渐成:真正赢家是模型 harness",
+      "MCP 集成因非服务器原因遭拒"
+    ],
+    "ai-news": [
+      "OpenAI 发布 GPT-5.5,推理更快",
+      "GPT-Live 全双工语音模型驱动 ChatGPT 语音",
+      "ChatGPT 智能体携新安全缓解措施浏览网站",
+      "Qwen3.8 27B 开放权重发布;3.6-Plus 达 1M tokens",
+      "Anthropic 团队用 Claude Code 做事件响应",
+      "各实验室聚焦 harness 设计而非 LLM-in-a-loop"
+    ]
+  },
+  "en": {
+    "ai-cli": [
+      "Codex /rewind feature request hits 119 upvotes",
+      "Claude Code middleware-hooks proposal draws 129 comments",
+      "CLIs shift focus from capability to cost and control",
+      "Copilot CLI moves to Responses-only API routing",
+      "Windows support becomes every CLI's next frontier",
+      "Gemini CLI ships a release amid 5 P1 issues"
+    ],
+    "ai-agents": [
+      "OpenClaw triages 473 issues and 500 PRs in 24 hours",
+      "Regression cluster hits OpenClaw 2026.8.1/8.2 releases",
+      "OpenClaw 2026.9.2 shows Discord setup, llama.cpp flaws",
+      "No OpenClaw release cut; stabilization sprint under way",
+      "Maintainer steipete carries outsized share of PR queue",
+      "OpenClaw PR #141329 speeds status --all log summaries"
+    ],
+    "ai-infra": [
+      "llama.cpp ships 13 tagged builds in 24 hours",
+      "Greedy decoding unreliable on Blackwell, 4 projects hit",
+      "CC Switch v3.20.2 and New API v1.0.0-rc.35 released",
+      "OpenAI Responses API becomes interop battleground",
+      "vLLM logs 6 critical crash bugs on SM120/121, MTP, GDN",
+      "Value shifts to routing/billing over raw inference"
+    ],
+    "ai-trending": [
+      "ECC leads trending: +1,905 stars to 252,502 total",
+      "Heygen hyperframes debuts HTML-to-video for agents, +734",
+      "Agent-harness and skills layer is the new center of gravity",
+      "Stealth browsers camofox (+117), lightpanda (+116) trend",
+      "Token economics tools rtk (79k) and headroom (69k) grow",
+      "OpenAI's official skills catalog gains +372 stars"
+    ],
+    "ai-hn": [
+      "GPT-6 Astra tops HN: 2,257 pts, 2,067 comments, split",
+      "Anthropic's Fermat's Last Theorem formalization wows HN",
+      "Gemini 3.8 Flash Cyber mocked as marketing gimmick",
+      "RAMageddon and OpenAI financials reignite cost debate",
+      "Contrarians call bubble breaking as A/I shuts down",
+      "Many flag GPT-6 Astra regressions vs GPT-5 in demos"
+    ],
+    "ai-ph": [
+      "AI Toolbox 3.0 tops Product Hunt with 418 votes",
+      "Tadata (369 votes) brings AI coworker into Slack",
+      "Google launches Agentic Video Understanding in Gemini",
+      "hi.new debuts multiplayer Grok bots talking to bots",
+      "MCPHub and Kit by Speakeasy build AI-native rails",
+      "H3 Max by fal leads creative AI tooling launches"
+    ],
+    "ai-community": [
+      "Devs share tales of guardrails that never run",
+      "GPT-6 Astra credited with discovering a zero-day",
+      "44% ARC-AGI-1 score for 67 cents wows Lobste.rs",
+      "US government backs OpenAI in NYT copyright case",
+      "Consensus grows: real win is the model harness",
+      "MCP integrations rejected for non-server reasons"
+    ],
+    "ai-news": [
+      "OpenAI launches GPT-5.5 with faster inference",
+      "GPT-Live full-duplex voice model powers ChatGPT Voice",
+      "ChatGPT agent browses sites with new safety mitigations",
+      "Qwen3.8 27B open weights drop; 3.6-Plus hits 1M tokens",
+      "Anthropic teams use Claude Code for incident response",
+      "Labs converge on harness design over LLM-in-a-loop"
+    ]
+  }
+}

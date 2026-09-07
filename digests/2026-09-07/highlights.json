@@ -1,0 +1,166 @@
+{
+  "zh": {
+    "ai-cli": [
+      "7 AI CLI tools face agent governance frontier",
+      "All vendors expand beyond terminal to desktop apps",
+      "Windows quality debt emerges across CLI tools",
+      "Security defaults promoted to P1 in 4 projects",
+      "Cross-tool comparison covers spend and permissions",
+      "Claude Code issue #84352 draws 197 comments"
+    ],
+    "ai-agents": [
+      "OpenClaw: 500 issues and 500 PRs in 24h",
+      "Zero releases despite multiple P0 blockers",
+      "Post-upgrade regressions hit 2026.9.1/9.2 line",
+      "Automated triage workflow `clawsweeper` deployed",
+      "196 PRs merged yet Windows gateway bugs persist",
+      "Session-state and memory reliability concerns grow"
+    ],
+    "ai-infra": [
+      "New frontier wave: GLM-5.3, DeepSeek-V4, Qwen3.8",
+      "Speculative decoding causes silent failures",
+      "llama.cpp ships 9 builds, no engine releases",
+      "Gateways mature: LiteLLM v1.100.0, New API rc.34",
+      "vLLM rolls back DeepGEMM vendored pin",
+      "Blackwell edge and AMD MI355X gain support"
+    ],
+    "ai-trending": [
+      "Agent skills dominate: 9 of 15 trending slots",
+      "mattpocock/skills surges +2,207 stars today",
+      "OpenAI endorses skills format with openai/skills",
+      "Hermes-agent climbs to 242K total stars",
+      "Local-first inference tools gain traction",
+      "magnitude auto-selects local models for agents"
+    ],
+    "ai-web": [
+      "Anthropic publishes zero new articles today",
+      "OpenAI posts single 'An Alien Mind' URL only",
+      "No new model releases confirmed from either lab",
+      "Crawl window unusually light across vendors",
+      "One-day discovery lag between publish and crawl",
+      "Metadata-only fetch limits today's analysis"
+    ],
+    "ai-hn": [
+      "GPT-6 Astra launch tops HN at 2246 points",
+      "Claude Fable 5.1 and Mythos 5.1 debut",
+      "Gemini 3.8 Flash and Flash Cyber release",
+      "AI deskilling engineers debate intensifies",
+      "Anthropic formalizes Fermat's Last Theorem",
+      "Internal agent message board goes viral"
+    ],
+    "ai-ph": [
+      "Reflexio leads with self-improving agents (282 votes)",
+      "Developer AI infra dominates top 4 launches",
+      "Ponytail lands on Product Hunt today",
+      "Experiential Labs open-source AI gateway debuts",
+      "BrickForgerAI turns prompts into Lego sets",
+      "Market shifts from demos to production tooling"
+    ],
+    "ai-hf": [
+      "Qwen3.8-27B tops hub with 14,132 likes",
+      "Chinese labs dominate open-weights trending chart",
+      "Video gen race: MiniMax-H3 vs LTX-2.5",
+      "NVIDIA NVFP4 quantization format debuts",
+      "Qwen3.8-Flash-Next attracts heavy early traction",
+      "GPT-2 still ranks with 14M+ downloads"
+    ],
+    "ai-community": [
+      "Agent infra maturation dominates developer discourse",
+      "ARC-AGI-1 solved for 67 cents on Lobste.rs",
+      "US government sides with OpenAI in NYT case",
+      "Harness engineering eclipses model focus",
+      "Anthropic details Claude Code incident response",
+      "Karpathy and Andrew Ng push self-improving agents"
+    ],
+    "ai-news": [
+      "Anthropic-SKT partner on telco-tuned Claude",
+      "Anthropic dogfoods Claude Code for incidents",
+      "xAI Grok 4.5 jumps 16 points on Intelligence Index",
+      "DeepSeek open-sources DeepSpec inference toolkit",
+      "Anthropic details Claude containment across products",
+      "Shubham Saboo spotlights 24/7 agent teams"
+    ]
+  },
+  "en": {
+    "ai-cli": [
+      "7 AI CLI tools face agent governance frontier",
+      "All vendors expand beyond terminal to desktop apps",
+      "Windows quality debt emerges across CLI tools",
+      "Security defaults promoted to P1 in 4 projects",
+      "Cross-tool comparison covers spend and permissions",
+      "Claude Code issue #84352 draws 197 comments"
+    ],
+    "ai-agents": [
+      "OpenClaw: 500 issues and 500 PRs in 24h",
+      "Zero releases despite multiple P0 blockers",
+      "Post-upgrade regressions hit 2026.9.1/9.2 line",
+      "Automated triage workflow `clawsweeper` deployed",
+      "196 PRs merged yet Windows gateway bugs persist",
+      "Session-state and memory reliability concerns grow"
+    ],
+    "ai-infra": [
+      "New frontier wave: GLM-5.3, DeepSeek-V4, Qwen3.8",
+      "Speculative decoding causes silent failures",
+      "llama.cpp ships 9 builds, no engine releases",
+      "Gateways mature: LiteLLM v1.100.0, New API rc.34",
+      "vLLM rolls back DeepGEMM vendored pin",
+      "Blackwell edge and AMD MI355X gain support"
+    ],
+    "ai-trending": [
+      "Agent skills dominate: 9 of 15 trending slots",
+      "mattpocock/skills surges +2,207 stars today",
+      "OpenAI endorses skills format with openai/skills",
+      "Hermes-agent climbs to 242K total stars",
+      "Local-first inference tools gain traction",
+      "magnitude auto-selects local models for agents"
+    ],
+    "ai-web": [
+      "Anthropic publishes zero new articles today",
+      "OpenAI posts single 'An Alien Mind' URL only",
+      "No new model releases confirmed from either lab",
+      "Crawl window unusually light across vendors",
+      "One-day discovery lag between publish and crawl",
+      "Metadata-only fetch limits today's analysis"
+    ],
+    "ai-hn": [
+      "GPT-6 Astra launch tops HN at 2246 points",
+      "Claude Fable 5.1 and Mythos 5.1 debut",
+      "Gemini 3.8 Flash and Flash Cyber release",
+      "AI deskilling engineers debate intensifies",
+      "Anthropic formalizes Fermat's Last Theorem",
+      "Internal agent message board goes viral"
+    ],
+    "ai-ph": [
+      "Reflexio leads with self-improving agents (282 votes)",
+      "Developer AI infra dominates top 4 launches",
+      "Ponytail lands on Product Hunt today",
+      "Experiential Labs open-source AI gateway debuts",
+      "BrickForgerAI turns prompts into Lego sets",
+      "Market shifts from demos to production tooling"
+    ],
+    "ai-hf": [
+      "Qwen3.8-27B tops hub with 14,132 likes",
+      "Chinese labs dominate open-weights trending chart",
+      "Video gen race: MiniMax-H3 vs LTX-2.5",
+      "NVIDIA NVFP4 quantization format debuts",
+      "Qwen3.8-Flash-Next attracts heavy early traction",
+      "GPT-2 still ranks with 14M+ downloads"
+    ],
+    "ai-community": [
+      "Agent infra maturation dominates developer discourse",
+      "ARC-AGI-1 solved for 67 cents on Lobste.rs",
+      "US government sides with OpenAI in NYT case",
+      "Harness engineering eclipses model focus",
+      "Anthropic details Claude Code incident response",
+      "Karpathy and Andrew Ng push self-improving agents"
+    ],
+    "ai-news": [
+      "Anthropic-SKT partner on telco-tuned Claude",
+      "Anthropic dogfoods Claude Code for incidents",
+      "xAI Grok 4.5 jumps 16 points on Intelligence Index",
+      "DeepSeek open-sources DeepSpec inference toolkit",
+      "Anthropic details Claude containment across products",
+      "Shubham Saboo spotlights 24/7 agent teams"
+    ]
+  }
+}

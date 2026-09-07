@@ -23,9 +23,16 @@ export abstract class OpenAICompatibleProvider implements LlmProvider {
   abstract readonly name: string;
   protected readonly client: OpenAI;
   protected readonly model: string;
+  private readonly extraBody?: Record<string, unknown>;
 
-  constructor(opts: { apiKey?: string; baseURL?: string; model: string }) {
+  constructor(opts: {
+    apiKey?: string;
+    baseURL?: string;
+    model: string;
+    extraBody?: Record<string, unknown>;
+  }) {
     this.model = opts.model;
+    this.extraBody = opts.extraBody;
     this.client = new OpenAI({
       apiKey: opts.apiKey,
       baseURL: opts.baseURL,
@@ -37,9 +44,16 @@ export abstract class OpenAICompatibleProvider implements LlmProvider {
       model: this.model,
       max_completion_tokens: maxTokens,
       messages: [{ role: "user", content: prompt }],
-    });
+      ...this.extraBody,
+    } as OpenAI.ChatCompletionCreateParamsNonStreaming);
     const text = response.choices[0]?.message?.content;
     if (!text) throw new Error(`Unexpected empty response from ${this.name}`);
-    return stripThinkBlocks(text);
+    const cleaned = stripThinkBlocks(text);
+    // A response that is *only* think blocks (reasoning model spent the whole
+    // completion budget thinking) must be treated as a failure so the retry /
+    // fallback chain kicks in — returning "" would silently save an empty
+    // report body (seen in the 2026-09-07 ai-trending zh report).
+    if (!cleaned) throw new Error(`Empty response from ${this.name} after stripping think blocks`);
+    return cleaned;
   }
 }

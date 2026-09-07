@@ -533,6 +533,25 @@ describe("MinimaxProvider", () => {
     const p = new MinimaxProvider({ apiKey: "k" });
     expect(await p.call("prompt", 100)).toBe("Result line 1\n\n\nResult line 2");
   });
+
+  it("sends reasoning_split so MiniMax separates reasoning from content", async () => {
+    const mockCreate = await getOpenAIMockCreate();
+    mockCreate.mockResolvedValueOnce({ choices: [{ message: { content: "ok" } }] });
+
+    const p = new MinimaxProvider({ apiKey: "k" });
+    await p.call("prompt", 128);
+    expect(mockCreate).toHaveBeenCalledWith(expect.objectContaining({ reasoning_split: true }));
+  });
+
+  it("throws on a think-only response so retry/fallback kicks in", async () => {
+    const mockCreate = await getOpenAIMockCreate();
+    mockCreate.mockResolvedValueOnce({
+      choices: [{ message: { content: "<think>reasoned the whole budget away</think>" } }],
+    });
+
+    const p = new MinimaxProvider({ apiKey: "k" });
+    await expect(p.call("prompt", 100)).rejects.toThrow("Empty response from minimax");
+  });
 });
 
 // ---------------------------------------------------------------------------

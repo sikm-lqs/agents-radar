@@ -1,150 +1,166 @@
 {
   "zh": {
     "ai-cli": [
-      "Claude Code 发布 v2.1.263 可靠性修复合集",
-      "开发者称智能体自治速度超越控制平面",
-      "状态转换：恢复/压缩流程泄露安全缺陷",
-      "Gemini CLI 发布夜间版 v0.60.0",
-      "Codex 在 8 个活跃讨论中合并约 20 个 PR",
-      "Claude Code 最热 issue 引来 197 条评论"
+      "Gemini CLI 发布 v0.60.0 nightly，为当日唯一版本",
+      "Windows 桌面回归问题集中冲击各 AI CLI 工具",
+      "各 CLI 工具的 GPT-5/6 档位遭遇限流事件",
+      "OpenCode Go 429 故障引发用户索赔",
+      "功能趋同之际，Claude Code 以约 25 个 PR 领跑",
+      "CLI 竞争焦点转向可靠性与成本透明"
     ],
     "ai-agents": [
-      "OpenClaw 24 小时狂卷 500 个 issue 和 500 个 PR",
-      "OpenClaw 忙于清理回归问题，暂无新版本",
-      "OpenClaw 2026.9.1 Windows 网关无法启动",
-      "Cron 调度器在 2026.9.1 中静默漏触发",
-      "claude-cli 会话遭遇 410 session_expired 错误",
-      "受追踪的 500 个 OpenClaw issue 中 375 个仍未关闭"
+      "OpenClaw 分诊 500 个 issue，24 小时内关闭 223 个",
+      "steipete 在稳定性攻坚中撰写三分之二的 PR",
+      "P1 回归不断堆积，补丁版本即将发布",
+      "PR #141109 修复 2026.9.2 上卡住的 state-schema 升级",
+      "多项 PR 强化发布验证，为下个补丁铺路",
+      "2026.8.1–2026.9.2 版本接连落地，仍带 P1 问题"
     ],
     "ai-infra": [
-      "llama.cpp 24 小时内发布 10 个版本",
-      "Blackwell 加低精度混用催生隐性缺陷",
-      "vLLM、SGLang 对抗非确定性输出",
-      "网关计费缺陷波及 LiteLLM 与 New API",
-      "智能体负载正在重塑每一层基础设施",
-      "SGLang CI：1 个损坏、9 个不稳定、957 个近期修复"
+      "New API 发布 v1.0.0-rc.34，为当日唯一打标签版本",
+      "llama.cpp 一天发布 10 个构建（b10827–b10839）",
+      "vLLM、SGLang 竞速支持 GLM-5.3-Flash 与 Kimi-K3",
+      "投机解码破坏各引擎的前缀缓存",
+      "消费级 Blackwell SM120 不稳定，bug 队列爆满",
+      "Unsloth 将 llama-server 服务能力内置到 Studio"
     ],
     "ai-trending": [
-      "mattpocock/skills 单日暴涨 +2,207 星标",
-      "15 个热门 AI 仓库中 8 个是智能体技能包",
-      "ECC 靠调优智能体行为冲上 251K 星",
-      "openai/skills 释放官方认可技能格式的信号",
-      "hermes-agent 持续攀升至 242K 星",
-      "magnitude（+604）搭上本地推理 CLI 热潮"
+      "ECC 涨 +1,905 星至 252K，为次名 AI 涨幅的 2.5 倍",
+      "Agent-harness 层以六个上榜仓库主导趋势",
+      "OpenAI 面向 Codex 的官方 Skills Catalog 上榜",
+      "context-mode 号称减少 98% 工具输出 token",
+      "camofox 与 lightpanda 两款智能体级浏览器上榜",
+      "markitdown 新增 +771 星，属核心 LLM 基础管道"
+    ],
+    "ai-web": [
+      "Claude 用 Lean 在 11 天内形式化费马大定理",
+      "\"Claude Mythos 5\" 名称首次正式亮相",
+      "Anthropic 将事故归因于对齐失败",
+      "METR 将对 Anthropic 安全展开独立审查",
+      "Anthropic 安全帖引用\"动机性推理\"一词",
+      "OpenAI 零新文，而 Anthropic 发布两篇"
     ],
     "ai-hn": [
-      "GPT-6 Astra 帖子：2246 分、2056 条评论",
-      "OpenAI 神秘智能体讨论帖登顶 2265 分",
-      "Gemini 3.8 Flash 与 Cyber 对比 GPT-6 跑分",
-      "“你的智力裤链开了”批评帖爆红",
-      "A/I 以“保持人性”告别谢幕",
-      "Anthropic FLT 形式化文章获 763 分"
+      "GPT-6 Astra 发布帖拿下 2,253 分、2,067 评论",
+      "OpenAI 智能体留言板发现帖获 2,279 分",
+      "费马证明帖获 766 分、507 条评论",
+      "Qwen 3.8 27B 在 Cerebras 上达 1,500 tokens/s",
+      "\"RAMageddon\" 硬件短缺令 HN 情绪降温",
+      "OpenAI 的 $38.5B 亏损阴影笼罩发布热潮"
     ],
     "ai-ph": [
-      "dif.sh 以 359 票登顶 PH：把 flags 转成 Markdown",
-      "12 款发布中 9 款瞄准编码智能体栈",
-      "Reflexio（282）把智能体使用变成训练数据",
-      "Hyperprobe（213）让智能体调试线上系统",
-      "静态智能体？新工具从真实使用中学习",
-      "BrickForgerAI 是唯一的趣味创意之选"
+      "AI Toolbox 3.0 以 412 票问鼎 Product Hunt",
+      "AI Slack 员工 Tadata 拿下 361 票",
+      "Google 为 Gemini 引入智能体式视频理解",
+      "DocsAlot Visual Editor 获得 214 票",
+      "Kit by Speakeasy 凭 126 票拉拢开发者",
+      "共享上下文团队 AI 成发布新趋势"
     ],
     "ai-hf": [
-      "Qwen3.8-27B 登顶：14,135 赞、6.2M 下载",
-      "Qwen3.8 家族拿下 8 个以上热门席位",
-      "西方闭源模型缺席前 30 名",
-      "Qwen3.8-Flash-Next 早期获 4,943 赞",
-      "GLM-5.3-Flash 凭视觉与低延迟上榜",
-      "MiniMax-H3 与 LTX-2.5 领跑视频生成浪潮"
+      "Qwen3.8-27B 以 14k 赞、6.4M 下载登顶趋势",
+      "Qwen 3.8 系列以 GGUF 和微调版席卷榜单",
+      "GLM-5.3 与 GLM-5.3-Flash 杀入 HF 前十",
+      "MiniMax-H3 凭文生视频热度下载近 5M",
+      "DeepSeek-V4-Flash-Vision 走向原生多模态",
+      "GPT-2、BERT、CLIP 下载量依旧长青"
     ],
     "ai-community": [
-      "Lobste.rs：67 美分跑出 ARC-AGI-1 44% 得分",
-      "争论：实验室把 AI 安全与网络安全混为一谈？",
-      "美国政府就 NYT 版权案力挺 OpenAI",
-      "Hezami 系列直指提示词微调文化",
-      "Dev.to 焦点转向可信赖的智能体",
-      "开发者删除 180k 行代码，追查 Rust socket 泄漏"
+      "争论：好模型救不了产品，脚手架才行",
+      "仅花 67 美分解开 ARC-AGI 基准 44%",
+      "美国政府介入 NYT 诉 OpenAI 案",
+      "\"思维链不是审计日志\"引发共鸣",
+      "MCP 与 RAG 可观测性主导开发者话题",
+      "开发者删 18 万行代码追查 Rust socket 泄漏"
     ],
     "ai-news": [
-      "Claude Opus 5 发布，专为长时运行智能体调优",
-      "GPT-5.6 系列（Sol、Terra、Luna）正式 GA",
-      "GPT-6 Astra 首秀游戏智能体演示",
-      "Claude Sonnet 4.6 搭配全新 Cowork 产品",
-      "Anthropic 演示 Claude 智能体自我改进",
-      "呼应 Karpathy 观点：智能体工具盖过模型"
+      "Claude Opus 5 面向智能体登场，价格为 Fable 5 一半",
+      "GPT-5.6 系列正式发布；Luna 直降 80%",
+      "Abliteration.ai 售卖去除安全护栏的模型",
+      "Perplexity 推出 DGX Spark 上的本地 Portable Computer",
+      "吴恩达课程把 LLM 比作操作系统",
+      "记忆与编排成为新战场"
     ]
   },
   "en": {
     "ai-cli": [
-      "Claude Code ships v2.1.263 reliability rollup",
-      "Agentic autonomy outpaces control planes, devs say",
-      "State transitions: resume/compaction leak safety bugs",
-      "Gemini CLI hits nightly v0.60.0",
-      "Codex merges ~20 PRs amid 8 active discussions",
-      "Top Claude Code issue draws 197 comments"
+      "Gemini CLI ships v0.60.0 nightly, only release of the day",
+      "Windows desktop regression cluster hits AI CLI tools",
+      "Rate-limit events hit GPT-5/6 tiers across CLI tools",
+      "OpenCode Go 429 outage sparks compensation requests",
+      "Claude Code leads with ~25 PRs as features converge",
+      "CLI rivalry now hinges on reliability, cost transparency"
     ],
     "ai-agents": [
-      "OpenClaw churns 500 issues + 500 PRs in 24 hours",
-      "No new OpenClaw release amid regression cleanup",
-      "OpenClaw 2026.9.1 Windows gateway fails to start",
-      "Cron scheduler silently drops ticks in 2026.9.1",
-      "claude-cli sessions hit 410 session_expired",
-      "375 of 500 tracked OpenClaw issues still open"
+      "OpenClaw triages 500 issues, closes 223 in 24 hours",
+      "steipete authors two-thirds of PRs in stability push",
+      "Patch release imminent as P1 regressions pile up",
+      "PR #141109 fixes stuck state-schema upgrades on 2026.9.2",
+      "PRs harden release verification ahead of next patch",
+      "Releases 2026.8.1–2026.9.2 still landing hot with P1s"
     ],
     "ai-infra": [
-      "llama.cpp ships 10 releases in 24 hours",
-      "Blackwell + low-precision mix spawns silent bugs",
-      "vLLM, SGLang fight non-deterministic outputs",
-      "Gateway billing bugs hit LiteLLM and New API",
-      "Agent workloads now shape every infra layer",
-      "SGLang CI: 1 broken, 9 flaky, 957 recently fixed"
+      "New API ships v1.0.0-rc.34, day's only tagged release",
+      "llama.cpp cuts 10 builds in a day (b10827–b10839)",
+      "vLLM, SGLang race to support GLM-5.3-Flash, Kimi-K3",
+      "Speculative decoding wrecks prefix cache across engines",
+      "Consumer Blackwell SM120 instability floods bug queues",
+      "Unsloth bakes llama-server serving into Studio"
     ],
     "ai-trending": [
-      "mattpocock/skills rockets +2,207 stars in a day",
-      "8 of 15 trending AI repos are agent skill packs",
-      "ECC hits 251K stars by retuning agent behavior",
-      "openai/skills signals official skill-format buy-in",
-      "hermes-agent keeps climbing at 242K stars",
-      "magnitude (+604) rides local-inference CLI wave"
+      "ECC gains +1,905 stars to 252K, 2.5x next AI gainer",
+      "Agent-harness layer dominates with six trending repos",
+      "OpenAI's official Skills Catalog for Codex trends",
+      "context-mode promises 98% tool-output token reduction",
+      "Two agent-grade browsers trend: camofox, lightpanda",
+      "markitdown adds +771 stars as core LLM plumbing"
+    ],
+    "ai-web": [
+      "Claude formalizes Fermat's Last Theorem in 11 days in Lean",
+      "\"Claude Mythos 5\" name appears first time officially",
+      "Anthropic blames incidents on alignment failures",
+      "Independent METR review of Anthropic security planned",
+      "\"Motivated reasoning\" cited in Anthropic safety post",
+      "OpenAI posts zero new articles as Anthropic ships two"
     ],
     "ai-hn": [
-      "GPT-6 Astra thread: 2246 points, 2056 comments",
-      "Mystery OpenAI agent message board tops at 2265",
-      "Gemini 3.8 Flash + Cyber benchmarked vs GPT-6",
-      "'Your intellectual fly is open' critique soars",
-      "A/I shuts down with a 'stay human' farewell",
-      "Anthropic FLT formalization post draws 763 points"
+      "GPT-6 Astra launch hits 2,253 points, 2,067 comments",
+      "OpenAI agent message board find nets 2,279 points",
+      "Fermat proof thread draws 766 points, 507 comments",
+      "Qwen 3.8 27B hits 1,500 tokens/s on Cerebras",
+      "\"RAMageddon\" hardware scarcity sobers the HN mood",
+      "OpenAI's $38.5B loss looms over launch hype"
     ],
     "ai-ph": [
-      "dif.sh tops PH at 359 votes: flags as Markdown",
-      "9 of 12 launches target the coding-agent stack",
-      "Reflexio (282) turns agent usage into training",
-      "Hyperprobe (213) lets agents debug live systems",
-      "Static agents? New tools learn from real usage",
-      "BrickForgerAI is the lone playful creative pick"
+      "AI Toolbox 3.0 tops Product Hunt with 412 votes",
+      "Tadata, an AI Slack employee, lands 361 votes",
+      "Google brings agentic video understanding to Gemini",
+      "DocsAlot Visual Editor earns 214 votes",
+      "Kit by Speakeasy courts devs with 126 votes",
+      "Shared-context team AI emerges as launch trend"
     ],
     "ai-hf": [
-      "Qwen3.8-27B tops: 14,135 likes, 6.2M downloads",
-      "Qwen3.8 family takes 8+ trending spots",
-      "Western proprietary models absent from top 30",
-      "Qwen3.8-Flash-Next draws 4,943 early likes",
-      "GLM-5.3-Flash trends on vision + low latency",
-      "MiniMax-H3, LTX-2.5 lead video-gen wave"
+      "Qwen3.8-27B tops trends with 14k likes, 6.4M downloads",
+      "Qwen 3.8 family floods charts with GGUFs, fine-tunes",
+      "GLM-5.3 and GLM-5.3-Flash break into HF top 10",
+      "MiniMax-H3 nears 5M downloads in text-to-video run",
+      "DeepSeek-V4-Flash-Vision goes native multimodal",
+      "GPT-2, BERT, CLIP stay evergreen on downloads"
     ],
     "ai-community": [
-      "Lobste.rs: 44% ARC-AGI-1 for just 67 cents",
-      "Debate: labs conflating AI safety with security?",
-      "US government backs OpenAI in NYT copyright case",
-      "Hezami series takes aim at prompt-tweaking culture",
-      "Dev.to focus shifts to trustworthy agents",
-      "Dev deletes 180k lines, chases Rust socket leaks"
+      "Debate: better models don't fix products, harnesses do",
+      "ARC-AGI benchmark 44% solved for just 67 cents",
+      "US government intervenes in NYT v. OpenAI case",
+      "\"Chain-of-thought is not an audit log\" resonates",
+      "MCP and RAG observability dominate dev talk",
+      "Dev deletes 180k lines chasing Rust socket leaks"
     ],
     "ai-news": [
-      "Claude Opus 5 lands, tuned for long-running agents",
-      "GPT-5.6 family (Sol, Terra, Luna) hits GA",
-      "GPT-6 Astra debuts with game-playing agent demos",
-      "Claude Sonnet 4.6 pairs with new Cowork product",
-      "Anthropic demos Claude agents self-improving",
-      "Karpathy echo: agent tooling overshoots models"
+      "Claude Opus 5 debuts for agents at half Fable 5 price",
+      "GPT-5.6 family hits GA; Luna price slashed 80%",
+      "Abliteration.ai sells models with guardrails stripped",
+      "Perplexity unveils local Portable Computer on DGX Spark",
+      "Andrew Ng course casts LLMs as operating systems",
+      "Memory and orchestration become the new battlegrounds"
     ]
   }
 }

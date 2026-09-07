@@ -60,8 +60,18 @@ jobs:
               echo "digests/$DATE is already committed — a manual run covered today. Skipping."
               echo "should_run=false" >> "$GITHUB_OUTPUT"
             else
-              echo "digests/$DATE exists — the pm run refreshes it as an evening update."
-              echo "should_run=true" >> "$GITHUB_OUTPUT"
+              # pm: skip if a pm refresh already landed today (latest commit to
+              # today's digests was at/after 12:00 CST). A local cron trigger and
+              # this schedule act as mutual backups — this check prevents a
+              # double evening run (and double Feishu push) when both fire.
+              LAST=$(gh api "repos/${{ github.repository }}/commits?path=digests/$DATE&per_page=1" --jq '.[0].commit.committer.date' 2>/dev/null || true)
+              if [ -n "$LAST" ] && [ "$LAST" != "null" ] && [ "$(TZ=Asia/Shanghai date -d "$LAST" +%H)" -ge 12 ]; then
+                echo "digests/$DATE was already refreshed after noon CST — pm run done. Skipping."
+                echo "should_run=false" >> "$GITHUB_OUTPUT"
+              else
+                echo "digests/$DATE exists — the pm run refreshes it as an evening update."
+                echo "should_run=true" >> "$GITHUB_OUTPUT"
+              fi
             fi
           else
             echo "No digests/$DATE yet — proceeding."

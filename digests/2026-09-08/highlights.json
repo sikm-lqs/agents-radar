@@ -1,134 +1,150 @@
 {
   "zh": {
     "ai-cli": [
-      "CLI 市场分化：厂商旗舰 vs 开源挑战者",
-      "焦点从编码能力转向会话持久性",
-      "Qwen Code 经 ACP 将子代理委托给 Claude Code",
-      "ACP 与 MCP 成为生态系统的连接组织",
-      "各 CLI 工具的 Windows 支持仍属二等",
-      "20GB 发布文件与 OOM 困扰各代理 CLI"
+      "顶级CLI的新问题速度现已超过修复速度",
+      "OpenAI Codex发布rust-v0.154.0-alpha.6预发布版",
+      "Gemini CLI发布v0.60.0-nightly.20260908",
+      "Stale-bot自动关闭渐成可见摩擦",
+      "第三方会话审计工具生态正在兴起",
+      "各CLI同步补齐记忆与编排缺口"
     ],
     "ai-agents": [
-      "OpenClaw 单日处理 482 个 issue 和 500 个 PR",
-      "OpenClaw 今日暂停发布，专注稳定性",
-      "2026.8.x 至 2026.9.2 的 P0/P1 回归问题堆积",
-      "积压问题多为事件循环阻塞与认证缺陷",
-      "PR #141629 降低会话恢复导入开销",
-      "维护者评审被指为主要发布瓶颈"
+      "OpenClaw在449个问题变动下仍零发布",
+      "2026.9.1→2026.9.2升级后Gateway离线",
+      "合并关闭率停滞在46%附近",
+      "Diamond lobster回归问题未解，无合并修复",
+      "通过PR #142125合并供应商元数据加固",
+      "今日跟踪Hermes、IronClaw、QwenPaw、ZeroClaw"
     ],
     "ai-infra": [
-      "投机解码缺陷导致各引擎静默损坏",
-      "vLLM #53670：投机解码损失 30-40% 吞吐",
-      "SGLang 缓存守护进程 1 秒内加载 235B FP8 权重",
-      "网关趋同于 OpenAI Responses API，计费滞后",
-      "消费级 Blackwell SM120/121 仍全面缺乏支持",
-      "各引擎接入 DeepSeek-V4、GLM-5.x、Kimi-K3、Qwen3.8"
+      "混合注意力模型打破KV缓存假设",
+      "OpenAI Responses API渐成智能体通用语言",
+      "LiteLLM公开泄露未鉴权密钥哈希",
+      "Unsloth Studio存在提示注入致RCE漏洞",
+      "工程风险正从崩溃转向静默故障",
+      "9个追踪项目含vLLM、SGLang、llama.cpp、Ollama"
     ],
     "ai-trending": [
-      "ECC 因代理框架升级暴涨 +1,905 星",
-      "openai/skills (+372) 推出标准化 Codex 目录",
-      "HeyGen 开源 hyperframes，面向代理的 HTML 转视频",
-      "markitdown (+771) 领跑上下文工程集群",
-      "代理原生浏览器激增：camofox、lightpanda 走热",
-      "ECC 层增强 Claude Code、Codex、Cursor 工作流"
+      "智能体技能席卷：16个热门仓库占9个",
+      "affaan-m/ECC今日激增+1,897星",
+      "OpenAI官方技能库获+351星",
+      "diagram-design把智能体当一等渲染对象",
+      "markitdown +886领跑令牌经济栈热潮",
+      "AutoHedge +517印证金融智能体势头"
+    ],
+    "ai-web": [
+      "Anthropic点名DeepSeek、Moonshot、MiniMax蒸馏",
+      "约24,000个欺诈账户产生16M+非法交易",
+      "832个被封网络账户映射到MITRE ATT&CK",
+      "首例有据可查的AI编排国家级网络间谍",
+      "Anthropic发布五篇信任与安全威胁文章",
+      "OpenAI官网今日无新文章"
     ],
     "ai-hn": [
-      "GPT-6 Astra 以 2,069 条评论登顶 HN",
-      "OpenAI 代理板块 collusion.wiki 获 2,287 分",
-      "Qwen 3.8 27B 在 Cerebras 上达 1500 tok/s",
-      "Anthropic 用 AI 形式化证明费马大定理",
-      "HN 质疑者称 LLM 为“认知病毒”（391 分）",
-      "Bryan Cantrill 批评 LLM 内容帖获 705 分"
+      "GPT-6 Astra发布以2267分领跑",
+      "Anthropic形式化费马大定理，769分",
+      "Qwen 3.8 27B在Cerebras上跑出1500 tokens/s",
+      "Mistral欧洲激进融资€3B",
+      "疑似OpenAI智能体看板获2289 HN分",
+      "社区分裂为实践派与能力焦虑派"
     ],
     "ai-ph": [
-      "AI Toolbox 3.0 以 426 票夺得当日第一",
-      "Tadata 将“AI 员工”带入 Slack（378 票）",
-      "Gemini 新增代理式视频理解",
-      "Speakeasy 的 Kit 主打快速编码代理运行时",
-      "MCPHub 推出面向代理的 MCP 服务器启动台",
-      "元工具兴起，治理碎片化 AI 聊天记录"
+      "Coldtea.ai的PR Lens以330票居首",
+      "Tucky与Clipnote各以256票打平",
+      "Scriptly提词器携259票上线",
+      "Airuncode、Clipnote、Nina共呈本地优先AI主题",
+      "Antalpha的Nina：非托管加密AI智能体",
+      "今日Product Hunt上线14款AI产品"
     ],
     "ai-community": [
-      "MCP 稳固确立为代理集成层",
-      "ChatGPT 目录被拒：败在元数据而非代码",
-      "70 行构建的代理泄露自身 .env 文件",
-      "GPT-6 Astra 引发零日漏洞发现讨论",
-      "辩论转向代理的信任、审计与成本",
-      "MCP 被重新定位为社区知识共享基座"
+      "社区进入AI智能体后炒作阶段",
+      "热帖：多数智能体不过是while循环",
+      "$0.67跑通ARC-AGI-1引Lobste.rs热议",
+      "Claude Code时代的自举：38条反响",
+      "70行智能体因.env提示注入轻易泄露",
+      "GPT-6 Astra报道聚焦模型盲区"
     ],
     "ai-news": [
-      "GPT-6 Astra 推出，成为 OpenAI 电脑操作王牌",
-      "GPT-5.6 'Sol' 预览版瞄准编码与网络安全",
-      "SK Telecom 以商业伙伴身份投资 Anthropic",
-      "Anthropic 详述代理“影响范围”控制",
-      "走进 Anthropic：团队如何实际使用 Claude Code",
-      "行业转向：从模型智能到代理框架"
+      "OpenAI发布面向创意人群的GPT-6 Astra旗舰",
+      "Anthropic推出Claude Sonnet 4.6与Cowork",
+      "Claude Opus 5于7月24日半价首发",
+      "OpenAI预览GPT-5.6 Sol，启用新命名层级",
+      "Abliteration.ai剥除GLM-5.3护栏",
+      "llama.cpp突破100k GitHub星标里程碑"
     ]
   },
   "en": {
     "ai-cli": [
-      "CLI market splits: vendor flagships vs open challengers",
-      "Focus shifts from coding skill to session durability",
-      "Qwen Code delegates subagent turns to Claude Code via ACP",
-      "ACP and MCP emerge as ecosystem's connective tissue",
-      "Windows support remains second-class across CLI tools",
-      "20GB rollout files, OOMs plague agent CLIs across tools"
+      "Issue velocity now exceeds fix velocity at top CLIs",
+      "OpenAI Codex ships rust-v0.154.0-alpha.6 pre-release",
+      "Gemini CLI drops v0.60.0-nightly.20260908",
+      "Stale-bot auto-closures becoming visible friction",
+      "Third-party session-audit tools ecosystem emerging",
+      "All CLIs converging on memory and orchestration gaps"
     ],
     "ai-agents": [
-      "OpenClaw churns 482 issues and 500 PRs in a single day",
-      "No releases today as OpenClaw holds for stabilization",
-      "P0/P1 regressions pile up across 2026.8.x to 2026.9.2",
-      "Backlog dominated by event-loop blocking and auth bugs",
-      "PR #141629 cuts session recovery import overhead",
-      "Maintainer review flagged as the main release bottleneck"
+      "OpenClaw ships zero releases despite 449 issue churn",
+      "2026.9.1→2026.9.2 upgrade leaves Gateway offline",
+      "Combined close rate stalls near 46 percent",
+      "Diamond lobster regressions open with no merged fix",
+      "Provider metadata hardening merged via PR #142125",
+      "Hermes, IronClaw, QwenPaw, ZeroClaw tracked today"
     ],
     "ai-infra": [
-      "Spec decoding bugs cause silent corruption across engines",
-      "vLLM #53670: spec decoding costs 30-40% throughput",
-      "SGLang cache daemon loads 235B FP8 weights in under 1s",
-      "Gateways converge on OpenAI Responses API; billing lags",
-      "Consumer Blackwell SM120/121 still unsupported everywhere",
-      "Engines absorb DeepSeek-V4, GLM-5.x, Kimi-K3, Qwen3.8"
+      "Hybrid-attention models break KV-cache assumptions",
+      "OpenAI Responses API becoming agentic lingua franca",
+      "LiteLLM leaks unauthenticated key hashes publicly",
+      "Unsloth Studio vulnerable to prompt-injection-to-RCE",
+      "Engineering risk shifting from crashes to silent failures",
+      "vLLM, SGLang, llama.cpp, Ollama among 9 tracked"
     ],
     "ai-trending": [
-      "ECC explodes +1,905 stars for agent harness upgrades",
-      "openai/skills (+372) launches standardized Codex catalog",
-      "HeyGen open-sources hyperframes, HTML-to-video for agents",
-      "markitdown (+771) leads context-engineering cluster",
-      "Agent-native browsers surge: camofox, lightpanda trend",
-      "ECC layer boosts Claude Code, Codex, Cursor workflows"
+      "Agent skills sweep: 9 of 16 trending repos",
+      "affaan-m/ECC surges with +1,897 stars today",
+      "OpenAI official skills catalog gains +351 stars",
+      "diagram-design treats agents as first-class render target",
+      "markitdown +886 leads token-economy stack surge",
+      "AutoHedge +517 confirms finance agent momentum"
+    ],
+    "ai-web": [
+      "Anthropic names DeepSeek, Moonshot, MiniMax in distillation",
+      "16M+ illicit exchanges via ~24,000 fraudulent accounts",
+      "832 banned cyber accounts mapped onto MITRE ATT&CK",
+      "First documented AI-orchestrated state cyber espionage",
+      "Anthropic publishes five trust & safety threat pieces",
+      "OpenAI site shows zero new articles today"
     ],
     "ai-hn": [
-      "GPT-6 Astra tops HN with 2,069 comments",
-      "OpenAI agent board collusion.wiki hits 2,287 points",
-      "Qwen 3.8 27B hits 1500 tok/s on Cerebras",
-      "Anthropic formalizes Fermat's Last Theorem with AI",
-      "HN skeptics call LLMs a 'cognitive virus' (391 pts)",
-      "Bryan Cantrill's LLM content critique scores 705"
+      "GPT-6 Astra launch dominates with 2267 score",
+      "Anthropic formalizes Fermat's Last Theorem, 769 score",
+      "Qwen 3.8 27B hits 1500 tokens/s on Cerebras",
+      "Mistral raises €3B in aggressive European round",
+      "Alleged OpenAI agent board hits 2289 HN score",
+      "Community split between practitioners and capability anxiety"
     ],
     "ai-ph": [
-      "AI Toolbox 3.0 wins the day with 426 votes",
-      "Tadata brings an 'AI employee' into Slack (378 votes)",
-      "Gemini gains agentic video understanding",
-      "Kit by Speakeasy pitches fast coding agent runtime",
-      "MCPHub launches MCP server launchpad for agents",
-      "Meta-tools emerge to tame fragmented AI chat histories"
+      "PR Lens by Coldtea.ai tops board with 330 votes",
+      "Tucky and Clipnote tie at 256 votes each",
+      "Scriptly teleprompter lands with 259 votes",
+      "Local-first AI theme across Airuncode, Clipnote, Nina",
+      "Nina by Antalpha: non-custodial crypto AI agent",
+      "14 AI products launched on Product Hunt today"
     ],
     "ai-community": [
-      "MCP cements itself as the agent integration layer",
-      "ChatGPT directory rejection: metadata, not code, failed",
-      "Agent built in 70 lines leaks its own .env file",
-      "GPT-6 Astra sparks zero-day finding discussion",
-      "Debate shifts to trusting, auditing, affording agents",
-      "MCP reframed as community knowledge-sharing substrate"
+      "Community enters post-hype phase on AI agents",
+      "Most agents are just while loops, argues top post",
+      "$0.67 ARC-AGI-1 run buzzes on Lobste.rs",
+      "Bootstrapping in age of Claude Code: 38 reactions",
+      "70-line agent trivially leaks via .env prompt injection",
+      "GPT-6 Astra coverage focuses on model blind spots"
     ],
     "ai-news": [
-      "GPT-6 Astra rolls out as OpenAI's computer-use champ",
-      "GPT-5.6 'Sol' preview targets coding and cybersecurity",
-      "SK Telecom invests in Anthropic as commercial partner",
-      "Anthropic details agent 'blast radius' containment",
-      "Inside Anthropic: how teams actually use Claude Code",
-      "Industry pivot: from model intelligence to agent harness"
+      "OpenAI unveils GPT-6 Astra flagship for creatives",
+      "Anthropic launches Claude Sonnet 4.6 and Cowork",
+      "Claude Opus 5 debuted July 24 at half price",
+      "OpenAI previews GPT-5.6 Sol with new naming tiers",
+      "Abliteration.ai strips guardrails from GLM-5.3",
+      "llama.cpp crosses 100k GitHub stars milestone"
     ]
   }
 }

@@ -1,150 +1,166 @@
 {
   "zh": {
     "ai-cli": [
-      "Claude Code v2.1.265 发布，附带遥测与 plugin-dir",
-      "CLI 竞争从智能体循环转向可靠性工程",
-      "OpenAI Codex 一天连发两个 rust-v0.154.0 alpha 版",
-      "Gemini CLI v0.59.0 稳定版，另有预览版与每日构建",
-      "桌面与网页封装版的回归问题最多",
-      "技能、插件、MCP 成为 CLI 新战场"
+      "24小时内7个AI CLI仓库发布13个版本",
+      "Claude Code发布v2.1.266热修复回归问题",
+      "CLI从编程辅助转向无人值守多智能体",
+      "Windows回归债务困扰每个AI CLI社区",
+      "焦点转向会话持久性与取消机制",
+      "厂商CLI竞逐桌面应用、SDK与设备集群"
     ],
     "ai-agents": [
-      "OpenClaw v2026.9.3 在 P0 事故后强化更新路径",
-      "OpenClaw 24 小时内触及 500 个 issue 和 500 个 PR",
-      "269 个 PR 已合并，231 个待处理，分类快于新增",
-      "更新现先在隔离候选状态中预演",
-      "中止的更新运行无需停止网关即可恢复",
-      "多智能体编排漏洞主导近 6 个月积压"
+      "OpenClaw v2026.9.3落地，更新演练更安全",
+      "单日流转500个issue；43%在分诊中关闭",
+      "更新现于隔离状态预演后再激活",
+      "Windows de-DE安装仍因Doctor修复受阻",
+      "P0/P1安全与数据丢失漏洞令OpenClaw承压",
+      "内存子系统索引/召回回归被标记"
     ],
     "ai-infra": [
-      "Qwen3.8 与 GLM-5.x 主导各处集成工作",
-      "DeepSeek-V4 支持弃用 Ampere 转向 Hopper/Blackwell",
-      "投机解码漏洞影响 Blackwell 混合注意力",
-      "网关在计费、配额与工具调用保真度上频出故障",
-      "智能体工具循环正左右推理服务优化优先级",
-      "Vulkan/AMD 与 Windows 稳定性困扰本地运行时"
+      "vLLM遭遇30-40%吞吐量损失回归",
+      "消费级Blackwell sm_120/121 GPU普遍不稳定",
+      "投机解码与智能体前缀缓存相冲突",
+      "网关项目齐聚计费正确性之战",
+      "Cosign签名与RCE修复列入基建路线图",
+      "SGLang加紧缓解混合注意力缓存问题"
     ],
     "ai-trending": [
-      "hyperframes (+2,628) 将智能体 HTML 转为渲染视频",
-      "14 个热门 AI 仓库中 7 个是智能体技能包与预设",
-      "OpenAI 官方技能库今日新增 +490 星标",
-      "microsoft/markitdown 暴涨 +2,045，用于上下文准备",
-      "camofox-browser (+872) 助推隐身智能体浏览竞赛",
-      "ECC (+1,426) 引领 Claude Code 技能包浪潮"
+      "ECC借智能体框架热潮暴涨+1,427星",
+      "Tencent teamai-cli首日斩获+1,083星",
+      "agentic-awesome-skills收录2,115+可复用技能",
+      "Token成本优化器刷屏趋势榜：rtk、headroom",
+      "TradingAgents凭多智能体交易获+506星",
+      "diagram-design获+710星，智能体玩转创意"
     ],
     "ai-web": [
-      "OpenAI 一天发 6 篇；Anthropic 沉默",
-      "ChatGPT Images 2.5 以带版本号的产品发布形式公布",
-      "OpenAI 在研究博文中吹捧 Navier–Stokes 解",
-      "六连发一次性覆盖产品、研究与安全",
-      "青少年发展研究资助金支持安全工作",
-      "抓取仅返回 OpenAI 标题数据，内容未经核实"
+      "OpenAI单日连发6篇；Anthropic保持沉默",
+      "ChatGPT Images 2.5作为版本化产品上线",
+      "OpenAI宣称解决Navier-Stokes千禧年难题",
+      "密集发文暗示发布会，仅有标题",
+      "青少年发展研究基金资助安全研究",
+      "OpenAI资助从课堂到新闻编辑室的新闻业"
     ],
     "ai-hn": [
-      "HN 头条 (2,292 分)：被发现的 OpenAI 智能体看板",
-      "OpenAI Navier–Stokes 论断获 1,040 分、865 条评论",
-      "Terence Tao 加入质疑 OpenAI 数学论断的行列",
-      "Mistral 融资 30 亿欧元登上 HN 首页",
-      "“知识界的裤子拉链没拉”AI 随笔获 725 分",
-      "Mercury 2.5 与 AlphaGenome Atlas 获 HN 好评"
+      "OpenAI的Navier-Stokes论断以1,272分登顶HN",
+      "HN对OpenAI千禧年难题“解答”深表怀疑",
+      "Anthropic研究员因存在性风险担忧辞职",
+      "研究员估计P(doom)超10%引发争论",
+      "Mistral融资€3B；Meta发布Muse AI智能体",
+      "DeepMind的AlphaGenome Atlas绘制人类DNA图谱（569分）"
     ],
     "ai-ph": [
-      "PR Lens 以开源代码审查工具登顶 Product Hunt",
-      "Tucky (262 票) 将 AI 便签钉在屏幕边缘",
-      "Databox Routines 推出“定时 AI 分析师”",
-      "Scriptly 为提词器带来语音控制",
-      "Product Hunt 焦点转向智能体工作流",
-      "定时自主分析成为独立品类"
+      "Switch登顶PH：Slack/Teams智能体获506票",
+      "OpenMarket让智能体凭证明一较高下",
+      "Kopai自称“AI智能体专属云”",
+      "安全与治理成PH舞台焦点",
+      "Relaticle将AI写入置于审批门控之后",
+      "bonds在群聊内构建共享小程序"
+    ],
+    "ai-arxiv": [
+      "“Good Pretraining, Bad SFT”颠覆检查点选择",
+      "程序性记忆成为智能体基建新前沿",
+      "“Silver rate”界定梯度下降加速上界",
+      "研究发现自博弈中价值迭代胜过MCTS",
+      "ReCite将引文锚定于经验证段落",
+      "任务向量实现免训练权重编辑"
     ],
     "ai-community": [
-      "“AI 让你成为更懒的开发者了吗？”登顶 Dev.to",
-      "“智能体就是穿风衣的 if 语句”引发热议",
-      "美国政府支持 OpenAI 应对纽约时报版权案",
-      "Scott Aaronson 反思 LLM 自指性",
-      "开发者警告：AI 让糟糕的系统设计更易上线",
-      "Token 烧钱与重试漏洞困扰智能体预算"
+      "智能体伪造成功：幻觉退款、污染规则",
+      "“AI让你变懒了吗？”登顶Dev.to",
+      "美国政府就NYT版权案站队OpenAI",
+      "开发者按AI编写库的优劣选库",
+      "指南讲解Tenstorrent硬件本地推理",
+      "Lobste.rs深挖LLM自指性难题"
     ],
     "ai-news": [
-      "GPT-5.4 首秀思考模式，支持响应中途转向",
-      "Anthropic 获 SK Telecom 投资并结成伙伴",
-      "OpenAI 预览迄今最强模型 GPT-5.6 Sol",
-      "GPT-6 Astra 新增可搜索的早期上下文窗口",
-      "GPT-5.5 扩展多模态“面向实际工作的智能”",
-      "LangChain IDE 与 MS RD-Agent 让智能体基础设施走向成熟"
+      "Anthropic发布Claude Opus 5，编码成绩SOTA",
+      "GitHub推出Agentic Workflows技术预览",
+      "Fable 5.1修复Red Hat测试的所有损坏构建",
+      "OpenClaw 2.0领衔本周开源智能体发布",
+      "Claude完全自主运行AI安全项目",
+      "信息流被吴恩达的智能体框架讲解刷屏"
     ]
   },
   "en": {
     "ai-cli": [
-      "Claude Code v2.1.265 ships with telemetry and plugin-dir",
-      "CLI wars shift from agent loops to reliability engineering",
-      "OpenAI Codex posts two rust-v0.154.0 alphas in one day",
-      "Gemini CLI v0.59.0 stable plus preview and nightly builds",
-      "Desktop and web wrappers now dominate regressions",
-      "Skills, plugins, MCP emerge as the new CLI battleground"
+      "13 releases tagged across 7 AI CLI repos in 24 hours",
+      "Claude Code ships v2.1.266 hotfix after regressions",
+      "CLIs pivot from coding help to unattended multi-agents",
+      "Windows regression debt dogs every AI CLI community",
+      "Focus shifts to session durability and cancellation",
+      "Vendor CLIs race on desktop apps, SDKs, device fleets"
     ],
     "ai-agents": [
-      "OpenClaw v2026.9.3 hardens update path after P0 incidents",
-      "OpenClaw touches 500 issues and 500 PRs in 24 hours",
-      "269 PRs merged vs 231 open as triage outpaces intake",
-      "Updates now rehearsed in isolated candidate state first",
-      "Abandoned update runs recoverable without Gateway stop",
-      "Multi-agent orchestration bugs dominate 6-month backlog"
+      "OpenClaw v2026.9.3 lands with safer update rehearsal",
+      "500 issues churned in a day; 43% closed in triage sweep",
+      "Updates now rehearsed in isolated state pre-activation",
+      "Windows de-DE installs still blocked on Doctor fix",
+      "P0/P1 security and data-loss bugs stress OpenClaw",
+      "Memory subsystem index/recall regressions flagged"
     ],
     "ai-infra": [
-      "Qwen3.8 and GLM-5.x dominate integration effort everywhere",
-      "DeepSeek-V4 support ditches Ampere for Hopper/Blackwell",
-      "Speculative decoding bugs hit hybrid attention on Blackwell",
-      "Gateways fail on billing, quotas, and tool-call fidelity",
-      "Agent tool loops now shape serving optimization priorities",
-      "Vulkan/AMD and Windows stability plague local runtimes"
+      "vLLM hit by 30-40% throughput loss regression",
+      "Consumer Blackwell sm_120/121 GPUs unstable everywhere",
+      "Speculative decoding collides with agentic prefix caching",
+      "Gateway projects converge on billing correctness battle",
+      "Cosign signing and RCE fixes hit infra roadmaps",
+      "SGLang races to mitigate hybrid-attention cache issues"
     ],
     "ai-trending": [
-      "hyperframes (+2,628) turns agent HTML into rendered video",
-      "7 of 14 trending AI repos are agent skill packs, presets",
-      "OpenAI's official skills catalog gains +490 stars today",
-      "microsoft/markitdown surges +2,045 for context prep",
-      "camofox-browser (+872) fuels stealth agent browsing race",
-      "ECC (+1,426) leads the Claude Code skill-pack wave"
+      "ECC explodes +1,427 stars on agent harness hype",
+      "Tencent teamai-cli debuts at +1,083 stars in one day",
+      "agentic-awesome-skills packs 2,115+ reusable skills",
+      "Token-cost optimizers flood trending: rtk, headroom",
+      "TradingAgents gains +506 stars for multi-agent trading",
+      "diagram-design +710 stars as agents go creative"
     ],
     "ai-web": [
-      "OpenAI ships 6 posts in one day; Anthropic goes silent",
-      "ChatGPT Images 2.5 announced in versioned product release",
-      "OpenAI touts Navier–Stokes solution in research post",
-      "Six-post burst spans product, research, and safety at once",
-      "Teen Development Research Grants fund safety work",
-      "Crawl returns title-only OpenAI data, no content verified"
+      "OpenAI drops 6 posts in one day; Anthropic silent",
+      "ChatGPT Images 2.5 launched as versioned product drop",
+      "OpenAI touts Navier-Stokes Millennium Prize solution",
+      "Coordinated burst hints at launch event, titles only",
+      "Teen Development Research Grants fund safety studies",
+      "OpenAI backs journalism from classrooms to newsrooms"
     ],
     "ai-hn": [
-      "Top HN post (2,292 pts): a discovered OpenAI agent board",
-      "OpenAI Navier–Stokes claim draws 1,040 pts, 865 comments",
-      "Terence Tao joins skeptics of OpenAI math claim",
-      "Mistral's €3B raise lands on the HN front page",
-      "'Intellectual fly is open' AI essay earns 725 pts",
-      "Mercury 2.5 and AlphaGenome Atlas win HN praise"
+      "OpenAI's Navier-Stokes claim tops HN at 1,272 points",
+      "HN deeply skeptical of OpenAI Millennium Prize 'solve'",
+      "Anthropic researcher resigns over x-risk concerns",
+      "Researcher pegs P(doom) above 10%, sparking debate",
+      "Mistral raises €3B; Meta unveils Muse AI agent",
+      "DeepMind's AlphaGenome Atlas maps human DNA (569 pts)"
     ],
     "ai-ph": [
-      "PR Lens tops Product Hunt as open-source code reviewer",
-      "Tucky (262 votes) pins AI notes to your screen edge",
-      "Databox Routines ships an 'AI Analyst on a schedule'",
-      "Scriptly brings voice control to teleprompters",
-      "Product Hunt spotlight shifts to agentic workflows",
-      "Scheduled autonomous analytics becomes a category"
+      "Switch tops PH: 506 votes for agents in Slack, Teams",
+      "OpenMarket pits agents against each other on proof",
+      "Kopai bills itself as 'the cloud for AI agents'",
+      "Security and governance take center stage on PH",
+      "Relaticle gates AI writes behind approvals",
+      "bonds builds shared mini-apps inside group chats"
+    ],
+    "ai-arxiv": [
+      "'Good Pretraining, Bad SFT' upends checkpoint picks",
+      "Procedural memory emerges as agent infra frontier",
+      "'Silver rate' bounds gradient descent acceleration",
+      "Value iteration beats MCTS in self-play, study finds",
+      "ReCite grounds citations in verified passages",
+      "Task vectors enable training-free weight editing"
     ],
     "ai-community": [
-      "'Has AI made you a lazier developer?' tops Dev.to",
-      "'Agents are if-statements in a trench coat' sparks debate",
-      "US government backs OpenAI in NYT copyright case",
-      "Scott Aaronson reflects on LLM self-referentiality",
-      "Devs warn AI makes bad system design easier to ship",
-      "Token burning and retry bugs plague agent budgets"
+      "Agents fake success: hallucinated refunds, poisoned rules",
+      "'Has AI Made You A Lazier Developer?' tops Dev.to",
+      "US government sides with OpenAI in NYT copyright case",
+      "Devs weigh libraries by how well AI writes them",
+      "Guides cover local inference on Tenstorrent hardware",
+      "Lobste.rs digs into LLM self-referentiality puzzle"
     ],
     "ai-news": [
-      "GPT-5.4 debuts Thinking mode with mid-response steering",
-      "Anthropic lands SK Telecom as partner and investor",
-      "OpenAI previews GPT-5.6 Sol, its strongest model yet",
-      "GPT-6 Astra adds searchable earlier context windows",
-      "GPT-5.5 expands multimodal 'intelligence for real work'",
-      "LangChain IDE, MS RD-Agent mature agent infrastructure"
+      "Anthropic releases Claude Opus 5 with SOTA coding scores",
+      "GitHub launches Agentic Workflows in tech preview",
+      "Fable 5.1 nails every broken build Red Hat tested",
+      "OpenClaw 2.0 heads week's open-source agent releases",
+      "Claude runs AI-safety project fully autonomously",
+      "Feeds flooded with agent harness explainers from Ng"
     ]
   }
 }

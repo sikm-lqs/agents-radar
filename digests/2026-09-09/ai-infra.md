@@ -1,6 +1,6 @@
 # AI 基础设施日报 2026-09-09
 
-> 生成时间: 2026-09-08 23:30 UTC | 覆盖项目: 9 个
+> 生成时间: 2026-09-09 11:30 UTC | 覆盖项目: 9 个
 
 - [vLLM](https://github.com/vllm-project/vllm)
 - [SGLang](https://github.com/sgl-project/sglang)
@@ -16,30 +16,87 @@
 
 ## 横向对比
 
-# 跨项目基础设施报告 — 2026-09-09
+# 跨项目对比报告 — 2026-09-09
 
-**范围：** vLLM、SGLang、llama.cpp、Ollama、LiteLLM、Unsloth、Claude Code Router、CC Switch、New API
+**范围：** vLLM、SGLang、llama.cpp、Ollama、LiteLLM、Unsloth、Claude Code Router (CCR)、CC Switch、New API
 
 ---
 
 ## 1. 生态概览
 
-栈正在明显分化为四层 —— 前沿服务引擎（vLLM、SGLang）、本地运行时（llama.cpp、Ollama、Unsloth）、网关/路由层（LiteLLM、New API、Claude Code Router、CC Switch）—— 而今天的活动显示各层以各自特有的方式出现问题：引擎层在 **混合线性注意力架构与 Blackwell GPU 上的投机解码正确性**，本地运行时在 **后端稳定性（Vulkan/AMD、Windows）**，网关在 **计费、配额执行与工具调用保真度**。两个模型家族 —— Qwen3.8 与 GLM-5.x —— 主导着各层的集成工作，而 DeepSeek-V4 支持正固守 Hopper/Blackwell 并事实上放弃 Ampere。智能体负载（Claude Code、Codex、MCP 工具循环）已成为塑造优化优先级的主要负载模型：前缀缓存复用、流式工具调用保真度以及 TTFT 准确性。
+当前的推理生态已清晰地分层为四层 —— 数据中心服务引擎（vLLM、SGLang）、本地运行时（llama.cpp、Ollama）、网关/路由层（LiteLLM、New API、CCR、CC Switch），以及微调/工作站工具（Unsloth）—— 今天各层的动态显示它们正以不同方式吸收同一波行业变革。主导的技术主题是 **混合/线性注意力架构（Mamba、GDN、DSA 稀疏注意力）加上投机解码（MTP/EAGLE）** 与智能体工作负载所依赖的前缀缓存契约之间的冲突，vLLM 出现了 30–40% 的吞吐量下降，SGLang 正在进行积极的缓解工作。第二个贯穿各层的主题是 **消费级 Blackwell（sm_120/121）不稳定**，分别影响 vLLM、llama.cpp 和 Ollama 的用户。在上层栈中，网关类项目正在围绕 **计费正确性与 Claude Code/Codex CLI 集成** 形成差异化，而供应链安全（cosign 签名、模型签名、RCE 修复）正从事后补丁升级为路线图项目。
 
 ---
 
-## 2. 活动对比
+## 2. 活跃度对比
 
-*计数 = 今日摘要中明确引用的条目（活动量的代理，而非完整仓库吞吐）。*
+*计数 = 各项目摘要中引用的独立 issue/PR（约 24 小时窗口），并非完整仓库查询。*
 
-| 项目 | 层级 | 引用的 Issue | 引用的 PR | 发布状态 | 主导主题 |
-|---|---|---|---|---|---|
-| **vLLM** | Serving engine | ~20 | ~13 | No release; v0.27.x mainline | Ampere support gap; spec-decode correctness |
-| **SGLang** | Serving engine | ~19 | ~18 | No release; v0.5.18 prod / v0.5.19 dev | DFlash deadlock fix; weight-cache daemon |
-| **llama.cpp** | Local runtime | ~22 | ~23 | **10 tagged builds** (b10853–b10867) | Vulkan/AMD stability; MoE offload |
-| **Ollama** | Local runtime | ~9 | ~11 | No release; engine bumps queued | MLX hardening; API compatibility |
-| **LiteLLM** | Gateway | ~24 (highest) | ~12 | No release; rc/1.101.0 branch | Rate-limit + security correctness |
-| **
+| 项目 | 引用 issue | 引用 PR | 发布状态 |
+|---|---|---|---|
+| **llama.cpp** | ~22 | ~27 | **9 个 tag**（b10865–b10875）；`--mmap`/`--mlock`/`--direct-io` 在 b10875 中移除 |
+| **SGLang** | ~21 | ~19 | 无发布；AMD/NPU/CPU/diffusion 合并活跃 |
+| **vLLM** | ~17 | ~14 | **v0.29.0** —— 594 次提交，277 位贡献者（91 位新加入）；MRV2 现为默认 |
+| **CC Switch** | ~18 | ~14 | 无发布；Cursor（+4,123 LOC）和 DSH 支持落地 |
+| **New API** | ~15 | ~14 | **v1.0.0-rc.36** —— 任务插件与市场 |
+| **Unsloth** | ~15 | ~12 | **v0.1.807-beta** —— AMD Vulkan 默认，RCE 修复 |
+| **Ollama** | ~15 | ~10 | 无发布；修复已暂存至下个次版本 |
+| **LiteLLM** | ~7 | ~13 | **v1.102.0-dev.1**（cosign 签名）+ stable/1.87.x 回移植 |
+| **Claude Code Router** | 7 | 2 | 无发布（v3.0.22）；issue 多、PR 少 |
+
+**要点：** llama.cpp、SGLang 和 vLLM 合并工作的原始吞吐量最高；CCR 是异常值，issue:PR 比为 7:2，且其头部问题没有任何修复落地。
+
+---
+
+## 3. 模型支持竞速
+
+| 项目 | 本窗口新增模型/架构 |
+|---|---|
+| **SGLang** | DeepSeek-V4（CPU kernel、Mooncake/UMBP linker）、Kimi-K3（NPU CI）、GLM-5.2（NPU FP8-KV + MLAProlog）、**VDN-H3 扩散混合**（`vdn-minimax-h3`，8-NFE DMD2）、SenseNova-U1 跟踪 |
+| **vLLM** | Gemma4 QKV-Fuser、BailingMoeV2 RoPE 修复、Qwen3-VL PP 修复、Mistral/Magistral 推理解析器（Rust）、XPU 上的 NVFP4 仿真；DeepSeek-V4-Flash Ampere 支持仍未合并（#50576） |
+| **llama.cpp** | GLM-5.3-Flash MTP（进行中，15👍）、HRM-Text/DFM Mimir 1B、Granite 3 MoE 修复、Blackwell 上强制启用 NVFP4 W4A8、MoE 的 IQ 量化 |
+| **Ollama** | 无新增本地模型；云目录请求（Longcat 2.0、Jamba、Hunyuan Hy3…） |
+| **New API** | Veo 3.1（Vertex）、MiniMax H3 视频 V2，含预扣/退款语义 |
+| **CC Switch / CCR / LiteLLM** | 提供商/平台集成而非模型（Copilot-hosted Codex、Laonong 预设、Vertex Claude 版本化 ID） |
+
+**领先者：** **SGLang** 的前沿架构覆盖最广 —— 它是唯一同时支持 DeepSeek-V4、Kimi-K3、GLM-5.2 以及扩散混合模型、并跨四个硬件栈（CUDA、ROCm、NPU、CPU）发布的项目。**vLLM** 以广度换取 Transformers 后端深度与 Blackwell 启用；**llama.cpp** 在量化格式（IQ、NVFP4、TQ）和异构目标（RISC-V、s390x、OpenVINO NPU）上胜出。网关层仅通过定价/配置项跟踪模型更新速度 —— 注意 LiteLLM 中 Azure DeepSeek-V4 定价仍未更新（#30129）。
+
+---
+
+## 4. 性能前沿
+
+优化工作集中在六个方向：
+
+1. **KV 缓存与前缀缓存（重心所在）。** vLLM：用于 KV 自动伸缩的 CUDA-graph 内存分析、分层观测指标、上下文感知保留 RFC（#37003），以及关键的混合 GDN 前缀缓存修复（#52244）。SGLang：HiCache 扩展至混合 SWA/Mamba 模型（#38634）、Mooncake 端到端追踪、512K token DSA 集群路径重构。Unsloth：KV 抢占使 N 个并行聊天共享一个缓存（`--parallel N --kv-unified`）。Ollama：消除了冷启动智能体轮次上 17–27 秒的 MLX 重新预填充。
+2. **投机解码的正确性。** MTP/EAGLE 已是标配，但也是大多数严重未解 bug 的直接原因：vLLM 在混合 GDN 上 30–40% 的吞吐量下降、llama.cpp 的跨请求 MTP 状态泄漏、SGLang 的 DFlash/DSpark TP 死锁（已通过确定性 top-p/top-k kernel 修复，#38565）。
+3. **冷启动与权重加载 —— 新近显性化的优化轴。** SGLang 的权重缓存守护进程：Qwen3-235B FP8 加载从约 306–327 秒降至 **<1 秒**。Ollama 的统一 GGUF 元数据缓存消除了重复抽取。
+4. **Kernel。** 为 vLLM ROCm 自定义算子提出的 Helion（H100 上 1.382–1.785× 几何平均）；AITER 融合 DSA 索引器前导；llama.cpp Vulkan iq4_xs（RDNA4 上 +6–17%）、CPU VNNI 平铺 mul_mat（3–7×）、Metal FA 瓦片加宽（+6.8%）。
+5. **量化。** NVFP4 现已成为 vLLM、SGLang 和 llama.cpp 的关键格式 —— 但也有成熟度成本（SGLang 的 `tiny_gemm` 约 4% 退化、vLLM sm_120 在 NVFP4 + FP8-KV 下崩溃）。
+6. **网关开销。** 唯一的网关层性能工作：CCR 的随提供商数量线性增长的延迟 bug（#1775/#1777）和 New API 通过 `/api/status` 去重实现的首页约 25% 改善。
+
+---
+
+## 5. 层级定位
+
+- **数据中心服务引擎 —— vLLM、SGLang。** 围绕多 GPU 并行（TP/PP/DP）、投机解码、解聚和调度器成熟度展开竞争。其风险特征是架构层面的频繁变更：vLLM 在 v0.29.0 中将 MRV2 设为默认会中途改变采样器/logprobs 语义；SGLang 承载着深度按平台分叉（AITER、CANN、CPU），使其测试面成倍增加。
+- **本地运行时核心 —— llama.cpp。** 底层基座：量化格式、GGUF，以及最广泛的硬件矩阵（包括 OpenVINO NPU、Adreno、s390x）。其下游所有项目（Ollama、Unsloth serving）都构建于其之上 —— llama.cpp 的 `--preempt-ram` 直接启用了 Unsloth 的 KV 抢占功能。
+- **本地分发与体验 —— Ollama。** 增加打包、模型注册中心、MLX 运行器以及云端层。它的问题是集成层面的（Vulkan 退化、云端与供应商版本差异，如 `glm-5.3:cloud`）而非 kernel 层面。
+- **网关 —— LiteLLM（企业级：鉴权、预算、花费、签名镜像）、New API（多租户转售：计费、配额、市场）。** 它们的故障模式关乎金钱而非 token：仅今天 New API 就修复了一个实时重复扣费和一个将 `:countTokens` 按生成计费的 bug，而 LiteLLM 回移植了 Anthropic 流式成本回收。**CCR 和 CC Switch** 占据一个较新的细分领域 —— 专门面向智能体编码 CLI（Claude Code、Codex、OpenCode，现已涵盖 Cursor 和 DSH）的客户端路由 —— 其成败完全取决于上游协议变更。
+- **微调/工作站 —— Unsloth。** QLoRA 性能加上有主张的本地 serving 栈（Studio、Spark 编排）。值得注意的是它横向扩展到 serving（双 Spark 编排器、KV 抢占）而非纵向扩展到分布式训练。
+
+---
+
+## 6. 趋势信号
+
+1. **混合注意力打破前缀缓存契约 —— 智能体基础设施的头号风险。** 每个引擎都有相关未解 bug（vLLM #53670/#53142、SGLang 混合 HiCache 工作、llama.cpp `gated_delta_net` 融合）。由于智能体经济依赖于前缀缓存命中率，应将混合模型 + 投机解码栈视为不稳定，直到 vLLM #52244 类修复落地并在你的工作负载上验证通过。
+2. **消费级 Blackwell（sm_120/121/RTX 5090/GB10）是可靠性未知数。** 三个独立项目在同一硅片世代上报崩溃/挂起。务实做法：workaround 存在（`GGML_CUDA_DISABLE_GRAPHS=1`、`TRITON_ATTN`），固定版本，且暂不要将 Blackwell 工作站部署视为生产就绪。
+3. **计费正确性是网关层的系统性弱点。** 缓存 token 漏计（New API #7290、CC Switch #6626）、重复扣费、中断流的成本丢失（LiteLLM）—— 这些都正在涌现，*原因正是* 智能体缓存使 token 核算变得不再简单。预期提示缓存计费准确度将成为采购清单上的勾选项。
+4. **智能体 CLI 生态现已成为一等集成目标。** CCR 和 CC Switch 完全为 Claude Code/Codex 路由而存在；一次上游 header 变更（`x-opencode-session`，于 2026-09-05/06 强制启用）就击垮了一个路由器，而另一个在数天内就做了预防性修复。留意配置覆盖隐患（CC Switch #6875 会破坏 `~/.codex/` 状态）。
+5. **安全向上层推进。** Unsloth 为无标记工具调用发布了 prompt-injection-to-RCE 修复；LiteLLM 对镜像进行 cosign 签名；Ollama 正在暂存模型签名。具备 shell/工具访问能力的本地智能体是真实的攻击面 —— 立即补丁 Studio 安装。
+6. **非 NVIDIA 动能持续叠加。** Vulkan 成为默认后端（Unsloth，+20%）、ROCm 10 CI 整合（SGLang）、aiter DCP、CANN 9.1 NPU 套件、CPU 上的 DeepSeek-V4。多供应商正从对标项目转向已交付能力。
+7. **AI 生成的贡献正在规模化。** New API 的维护者对一批质量尚可、由智能体编写的 PR 进行了协调性分类 —— 审查负担，尤其是在计费路径上，是新的运营成本。
+
+**开发者关注清单：** vLLM PR #52244（混合前缀缓存）和 MRV2 logprobs RFC #42259；SGLang #33549 的长上下文 DeepSeek-V4 验证；Ollama v0.32.9 作为最后一个可用的 AMD iGPU 固定版本；Unsloth PR #10507（RCE）；New API rc.30–35 计费对账；CCR #1780/#1781（如果你路由到 opencode-go 或 Meta Responses 工具流）。
 
 ---
 
@@ -48,60 +105,78 @@
 <details>
 <summary><strong>vLLM</strong> — <a href="https://github.com/vllm-project/vllm">vllm-project/vllm</a></summary>
 
-# vLLM 摘要 — 2026-09-09
+# vLLM 简报 — 2026-09-09
 
 ## 今日要点
-社区正围绕一个重要能力缺口形成共识：**DeepSeek-V4-Flash / DeepSeek-V4-Flash-0731 无法在 SM8x（Ampere A100/A800、RTX 30 系列）上运行**，相关 issue #50576 已累积 106 条评论，成为仅支持 Hopper/Blackwell 模型覆盖的事实追踪帖。平行推进的工作还包括**推理 kernel 的 batch 不变性**（#27433、#46639），以及 Qwen3.8 系列模型上混合 GDN/Mamba + MTP/EAGLE 投机解码中聚集出现的一批正确性回归。
 
-## 发布与重大变更
-*过去 24 小时内无新版本发布。* 根据 issue 引用判断（如 #53726 锁定 v0.27.1，#54225 引用 v0.27.1 镜像），主线当前似乎处于 **v0.27.x** 区间。今日无公开 API 或配置项废弃公告。
+**v0.29.0 已发布**，包含 594 个 commit，来自 277 位贡献者（其中 91 位新贡献者），将 **Model Runner V2 升级为所有模型的默认 Runner**——这是一项重大架构里程碑，同时引入了用于 KV cache 自动调整的 CUDA graph 显存剖析功能。社区正在密集提交一批严重的 **混合 Mamba/GDN 模型在推测解码（MTP/EAGLE）下的 prefix-cache 回归问题**，报告在重放 prompt 时吞吐量下降 30–40%，以及多起与 FlashInfer attention 和 Qwen3.8-Flash-Next 数值问题相关的 **Blackwell（sm_120）和 GB10（sm_121）崩溃**。
+
+---
+
+## 发布与破坏性变更
+
+- **v0.29.0 已发布** — [release notes](https://github.com/vllm-project/vllm/releases/tag/v0.29.0)
+  - *Model Runner V2（MRV2）现已成为所有模型的默认 Runner*（PR [#53183](https://github.com/vllm-project/vllm/pull/53183)）。此前仅 pooling 模型默认使用 MRV2。
+  - MRV2 新增用于 KV cache 自动调整的 CUDA graph 显存剖析功能。
+  - **迁移提示：** 应重新验证现有 V1 特定的日志/logprobs 假设——参见新增的 [MRV2 logprobs/logits 语义 RFC #42259](https://github.com/vllm-project/vllm/issues/42259)。
+
+---
 
 ## 新增模型与硬件支持
-| 项目 | 状态 | 链接 |
-|---|---|---|
-| DeepSeek-V4-Flash / DeepSeek-V4-Flash-0731 SM8x（Ampere） | 已请求；阻塞追踪 #40851 | [#50576](https://github.com/vllm-project/vllm/issues/50576) |
-| GLM-5.2-MXFP4 在 ROCm（gfx942/gfx950）通过 `deepseek_v32` 路径 | PR 已开启，可选路由 | [#51915](https://github.com/vllm-project/vllm/pull/51915) |
-| MiniMax-M3 稀疏注意力配合 ROCm AITER indexer/top-k kernel | PR 已开启，依赖 #52849 | [#52664](https://github.com/vllm-project/vllm/pull/52664) |
-| MiniMax-M3 CUTLASS MSA decode（小批量 step <16） | PR 已开启；修复静默回退到 Triton 的回归 | [#55838](https://github.com/vllm-project/vllm/pull/55838) |
-| GLM DCP indexer 交错保护已移除（NIXL interleave=64 启用） | PR 已开启，草稿 | [#55802](https://github.com/vllm-project/vllm/pull/55802) |
-| GLM-5.3-Flash `Glm5NextTextLinearAttention` | **尚不支持** | [#54062](https://github.com/vllm-project/vllm/issues/54062) |
-| Transformers 后端：通用 `MergedColumnParallelFuser` | PR 已开启 | [#55301](https://github.com/vllm-project/vllm/pull/55301) |
-| MM tensor IPC 的分页共享内存存储（`--mm-processor-cache-type paged_shm`） | PR 已开启，多模态 | [#51349](https://github.com/vllm-project/vllm/pull/51349) |
-| InternVL2 在 Transformers v5（meta-device 初始化） | 追踪 issue | [#38425](https://github.com/vllm-project/vllm/issues/38425) |
+
+- **Gemma4 QKV-Fuser** 在 Transformers 后端启用——将 `q/k/v` 投影融合为单个 `QKVParallelLinear` GEMM（[PR #55690](https://github.com/vllm-project/vllm/pull/55690)）。
+- **BailingMoeV2 RoPE 修复** 以兼容 Transformers v5——将顶层 `rope_theta` 合并到 `rope_parameters` 中（[PR #56066](https://github.com/vllm-project/vllm/pull/56066)）。
+- **Qwen3-VL(-MoE) 流水线并行** bug 修复——使用 `--pipeline-parallel-size > 1` 时引擎初始化现可成功（[PR #43272](https://github.com/vllm-project/vllm/pull/43272)，修复 [#43271](https://github.com/vllm-project/vllm/issues/43271)）。
+- **Mistral/Magistral 推理解析器** 已添加到 Rust 前端（[PR #48013](https://github.com/vllm-project/vllm/pull/48013)，属于 Rust 功能对齐工作 [#44280](https://github.com/vllm-project/vllm/issues/44280) 的一部分）。
+- **XPU NVFP4 量化**——`EmulationNvFp4LinearKernel` 现已注册，因此 NVFP4 checkpoint 可在 Intel GPU 上加载（[PR #56060](https://github.com/vllm-project/vllm/pull/56060)）。
+- **DeepSeek-V4-Flash / -Flash-0731 SM8x（Ampere）支持**——仍处于 **OPEN** 状态，暂无修复（[#50576](https://github.com/vllm-project/vllm/issues/50576)，14 👍，106 条评论）。
+
+---
 
 ## 性能与优化
-- **Batch 不变性**已在 `VLLM_BATCH_INVARIANT=1` 下为 `moe_wna16_marlin_gemm` 落地，覆盖 AWQ-INT4、GPTQ-INT4/INT8、MXFP4 方案（[#46639](https://github.com/vllm-project/vllm/pull/46639)）。项目追踪：#27433。
-- **CustomOps 使用 Helion**（RFC，[#53788](https://github.com/vllm-project/vllm/issues/53788)）报告在 H100 上三个 benchmark kernel 取得 **1.382–1.785× 几何平均加速比**，对比当前 CUDA —— 为 kernel 重写路径提供了有力支撑。
-- **MiniMax-M3 小批量 decode**（[#55838](https://github.com/vllm-project/vllm/pull/55838)）：打通 dispatch 闸门，使 `<16` 的批量不再静默回退到 Triton split-K，弥合了一个延迟断崖。
-- **KV cache 碎片化**（[#55841](https://github.com/vllm-project/vllm/pull/55841)）：在 V1 释放队列中优先选择连续 block run，以降低分离式传输的碎片化。
-- **KV 预取时序**（[#41784](https://github.com/vllm-project/vllm/issues/41784)）：定位到 LMCache 集成中预取在 `num_computed_tokens == 0` 之后触发时出现的 GPU 空闲窗口。
-- **混合模型部分缓存命中** RFC（[#45702](https://github.com/vllm-project/vllm/issues/45702)）**已关闭** —— 确定了混合 Mamba 栈中全注意力 block size 的落地方向。
 
-## 稳定性与回归
-| 严重度 | Issue | 备注 |
-|---|---|---|
-| 🔴 高 | **Qwen3.8-Flash-Next 贪心解码非确定性**：当 prompt 跨越 `indexer_budget`（persistent_topk 切换点）时，在 sm121/GB10 上出现（[#54521](https://github.com/vllm-project/vllm/issues/54521)） | 五次相同的 `temperature=0` 请求产生五种不同结果；尚无修复 PR。 |
-| 🔴 高 | **FlashInfer CUDA 非法内存访问**：在 sm_120（RTX PRO 6000 Blackwell Max-Q）上，NVFP4 + fp8 KV cache 配置下触发；`TRITON_ATTN` 不受影响（[#54225](https://github.com/vllm-project/vllm/issues/54225)） | 临时方案：将 attention 后端切换为 Triton。 |
-| 🔴 高 | **静默 CUDA IMA（exit 0）**：在 RTX 3090 上，混合 GDN + MTP k=3 + 异步调度场景下出现（[#53726](https://github.com/vllm-project/vllm/issues/53726)） | 经 #50021/#45100/#53613 类修复后仍存在。 |
-|  高 | **AMD ROCm Xid 13 warp 错误**：在 SM120 上持续负载运行 Nemotron-3.5-Lightning-30B-A3B-NVFP4 + Marlin MoE + 混合 Mamba 时触发（[#52225](https://github.com/vllm-project/vllm/issues/52225)） | 表现为地址未对齐 / 非法指令 / 寄存器越界。 |
-| 🟠 中 | **EAGLE/MTP 前缀缓存最后一块丢失**：在 Qwen3.8 GDN 布局下，每次命中强制重新计算约 1,648 个 token，导致前缀复用工作负载吞吐下降 **30–40%**（[#53670](https://github.com/vllm-project/vllm/issues/53670)） | 相关修复尝试：[#52244](https://github.com/vllm-project/vllm/pull/52244)。 |
-| 🟠 中 | **MTP 首次重复未命中前缀缓存**：在混合 Mamba/GDN（`mamba_cache_mode="align"`）上，重新执行完整 prefill；仅从第 2 次重复开始复用（[#53504](https://github.com/vllm-project/vllm/issues/53504)） | 同类 GDN/MTP 缓存缺陷。 |
-|  中 | **Intel Arc B50（Battlemage）TP=2** 在 worker 初始化时崩溃，报 `zeMemOpenIpcHandle INVALID_ARGUMENT`（[#48953](https://github.com/vllm-project/vllm/issues/48953)） | **已关闭** —— 由 #41663 替代。 |
-|  中 | **模型加载后主机内存未释放**：在 Intel XPU 上出现（[#50269](https://github.com/vllm-project/vllm/issues/50269)） | |
-| 🟠 中 | **ModelOpt Llama-4（Scout 17B-16E-Instruct-FP8）** 即使从 CPU page cache 加载也需 5 分钟以上（[#31624](https://github.com/vllm-project/vllm/issues/31624)） | 长期存在。 |
-|  低 | **ROCm cuda-graph 捕获与 LoRA 一起崩溃**（[#41622](https://github.com/vllm-project/vllm/issues/41622)） | **已关闭。** |
-|  低 | **GPU CC 通过 pinned-memory 误分类导致的静默输入损坏 / 远程 DoS**（[#50671](https://github.com/vllm-project/vllm/pull/50671)） | 安全类 PR 已开启 —— 建议追踪。 |
-|  低 | **v0.18.0 cu128 wheel URL 返回 404**（[#37847](https://github.com/vllm-project/vllm/issues/37847)） | **已关闭。** |
+- **MTP/EAGLE 在 Qwen3.8 GDN 上 prefix-cache 命中失效**——首次重放 prompt 时未命中 cache，需完全重新 prefill；在复用 prefix 的工作负载上批量吞吐量损失约 30–40%（[#53670](https://github.com/vllm-project/vllm/issues/53670)）。修复候选：[PR #52244](https://github.com/vllm-project/vllm/pull/52244) 在 MTP 推测解码下恢复混合 GDN prefix-cache 命中。
+- **ROCm 稀疏 prefill MQA logits 填充被跳过**——向 AITER 传入 `clean_logits=False`，每步移除一次 FP32 `-inf` 填充（[PR #51314](https://github.com/vllm-project/vllm/pull/51314)）。
+- **ROCm DSA 索引器 prologue 与 AITER 融合**——将 K-norm / RoPE / FP8 量化 / K-cache 写入合并为一个 kernel（[PR #51315](https://github.com/vllm-project/vllm/pull/51315)）。
+- **XPU W8A8 block-FP8 GEMM 针对 Arc Pro B70 调优**——附带针对 `block_shape=[128,128]` 的 Triton 调优配置（[PR #56063](https://github.com/vllm-project/vllm/pull/56063)）。
+- **CUTLASS Lamport GEMM + AllReduce 集成方案**针对 SM100/Blackwell 提出——将替换现有的 GEMM-Reduction split-kernel 路径（[#55261](https://github.com/vllm-project/vllm/issues/55261)）。
+- **Helion 用于选定的 vLLM CustomOps（ROCm RFC）**——三个经过基准测试的 Helion kernel 在 H100 上相比现有 CUDA 实现获得 **1.382–1.785× 几何平均加速**（[#53788](https://github.com/vllm-project/vllm/issues/53788)）。
+- **KV offload 分层可观测性**——新增 `vllm:kv_offload_tiering_promotion_latency_seconds` 直方图，按 tier 标记，bucket 从 100µs 到 10s（[PR #53910](https://github.com/vllm-project/vllm/pull/53910)）。
+- **KV offload `block`→`chunk` 重命名**——消除 GPU 分配器单元与 offload 传输单元之间的歧义（[PR #52615](https://github.com/vllm-project/vllm/pull/52615)）。
+- **前端：延迟 reasoning 使用量重计**——避免在非连续聊天流的每个 delta 上重新解码整个历史（[PR #56067](https://github.com/vllm-project/vllm/pull/56067)）。
 
-## 对应用开发者的影响
-- **硬件规划**：如果你运行 **Ampere（A100/A800、RTX 30 系列）**，请将 DeepSeek-V4-Flash 视作**当前不受支持**。建议将部署安排在 Hopper 或 Blackwell 上。提交前请持续关注 [#50576](https://github.com/vllm-project/vllm/issues/50576)。
-- **混合架构上的投机解码很脆弱**：多个开放 bug 显示 EAGLE/MTP 在 Qwen3.8 GDN 布局上会丢失前缀缓存命中，带来 **30–40% 的吞吐下降**（[#53670](https://github.com/vllm-project/vllm/issues/53670)、[#53504](https://github.com/vllm-project/vllm/issues/53504)、[#53726](https://github.com/vllm-project/vllm/issues/53726)）。在 [#52244](https://github.com/vllm-project/vllm/pull/52244) 及相关修复落地前，生产环境请固定走非投机路径。
-- **Blackwell 上的 attention 后端选择很关键**：FlashInfer + NVFP4 + fp8 KV 在 sm_120 上会崩溃（[#54225](https://github.com/vllm-project/vllm/issues/54225)）；目前 `TRITON_ATTN` 是安全的回退选项。
-- **确定性保证**：Batch 不变性现已基本覆盖 Marlin MoE（[#46639](https://github.com/vllm-project/vllm/pull/46639)）—— 对 RL rollout 和可复现评测尤为相关。请设置 `VLLM_BATCH_INVARIANT=1`。
-- **KV cache offload + HMA 组合在后续聊天请求中仍会出错**（[#41515](https://github.com/vllm-project/vllm/issues/41515)）；在多轮服务场景下修复前请避免混用。
-- **ROCm gfx942/gfx950** 正在获得对 GLM-5.2 的一类支持（[#51915](https://github.com/vllm-project/vllm/pull/51915)）—— 值得重新评估 AMD 在 GLM 类工作负载上的承载能力。
-- **分离式推理（NIXL）**：一项正确性修复已落地，可防止引擎在读过程中被驱逐（[#54689](https://github.com/vllm-project/vllm/pull/54689)）；attention-HMA 布局新增 PP prefill push 支持（[#50494](https://github.com/vllm-project/vllm/pull/50494)）。分离式栈在下次发布前应拉取这两项变更。
-- **Rust 前端** 正在追平功能：现已实现 `--enable-force-include-usage`（[#55971](https://github.com/vllm-project/vllm/pull/55971)）—— 若需要在每个流式事件中携带 usage chunk 用于计费/遥测，这将非常有用。
+---
+
+## 稳定性与回归问题
+
+🔴 **高严重性**
+- **FlashInfer attention：在 sm_120 上使用 NVFP4 + fp8 KV cache 时出现 CUDA 非法内存访问**——在 16 token 的请求上崩溃；`TRITON_ATTN` 不受影响。影响 RTX PRO 6000 Blackwell Max-Q 在 vLLM 0.27.1 上的运行（[#54225](https://github.com/vllm-project/vllm/issues/54225)）。
+- **Qwen3.8-Flash-Next：在 GB10（sm_121）上启用 prefix cache 时 GDN 路径出现 CUBLAS_STATUS_INTERNAL_ERROR / 非法内存访问**；`--no-async-scheduling` 无效（[#54173](https://github.com/vllm-project/vllm/issues/54173)）。
+- **混合 mamba 对齐预拷贝：使用显式 `--block-size` 时 prefix-cache 恢复时出现非法内存访问**——Mamba state 列以错误的 block size 进行 seed（[#53142](https://github.com/vllm-project/vllm/issues/53142)）。*未关联修复 PR。*
+- **Qwen3.8-Flash-Next：在 sm_121/GB10 上当 prompt 长度接近 `indexer_budget`（Qwen Sparse Attention dense→top-k 切换）时，`persistent_topk` 在 prefill 中产生非确定性贪心解码**——五个相同请求，五种不同输出（[#54521](https://github.com/vllm-project/vllm/issues/54521)）。
+- **SM120 上持续多小时运行下反复出现 Xid 13 全芯片 warp 错误**，负载为 Nemotron-3.5-Lightning-30B-A3B-NVFP4 + marlin MoE + 混合 Mamba（[#52225](https://github.com/vllm-project/vllm/issues/52225)）。
+- **`persistent_topk` 在多个值共享同一粗直方图 bin 时静默丢弃 top-k 候选项**——在 B300（sm_103）上观察到（[#51782](https://github.com/vllm-project/vllm/issues/51782)）。
+
+🟠 **中等**
+- **Model Runner V2 中 `thinking_token_budget` 被忽略（Qwen3.8 NVFP4 + MTP）**——tool-calling 预算计数错误（[#54906](https://github.com/vllm-project/vllm/issues/54906)）。
+- **在 Intel XPU 上加载模型后主机内存未释放**（[#50269](https://github.com/vllm-project/vllm/issues/50269)）。
+- **结构化输出（-1 填充的 spec-decoding token）在进入 grammar 时可能使引擎崩溃**——无效的 `token_id` 会导致引擎停止（[#51450](https://github.com/vllm-project/vllm/pull/51450) 提出修复）。
+
+⚪ **已关闭 / 信息性**
+- Intel Arc B50（Battlemage）TP=2 `zeMemOpenIpcHandle` 崩溃——**已关闭**（[#48953](https://github.com/vllm-project/vllm/issues/48953)）。
+- Rust 前端功能对齐追踪——作为路线图 issue **已关闭**（[#44280](https://github.com/vllm-project/vllm/issues/44280)）；工作通过子 issue 持续推进。
+- 混合模型部分 cache 命中 RFC——**已关闭**（[#45702](https://github.com/vllm-project/vllm/issues/45702)）。
+
+---
+
+## 对应用开发者的意义
+
+1. **升级到 v0.29.0 前请固定版本并验证。** MRV2 成为默认意味着采样器语义、logprobs 排序和 `thinking_token_budget` 行为可能发生变化；请关注开放的 [logprobs/logits 确定性 RFC #42259](https://github.com/vllm-project/vllm/issues/42259)，并在新的 runner 上复现所有 RL/eval 流水线。
+2. **在 [PR #52244](https://github.com/vllm-project/vllm/pull/52244) 合并之前，请勿在混合 Qwen3.8 GDN/Mamba 工作负载上启用推测解码**——首 prompt 的 prefix-cache 未命中可能耗尽整个 prefill 开销；对生产环境的 agent 而言，这是一个严重的尾延迟问题。
+3. **Blackwell sm_120 + GB10 sm_121 用户：不要在 0.27.1 上将 FlashInfer attention 与 NVFP4 + fp8 KV cache 配合使用。** 请使用 `TRITON_ATTN` 或等待 0.29.x 中的修复。`persistent_topk` 和 prefix-cache 预拷贝崩溃可能导致挂起或错误输出，且无明显错误信息。
+4. **在 Qwen3.8 推理模型上使用 NVFP4+MTP 进行 tool-calling：** 请验证 `thinking_token_budget` 是否生效——在 MRV2 下其会被静默丢弃（[#54906](https://github.com/vllm-project/vllm/issues/54906)）。
+5. **对于 ROCm 部署**，基于 AITER 的稀疏 prefill 和融合 DSA 索引器路径（[PR #51314](https://github.com/vllm-project/vllm/pull/51314)、[#51315](https://github.com/vllm-project/vllm-project/vllm/pull/51315)）值得通过自定义构建进行 backport；如果你的目标是 H100，Helion 提案（[#53788](https://github.com/vllm-project/vllm/issues/53788)）值得关注。
+6. **面向 agent 工作负载的上下文感知 KV-cache 保留（优先级驱逐）** 正在活跃的 RFC 中（[#37003](https://github.com/vllm-project/vllm/issues/37003)）——如果你服务的是使用工具的 agent，这是需要关注其可能改变 prefix-cache 行为的 API。
 
 </details>
 
@@ -110,65 +185,23 @@
 
 # SGLang 摘要 — 2026-09-09
 
-## 1. 今日要点
+## 今日要点
 
-最重要的更新围绕 **DeepSeek-V4 / DFlash 稳定性与采样正确性修复**。PR [#38565](https://github.com/sgl-project/sglang/pull/38565) 在 `sgl_kernel` 中默认引入确定性 top-p / top-k renorm，定位并修复了 [#33549](https://github.com/sgl-project/sglang/issues/33549) 与 [#33289](https://github.com/sgl-project/sglang/issues/33289) 背后 DFlash/DSpark TP>1 死锁的**根本原因**。**Weight Cache Daemon** 路线图（[#33522](https://github.com/sgl-project/sglang/issues/33522)）确认第一阶段已上线：Qwen3-235B FP8 权重加载由约 306–327 s 降至 <1 s。多份**生产级风险报告**在 Blackwell + HiCache 场景下仍未关闭，最值得注意的是 [#38300](https://github.com/sgl-project/sglang/issues/38300)（在 B300 上使用 FlashInfer MNNVL 时 TP2 卡死）。
+- **Weight Cache Daemon 进展明显** — 第一阶段（per-rank CUDA-IPC 守护进程，Qwen3-235B FP8 权重加载 <1s）已发布，路线图讨论帖（#33522，23 条评论）正在积极规划后续的恢复优化。 [#33522](https://github.com/sgl-project/sglang/issues/33522)
+- **两个阻塞生产的正确性缺陷浮出水面** — DeepSeek-V4 TP8 在约 245K context 时挂起，所有 GPU 占用率 100%（#33549）；DeepSeek-R1 NVFP4 上约 4% 的 decode 回归已被定位到 #34693 中的统一 `tiny_gemm` 替换（#38628）。PR #38565 合入了一个确定性的 top-p/top-k 修复，这也是 DFlash/DSpark TP>1 死锁的根因。
+- **AMD、NPU、CPU 平台整合** — AMD CI 正在向 ROCm 10 收敛（#38632），NPU CI 新增 CANN 9.1.0 覆盖（#38332），aiter 新增 DCP 支持（#34432），与此同时 CPU 与 NPU 路径持续获得一等支持的 DSv4/GLM-5.2/Kimi-K3 特性。
 
-## 2. 发布与破坏性变更
+## 发布与破坏性变更
 
-- **过去 24 小时内无新发布版本。** 用户报告中引用的公开 Docker 镜像仍为 `lmsysorg/sglang:v0.5.18-cu130`（v0.5.18，FlashInfer 0.6.17）。v0.5.19 在主线工作中被引用（Rust TreeCore 试用）。
-- **CUDA 13.4 容器合并草案：** [#38576](https://github.com/sgl-project/sglang/pull/38576) — 新增 CUDA 13.4 构建路径；影响使用旧工具链的用户。
-- **CP V1 弃用 5/5（文档）：** [#36230](https://github.com/sgl-project/sglang/pull/36230) — 通过 cookbook/CLI 引导用户迁离 v1 prefill-CP 别名。迁移方法：使用 `--enable-prefill-cp --cp-strategy {zigzag,interleave}`。
-- **LoRA + HiCache 页面隔离：** [#38577](https://github.com/sgl-project/sglang/pull/38577) — 语义变更：L3 存储哈希现在以 `extra_key` 为种子，因此跨适配器的相同提示将不再冲突。
-- **Rust server DP-attention 端口修复：** [#34430](https://github.com/sgl-project/sglang/pull/34430) — 端口分配现由调度器布局推导（不再出现跨节点的偏移冲突）。
+过去 24 小时内无新发布。无破坏性 API/配置变更公告。
 
-## 3. 新模型与硬件支持
+## 新增模型与硬件支持
 
-- **Qwen3.8-Flash-Next-NVFP4（ModelOpt MIXED_PRECISION）：** [#38569](https://github.com/sgl-project/sglang/pull/38569) — NVFP4 路由专家 + FP8 PLE n-gram 表 + FP8_BLOCK_SCALES MTP。沿用 #37500 引入的通用混合精度基础设施。
-- **DeepSeek-V4 TRT-LLM Attention（SM100/103）：** [#30805](https://github.com/sgl-project/sglang/pull/30805) — 面向 Blackwell 的 DSv4 一等 attention 路径。
-- **FlashInfer Mega MoE：** [#31470](https://github.com/sgl-project/sglang/pull/31470) — 已 fork 至主线。
-- **Mamba 1/2 推理：** [#34556](https://github.com/sgl-project/sglang/pull/34556) — SSM / 混合架构支持。
-- **GLM-5.3-Flash on SM120（RTX PRO 6000, TP2, W4A16）：** 追踪 [#37813](https://github.com/sgl-project/sglang/issues/37813)；尚未完成验证。
-- **DiT INT8 量化（ConvRot，在线 W8A8）：** [#38040](https://github.com/sgl-project/sglang/pull/38040) — `sgl-kernel` + `convrot_int8_customkernel`；面向 Qwen-Image（38 GiB BF16 DiT）。
-- **Aaronson-Gumbel 文本水印（可选）：** [#37577](https://github.com/sgl-project/sglang/pull/37577) — 用于欧盟 AI 法案第 50 条的溯源流程。
-
-## 4. 性能与优化
-
-- **Weight Cache Daemon 第一阶段（已发布）：** 各 rank 的守护进程持有量化后的权重，并通过 CUDA IPC 提供服务。Qwen3-235B FP8 权重加载：**约 306–327 s → <1 s**（[#33522](https://github.com/sgl-project/sglang/issues/33522)、[#27139](https://github.com/sgl-project/sglang/pull/27139)）。
-- **TRTLLM ragged prefill host-sync 移除：** [#38502](https://github.com/sgl-project/sglang/pull/38502) — FlashInfer 0.6.18 新增的空行扫描会将 `indptr` 回读到 host；此修复避免了每层、每次 prefill 的 host 阻塞。
-- **Qwen3-VL 在 H100 上的单图服务：** [#36411](https://github.com/sgl-project/sglang/pull/36411) — 去掉常驻的 24 GiB 预处理预留；单轮流式传输不再为 cache-hot 开销买单。
-- **Inkling MTP draft 元数据预置：** [#38169](https://github.com/sgl-project/sglang/pull/38169) — 将共享请求/KV 读操作前移至 verify 之前，使调度器可立即推进。
-- **KV 缓存可观测性：** [#38559](https://github.com/sgl-project/sglang/pull/38559) — 为 RadixCache 和 HiRadixCache 增加 KV 在命中/淘汰时的年龄、生命周期与复用次数指标。
-- **Rust TreeCore（试用，v0.5.19）：** [#38536](https://github.com/sgl-project/sglang/issues/38536) — 在小稠密模型、短共享前缀的高并发场景下，相较 Python TreeCore 测得端到端回退。**暂勿在生产环境启用。**
-- **AMD/AITER verify 运行时尺寸恢复：** [#38575](https://github.com/sgl-project/sglang/pull/38575) — 修复 #34647 在 verify 路径上的回退。
-
-## 5. 稳定性与回归
-
-**关键 / 影响生产**
-
-- **[#33549](https://github.com/sgl-project/sglang/issues/33549)** DeepSeek-V4（dsv4 + DSPARK），TP=8 on 8×H20：在约 245K 上下文处 decode forward 无限挂起，所有 GPU 利用率 100% / 功耗偏低，看门狗杀死服务。**[#38565](https://github.com/sgl-project/sglang/pull/38565)（确定性 renorm）已定位根本原因。** [#33614](https://github.com/sgl-project/sglang/pull/33614) 中提供了临时方案（broadcast rank 0）。
-- **[#30209](https://github.com/sgl-project/sglang/issues/30209)** GLM-5.2 NVFP4 + EAGLE on B200/B300：`flashinfer_trtllm` 在 nextn-draft MoE 路径上发生 bf16 batched-GEMM IMA。尚无修复。
-- **[#37633](https://github.com/sgl-project/sglang/issues/37633)** Qwen3.8-Flash-Next-FP8，H20 TP8：在约 22 路并发请求时 QSA extend prefill 路径出现 CUDA IMA；可通过 `CUDA_LAUNCH_BLOCKING=1` 或 `--disable-overlap-schedule` 抑制。
-- **[#38300](https://github.com/sgl-project/sglang/issues/38300)** 2×B300（FlashInfer MNNVL）上 TP2 卡死，伴随 HiCache + 可中断 prefill CUDA graphs。开放中，无修复。
-- **[#38031](https://github.com/sgl-project/sglang/issues/38031)** GLM-5.3-Flash（DSA），8×H100 TP8：HiCache host-tier 回传数据破坏生成结果，**即使不使用**推测解码也会出现（工具调用丢失、退化性复读）。开放中。
-- **[#36830](https://github.com/sgl-project/sglang/issues/36830)** GLM-5.3-Flash：`--kv-cache-dtype fp8_e4m3` 在 8×H20 上不可用。`index_kpool=4` 排除了 `flashmla_kv`，且无 CUDA DSA 后端支持 bf16-query × fp8-KV。
-
-**高优先级**
-
-- **[#38202](https://github.com/sgl-project/sglang/issues/38202)** DFLASH/DSPARK draft KV pool 预算使用 `tp_size` 而非 `attn_tp_size` → 在 Kimi-K3 的 DP attention 下出现 OOM。
-- **[#33483](https://github.com/sgl-project/sglang/issues/33483)** `max_running_requests=4096` 与 `cuda_graph_max_bs=32` 的默认值各自独立推导；越过 graph 上限后进入吸收态。
-- **[#36537](https://github.com/sgl-project/sglang/issues/36537)** Qwen3.8-Flash-Next 思维链 + `qwen3_coder` 工具解析器在 token ID 0 上陷入循环。
-- **[#36333](https://github.com/sgl-project/sglang/issues/36333)** 已断开的流式客户端留下僵尸请求，会持续 decode 到 `max_tokens` 并刷出 `"state was deleted in TokenizerManager"` — #34160 回退带来的回归。
-- **[#35080](https://github.com/sgl-project/sglang/issues/35080)** FlashInfer 后端被报告为"not supported on Blackwell GPUs" — 在 Blackwell 部署发布前需澄清。
-
-**中低优先级**
-
-- **[#30245](https://github.com/sgl-project/sglang/issues/30245)**（已关闭，非活跃）ROCm RDNA3（gfx1100）：fused-MoE 被上游 Triton AMD 后端阻塞。
-- **[#30632](https://github.com/sgl-project/sglang/issues/30632)**（已关闭，非活跃）与 `transformers` 5.8 → 5.12.1 相关的精度回归。
-- **[#30598](https://github.com/sgl-project/sglang/issues/30598)**（已关闭，非活跃）运行时 `--quantization fp8` 对 GDN `in_proj_qkvz/in_proj_ba` 进行量化，而官方静态 FP8 checkpoint 已排除这些层。
-- **[#38019](https://github.com/sgl-project/sglang/issues/38019)**（已关闭）统一 radix cache + HiCache + CP=2 在 KV pool 满回收时发生活锁。
-
-**CI 状态（[#17050](https://github.com/sgl
+- **Diffusion / VDN-H3** — 通过新增的 `hybrid_window_attn_h3` 后端，支持 OpenVDN `vdn-minimax-h3`（MiniMax-H3 混合窗口 softmax + Video Delta 线性注意力，8-NFE DMD2 蒸馏）。 [#37903](https://github.com/sgl-project/sglang/pull/37903)
+- **CPU sgl-kernel for DeepSeek-V4** — 第一部分：带 KV cache 的 flash-MLA 注意力（FP8 KV，稀疏）、FusedMoE 以及 group-GEMM。 [#32222](https://github.com/sgl-project/sglang/pull/32222)
+- **Diffusion AMX CPU 优化** — 重新合入 #28527，并修复了重复的 `process_weight_after_loading` 问题。 [#30719](https://github.com/sgl-project/sglang/pull/30719)
+- **AMD/ROCm** — Aiter 后端新增 Decode Context Parallelism（DCP）（第 1/N 部分）[#34432](https://github.com/sgl-project/sglang/pull/34432)；aiter asm paged-varlen FP8 page-64 prefill for gfx950 [#36505](https://github.com/sgl-project/sglang/pull/36505)；DeepSeek-V4 在 UMBP/Mooncake 直接外部链接器中的统一 KV [#38269](https://github.com/sgl-project/sglang/pull/38269)。
+- **NPU** — 950PR/DT 上的 GLM-5.2 推理，支持 FP8 KV + MLAProlog，并缩减 indexer cache 占用 [#38250](https://github.com/sgl-project/sglang/pull/38250
 
 </details>
 
@@ -178,75 +211,67 @@
 # llama.cpp 摘要 — 2026-09-09
 
 ## 今日要点
-
-在 **b10853–b10867** 版本中集中发布了一批后端稳定性修复，其中 **b10867** 尤为关键：在发现 `--lazy-mode auto` 会导致 AMD iGPU 的 prompt 处理吞吐量减半 (#28326) 后，该版本改变了 iGPU 上惰性张量加载的默认行为。Vulkan 仍然是回归报告的重灾区 —— 尤其是在 AMD RDNA3 (RADV/Vega 8/Strix Halo) 和 Intel Arc 上，出现了多起 DeviceLost 崩溃、workgroup-count 断言错误，以及在 131k 上下文时高达 78% 的解码吞吐量悬崖问题（已通过子分配块大小旋钮缓解）。功能方面，两个 MoE 优化 PR（host-resident expert LRU 缓存和 lookahead H2D 预取）目前正在活跃评审中，标志着 offloaded-expert 性能正成为稀疏模型的首要关注点。
+最关键的变化是 **正式移除遗留的 `--mmap` / `--mlock` / `--direct-io` 命令行标志**，见 [b10875 / #28334](https://github.com/ggml-org/llama.cpp/pull/28334)，完成了向统一 `--load-mode` 标志的迁移。性能方面，Vulkan 在 AMD 上持续成熟：新增的 iq4_xs mat-vec 着色器（[#28426](https://github.com/ggml-org/llama.cpp/pull/28426)）在 RDNA4 上带来约 6–17% 的 tok/s 提升，而 int8 coopmat1 矩阵乘（[#27952](https://github.com/ggml-org/llama.cpp/pull/27952)）覆盖了 RDNA3/4 上的 q4/q5/q8/q3_k/q4_k/q5_k/q6_k/mxfp4/nvfp4/iq4_nl。围绕 **CUDA 在 RTX 5090 / sm_120 上的稳定性问题** 正在增多，多个开放 issue 涉及 GPU 卡死、全芯片重置以及 mmq 构建异常。
 
 ## 发布与破坏性变更
+- **[b10875](https://github.com/ggml-org/llama.cpp/releases/tag/b10875)** — 正式弃用 `--mmap`/`--mlock`/`--direct-io`（[#28334](https://github.com/ggml-org/llama.cpp/pull/28334)）。用户必须迁移至 `--load-mode`。已合并。
+- **[b10867](https://github.com/ggml-org/llama.cpp/releases/tag/b10867)** — 在 iGPU 上默认禁用延迟张量加载（[#28326](https://github.com/ggml-org/llama.cpp/pull/28326)）。修复了先前在 [#28160](https://github.com/ggml-org/llama.cpp/issues/28160) 中指出的 iGPU 回退（qwen4exp 在 AMD iGPU / Vulkan 上 pp512 减半）。
+- **[b10865](https://github.com/ggml-org/llama.cpp/releases/tag/b10865)** — 回滚 HIP `prop.integrated` 恢复（[#28604](https://github.com/ggml-org/llama.cpp/pull/28604)）。
+- **[b10874](https://github.com/ggml-org/llama.cpp/releases/tag/b10874)** — Granite 3 MoE 参数数量修复（[#28632](https://github.com/ggml-org/llama.cpp/pull/28632)）；后续 [#28643](https://github.com/ggml-org/llama.cpp/pull/28643) 将该修复扩展到整个 Granite 系列。
+- **[b10872](https://github.com/ggml-org/llama.cpp/releases/tag/b10872)** — Jinja：`null in <map>` 现在返回 `false` 而非报错（[#28620](https://github.com/ggml-org/llama.cpp/pull/28620)）。影响将可选值默认为 `none` 的模板。
+- **[b10873](https://github.com/ggml-org/llama.cpp/releases/tag/b10873)** — mtmd：将视频 ID 传递到位图（[#28601](https://github.com/ggml-org/llama.cpp/pull/28601)）。
 
-- **b10867** — [`llama: disable lazy tensor loading by default on iGPUs`](https://github.com/ggml-org/llama.cpp/pull/28326). `--lazy-mode auto` 现在会根据系统选择合理的默认值；旧的 auto 行为（>4 GiB 惰性加载）现在改名为 `large`，而"全部惰性加载"为 `all`。对依赖旧 auto 语义的 AMD/Intel iGPU 用户来说，这是一个行为变更。([release](https://github.com/ggml-org/llama.cpp/releases))
-- **b10865** — [Revert `restore prop.integrated on HIP builds` (#24233)](https://github.com/ggml-org/llama.cpp/pull/28604). 恢复先前的 HIP 集成 GPU 检测；Strix Halo / Phoenix 用户可能需要重新验证其 `LLAMA_HIP_UMA` / `-ot` 策略。
-- **b10864** — [Server checkpoint min-step eviction fix](https://github.com/ggml-org/llama.cpp/pull/28302). `create_checkpoint()` 现在仅在检查点列表真正已满时才应用最小步长间隔，修复了 SWA/recurrent 模型在短上下文下的 prompt 驱逐问题。
-- **b10863** — Metal `mul_mv_iq3_xxs` 在 `ne00 < 1024` 时的半空闲 simdgroup 修复；改用单独的 8 行 split kernel 分发，而非依赖 4 行路径。([#28086](https://github.com/ggml-org/llama.cpp/pull/28086))
-- **b10859** — Header-include 修复经由 PR #28566 落地（解决 #28557, #28559 编译错误）。
-- **b10858** — [Vulkan UNARY(GELU|SIGMOID|SILU|SOFTPLUS)+MUL fusion](https://github.com/ggml-org/llama.cpp/pull/27220)，置于 `UNARY_MUL_FUSION` 开关之下，并为每个 op 提供专用 pipeline；预期在 transformer FFN 路径上带来一定的解码加速。
-- **b10857** — Vulkan-Hpp 在 32 位目标上的 non-dispatchable handle 修复。([#22892](https://github.com/ggml-org/llama.cpp/pull/22892))
-- **b10856** — [Chat: split specialized parsers into `common/parsers`](https://github.com/ggml-org/llama.cpp/pull/27764). 14 个模板解析器从 `chat.cpp` 中移出；无行为变更，但请留意下游在该目录中 glob 源码的构建系统。
-- **b10855** — [OpenCL conv2d non-contiguous stride fix](https://github.com/ggml-org/llama.cpp/pull/28503).
-- **b10853** — [Model: Kimi-K3 recurrent-state rollback support](https://github.com/ggml-org/llama.cpp/pull/28466). 为 Kimi-K3 推理实现正确的长上下文处理所必需。
-
-## 新增模型与硬件支持
-
-- **Kimi-K3** — recurrent-state rollback (#28466).
-- **HrmTextForCausalLM (DFM Mimir 1B)** — 融合 `gqkv` projection 的转换 writer 及新架构支持提案中 ([#27625](https://github.com/ggml-org/llama.cpp/pull/27625)).
-- **Nemotron 3 Super MTPv2** — draft-head 加载 bug 已修复；此前仅创建了 21 个 tensor 中的 19 个 ([#28617](https://github.com/ggml-org/llama.cpp/pull/28617)).
-- **Windows ARM64 + MSVC `cl.exe`** — 新构建路径提案中 ([#28362](https://github.com/ggml-org/llama.cpp/pull/28362))，为 WoA 开发者去除对 clang 的依赖。
-- **Intel Mac 上的 Metal 多 GPU (eGPU + dGPU)** — 功能请求已开启 ([#28565](https://github.com/ggml-org/llama.cpp/issues/28565)).
-- **XDNA (AMD Ryzen AI NPU) backend** — 长期悬而未决的功能请求持续获得反响 ([#21725](https://github.com/ggml-org/llama.cpp/issues/21725)).
-- **GLM 5.3 (flash)** — 支持请求中 ([#27922](https://github.com/ggml-org/llama.cpp/issues/27922)).
-- **LTX-2 diffusion GGUFs** — 面向图像/视频/音频生成流水线的 RFC ([#28541](https://github.com/ggml-org/llama.cpp/issues/28541)).
+## 新模型与硬件支持
+- **GLM-5.3-Flash MTP** 推测解码支持进行中（[#27917](https://github.com/ggml-org/llama.cpp/pull/27917)），相关讨论 [#27922](https://github.com/ggml-org/llama.cpp/issues/27922)（15 👍）。
+- **HRM-Text / DFM Mimir 1B**（`HrmTextForCausalLM`）转换与推理 — 开放 PR [#27625](https://github.com/ggml-org/llama.cpp/pull/27625)。
+- **Blackwell 上 NVFP4 W4A8 强制路径**，适用于 NVFP4_W4A16 层（[#24364](https://github.com/ggml-org/llama.cpp/pull/24364)）。
+- **IQ 类型对 MoE 的处理** 已合入 [b10868](https://github.com/ggml-org/llama.cpp/releases/tag/b10868) / [#28476](https://github.com/ggml-org/llama.cpp/pull/28476)。
+- **量化正确性**：gguf-py 修复宽张量 Q8_0/TQ1_0/TQ2_0 的符号位丢失问题（NumPy ≥2 临时消除的回归） — [#28523](https://github.com/ggml-org/llama.cpp/pull/28523)。
+- **CPU 后端**：RISC-V Q4_0 8×8 gemv/gemm（针对 `vlenb=16`）（[#28642](https://github.com/ggml-org/llama.cpp/pull/28642)）；s390x Q1_0 矢量 intrinsics（[#28606](https://github.com/ggml-org/llama.cpp/pull/28606)）；ARM Q1_0 4×4/4×8 NEON repack（[#23492](https://github.com/ggml-org/llama.cpp/pull/23492)）；Apple Metal — FA 中宽 query tile（[#28439](https://github.com/ggml-org/llama.cpp/pull/28439)）。
+- **OpenVINO**：NPU 上的无缓存编码器模型、GPU MoE 专家融合 + 分组 8-bit 重量化、权重溢出 — [#28638](https://github.com/ggml-org/llama.cpp/pull/28638)。
+- **Intel Mac 上的 Metal 多 GPU**（eGPU + dGPU）需求 — [#28565](https://github.com/ggml-org/llama.cpp/issues/28565)。
+- **XDNA 后端** 需求仍开放 — [#21725](https://github.com/ggml-org/llama.cpp/issues/21725)（32 👍）。
+- **RDMA over RPC 后端** 仍开放 — [#9493](https://github.com/ggml-org/llama.cpp/issues/9493)。
 
 ## 性能与优化
-
-- **Vulkan 子分配碎片悬崖** — 在 RX 7900 XTX 上 131 072 上下文时约 78% 的解码吞吐量下降，追溯到默认约 1 GiB 的子分配块；通过 `GGML_VK_SUBALLOCATION_BLOCK_SIZE=4 GiB` 缓解 ([#27734](https://github.com/ggml-org/llama.cpp/issues/27734))。代码层面的修复尚未落地。
-- **Vulkan 在 context 空闲时的 CPU 端写入** — 为 `ggml_backend_vk_cpy_tensor_async` 提出的快速路径，针对 split-model 传输中约 50 µs 的 fence-wait 开销 ([#28618](https://github.com/ggml-org/llama.cpp/pull/28618)).
-- **Vulkan UNARY+MUL fusion** — 已在 b10858 中落地；为每个 op 提供专用 pipeline，而非运行时分支 ([#27220](https://github.com/ggml-org/llama.cpp/pull/27220)).
-- **Metal `mul_mv_iq3_xxs` 半空闲 simdgroup** — 通过为 `ne00/32 < 32` 派发 split kernel 修复（b10863, [#28086](https://github.com/ggml-org/llama.cpp/pull/28086)).
-- **HIP branch-free SWAR** — 替换掉循环模拟的 `__vsub4`/`__vcmpne4`/`__vcmpeq4`；同时修正了 `__vsub4` 中 saturate-vs-wrap 的一个 bug ([#28616](https://github.com/ggml-org/llama.cpp/pull/28616)).
-- **MoE host-resident expert prefetch (lookahead H2D)** — 提案 `--prefetch-experts-slots N` 标志，代码量 327 行 ([#28414](https://github.com/ggml-org/llama.cpp/pull/28414)).
-- **MoE GPU-resident LRU cache for offloaded experts** — 缓存 `-ot ...exps=CPU` 路径上最近使用过的 expert，避免每个 token 从系统内存流式读取 ([#27861](https://github.com/ggml-org/llama.cpp/pull/27861)).
-- **`qwen4exp` `-sm tensor` re-enable** — 调度器放置中止（而非 QSA）问题已修复；测试 fixture 已更新 ([#28569](https://github.com/ggml-org/llama.cpp/pull/28569)).
-- **NVFP4 quantization scale tensors** — `llama-quantize NVFP4` 不再 UB；现在会按张量输出 `.scale` / `.input_scale`（F32 标量）([#22897](https://github.com/ggml-org/llama.cpp/pull/22897)).
+- **Vulkan / AMD RDNA4**：专用 iq4_xs mat-vec 着色器 → **+6–17% token 生成速度**（[b10871](https://github.com/ggml-org/llama.cpp/releases/tag/b10871) / [#28426](https://github.com/ggml-org/llama.cpp/pull/28426)）。
+- **Vulkan / AMD RDNA3 与 RDNA4**：int8 coopmat1 矩阵乘（[#27952](https://github.com/ggml-org/llama.cpp/pull/27952)），据称可改善 Strix Halo 的 prompt 处理。
+- **Vulkan / Intel coopmat1**：f16 B-type 矩阵乘流水线 + warp-tile 调优（[b10870](https://github.com/ggml-org/llama.cpp/releases/tag/b10870) / [#27471](https://github.com/ggml-org/llama.cpp/pull/27471)）。
+- **Vulkan / Strix Halo**：批处理推理的 mat-vec 行调优（[#27909](https://github.com/ggml-org/llama.cpp/pull/27909)）。
+- **CUDA RDNA3 / MoE MMQ N-tile 尺寸调整**（[#28552](https://github.com/ggml-org/llama.cpp/pull/28552)）— 路由专家 tile 选择的改进。
+- **CUDA Flash Attention 构建控制**：`GGML_FA_ALL_QUANTS` → `GGML_FA_QUANTS` 以缩减编译矩阵（[#28079](https://github.com/ggml-org/llama.cpp/pull/28079)）。
+- **Metal FA**：query tile 从 8 行扩展到 16 行（针对 `ne01 ≥ 64`）；在 M5 上 32 行时 **+6.8%**（[#28439](https://github.com/ggml-org/llama.cpp/pull/28439)）。
+- **Metal 融合重写**：单一来源 `ggml_metal_fuse` 表 + `gated_delta_net` 缓存融合（[#28164](https://github.com/ggml-org/llama.cpp/pull/28164)）。
+- **CPU VNNI 平铺 mul_mat（k-quants）**：据称带来 **3–7× CPU mul_mat 加速**（[#27851](https://github.com/ggml-org/llama.cpp/pull/27851)）。
+- **s390x Q1_0 intrinsics**：**+139.53% PP，+131.59% TG**（[#28606](https://github.com/ggml-org/llama.cpp/pull/28606)）。
+- **OpenVINO 有状态解码 + GPU MoE**：改进的 KV-cache 处理（滑动窗口、每层 head）、压缩专家融合（[#28638](https://github.com/ggml-org/llama.cpp/pull/28638)）。
+- **测试初始化成本**：数据初始化线程数现在随元素数量伸缩（[#28325](https://github.com/ggml-org/llama.cpp/pull/28325)）。
 
 ## 稳定性与回归
+按影响可能性排序：
 
-按生产服务的影响严重程度排序：
-
-1. **[严重] Vulkan `vk::Queue::submit: ErrorDeviceLost` on RADV (gfx1151) with `--spec-type draft-mtp`** — 在数万 token 时死于 prompt 中段；同一 argv 关闭 MTP 后可撑过 125k+。已定位到一行诊断代码 ([#27306](https://github.com/ggml-org/llama.cpp/issues/27306))。尚未有 PR 落地。
-2. **[严重] RTX 5090 显示器失联 / NVIDIA GSP 全芯片重置 on Qwen3.8-27B Q6_K** — 几次推理请求后黑屏，需重启 ([#27910](https://github.com/ggml-org/llama.cpp/issues/27910)).
-3. **[高] CUDA illegal memory access in `cudaStreamSynchronize` (flash-attn path) with Qwen3.6-35B MoE + partial expert offload** — 可复现，跨多个 build（b10107, b10243），关闭 `-fa off` 后消失 ([#26609](https://github.com/ggml-org/llama.cpp/issues/26609)).
-4. **[高] Vulkan on Intel Arc A770 hits `GGML_ASSERT(wg0 <= ctx->device->properties.limits.maxComputeWorkGroupCount...)` running Qwen 3.8 flash next** ([#28247](https://github.com/ggml-org/llama.cpp/issues/28247)).
-5. **[高] Vulkan `ErrorDeviceLost` on Vega 8 iGPU after ~50K context** ([#26447](https://github.com/ggml-org/llama.cpp/issues/26447)).
-6. **[高] SYCL/OpenCL `Experimental P2P feature is not implemented` on multi-GPU Arc** — `dev2dev_memcpy` crash ([#27168](https://github.com/ggml-org/llama.cpp/issues/27168)).
-7. **[中] MTP retains inter-request state — non-deterministic output / model degradation** on Qwen3.6-35B-A3B-MTP ([#26425](https://github.com/ggml-org/llama.cpp/issues/26425)).
-8. **[中] HIP/ROCm on gfx1151 produces wrong logits (not a crash) for prompts longer than `n_ubatch`** ([#28211](https://github.com/ggml-org/llama.cpp/issues/28211)).
-9. **[中] Vulkan/ANV flash-attention fallback to SCALAR path → O(N²) PP degradation + device loss on Arc B580** ([#27638](https://github.com/ggml-org/llama.cpp/issues/27638)).
-10. **[中] Parallel `tool_calls` mangled or hung across Qwen models on a tool with ~48 optional params** — 影响 agent/工具框架 ([#28522](https://github.com/ggml-org/llama.cpp/issues/28522)).
-11. **[中] Qwen2.5-Omni intermittent silent audio corruption on Metal under system load** ([#28441](https://github.com/ggml-org/llama.cpp/issues/28441)).
-12. **[低] `tools/ui/dist` stale assets break headless `llama-server` builds even with `LLAMA_BUILD_UI=OFF`** — 已关闭/陈旧 ([#25443](https://github.com/ggml-org/llama.cpp/issues/25443))。在较新 build 中已缓解。
-13. **[低] `--lazy-mode auto` halves pp512 for qwen4exp on Vulkan (AMD iGPU)** — 由 **b10867 / #28326** 直接处理。
-
-已发布或提案中的 Build/infra 修复：**cmake `build-info.cmake` no longer picks up a parent git repo** ([#28462](https://github.com/ggml-org/llama.cpp/pull/28462), 修复 #28397)；**CI sanitizer tests** ([#28583](https://github.com/ggml-org/llama.cpp/pull/28583))；**API/ABI compatibility checker script** ([#28579](https://github.com/ggml-org/llama.cpp/pull/28579))。
+1. **[#27330](https://github.com/ggml-org/llama.cpp/issues/27330) — 开放，严重** — CUDA graphs 在 **RTX 5090 Laptop (sm_120)** 上挂起 GPU 通道，触发 RC watchdog + Xid 8；`GGML_CUDA_DISABLE_GRAPHS=1` 是完整的临时绕过方案。
+2. **[#27910](https://github.com/ggml-org/llama.cpp/issues/27910) — 开放** — 在 Linux 下运行 Qwen3.8-27B Q6_K 时，**RTX 5090** 出现显示黑屏 + NVIDIA GSP / 全芯片重置（通过 Codex/DeepSeek Harness 可复现）。
+3. **[#18363](https://github.com/ggml-org/llama.cpp/issues/18363) — 已关闭** — 计算能力 120（sm_120）的 CUDA mmq 构建已修复，代码已合入。
+4. **[#26845](https://github.com/ggml-org/llama.cpp/issues/26845) — 已关闭** — 在 Intel Arc Pro B60、KAT-Coder-V2.5 上，**SYCL** 在第二条 prompt 时输出乱码。
+5. **[#28211](https://github.com/ggml-org/llama.cpp/issues/28211) — 开放，正确性问题** — **gfx1151 / Strix Halo APU** 上的 HIP/ROCm 在 prompt 长度 > `n_ubatch` 时产生 **错误的 logits**（非崩溃）。
+6. **[#26425](https://github.com/ggml-org/llama.cpp/issues/26425) — 开放** — MTP 保留了请求间状态，导致 **输出非确定性以及模型退化**（Qwen3.6-35B-A3B-MTP）。
+7. **[#27296](https://github.com/ggml-org/llama.cpp/issues/27296) — 开放** — MTP 破坏长/短推理一致性。
+8. **[#23268](https://github.com/ggml-org/llama.cpp/issues/23268) — 已关闭** — Vulkan 上的推测解码出现间歇性超时（AMD 395，Qwen3.6-35B-A3B-UD-Q8_K_XL）。
+9. **[#28581](https://github.com/ggml-org/llama.cpp/issues/28581) — 开放** — **IQ3_S** 在 RTX 5060 Ti 16GB（Blackwell）上输出乱码。
+10. **[#26285](https://github.com/ggml-org/llama.cpp/issues/26285) — 已关闭** — 由于共享内存阈值，MMQ 在 **RTX 3090** 上被错误地禁用；prefill 回退到慢速路径。
+11. **[#28522](https://github.com/ggml-org/llama.cpp/issues/28522) — 已关闭** — 在约 48 个可选参数的 Qwen 模型上，并行 `tool_calls` 出现乱序或挂起。
+12. **[#28580](https://github.com/ggml-org/llama.cpp/issues/28580) — 已关闭** — 服务器 `input_video` 缓存污染：因视频位图缺少 sha256 id（而图像有），帧在不同请求间被复用。影响所有提供 OpenAI 兼容视频 prompt 的 agent 服务。
+13. **[#28160](https://github.com/ggml-org/llama.cpp/issues/28160) — 已关闭** — Vulkan（AMD iGPU）在默认 `--lazy-mode auto` 下出现 pp512 回退；已通过 [b10867](https://github.com/ggml-org/llama.cpp/releases/tag/b10867) 缓解。
+14. **[#28635](https://github.com/ggml-org/llama.cpp/issues/28635) — 开放** — Adreno 830 Vulkan：`vkCreateComputePipelines VK_ERROR_UNKNOWN`（针对 `mul_mat_vec_q4_k`），根源是 shaderc/NDK 产生非确定性的 SPIR-V。
+15. **[#28234](https://github.com/ggml-org/llama.cpp/issues/28234) — 开放** — Termux 上 Vulkan 着色器优化器失败。
+16. **[#27849](https://github.com/ggml-org/llama.cpp/issues/27849) — 已关闭** — Vulkan 在 prompt 读取时崩溃（Intel Meteor Lake iGPU）。
+17. **[#27835](https://github.com/ggml-org/llama.cpp/issues/27835) — 开放** — `llama-server` 在并发 CUDA 连接下崩溃（RTX PRO 6000 Blackwell）。
+18. **[#27953](https://github.com/ggml-org/llama.cpp/issues/27953) — 开放** — 在混合 GPU 配置（≥3 GPU）下，Qwen Next Flash Attention 过度分配 compute buffer。
+19. **[#28640](https://github.com/ggml-org/llama.cpp/pull/28640) — 已合并** — 修复 SM70（V100 Volta）FA 在非标准 head dim（例如 Mistral-4）下的崩溃。
 
 ## 对应用开发者的意义
-
-- **针对 b10867+ 重新基准测试你的 iGPU 和 Vulkan-AMD 流水线。** `--lazy-mode auto` 不再在 iGPU 上惰性加载；如果你之前依赖旧的 auto 语义来节省内存，请显式设置 `--lazy-mode large` 或 `--lazy-mode all`。
-- **AMD 上的 Vulkan 仍然是当下风险最高的生产路径。** 如果你的目标平台是 RDNA3 (RADV) 且使用 MTP-draft 或任何会推动到 ~50k 上下文以上的模型，请固定到稳定 build，使用经过验证的 model+driver 矩阵进行测试，并为 DeviceLost 做好准备。在 #27306 / #26609 / #26447 的修复落地之前，请将这些配置上的 Vulkan 视为尽力而为。
-- **遭遇 131k 解码悬崖？** 目前先设置 `GGML_VK_SUBALLOCATION_BLOCK_SIZE=4 GiB`（已在 RX 7900 XTX 上验证）。关注上游默认值变更。
-- **Qwen 上的工具/agent 框架：** 如果你使用具有宽参数 schema 的并行函数调用，请在 Qwen 类模型上验证输出 —— 存在一个关于调用错乱/挂起的未关闭 bug (#28522)。同时关注 DeepSeek V3.2 的 DSML 处理 (#28612) 以及 #28620 中修复的 Jinja null-in-map 边界情况。
-- **MoE 模型服务：** 两项即将推出的优化（LRU cache #27861、lookahead prefetch #28414）瞄准了 host-offloaded expert 的瓶颈。如果你的服务栈使用 `-ot ...exps=CPU` 或 `-ncmoe`，建议基于这些 PR 做原型 —— 它们应能显著提升 Qwen3 类 MoE 的解码吞吐量。
-- **长上下文 SWA/hybrid slot restore：** b10864 修复了 SWA 和 recurrent 模型上 `slot save/restore` 的检查点驱逐问题（#26004 仍在推进更广泛的 context-checkpoint 保留）。如果你的应用跨 slot 回收持久化会话，请重新测试。
-- **NVFP4 quantization is now actually usable** — 如果你之前因 UB 或缺失的 scale tensor 而受阻，#22897 中合并的修复为 NVFP4 权重打通了 CUDA MMA 反量化路径。
-- **针对 headless/嵌入式部署的构建加固：** cmake `build-info.cmake` 修复 (#28462) 关闭了一个隐患 —— release tarball 会从父目录继承错误的 git SHA —— 请重新运行你的 release 构建。
+- **迁移事项**：检查你的启动脚本和工具封装中是否使用了 `--mm
 
 </details>
 
@@ -255,250 +280,176 @@
 
 # Ollama 摘要 — 2026-09-09
 
-## 今日要点
+## 1. 今日要点
 
-合并队列由 **MLX runner 强化** 和 **OpenAI/Anthropic API 兼容性修复** 主导。两个显著的 MLX 痛点已关闭 —— 由前缀缓存未对齐到 8192 token 边界导致的 17–27 秒重新预填充（[#18267](https://github.com/ollama/ollama/issues/18267)），以及一项用作用域生命周期替代全量清扫的 MLX 数组生命周期重构（[#18327](https://github.com/ollama/ollama/pull/18327)）。在 API 侧，`/v1/messages` 和 `/v1/chat/completions` 上针对纯工具轮次的 `500 "no user query found in messages"` 错误已修复（[#18303](https://github.com/ollama/ollama/issues/18303)），但 `/v1/responses` 上出现了一类新的静默失败 bug（`developer` 角色项被丢弃、`tool_search` 结果从未暴露给模型）。
+过去 24 小时的主题是 **AMD/Vulkan 路径上的硬件回归** 以及（推测）为近期发布做准备的 **MLX runner 稳定化**。在 AMD Radeon iGPU（780M、9060 XT）以及 Vulkan 大模型（66 GB）命令提交上，已更新或新建多个已确认的回归问题；同时维护者已落地 MLX prefix-cache 重新预填充开销（17–27 秒）以及 Windows 上 MLX compile-cache 日志刷屏的修复。在新硬件启用方面，面向 Linux 下 Arc 独显的 Intel Level Zero 优化（PR [#18333](https://github.com/ollama/ollama/pull/18333)）以及统一的 GGUF 元数据缓存（PR [#17858](https://github.com/ollama/ollama/pull/17858)）均取得推进。
 
-## 发布与破坏性变更
+## 2. 发布与破坏性变更
 
-过去 24 小时无发布。底层引擎版本升级已在队列中：
-- [llama.cpp b10864](https://github.com/ollama/ollama/pull/18317)（PR 已开启，来自 b10760）
-- [MLX 版本升级](https://github.com/ollama/ollama/pull/18235)（PR 已开启）
+过去 24 小时无新发布。多个已合并但被关闭的 PR（#18329、#18328、#18309、#18332、#18330、#18179）已被合入其他在飞分支而非独立发布——不暗示任何公开版本号变更。
 
-## 新模型与硬件支持
+## 3. 新模型与硬件支持
 
-- **MLX：Qwen3.5/3.8 静态 YaRN** —— 从当前 RoPE 配置中解析 YaRN 元数据，并支持最大 `factor × original_max_position_embeddings` 的上下文，包括多模态 M-RoPE。（[#18263](https://github.com/ollama/ollama/pull/18263)，已关闭）
-- **MLX：safetensors 导入路径** —— 新增服务端 MLX 导入；GGUF 创建功能被限制为将已有 GGUF 输入包装为 Ollama manifest。（[#14969](https://github.com/ollama/ollama/pull/14969)，进行中）
-- **FunctionGemma 多行工具参数** —— 解析器修复，使 `write_file` 类调用中字符串参数包含换行符时不再被丢弃。（[#18322](https://github.com/ollama/ollama/pull/18322)，进行中）
-- **Qwen3.8-27B-GSQ-RCO-GGUF 上的 IQ3_S** —— 用户反馈 `content` 为空且 `done_reason: "stop"`；Ollama 上游对该量化的支持尚待确认。（[#18297](https://github.com/ollama/ollama/issues/18297)，进行中）
-- **AMD ROCm（RDNA4 / gfx1200）** —— `qwen3.8:27b` 间歇性无法加载 `TensileLibrary_lazy_gfx1200.dat`；RX 9060 XT 16 GB 用户受影响。（[#17782](https://github.com/ollama/ollama/issues/17782)，进行中）
-- **模型签名（Sigstore 风格）** —— 长期运行的 PR #11573 持续在为模型加载前添加签名 + 完整性验证。
+- **Linux 下通过 Vulkan + Level Zero 支持 Intel Arc 独显**（[PR #18333](https://github.com/ollama/ollama/pull/18333)）——非侵入式的优化层，使用 `libze.so.1` / `libze_intel_gpu.so.1` 在 Vulkan 路径上检测 Intel Arc B70 32 GB 及类似型号。值得在基于 Intel GPU 的 Ollama 部署中持续关注。
+- **模型签名计划**（[PR #11573](https://github.com/ollama/ollama/pull/11573)）仍在推进中，子 PR [#11526](https://github.com/ollama/ollama/pull/11526) 已合并用于签名原语；模型加载前的完整性校验正在分阶段落地。
+- **云端模型目录请求**（[Issue #17100](https://github.com/ollama/ollama/issues/17100)）——社区请求在 Ollama Cloud 上架 Ornith、Longcat 2.0、Mimo v2.5/pro、Olmo 3.1、Laguna xs 2.1、Hunyuan Hy3、Jamba、Step 3.7。
+- **`Qwen3.8-27B-GSQ-RCO-GGUF` 的 IQ3_S**（[Issue #18297](https://github.com/ollama/ollama/issues/18297)）——用户反馈出现 `done_reason: stop` 但 **`content` 为空**；在此量化下基本不可用。
 
-## 性能与优化
+## 4. 性能与优化
 
-- **MLX 前缀缓存对齐修复** —— 恢复时精确落在匹配前缀上，而非向下取整到 8192 的倍数，消除了在 Claude Code 风格 agent 工作负载上观察到的固定 17–27 秒冷提示词重新预填充。（[#18267](https://github.com/ollama/ollama/issues/18267)，已关闭）
-- **MLX 数组生命周期重构** —— 绑定现在采用作用域生命周期而非基于清扫的释放；触发点是前缀缓存淘汰路径（此前每次合并都会累积持有的数组）。（[#18327](https://github.com/ollama/ollama/pull/18327)，进行中）
-- **MLX 上下文生效** —— 区分显式硬性 `num_ctx` 与自动软性尺寸；仅当用户或模型实际请求时才将 `--ctx-size` 传递给 MLX 子进程。（[#18285](https://github.com/ollama/ollama/pull/18285)，已关闭）
-- **服务端：GGUF 元数据提取** —— 每个 blob 的元数据仅提取一次，存入 `<OLLAMA_MODELS>/metadata/sha256-<hex>.json`，消除了重复缓存及能力实现间的不一致。（[#17858](https://github.com/ollama/ollama/pull/17858)，进行中）
-- **服务端：上下文溢出时的压缩重试** —— 在溢出后丢弃约 20% 最旧的可移除对话记录后自动重试压缩，同时保留 user/assistant 边界。（[#18324](https://github.com/ollama/ollama/pull/18324)，已关闭）
+- **GGUF 元数据提取与能力统一**（[PR #17858](https://github.com/ollama/ollama/pull/17858)）——元数据现在每个 blob 仅提取一次，并缓存至 `<OLLAMA_MODELS>/metadata/sha256-<hex>.json`，取代此前两份相互背离、且在不同模型间产生不一致能力结果的缓存。对启动、`ollama show`、API 握手有实质性提升；能力去重也修正了部分模型的正确性问题。
+- **MLX prefix-cache 恢复，已修复**（[Issue #18267](https://github.com/ollama/ollama/issues/18267)，已关闭）——此前恢复总是落在匹配前缀下方 8192 token 的整数倍处，导致每次智能体工作负载（Claude Code 对接本地模型）的冷启动回合都会固定产生 17–27 秒的重新预填充。修复已合入。
+- **MLX 数组生命周期作用域化**（[PR #18327](https://github.com/ollama/ollama/pull/18327)）——以作用域化的生命周期取代全局“pin + sweep”；消除了 prefix-cache 淘汰时所撞上的长期内存累积路径。对长时间运行的 MLX serve 会话尤为重要。
+- **非 MLX 的 Windows 上 MLX compile-cache 日志刷屏**（[PR #18335](https://github.com/ollama/ollama/pull/18335)，关闭 [#18283](https://github.com/ollama/ollama/issues/18283)）——改为惰性符号解析，避免每次调用 `ollama` 时向 stderr 打印 `CHECK failed: mlx_compile_cache_new_`。
+- **macOS 应用生命周期**（[PR #17558](https://github.com/ollama/ollama/pull/17558)）——关闭窗口现在改为隐藏应用，而不是让它继续停留在 Dock 中。这是 UX 而非性能层面的改动，但对无头环境（菜单栏图标一直残留的场景）值得留意。
 
-## 稳定性与回归
+## 5. 稳定性与回归
 
-按用户影响排序：
+大致按影响范围排序：
 
-1. **高 —— 纯工具轮次导致 `/v1/messages` 与 `/v1/chat/completions` 返回 HTTP 500** —— 已在 [PR #18303](https://github.com/ollama/ollama/issues/18303) 修复（已关闭）。与 `qwen3.8` 在 205k 上下文下的 [#17778](https://github.com/ollama/ollama/issues/17778) 同根因 —— 该问题仍开放，等待回移植验证。
-2. **高 —— `/v1/responses` 静默丢弃 `developer` 角色项** —— 返回 200 OK 与 `status: "completed"`，无报错，但内容从未到达模型。system/user 等价路径正常。（[#18305](https://github.com/ollama/ollama/issues/18305)，进行中）
-3. **高 —— Responses API 的 `tool_search` 结果从未作为可调用工具提供** —— Codex CLI / MCP 客户端受影响；工具在搜索结果内可见，但不在模型的工具列表中。（[#18306](https://github.com/ollama/ollama/issues/18306)，进行中）
-4. **中 —— RDNA4 上 ROCm `TensileLibrary_lazy_gfx1200.dat` 失败** —— RX 9060 XT 16 GB 上运行一段时间后硬崩溃。（[#17782](https://github.com/ollama/ollama/issues/17782)，进行中）
-5. **中 —— `gemma3:12b` 结构化输出（`format`）在含引号输入时截断** —— 当源包含转义双引号时，`done_reason: "stop"` 但 `eval_count` 极低。（[#18094](https://github.com/ollama/ollama/issues/18094)，进行中）
-6. **中 —— `glm-5.3:cloud` 进入无限推理并中止** —— 仅在 Ollama Cloud 上出现；上游 Z.AI API 不受影响。（[#18193](https://github.com/ollama/ollama/issues/18193)，进行中）
-7. **低 —— IQ3_S Qwen3.8 GSQ-RCO GGUF 输出空内容** —— 疑似量化格式支持缺口。（[#18297](https://github.com/ollama/ollama/issues/18297)，进行中）
-8. **低 —— `progress` 渲染循环与 `sched` LogValue 中的数据竞争** —— 共享 `bufio.Writer` 上 `Stop`/`StopAndClear` 与进行中渲染之间的竞争；`runnerRef.LogValue` 中的字段在读取时未加 `refMu`。已在 [PR #18319](https://github.com/ollama/ollama/pull/18319) 修复（已关闭）。
+- **🔴 AMD iGPU 上的 Vulkan 回归——"Not enough memory for command submission"**（[Issue #18272](https://github.com/ollama/ollama/issues/18272)）。**v0.32.9** 上可用，**v0.32.12+** 上加载 66 GB 模型即失败。**尚无修复 PR。** 若你将环境锁定在 Linux/Win11 的 AMD iGPU，请保持在 v0.32.9，直至该问题解决。
+- **🔴 AMD Radeon 780M Vulkan 回归 ≥ v0.32.10**（[Issue #17748](https://github.com/ollama/ollama/issues/17748)，👍 3）。同样的 `radv/amdgpu: Not enough memory for command submission` / `vk::Queue::submit: ErrorDeviceLost` 失败模式。尚无修复 PR。
+- **🔴 ROCm `TensileLibrary_lazy_gfx1200.dat` 在 rx 9060 XT 16 GB 上加载失败**（[Issue #17782](https://github.com/ollama/ollama/issues/17782)）。运行 `qwen3.8:27b` 一段时间后出现；看起来更像是会话中段的 ROCm/库卸载问题，而非启动失败。尚无修复 PR。
+- ** `qwen2.5-coder:3b-instruct` 低比特量化损坏**（[Issue #18252](https://github.com/ollama/ollama/issues/18252)）。`q2_K`、`q3_K_S`、`q3_K_M`、`q3_K_L` 均返回流畅但功能上无用的输出（在 HumanEval+ 冒烟测试集上 0/15）；同系列更高比特量化不受影响。疑似模型端或注册表制品问题；在 CI 中推荐这些 tag 之前请持续跟踪。
+- ** `gemma3:12b` 结构化输出在含双引号输入时被截断**（[Issue #18094](https://github.com/ollama/ollama/issues/18094)）。当 JSON schema 的 `format` 在源文本中遇到 `"` 时，会过早产生 `done_reason: stop` 且 `eval_count` 偏低。影响该模型上的所有抽取型 agent。
+- ** `glm-5.3:cloud` 进入无限推理并中止**（[Issue #18193](https://github.com/ollama/ollama/issues/18193)）。通过 OpenCode 与 ZCode 接入 Ollama Cloud 端点可复现；Z.AI 官方 API 未受影响。尚无修复 PR。
+- ** Codex/Claude Desktop 集成回归**——[#16177](https://github.com/ollama/ollama/issues/16177)（`ollama launch codex-app` 破坏了 Codex 原生命名管道的可信状态）、[#18188](https://github.com/ollama/ollama/issues/18188)（"Restart Claude Desktop" 开关静默回滚，未写入网关配置）。多个相关 proxy PR（[#18331](https://github.com/ollama/ollama/pull/18331)、[#18332](https://github.com/ollama/ollama/pull/18332)）在一天内被反复迭代并关闭，提示这些修复已被合入更大分支。
+- ** `Qwen3.8-27B-GSQ-RCO-GGUF` 的 `IQ3_S` 返回空内容**（[Issue #18297](https://github.com/ollama/ollama/issues/18297)）。看起来像是量化加载路径上的回归；在确认前请将本 tag 视为不可用。
+- ** 已关闭但仍需关注**：[#1599](https://github.com/ollama/ollama/issues/1599)（部分下载模型清理）、[#16821](https://github.com/ollama/ollama/issues/16821)（OpenWebUI 下 Gemma/Qwen 原生函数调用）、[#16773](https://github.com/ollama/ollama/issues/16773)（cloud 403 透出）、[#18267](https://github.com/ollama/ollama/issues/18267)（MLX prefill）、[#18283](https://github.com/ollama/ollama/issues/18283)（MLX 日志刷屏）——均已关闭且修复已落地。
 
-## 对应用开发者的意义
+## 6. 对应用开发者的意义
 
-- **纯工具轮次的 agent 循环在 `/v1/chat/completions` 与 `/v1/messages` 上现已安全**（这是典型的 Claude Code / OpenAI Codex 往返模式）。如果你使用 Ollama 0.30.x 分支，请针对下一版本进行验证；该 500 错误可恢复，但会破坏对话中段的状态。
-- **`/v1/responses` 尚未达到生产级别。** 今天新增了两条静默失败路径（`developer` 角色项被丢弃、`tool_search` 结果未暴露）。在两者均发布修复之前，针对 Codex-CLI 风格的 MCP 工作负载请优先使用 `/v1/chat/completions`，并确认你发送的任何 `developer` 角色指令确实到达了模型。
-- **Apple Silicon 上的 MLX 在 agent 工作负载下显著提速** —— 每个冷对话开始时的 17–27 秒开销已消失，Qwen3.5/3.8 通过 runner 实现端到端的 YaRN 上下文扩展（与长上下文代码 agent 相关）。请关注进行中的 [#18327](https://github.com/ollama/ollama/pull/18327) 重构，以获取进一步的内存稳定性收益。
-- **冷启动延迟将在 GGUF 元数据提取 PR 合入后进一步改善** —— 当前服务端命中两个并行缓存，能力结果不一致，这在生产网关中容易表现为难以察觉的逐模型行为漂移。
-- **模型溯源已在路线图上**：PR #11573 正在为加载流程引入 Sigstore 风格的签名 + 验证。如果你在 Ollama 前方运行内部注册表或代理，现在就可以开始考虑 pinning/verification 策略，以便在功能发布时即可启用。
+- **AMD iGPU / Vulkan 用户：在 [#18272](https://github.com/ollama/ollama/issues/18272) 与 [#17748](https://github.com/ollama/ollama/issues/17748) 解决之前，不要升级到 v0.32.9 以上。** 在拉取下一个 minor 版本前，在你的部署流水线中加入回归检查。
+- **在 MLX（Apple Silicon）runner 上，下一版本预计会有显著的冷启动回合加速**：智能体工作负载上将消除 17–27 秒的重新预填充（[#18267](https://github.com/ollama/ollama/issues/18267)），长时间会话的内存累积问题也将被修复（[#18327](https://github.com/ollama/ollama/pull/18327)）。升级后值得重新评估你的 agent 延迟预算。
+- **`gemma3:12b` + `format`（结构化输出）对可能遇到 `"` 的抽取任务是不安全的**（[#18094](https://github.com/ollama/ollama/issues/18094)）。要么对输入进行预先清洗，要么切换到 `llama3.x`，要么在截断问题修复前固定使用非 format 的生成模式。
+- **避免使用 `qwen2.5-coder:3b-instruct` 的低比特量化**（`q2_K`、`q3_K_S/K_M/K_L`）——在标准 HumanEval+ 子集上当前功能正确率为 0%（[#18252](https://github.com/ollama/ollama/issues/18252)）。请固定使用 `q4_K_M` 及以上。
+- **Codex/Claude Desktop 启动器尚不稳定**：[#18188](https://github.com/ollama/ollama/issues/18188) 与 [#16177](https://github.com/ollama/ollama/issues/16177) 展示了两种不同的损坏模式（网关配置未写入；原生命名管道可信状态丢失）。多个 proxy PR 在同一天被反复迭代——预计很快会有合并修复，但请今天就在你的 CI 中验证启动器。
+- **Cloud 端点与厂商 API 并非 1:1 对等**：`glm-5.3:cloud` 与 Z.AI 的行为存在差异（[#18193](https://github.com/ollama/ollama/issues/18193)）。若你是集成方，请将 cloud tag 视为一个独立的推理目标，配套独立的回归测试套件，而不是上游提供方的即插即用替代品。
+- **OpenAI 兼容的工具 schema 现在接受嵌套的 `required: object|null`**（[PR #18140](https://github.com/ollama/ollama/pull/18140)）——应可减少经由 Ollama `/v1` 入口的合法第三方工具 schema 被拒绝的情况。
+- **硬件路线图信号**：Linux 上的 Intel Arc 独显正通过 Level Zero + Vulkan 成为一等目标（[#18333](https://github.com/ollama/ollama/pull/18333)）；模型签名（[#11573](https://github.com/ollama/ollama/pull/11573)）也在切实走向落地，若你的威胁模型涵盖模型供应链完整性，这将很有意义。
 
 </details>
 
 <details>
 <summary><strong>LiteLLM</strong> — <a href="https://github.com/BerriAI/litellm">BerriAI/litellm</a></summary>
 
-# LiteLLM 简报 — 2026-09-09
+# LiteLLM 摘要 — 2026-09-09
 
-## 今日要点
-
-当前的活动主要聚焦于**限流与安全正确性问题**，而非新功能。两个相关报告显示，按团队/模型配额（`#34140`）和虚拟密钥 TPM 限制（`#24677`）实际生效值约为配置值的一半；另外两份报告（`#40217`、`#39757`）显示，认证失败时会把密钥哈希和后端身份泄露给未认证调用方。正面来看，一项关键的 Bedrock 异步签名修复（`#40270`）已落地，将 SigV4 从事件循环中移出；此外新增了一个位于 `SIMPLE` 之下的可选 `NON_REASONING` 路由层级（`#40273`），用于只需中继工具输出的智能体工作负载。
+## 今日要闻
+`v1.102.0-dev.1` 开发版本附带 cosign 签名的 Docker 镜像，建立了运维可在准入时强制执行的固定密钥溯源链。安全与身份验证卫生是今日主线：未脱敏的 `print_verbose` stdout 泄露（[#34705](https://github.com/BerriAI/litellm/issues/34705)），一套协调的身份验证加固方案（泄露密码检测 [#39321](https://github.com/BerriAI/litellm/pull/39321)、强制重置 [#40107](https://github.com/BerriAI/litellm/pull/40107)、自助密码修改 [#39562](https://github.com/BerriAI/litellm/pull/39562)），以及面向内部用户预算强制执行的 Webhook 告警（[#40396](https://github.com/BerriAI/litellm/pull/40396)）。在协议层面，`/v1/messages` → Responses API 网桥的加密推理亲和性正在进行端到端修复（[#39339](https://github.com/BerriAI/litellm/issues/39339) / [#40237](https://github.com/BerriAI/litellm/issues/40237) / [#40377](https://github.com/BerriAI/litellm/pull/40377)）。
 
 ## 发布与破坏性变更
-
-过去 24 小时无新版本发布。最近已完成的工作（已合并 PR）包括：内部预发环境晋级（`#40307`）、仪表盘依赖升级到 Next.js 16.3.3 / Vitest 4.1.11（`#40312`），以及 MLflow 流式内存泄漏修复（`#39049`）。
+- **[`v1.102.0-dev.1`](https://github.com/BerriAI/litellm/releases/tag/v1.102.0-dev.1)** — 无记录的破坏性变更。所有 Docker 镜像均使用固定到提交 `0112e53` 的密钥进行 cosign 签名；可通过 `cosign verify` 针对已发布标签进行验证。
+- **`stable/1.87.x` 回移植包** — [PR #31177](https://github.com/BerriAI/litellm/pull/31177) 交付五项已合并的修复，聚焦于 Anthropic 流式成本回收（中断流和智能体流此前被丢弃或低估）。无版本号变更。
 
 ## 新模型与硬件支持
-
-- **gpt-6-astra（OpenAI）** — 在 `/v1/chat/completions` 上无法使用；该模型族尚未被 `is_model_gpt_5_model` / `is_model_gpt_5_4_plus_model` 识别，导致 `max_tokens` 被拒绝。跟踪于 [#40279](https://github.com/BerriAI/litellm/issues/40279)。
-- **QwenCloud provider 迁移路径** — 请求为国际版 Qwen/Wan/CosyVoice 平台提供官方 provider，兼容 OpenAI 与 Anthropic 接口。跟踪于 [#36150](https://github.com/BerriAI/litellm/issues/36150)。
-- **vLLM `/v1/realtime` 端点** — 仍处于开放状态，请求原生 provider 支持。跟踪于 [#23102](https://github.com/BerriAI/litellm/issues/23102)。
-- **模型组合（"group of groups"）** — 功能请求被重新开启/讨论。[#28125](https://github.com/BerriAI/litellm/issues/28125)。
-
-无新的硬件后端或量化格式被涉及。
+- **面向 OAuth/代理部署的 ChatGPT Codex** — 图像编辑、结构化审查（严格 JSON schema）、实时语音信令，以及 ChatGPT 图像适配器（含 JSON 参考图）。[PR #40366](https://github.com/BerriAI/litellm/pull/40366)。
+- **Vertex AI 版本化 Claude ID** — [PR #40376](https://github.com/BerriAI/litellm/pull/40376) 修正了类似 `claude-haiku-4-5@20251001` 这类 ID 的默认 `max_tokens` 解析器；姊妹 [PR #40374](https://github.com/BerriAI/litellm/pull/40374) 将成本映射填充更新为 64000。未显式指定 `max_tokens` 的请求不再限制为 4096。
+- **Azure GPT-5.6 Luna** 定价修正（输入/输出/缓存），并附带回归覆盖。[PR #36279](https://github.com/BerriAI/litellm/pull/36279)。
+- **Azure AI DeepSeek v4 Flash / Pro** 的定价条目在 `model_prices_and_context_window.json`（及备份）中待添加。[Issue #30129](https://github.com/BerriAI/litellm/issues/30129)。
+- **火山方舟 `doubao-embedding-vision-251215`** 集成已关闭。[Issue #29570](https://github.com/BerriAI/litellm/issues/29570)。
 
 ## 性能与优化
-
-- **Bedrock 签名移出事件循环** — `/v1/messages`、Converse、count tokens 与 pass-through 现在以异步方式签名请求；此前一次 botocore 凭证刷新可能阻塞整个工作进程。[PR #40270](https://github.com/BerriAI/litellm/pull/40270)。
-- **MLflow 流式泄漏已修复** — `_stream_id_to_span` 现已在 `finally` 块中被弹出，并以位置参数方式调用 mlflow 2.x 的 `end_trace`。[PR #39049](https://github.com/BerriAI/litellm/pull/39049)。
-- **MCP 架构发现代理模式** — 大型目录不再被急切地加载到每个客户端会话中；新增 `/mcp/proxy` 暴露 `search_tools`、`get_tool_schema`、`call_tool`。[PR #40298](https://github.com/BerriAI/litellm/pull/40298)。
-- **`NON_REASONING` 自动路由层级** — 在 `SIMPLE` 之下新增第五个内置层级，使工具输出中继回合无需支付 SIMPLE 价格，同时仍继承自适应升级机制。[PR #40273](https://github.com/BerriAI/litellm/pull/40273)。
-- **Guardrail 工具调用改写接入流式响应** — 流式工具调用被改写后，调用后 guardrail 的结果现在能够真正进入 chat、Responses 与 Messages 流，而不是被丢弃。[PR #40271](https://github.com/BerriAI/litellm/pull/40271)。
-- **OTel v2 每租户 trace 目标回移植** — 来自 [#39654](https://github.com/BerriAI/litellm/pull/39654) 的按密钥/团队路由 trace 能力正在被 cherry-pick 到 `rc/1.101.0`。[PR #40321](https://github.com/BerriAI/litellm/pull/40321)。
-- **Rust SDK 回调调用重构** — 为后续将路由执行迁移到 Rust，提前支持保留引用的回调调用方式。[PR #40070](https://github.com/BerriAI/litellm/pull/40070)。
-
-## 稳定性与回归
-
-**严重性：关键**
-- Bedrock 请求因凭证刷新阻塞事件循环 — 已在 [PR #40270](https://github.com/BerriAI/litellm/pull/40270) **修复**。报告：[#40270](https://github.com/BerriAI/litellm/pull/40270)。
-
-**严重性：高（已确认，暂无修复）**
-- v3 限流器对 `model_per_team` 限制双重计数，实际 RPM/TPM 约为配置值的一半。[#34140](https://github.com/BerriAI/litellm/issues/34140)。
-- 虚拟密钥 TPM 限制在 v1.82.3 中仍以错误数值生效，尽管 #18953 已被标记为已修复。[#24677](https://github.com/BerriAI/litellm/issues/24677)。
-- 对未知终端用户的并发首次请求会绕过配置的默认预算。[#40095](https://github.com/BerriAI/litellm/issues/40095)。
-- Azure Entra Redis 认证（`azure_redis_ad_token`）无法在集群模式下启动 proxy — `init_redis_cluster` 没有凭证提供器路径。[#37726](https://github.com/BerriAI/litellm/issues/37726)。
-
-**严重性：高（翻译/正确性）**
-- 推理模型的提示缓存（`encrypted_content`）在 `/v1/messages` → Responses API 桥接中始终无法向下游传递，即便在 #37953 之后依旧如此。[#39339](https://github.com/BerriAI/litellm/issues/39339)。
-- 流式重分块器在上游一次性发送完整 tool_call 时会丢失 `tool_calls[].id` 和 `function.name`。[#39796](https://github.com/BerriAI/litellm/issues/39796)。
-- 复杂度自动路由器会把 `reasoning.encrypted_content` 的后续请求跨模型组移动。[#40237](https://github.com/BerriAI/litellm/issues/40237)。
-
-**严重性：中**
-- ChatGPT/Codex Responses 流式在上游未发增量直接发出 `response.function_call_arguments.done` 时，会丢失函数调用参数。[#27144](https://github.com/BerriAI/litellm/issues/27144)。
-- v1.95.0 上 Anthropic 流式 `tool_use` 在内部 tool-call 分块之前丢失。[#36262](https://github.com/BerriAI/litellm/issues/36262)。
-- Anthropic `/v1/messages` 会静默丢弃 `messages[]` 中的 `role:"system"` 条目。[#36917](https://github.com/BerriAI/litellm/issues/36917)。
-- `token_counter` 在 OpenAI `input_audio` 块上抛错；调用前的上下文窗口与提示缓存检查会被静默跳过。[#38459](https://github.com/BerriAI/litellm/issues/38459)。
-- 自定义脱敏标签（`keyword_redaction_tag`、`pattern_redaction_format`）在 v1.87.1 中未生效。[#30008](https://github.com/BerriAI/litellm/issues/30008)。
-- `DELETE /v1/files/{file_id}` 对 Bedrock 托管文件返回 500，无法执行清理。[#39715](https://github.com/BerriAI/litellm/issues/39715)。
-- SearXNG 搜索适配器会把上游的 429/503 转成成功的空结果。[#38628](https://github.com/BerriAI/litellm/issues/38628)。
-- 模型在 proxy API 上同时按名称与 provider 类型出现。[#14257](https://github.com/BerriAI/litellm/issues/14257)。
-- SSO：payload 中包含多个 `app_roles` 时，只有第一个被采纳。[#33434](https://github.com/BerriAI/litellm/issues/33434)。
-
-**严重性：中（安全/信息泄露）**
-- 错误密钥触发 401 时回显存储的密钥哈希以及该密钥的完整模型允许列表。[#40217](https://github.com/BerriAI/litellm/issues/40217)。
-- 错误密钥 401 还会泄露后端软件名称、数据库表名以及提交密钥的 SHA-256。[#39757](https://github.com/BerriAI/litellm/issues/39757)。
-
-**较低严重性/已关闭**
-- `/v1/files`、rerank、images、realtime、anthropic、pass-through 路由的错误响应中 `type` 和 `param` 出现字面量 `"None"` — 已在 [PR #39536](https://github.com/BerriAI/litellm/pull/39536) **修复**。
-- `lite login` 会话令牌在登录时冻结团队模型 — 已在 [PR #40318](https://github.com/BerriAI/litellm/pull/40318) **修复**。
-- 消费跟踪为 CLI 会话令牌生成 `key-hash-...` 行 — 已在 [PR #40275](https://github.com/BerriAI/litellm/pull/40275) **修复**。
-- Tool Permission Guardrail 在 WARNING 级别过度日志 — 已通过 [#32778](https://github.com/BerriAI/litellm/issues/32778) **关闭**。
-- MCP `/health` 透传 — 已通过 [#24450](https://github.com/BerriAI/litellm/issues/24450) **关闭**。
-
-## 对应用开发者的影响
-
-- **重新校验你的限流配置。** 如果你通过 `metadata.model_rpm_limit` 配置了按团队按模型的 RPM/TMP，请预期客户端大约在配置值一半的位置就会遇到 429，直至 [#34140](https://github.com/BerriAI/litellm/issues/34140) 合入。在此之前，建议将配置上限翻倍，或基于实际观察到的流量做预算。
-- **在桥接 Anthropic → OpenAI 推理模型时，不要依赖提示缓存的连续性。** `encrypted_content` 在上游看到之前就被丢弃（[#39339](https://github.com/BerriAI/litellm/issues/39339)），并且自动路由器还可能把后续请求路由到不同的模型组，从而导致缓存失效（[#40237](https://github.com/BerriAI/litellm/issues/40237)）。对于成本敏感的推理流水线，请显式锁定上游模型。
-- **Bedrock 部署在 [#40270](https://github.com/BerriAI/litellm/pull/40270) 进入发布分支后将获得明显的延迟尾部收益；** 此前单次凭证刷新就会让工作进程上的其他所有请求陷入队头阻塞，值得为此升级。
-- **智能体成本优化** 随着新增的 `NON_REASONING` 层级（[#40273](https://github.com/BerriAI/litellm/pull/40273)）变得更容易。如果你的智能体存在大量仅中继工具输出回模型的回合，请把这些回合路由到新层级，而不是支付 SIMPLE 档位的价格。
-- **`/v1/messages` 上的工具调用流式仍然不稳定。** v1.95.0 上的两个丢失案例（[#36262](https://github.com/BerriAI/litellm/issues/36262)、[#39796](https://github.com/BerriAI/litellm/issues/39796)）都影响 Anthropic 形态的流式响应；如果你的客户端依赖流式工具调用，请在发布前针对你所使用的 LiteLLM 版本进行验证。
-- **请将 LiteLLM
+- **速率限制强制执行精度** — [PR #37789](https://github.com/BerriAI/litellm/pull/37789) 修复了 v3 速率限制器对相同 `(key, value)` 描述符重复扣减的问题，导致团队每模型有效 RPM/TPM 减半（[issue #34140](https://github.com/BerriAI/litellm/issues/34140)）。去重操作在描述符组装时一次性完成，所有计数器消费者均透明受益。
+- **代理预算隔离** — [PR #40037](https://github.com/BerriAI/litellm/pull/40037)（修复 [#40020](https://github.com/BerriAI/litellm/issues/40020)）将 `config.yaml` 中的 `litellm_settings.max_budget` 与进程级 SDK `_current_cost` 跟踪器解耦，恢复通过 `_global_proxy_budget_check` 强制执行的预期全局支出限额语义。
+- **Anthropic 流式成本回收** — [PR #31177](https://github.com/BerriAI/litellm/pull/31177) 将中断流和智能体流的计费重新引入 `stable/1.87.x` 分支。
+- **加密推理亲和性** — [PR #40377](https://github.com/BerriAI/litellm/pull/40377) 在聊天元数据中保留编码标志，使首轮请求在桥接的聊天路径下正确启用响应标记编码。
+- **Terraform 提供商元数据漂移** — [PR #40395](https://github.com/BerriAI/litellm/pull/40395) 剥离代理
 
 </details>
 
 <details>
 <summary><strong>Unsloth</strong> — <a href="https://github.com/unslothai/unsloth">unslothai/unsloth</a></summary>
 
-# Unsloth Digest — 2026-09-09
+# Unsloth 摘要 — 2026-09-09
 
-## 今日亮点
-Unsloth 发布了 **v0.1.807-beta**,这是近期最大的一次性能更新,主打两项改动:AMD GPU 默认切换到 **Vulkan**,相较 ROCm 在 prefill/decoding 上获得约 20% 的提升;Windows 端的 `llama-server.exe` 已完成签名,以减少杀毒软件误报。今天的另一重点是 **KV-cache 抢占**机制的深度改造,使 Studio 中的并行对话可以共享同一个统一缓存,互不淘汰([PR #10301](https://github.com/unslothai/unsloth/pull/10301)、[PR #10358](https://github.com/unslothai/unsloth/pull/10358)),此外还有一波 Windows 安装包加固工作,用于抑制 Defender / Bitdefender 的告警。
+## 今日要点
 
-## 发布与重大变更
-- **[v0.1.807-beta — 大幅性能改进与修复](https://github.com/unslothai/unsloth/releases)** — 头条改动:AMD 现在默认使用 Vulkan(相较 ROCm 在 prefill/decoding 上提升约 20%)。Windows 上的 `llama-server.exe` 现在已签名,以减少 SAC / Defender 误报。修复了 Strix 和 iGPU 上的 AMD 输出乱码(上游)。迁移:无需任何操作,但 AMD 用户应重新测试此前依赖 ROCm 的工作负载,因为 Vulkan 已成为新的默认路径。
+v0.1.807-beta 版本带来了可观的性能与稳定性提升：AMD Vulkan 已成为默认后端（相较 ROCM 预填充/解码速度提升约 20%），Windows 下的 `llama-server.exe` 已进行代码签名（可缓解杀毒软件误报问题），AMD Strix/iGPU 输出乱码的问题也已在上游解决。与此同时，团队正在落地多项重要架构改造——一处安全关键补丁可阻断 Studio 中无标记的 tool-call 远程代码执行（RCE）；KV 抢占机制让并行对话可共享同一份缓存而不再相互驱逐；以及面向 DGX 集群的双 Spark 服务编排器。
+
+## 版本发布与破坏性变更
+
+- **[v0.1.807-beta](https://github.com/unslothai/unsloth/releases)** —— "性能大幅提升与问题修复"。AMD Vulkan 成为默认；Windows 二进制已签名；修复 AMD Strix/iGPU 正确性问题。兼容现有 Studio/Desktop 安装，但 AMD 用户将看到后端切换。
+- **[PR #10604](https://github.com/unslothai/unsloth/pull/10604)** —— 移除 805 中引入的分阶段后台桌面更新，恢复经典的 `studio update` 原地升级流程。来自 #9890 的四项 Windows 侧修复予以保留。
+- **[PR #10587（已关闭）](https://github.com/unslothai/unsloth/pull/10587)** —— 将 NPP 运行时依赖由 `nvidia-npp-cu13`（已弃用的占位包）切换为普通 `nvidia-npp`，适用于 CUDA 13 安装。
 
 ## 新增模型与硬件支持
-- **AMD Vulkan 作为默认后端** — 在 v0.1.807-beta 中取代 ROCm 成为 AMD 的默认路径([release notes](https://github.com/unslothai/unsloth/releases))。
-- **AMD 设备节点权限处理** — [PR #10473](https://github.com/unslothai/unsloth/pull/10473) 会探测 `/dev/kfd` 与 `/dev/dri/renderD*` 的**可打开性**,而非仅检查其是否存在,因此不在 `render` 组中的账号现在会得到明确的报错,而不是静默地看到零个 HIP 设备(关闭 [#10466](https://github.com/unslothai/unsloth/issues/10466))。
-- **GGUF 多构建产物处理** — [PR #10556](https://github.com/unslothai/unsloth/pull/10556) 将仓库在同一量化下发布的每个 GGUF 构建产物都展示出来(例如 `AngelSlim/Hy3-GGUF` 上的普通版与 `-mtp` 版),而不是将它们合并成一行。
-- **Wan2.2 TI2V on AMD ROCm** — 在没有融合 kernel 时,attention 现在能干净地回退;RX 9060 XT 的 OOM 问题正在跟进([#10415](https://github.com/unslothai/unsloth/issues/10415))。
-- **MiCA (Minor Component Adaptation)** — 开放功能请求:在 `FastLanguageModel.get_peft_model()` 中将 MiCA 添加为 LoRA 兼容的初始化方式([#6730](https://github.com/unslothai/unsloth/issues/6730),+4 👍)。
-- **Qwen3-omni TTS 语音克隆** — 请求将现有的 Qwen2.5-omni 支持扩展到 Qwen3-omni([#3636](https://github.com/unslothai/unsloth/issues/3636))。
+
+- **[Issue #10562（已关闭）](https://github.com/unslothai/unsloth/issues/10562)** —— IFM K2 模型支持请求已解决。
+- **[PR #10282](https://github.com/unslothai/unsloth/pull/10282)** —— 为 Windows-on-ARM NVIDIA 主机（GB10 / N1X、RTX Spark 部件）提供原生 ARM64 CUDA 栈安装。当前的 `install.ps1` 将 ARM64 Windows 视为"无 GPU"，该 PR 修复了此问题，且不影响其他主机的行为。
+- **[Issue #9932](https://github.com/unslothai/unsloth/issues/9932)** —— 关于 ROCm 10 支持及多版本选择器（ROCm 7.14 等）的开放功能请求。AMD 已发布 ROCm 10 / TheRock-10.0；目前尚无对应 PR。
+- **[PR #10323](https://github.com/unslothai/unsloth/pull/10323)** —— 双 Spark 服务编排器，带异步副本路由器，用于配对 DGX Spark 主机；通过 `spark_cluster.recommend_topology` 选择拓扑，在负载允许时保持两个节点均处于繁忙状态。
 
 ## 性能与优化
-- **+20% AMD prefill & decoding** —— 默认从 ROCm 切换到 Vulkan 带来([v0.1.807-beta](https://github.com/unslothai/unsloth/releases))。
-- **并行对话的 KV-cache 抢占** — [PR #10301](https://github.com/unslothai/unsloth/pull/10301) 以 `--parallel N --kv-unified -c N` 启动 llama-server,为 N 个 slot 提供一个共享的 N 单元池。配合 unslothai/llama.cpp#184/#190,使服务器能够自行把 slot 暂存到主机内存([PR #10358](https://github.com/unslothai/unsloth/pull/10358)),让 Studio 可以下线其自有的抢占层。
-- **文档上传移出事件循环** — [PR #10552](https://github.com/unslothai/unsloth/pull/10552) 让三条上传路由以流式写入磁盘,并在 worker 中探测 embedder,大 PDF 不再卡住流式回复。
-- **本地模型显存估算精度** — [PR #10558](https://github.com/unslothai/unsloth/pull/10558) 按权重的一份副本来衡量本地模型体积(不再重复计入 `original/` 与 `optimizer.pt`),数据会喂给全量微调的显存估算。
-- **15 分钟启动上限,版本更智能** — [PR #10551](https://github.com/unslothai/unsloth/pull/10551) 让 `unsloth start` 即使服务端子进程还没输出早期 API key 行也能持续轮询;[PR #10550](https://github.com/unslothai/unsloth/pull/10550) 把同一上限扩展到 LoRA 适配器的基础模型下载。
+
+- **AMD Vulkan 成为默认**（[v0.1.807-beta](https://github.com/unslothai/unsloth/releases)）—— 吞吐量相较 ROCm 路径提升约 20%。
+- **[PR #10301](https://github.com/unslothai/unsloth/pull/10301) + [#10358](https://github.com/unslothai/unsloth/pull/10358)** —— KV 抢占机制重构：启动一个 `llama-server`，使用 `--parallel N --kv-unified -c N`，使 N 个槽位共享 N 个 cell，而非每个对话独占上下文。与 llama.cpp 的 `--preempt-ram` 配合使用，可让服务器将槽位停放至宿主机内存。最终效果：并行对话不再互相挤掉对方的缓存。
+- **[PR #9872](https://github.com/unslothai/unsloth/pull/9872)** —— 卸载规划器现在会在 spill 与 llama.cpp 自带的 fitter 之间权衡。加入了成本闸门、子 FFN spill 阶梯、上下文感知的设备保留额度以及加载顺序。所有行为由 `UNSLOTH_SMART_OFFLOAD` 控制开关。
+- **[PR #8323](https://github.com/unslothai/unsloth/pull/8323)** —— 启动时启用 PyTorch 的 AOTriton ROCm 快速注意力内核。在部分 AMD 显卡上，慢速回退路径的 O(n²) 内存占用曾导致一个 3.4k token 的请求申请 66 GiB 内存；翻转该环境变量即可修复。修复了 [#8225](https://github.com/unslothai/unsloth/issues/8225)。
 
 ## 稳定性与回归
-按影响与讨论量排序。
 
-- **[OPEN] 最新 llama.cpp 构建破坏 AMD GPU 检测** — 多个用户在 gfx1201 上全新安装后看到零个 AMD 设备([#7485](https://github.com/unslothai/unsloth/issues/7485),5 条评论)。尚无修复 PR。
-- **[OPEN] `main` 上 `hf-stack` 安全审计通道为红** — `unsloth-zoo` 升级后 `scan_packages` 基线需要重新审核;标记出 60 CRITICAL / 33 HIGH 发现项([#10545](https://github.com/unslothai/unsloth/issues/10545))。
-- **[OPEN] Windows:同一 tick 内两次发言时对话回溯顺序不稳定** — Windows 通道上 `test_conversation_archive.py` 的顺序断言失败([#10544](https://github.com/unslothai/unsloth/issues/10544))。
-- **[OPEN] `parity (windows-latest)` 红** — PowerShell 与 pwsh 上 `test_a_non_ascii_marker_survives_the_rollback` 均失败([#10460](https://github.com/unslothai/unsloth/issues/10460))。
-- **[OPEN] AMD/ROCm Wan2.2 TI2V OOM** — RX 9060 XT 上缺少融合 attention kernel,SDPA math 回退耗尽显存([#10415](https://github.com/unslothai/unsloth/issues/10415))。
-- **[OPEN] 不在 `render` 组的账号上报零 AMD GPU** ([#10466](https://github.com/unslothai/unsloth/issues/10466)) — 由 [PR #10473](https://github.com/unslothai/unsloth/pull/10473) 修复。
-- **[OPEN] KV 准入:携带工具的请求绕过了无上限 cap 的重试** — 豁免范围大于当初引入重试时的初衷([#10176](https://github.com/unslothai/unsloth/issues/10176))。
-- **[OPEN] `hasGlobalLinkReference` markdown 探针把普通回复误路由到全文档渲染** ([#10529](https://github.com/unslothai/unsloth/issues/10529))。
-- **[OPEN] layer-mode / tensor-mode 被报告为相同,x3 3090 上出现“假 BF16 mode”** ([#10549](https://github.com/unslothai/unsloth/issues/10549))。
-- **[CLOSED] Bitdefender 拦截首次运行的 Windows 安装** — `powershell.exe → csc.exe → %TEMP%\*.dll` 链路被标记为 `Gen:Variant.MSILHeracles`;通过 [PR #10540](https://github.com/unslothai/unsloth/pull/10540)(输出预编译的原生路径辅助工具)与 [PR #10560](https://github.com/unslothai/unsloth/pull/10560)(CLI 不再同时使用 `Hidden` + `Bypass`)缓解。
-- **[CLOSED] 提升权限安装后,非提升权限运行 Studio 时 Windows 上 `llama-server.exe` “拒绝访问”** ([#4846](https://github.com/unslothai/unsloth/issues/4846),15 条评论) — 通过 v0.1.807-beta 中的签名以及 [PR #10471](https://github.com/unslothai/unsloth/pull/10471) 中的卸载器归属修复解决。
-- **[CLOSED] 日 / 月切换时统计面板未刷新摘要** ([#9337](https://github.com/unslothai/unsloth/issues/9337))。
-- **[CLOSED] 发送空 bearer 的 harness 无密钥认证失败** ([#10400](https://github.com/unslothai/unsloth/issues/10400))。
-- **[CLOSED] `unsloth studio update` 频繁命中 GitHub API** ([#10449](https://github.com/unslothai/unsloth/issues/10449))。
-- **[CLOSED] Studio 的 “告诉模型今天的日期” 覆盖了 Ollama Modelfile 的 SYSTEM** ([#10436](https://github.com/unslothai/unsloth/issues/10436))。
+**安全（高危）**
+- **[PR #10507](https://github.com/unslothai/unsloth/pull/10507)** —— Studio 中发现两处 prompt-injection-to-RCE 问题。无标记的 tool-call 解析器会将助手文本中任意位置的裸 `call:NAME{...}`、`NAME[ARGS]{json}` 或 `{"name":...}` 提升为真实的 tool call，而唯一的判断条件只是 `NAME` 是否启用。该 PR 阻断了该提升路径。强烈建议立即锁定版本。
 
-## 对应用开发者的影响
-- **AMD 用户升级到 v0.1.807-beta 并接受 Vulkan 为默认后端,即可免费获得约 20% 的吞吐提升** — 但任何此前依赖 ROCm 特定数值或内存布局的工作负载,请重新测试。
-- **Studio 上的多租户 / 共享对话负载即将获得更好的伸缩性**:KV 抢占的重构让 N 路并发对话共享同一个缓存,互不淘汰;LoRA 基础模型下载修复([PR #10550](https://github.com/unslothai/unsloth/pull/10550))意味着长时间运行的适配器加载不再触发启动看门狗。
-- **Windows 部署在实质上更安全**:已签名的 `llama-server.exe` 加上一系列 AV 形态守卫改动([PR #10540](https://github.com/unslothai/unsloth/pull/10540)、[PR #10560](https://github.com/unslothai/unsloth/pull/10560))应当能消除一直阻碍首次安装的 Bitdefender / Defender 拦截。
-- **Studio 中的 Python / Terminal 工具在 Linux (bubblewrap) 与 macOS (Seatbelt) 上获得了真正的 OS 沙箱** ([PR #10526](https://github.com/unslothai/unsloth/pull/10526)) — 如果你嵌入了 Studio 的工具层,请审计任何假设主机文件系统 / 网络访问的代码路径。
-- **多用户安装带来按账号隔离** ([PR #10375](https://github.com/unslothai/unsloth/pull/10375):Settings → Accounts、一次性设置码、隔离缓存) — 适用于共享 GPU 主机与 kiosk 场景。
-- **注意事项**:`main` 当前在 `Security audit / hf-stack` 与 `parity (windows-latest)` 上为红;在 [#10545](https://github.com/unslothai/unsloth/issues/10545) 与 [#10460](https://github.com/unslothai/unsloth/issues/10460) 关闭前,请固定到已标记的发布版本而非跟踪 head。最新版上游 llama.cpp 上 AMD GPU 检测仍然损坏,等待 [#7485](https://github.com/unslothai/unsloth/issues/7485)。
+**崩溃 / 正确性**
+- **[Issue #10559](https://github.com/unslothai/unsloth/issues/10559)** —— Gemma 4 处理图像输入时，`llama-server` 因 `GGML_ASSERT` 崩溃，原因为默认 `ubatch` 过小。未关闭。
+- **[Issue #10549](https://github.com/unslothai/unsloth/issues/10549)** —— Unsloth 的 layer/tensor 模式表现完全一致；"fake BF16 mode" 报告为已启用，但实际并未改变张量存储。未关闭。
+- **[PR #10526](https://github.com/unslothai/unsloth/pull/10526)** —— 为 Studio 的 Python 与 Terminal 工具提供最小化操作系统沙箱（Linux 端使用 bubblewrap，macOS 端使用 Seatbelt），替代纯软件层面的安全防护。尚未合入。
+- **[PR #10540](https://github.com/unslothai/unsloth/pull/10540)** —— Windows 安装器将原生路径辅助工具生成为预编译文本文件，而非在安装阶段调用 `csc.exe`——后者曾被 Bitdefender 标记为 `Gen:Variant.MSILHeracles`。
+- **[Issue #10579](https://github.com/unslothai/unsloth/issues/10579)** —— 桌面端每次更新都会从头重新安装全部依赖；用户反馈更新耗时数小时，有时还会失败。PR #10604 部分缓解了该问题。
+- **[Issue #10598](https://github.com/unslothai/unsloth/issues/10598)** —— `install.sh` 将 torch 下限定为 2.4，而 torchcodec 表将下限定为 2.5；由于未记录该差异，torch 2.4 安装时会静默跳过 torchcodec。
+- **[Issue #10563](https://github.com/unslothai/unsloth/issues/10563)** —— `fast_dequantize` 缓存的是导入时刻的流，而非使用实时 PyTorch 流；当当前 GPU 流发生变化时存在风险（表现为 QLoRA 期间 RX 7900 XTX / gfx1100 上反复出现 GPU 重置）。
+- **[Issue #10599](https://github.com/unslothai/unsloth/issues/10599)** —— 在新版 mmproj 或 MTP head 发布前下载的模型永远无法获取到这些新组件；必须完整删除后重新下载。
+- **[Issue #10428](https://github.com/unslothai/unsloth/issues/10428)** —— 每次停止或重新加载模型时，提示词队列都会被清空。
+- **[Issue #10516](https://github.com/unslothai/unsloth/issues/10516)** —— 八处 `_PYTORCH_WHL_BASE` URL 站点将加速器分支名错误地拼接到 `UNSLOTH_PYTORCH_MIRROR` 查询参数中，而非追加到路径。
+- **[Issue #9337（已关闭）](https://github.com/unslothai/unsloth/issues/9337)**、**[#9218（已关闭）](https://github.com/unslothai/unsloth/issues/9218)**、**[#6528（已关闭）](https://github.com/unslothai/unsloth/issues/6528)** —— 已解决：统计信息刷新、自签名证书信任、diffusiongemma 生成错误。
+
+## 对应用开发者的意义
+
+- **AMD 用户应立即升级到 807-beta**——Vulkan 默认带来约 20% 的吞吐量提升，且 Strix/iGPU 乱码修复关乎正确性。日志中将出现后端切换记录。
+- **尽快为 Studio 安装打上 tool-call RCE 补丁**——PR #10507 阻断了一条路径，使不受信任的助手输出可在缺少正确标记的情况下调用已启用工具。如果你将 Studio 暴露给不受信任的提示词（Web UI、多租户场景），则必须合并该修复。
+- **规划好 KV 抢占机制的变更**——一旦 #10301/#10358 落地，单实例 `llama-server` 的并行对话吞吐将提升，但槽位会计与每请求的 `n_ctx` 语义会发生变化。任何依赖 `llama-server` 响应推断 KV 压力的逻辑都需要重新测试。
+- **Spark 运维者**：双 Spark 编排器（#10323）以及与 llama.cpp 的 `--preempt-ram` 配对，意味着你可以在配对 DGX Spark 上服务更大模型而无需手动编排——但前提是你必须将 `unsloth` 与捆绑的 `llama.cpp` 同时升级到匹配版本。
+- **Windows-on-ARM NVIDIA 用户**（RTX Spark、GB10 笔记本）：#10282 解锁了一级安装支持；预期 `install.ps1` 行为将与 x64 不同。
+- **Studio CLI 注意事项**（[Issue #10595](https://github.com/unslothai/unsloth/issues/10595)，由 [PR #10608](https://github.com/unslothai/unsloth/pull/10608) 修复）——每次执行 `unsloth studio run` 都会在 Settings 中生成一个新的 `cli` API key。10608 落地后将复用已有 key；清理前 Settings 中会多出一条残留的 `cli` 条目。
+- **Open WebUI 互操作尚在变动中**（[Issue #10610](https://github.com/unslothai/unsloth/issues/10610)）——模型驻留展示以及显式的 load/unload 端点在 `llama.cpp` provider 和 Unsloth 实际服务之间存在差异。若你在 Studio 前面接了 Open WebUI，预期在问题协调解决前会出现一些毛刺。
 
 </details>
 
 <details>
 <summary><strong>Claude Code Router</strong> — <a href="https://github.com/musistudio/claude-code-router">musistudio/claude-code-router</a></summary>
 
-# Claude Code Router — 每日简报
-**日期：** 2026-09-09
-**仓库：** [musistudio/claude-code-router](https://github.com/musistudio/claude-code-router)
+# Claude Code Router Digest — 2026-09-09
 
----
+## 今日要点
 
-## 1. 今日要点
+过去 24 小时的窗口由网关中的**性能集群**主导：三个相关 issue（#1775、#1776、#1777）报告称，每个请求的开销随配置的 provider 数量呈线性增长 —— 一个未缓存的元数据查找在每次请求时都会重新计算，`findProvider()` 在 46 个 provider 的情况下每次请求会重建 80 万+ 次 identity Set，而 `getAppInfo` RPC 稳定耗时约 7.2 秒。兼容性方面出现了三个上游特有的失败（#1780 opencode-go 的 `x-opencode-session` 请求头、#1781 带 `call_id`/`max_tokens` 的 Meta Responses 格式、#1779 OIDC 联合认证未激活），以及两个未合并的 PR（#1773、#1774）分别针对聚合错误展示和按模型的使用归因。
 
-今天社区的关注焦点完全集中在**大规模场景下的网关性能**上：三个相关 issue（#1775、#1776、#1777）详细记录了一个由 provider 数量驱动的延迟回归问题，实测开销为“在 46 个 provider 下每请求约 800k+ 次冗余的 Set 构造”，且 `getAppInfo` RPC 实测耗时约 7.2s。修复方面，两个 PR（#1773、#1774）分别强化了失败回退与按模型用量归因的可观测性，而 #1772 则暴露了一个与新版 Claude Desktop 配置 schema 校验相关的前向兼容性破坏。
+## 发布与破坏性变更
 
-## 2. 版本发布与破坏性变更
+过去 24 小时内没有新发布。用户报告中引用的最新已发布版本是 **CCR v3.0.22**（参见 [#1779](https://github.com/musistudio/claude-code-router/issues/1779)）。
 
-*过去 24 小时内无新版本发布。*
+## 新模型与硬件支持
 
-值得关注的**兼容性变更**：
-- [#1772](https://github.com/musistudio/claude-code-router/issues/1772) —— 较新版本的 Claude Desktop 构建会依据 schema 校验 `configLibrary`，并针对 CCR 写入的 4 个键（`authentication` 等）发出 `Ignoring local configuration value … not a recognized configuration key` 警告。缓解方案尚待落实；看到日志噪音的运维人员应持续关注该 issue。
+本窗口内未公布新的模型、后端或量化支持。
 
-## 3. 新模型与硬件支持
+## 性能与优化
 
-*今日未报告新增模型、后端或量化方案。*
+由 `Osamious` 提交的三个相关 issue 描述了网关热路径中未缓存的每请求开销：
 
-## 4. 性能与优化
+- **#1775** — 由于每次请求都重新计算未缓存的 provider 显示元数据查找，每个请求的延迟随配置的 provider 数量呈**线性**增长。（[链接](https://github.com/musistudio/claude-code-router/issues/1775)）
+- **#1777** — `Cy.prototype.findProvider(t)` 线性扫描 `Providers`，并在每次调用时为每个 provider 重新推导一个 identity `Set`，在 46 个 provider 的情况下观察到每次请求约 **80 万+ 次** Set 构造。（[链接](https://github.com/musistudio/claude-code-router/issues/1777)）
+- **#1776** — `getAppInfo` RPC 反复测量稳定在 **~7.2 秒**，而同一网关下 `getConfig` 响应仅需约 6 毫秒 —— 表明存在一条与 provider 数量无关的独立慢路径。（[链接](https://github.com/musistudio/claude-code-router/issues/1776)）
 
-这三项内容均来自用户 `@Osamious` 的一次性能排查，共同勾勒出一幅完整图景：未缓存的每请求工作量会随 `Providers.length` 增长。
+综合来看，这些 issue 表明一组低风险的 memoization 修复（缓存 provider 元数据 + selector 标识映射）就能在高 provider 数量下显著降低延迟。该集群目前尚未有任何 PR 落地。
 
-- **[#1775 — Linear latency vs. provider count](https://github.com/musistudio/claude-code-router/issues/1775)：** 由于内部一项 provider 展示元数据查询在每次请求时都会被重新计算，经网关的请求延迟随已配置 provider 数量**线性**增长。在一个上游耗时接近为零的隔离沙箱中实测，每新增一个 provider 都会带来大致恒定的额外开销——具体数字见 issue 正文。
-- **[#1777 — `findProvider()` re-derives identity Sets per call](https://github.com/musistudio/claude-code-router/issues/1777)：** `Cy.prototype.findProvider(t)` 在每次调用时都会重建每个 provider 的身份 `Set`，而不是将选择器一次性归一化。在配置了 46 个 provider 的情况下，这相当于**每请求约 800k+ 次冗余操作**。属于典型的低成本修复点（预计算 / 记忆化）。
-- **[#1776 — `getAppInfo` RPC ≈ 7.2s](https://github.com/musistudio/claude-code-router/issues/1776)：** 一条与 provider 数量没有明显缩放关系的独立代码路径反复以约 7.2s 的耗时返回，而同一网关上 `getConfig` 仅需约 6ms 即可响应。因根因尚未与 #1775 建立关联，故单独提交。
+## 稳定性与回归
 
-今日暂无已合并的性能修复，但这三个 issue 合在一起，为维护者提供了一份清晰且可度量的待办清单。
+大致按用户影响排序：
 
-## 5. 稳定性与回归
-
-按可能的用户影响程度排序：
-
-1. **[HIGH] #1778 — Wrong protocol used when unchecked](https://github.com/musistudio/claude-code-router/issues/1778)** —— 即使该协议复选框未勾选、UI 已将其标记为 *Unavailable*（不可用），路由器仍会调用 `gemini_generate_content`。受影响的是那些期望“provider 禁用状态能真正禁用路由”的用户。*暂无修复 PR。*
-2. **[MEDIUM] #1772 — Schema warnings on Claude Desktop](https://github.com/musistudio/claude-code-router/issues/1772)** —— 属表面问题但持续存在：每次启动 Claude Desktop 都会输出 4 条 "not a recognized configuration key" 警告。*暂无修复 PR。*
-3. **[MEDIUM] #1775/#1776/#1777 — Latency regressions](https://github.com/musistudio/claude-code-router/issues/1775)** —— 详见“性能与优化”一节。功能本身正确，但会实质性拖累拥有大量 provider 的用户的吞吐。
-4. **[LOW] #1771 — `tsc -b` fails: TS18003 in `tsconfig.node.json`](https://github.com/musistudio/claude-code-router/pull/1771)** —— 仅影响构建阶段；已有 PR 修复 `build/**/*.mjs` 的 `include` 通配符。
-5. **[LOW] #1770 — Docker image missing `log-body.worker.js`](https://github.com/musistudio/claude-code-router/pull/1770)** —— Docker 构建会跳过 `buildRequestLogBodyWorker()`，导致镜像中缺少 UI bundle 引用的 worker 文件，浏览器内的日志正文渲染因此失效。
-
-已提交的修复 PR（开放中，等待合并）：
-- **[#1773 — Per-attempt failure details in aggregate errors](https://github.com/musistudio/claude-code-router/pull/1773)** —— 当所有目标均失败时，网关此后会展示每次尝试的 `stage`/`status`/`message`，而不再只返回 `"All target providers failed."`。对线上故障排查是一次直接的易用性提升。
-- **[#1774 — Usage stats attribution for `provider/model` selectors](https://github.com/musistudio/claude-code-router/pull/1774)** —— 目前按模型的用量计数器会忽略通过显式 `provider/model` 路由的请求（例如环境变量配置的默认值），导致未过滤口径的总量虚高。该修复会将其归因到纯模型名。
-
-## 6. 对应用开发者意味着什么
-
-- **拥有大型 provider 池（数十个 provider）的运维者，今天应预期到可观的每请求额外开销。** 如果遇到无法解释的网关延迟，请检查所配置的 `Providers` 数量，并订阅 [#1775](https://github.com/musistudio/claude-code-router/issues/1775) / [#1777](https://github.com/musistudio/claude-code-router/issues/1777)——这类修复预计改动很小（记忆化），但收效显著。
-- **请将 "Unavailable" 复选框视为提示性而非强制性的**，直至 [#1778](https://github.com/musistudio/claude-code-router/issues/1778) 修复。如果你已特意禁用 `gemini_generate_content` 却仍看到 Gemini 流量，请审查路由配置。
-- **#1774 合并后，用量看板的数据会更真实。** 如果你依赖 CCR 的按模型统计来预测成本或分配预算，请注意：任何经由显式 `provider/model` 默认值路由的流量在历史数据中都存在少计。
-- **#1773 一旦合并，回退调试将轻松许多** —— 每次尝试的 HTTP 状态码和错误信息都会出现在聚合错误负载中，这对客户端的重试 / 熔断逻辑是一项有意义的改进。
-- **使用 Docker 自托管的用户应拉取包含 [#1770](https://github.com/musistudio/claude-code-router/pull/1770) 的构建版本** —— 否则 UI 的请求日志详情视图将无法正常使用。
-- **在 [#1772](https://github.com/musistudio/claude-code-router/issues/1772) 解决之前，请预期（并忽略）Claude Desktop 上的 `not a recognized configuration key` 警告**；这些警告并不影响功能。
-
----
+1. **[#1780](https://github.com/musistudio/claude-code-router/issues/1780)** — **严重 / 影响广泛。** 自 2026-09-05 起，`opencode.ai/zen/go/v1` 强制要求 `x-opencode-session` 请求头；CCR 未发送此请求头，因此每次 POST 都收到 `400 MissingSessionID`。任何 `api_base_url` 指向 opencode-go 端点的 CCR provider 都已完全不可用。*尚无修复 PR。*
+2. **[#1781](https://github.com/musistudio/claude-code-router/issues/1781)** — **严重 / 影响范围有限。** `anthropic_messages` → OpenRouter → `meta/muse
 
 </details>
 
@@ -507,122 +458,83 @@ Unsloth 发布了 **v0.1.807-beta**,这是近期最大的一次性能更新,主�
 
 # CC Switch 简报 — 2026-09-09
 
-## 今日要点
+## 1. 今日要点
 
-一批协同推进的 **Responses API 代理加固**改动昨夜集中落地,解决了流截断、推理摘要保真、空 `reasoning_content` 块抖动,以及流式 Responses 的 TTFT 准确性问题。Codex 集成仍是 bug 报告的头号来源——热度前 15 的 issue 中有 6 个与 Codex 相关,从 v3.20.1 的认证绑定迁移死锁,到 Windows 上的用量同步游标失效,再到 macOS 直连绕过问题。与此同时，Qwen 预设目录已更名为 **千问AI平台**，并在全部七个受支持应用中完成了 3.8 世代的全量更新。
+CC Switch 仓库本日在提供商/代理底层管道与平台扩展两条线上活动密集：长期在榜的 **CLI 工具支持追踪帖（CLI Tool Support Tracker）**（#1855，200 条评论）持续驱动着路线图，同时两个分量十足的新应用 PR 相继落地 —— **Cursor 支持**（#6124，+4123 行代码）与 **将 DeepSeek Harness (DSH) 提升为一等 AppType**（#7244）。代理方面，团队交付了针对熔断器 HalfOpen 许可泄漏（#7207）、macOS 系统代理刷新（#7030）以及 Windows 上 Codex rollout 同步（#7219）的修复，并新增了自动附加现已强制要求的 `x-opencode-session` 请求头的特性（#7246）。
 
-## 版本发布与破坏性变更
+## 2. 版本发布与破坏性变更
 
-过去 24 小时无新版本发布。依据 issue 追踪,当前版本为 **v3.20.1**,存在已知回归(见“稳定性”部分)。
+- **过去 24 小时内没有新版本发布。**
+- ⚠️ **即将弃用提示（issue #7198）：** Gemini CLI 已正式停止维护；用户请求迁移至 **Antigravity CLI**，以承接入口配置与使用统计。预计未来版本中 `gemini-cli` 提供商的配置键将有所变动。
+- **提供商 API 格式变动（issue #6258）：** OpenCode Go 的 Anthropic 兼容端点所要求的认证头格式与 Claude Desktop 的不同。CC Switch 的提供商卡片目前无法选择认证字段，导致出现 `401 Missing API key` 错误。
 
-## 新模型与硬件支持
+## 3. 新模型与硬件支持
 
-- **Qwen 3.8 世代全量更新**——国内 DashScope 预设更名为 **千问AI平台**，模型目录在 Claude Code、Claude Desktop、Codex、Hermes、OpenClaw、OpenCode 和 Pi 中全面更新([PR #7183](https://github.com/farion1231/cc-switch/pull/7183))。
-- **Auto Mode 分类器路由**——为 Claude Code Auto Mode 的 pre-Bash 安全分类器请求新增专用 provider 链，实现会话流量与分类器流量的跨 provider 分流([PR #6602](https://github.com/farion1231/cc-switch/pull/6602))。
-- **可配置的 Codex Provider ID**——官方统一历史与接管的 Provider ID 现已支持设备级配置(默认值为 `custom` / `cc-switch-official`)([PR #7073](https://github.com/farion1231/cc-switch/pull/7073))。
-- **跨应用复制 provider**——可在应用之间复制 provider 卡片，按目标逐一报告成功/跳过/失败，并保留符合目标协议的元数据([PR #7225](https://github.com/farion1231/cc-switch/pull/7225))。
+- **新提供商预设：** Laonong API (`laonongapi`) —— OpenAI 兼容网关，提供 GPT-4o、Claude 3.5 Sonnet、DeepSeek、Gemini。[PR #7245](https://github.com/farion1231/cc-switch/pull/7245)
+- **面向 Codex 的 GitHub Copilot 托管账户路由**（Responses + Chat Completions，按 `supported_endpoints` 自动选择认证/档案）。[PR #7157](https://github.com/farion1231/cc-switch/pull/7157)
+- **DeepSeek Harness (DSH)** 作为托管应用加入，与 Claude/Codex/Gemini 并列；读取 `~/.dsh/settings.yaml`，支持 `apiKeyEnv` 密钥引用。[PR #7244](https://github.com/farion1231/cc-switch/pull/7244)
+- **Cursor（BYOK）** 成为第 9 个托管应用 —— 借助 cloudflared Quick Tunnel 将本地代理以 HTTPS 形式对外暴露，配置位于 `cursor_config.rs`，并附带 v17/v18 数据库迁移。[PR #6124](https://github.com/farion1231/cc-switch/pull/6124)
+- **面向 Pi 的 LongCat 推理格式** —— 切换为 Pi 的二进制 thinking 传输格式，并显式设置 `thinking.type` 值。[PR #7201](https://github.com/farion1231/cc-switch/pull/7201)
 
-无新的硬件后端(CUDA/ROCm/Metal/CPU)或量化格式变更——CC Switch 是配置路由层，而非计算运行时。
+## 4. 性能与优化
 
-## 性能与优化
+- **熔断器正确性/性能（#7207）：** RAII `HalfOpenPermitGuard` 现在在解除时不再泄漏许可，并消除了会破坏 `max_half_open_requests=1` 限流的“先解构后释放”模式，从而在部分故障下恢复了正确的舱壁隔离行为。
+- **火山引擎（Volcengine）用量路由（#7096）：** 将 Agent Plan 与 Coding Plan 的检测逻辑分离，让同时订阅两种套餐的用户能看到各套餐对应的正确配额，而不是一张卡片把两者混在一起显示。
+- **Codex rollout 增量同步（#7219）：** 以持久化的**字节游标 + 大小**校验取代仅依赖 mtime 的检测，修复了 Windows 上 rollout 文件在持续写入、体积增长期间 mtime 保持不变的场景。
+- **Codex `/images/edits` 代理覆盖（#7177）：** 填补了携带 `referenced_image_paths` 的 `imagegen` 工具调用失败的 P2 缺口；同时处理了流式图像生成的用量计量。
 
-- **Responses 流式的 TTFT 准确性**——首字节计时不再等待流末尾的 `usage`;已解耦为在首个有效事件时触发。修复了 TTFT ≈ 总延迟的症状([PR #7233](https://github.com/farion1231/cc-switch/pull/7233),相关 [#6637](https://github.com/farion1231/cc-switch/issues/6637))。
-- **消除流式块抖动**——当上游发出空字符串 `reasoning_content` 占位符时,OpenAI Chat → Anthropic SSE 转换器不再在每个 chunk 上关闭/重开空的 `thinking` 块([PR #7227](https://github.com/farion1231/cc-switch/pull/7227))。
-- **Responses 截断处理**——在因 web-search-limit 截断时，于 `stream_truncated` 之前合成干净的 `content_block` 关闭;对不完整终止则关闭悬空块([PR #7044](https://github.com/farion1231/cc-switch/pull/7044))。
-- **修复 Codex 用量同步中 rollout 卡住的问题**——通过持久化的字节游标加文件大小比对,可检测 Windows 上 mtime 未变但文件内容仍在增长的情况([PR #7219](https://github.com/farion1231/cc-switch/pull/7219))。
-- **Codex Responses Lite 工具保留**——直接携带 `input[].type = "additional_tools"` 的负载在 Chat 转换中现会被保留，不再被当作噪声丢弃([PR #6159](https://github.com/farion1231/cc-switch/pull/6159))。
-- **面向 Claude Code 的 Responses 推理摘要**——开启 Claude thinking 时会请求可见摘要，并被转换为可回放的 Anthropic `thinking` 块，而非 `redacted_thinking`([PR #6814](https://github.com/farion1231/cc-switch/pull/6814))。
+## 5. 稳定性与回归
 
-## 稳定性与回归
+按预估影响范围排序：
 
-**高严重度(功能性死锁/数据丢失)：**
+| 严重程度 | Issue | 描述 | 修复 PR |
+|----------|-------|-------------|--------|
+| **P0** | [#7236](https://github.com/farion1231/cc-switch/issues/7236) | Claude Code 2.1.265 之后，Deepseek 与 ZAI 提供商经 CC Switch 返回错误 | — |
+| **P0** | [#6875](https://github.com/farion1231/cc-switch/issues/6875) | 切换/启用 Codex 提供商会**完全覆写** `config.toml` 和 `auth.json`；外部配置与令牌丢失，且没有文件备份 | — |
+| **P1** | [#7084](https://github.com/farion1231/cc-switch/issues/7084) | Codex 用量同步：分页的父级 rollout 导致分叉出的子会话被永久打上“父会话尚未到达分叉点”的标签 → GPT-5.6-Sol 用量统计下降 | [#7219](https://github.com/farion1231/cc-switch/pull/7219) 部分修复 |
+| **P1** | [#7088](https://github.com/farion1231/cc-switch/issues/7088) | 缺少 `x-opencode-session` 的 OpenCode Go 请求可能自 2026-09-06 起开始报错 | [#7246](https://github.com/farion1231/cc-switch/pull/7246) ✅ |
+| **P1** | [#7252](https://github.com/farion1231/cc-switch/issues/7252) | Claude Code 引导消息/令牌提醒经 Chat-Completions 网关路由时导致缓存未命中 | [#7253](https://github.com/farion1231/cc-switch/pull/7253) ✅（opt-in 修复） |
+| **P1** | [#4679](https://github.com/farion1231/cc-switch/issues/4679) | CC Switch 3.16.3 缓存系统代理状态；禁用代理后，请求仍尝试经由其发送 → 502 | [#7030](https://github.com/farion1231/cc-switch/pull/7030) ✅（仅 macOS） |
+| **P2** | [#7080](https://github.com/farion1231/cc-switch/issues/7080) | 本地环境监控无法检测最新 Codex 版本 → 手动更新被阻断 | — |
+| **P2** | [#7211](https://github.com/farion1231/cc-switch/issues/7211) | CC Switch 强制覆写 Codex CLI `config.toml` 的 `requires_openai_auth` 值 | — |
+| **P2** | [#6258](https://github.com/farion1231/cc-switch/issues/6258) | Claude Desktop 提供商 UI 缺少认证字段选择器 → Anthropic 兼容上游返回 401 | — |
+| **P2** | [#6626](https://github.com/farion1231/cc-switch/issues/6626) | Claude Code 2.1.235 对 DeepSeek 报告的缓存令牌数为零（相关：#3908、#4247） | — |
+| **P3** | [#7240](https://github.com/farion1231/cc-switch/pull/7240) | 部分主机上 Windows WebView2 启动时出现空白/白屏 | ✅ 修复见 PR #7240 |
+| **P3** | [#7208](https://github.com/farion1231/cc-switch/pull/7208) | Windows Terminal 无视 `defaultProfile` 一律启动 `cmd.exe`（#5322、#2830） | ✅ 修复见 PR #7208 |
+| **陈旧** | [#5171](https://github.com/farion1231/cc-switch/issues/5171)、[#5342](https://github.com/farion1231/cc-switch/issues/5342)、[#5197](https://github.com/farion1231/cc-switch/issues/5197)、[#5185](https://github.com/farion1231/cc-switch/issues/5185) | image_gen 工具冲突、Codex+ChatGPT 字段不匹配、`/responses` 转换 400、WebView2 无窗口 | — |
 
-- **v3.20.1 上的 Codex 认证绑定迁移死锁**——工作区主键变更时 `authBinding.accountId` 未被迁移；用户被锁在所有 provider 之外，报“账号不存在”。已在 Windows 11 上确认([Issue #6969](https://github.com/farion1231/cc-switch/issues/6969))。*未找到修复 PR。*
-- **Codex fork 用量丢失(GPT-5.6-Sol)**——从分页 rollout fork 出的子代理被永久标记为“父 rollout 尚未写到 child fork 时刻”;macOS v3.20.1 上所有 fork 用量均被丢弃([Issue #7084](https://github.com/farion1231/cc-switch/issues/7084))。*未找到修复 PR。*
-- **Codex config.toml 的 `requires_openai_auth` 被覆盖**——CCS 强制覆盖用户设定的值，破坏自定义路由([Issue #7211](https://github.com/farion1231/cc-switch/issues/7211))。
-- **Codex `/responses` 经代理返回 400**——未前置 `tool_calls` 的 `tool` 角色消息被拒绝;DeepSeek + `gpt-5.5` 组合调用失败([Issue #4741](https://github.com/farion1231/cc-switch/issues/4741))。
-- **macOS 上 Codex 绕过本地代理**——Codex CLI(v0.147.0)直接访问 `wss://api.openai.com`,无视 `127.0.0.1:15722`;需要显式设置 `transport_kind = responses_http`。Windows 不受影响([Issue #6256](https://github.com/farion1231/cc-switch/issues/6256))。*部分缓解:[PR #7213](https://github.com/farion1231/cc-switch/pull/7213) 增加了 `NSLocalNetworkUsageDescription`。*
+## 6. 对应用开发者意味着什么
 
-**中等严重度：**
+- **如果你通过 CC Switch 将 Claude Code 路由到非 Anthropic 的 Chat-Completions 网关：** 请启用新的“会话 system 转换”开关（#7253）。不启用的话，引导消息和 todo/后台提醒将不会从 `system` 降级为 `user`，长程智能体会话的 prompt cache 命中会被彻底破坏。
+- **如果你使用 Codex：** 请将 CC Switch 固定在包含 PR #7219 的版本上，否则在 Windows 上当 rollout 正被写入时会出现用量同步缺口。`config.toml`/`auth.json` 覆写风险（#6875）意味着，在修复落地之前，**切换提供商前请务必备份 `~/.codex/`**。
+- **如果你运营 OpenCode Go 上游：** 本地代理现在会自动附加 `x-opencode-session`（#7246）—— 客户端无需任何改动，但请核实你自己的网关没有重复附加该请求头。
+- **如果你在 macOS 上维护 CI：** 代理刷新修复（#7030）意味着当 SCDynamicStore 变更传播时，reqwest 客户端现在会被重建；切换系统代理工具后不再需要重启。
+- **如果你基于 Cursor 开发：** #6124 中的 BYOK 隧道模式（cloudflared Quick Tunnel → localhost 代理 → HTTPS）对于将仅监听本地的代理交付给非回环客户端使用是一个很有用的参考。
+- **路线图信号（#1855）：** 将 Cline、Aider、Roo Code、Continue 和 Windsurf 纳入托管应用的请求仍是该追踪帖中参与度最高的事项 —— 预计后续会有更多提供商/CLI 抽象层落地。
 
-- **Codex 429 限流风暴**——正常 Codex 调用期间出现 `exceeded retry limit, last status: 429`([Issue #4752](https://github.com/farion1231/cc-switch/issues/4752))。
-- **Codex 仪表盘“真实消耗 Tokens”数据陈旧**——增量同步有写入，但摘要卡片只在手动重建后才刷新([Issue #7135](https://github.com/farion1231/cc-switch/issues/7135))。
-- **公共配置数组替换导致 provider 丢失**——`deepMerge` 会粗暴覆盖 provider 条目；该 PR 将公共配置数组视为子集，执行去重并集合并([Issue/PR #6144](https://github.com/farion1231/cc-switch/pull/6144))。
-- **OpenCodeGo 缺失 `x-opencode-session`**——自 09/06 起,provider 会拒绝不带该 header 的请求([Issue #7088](https://github.com/farion1231/cc-switch/issues/7088))。
-- **编辑配置时符号链接被替换**——编辑配置文件会破坏已有的符号链接([Issue #5129](https://github.com/farion1231/cc-switch/issues/5129))。
-- **v3.16.3 缓存代理状态 → 502**——关闭开关后代理标志仍为 true([Issue #4679](https://github.com/farion1231/cc-switch/issues/4679))。
+---
 
-**较低严重度/配置类：**
+*来源：[farion1231/cc-switch Issues](https://github.com/farion1231/cc-switch/issues) 与 [Pull Requests](https://github.com/farion1231/cc-switch/pulls)，活动窗口 2026-09-08 → 2026-09-09。*
 
-Claude Desktop Anthropic 协议错误([Issue #6605](https://github.com/farion1231/cc-switch/issues/6605));Codex + ChatGPT 合并后 Code 字段不匹配([Issue #5342](https://github.com/farion1231/cc-switch/issues/5342));`X-OpenAI-Internal-Codex-Responses-Lite` 模型不支持([Issue #4862](https://github.com/farion1231/cc-switch/issues/4862));局域网 API 无法访问([Issue #7109](https://github.com/farion1231/cc-switch/issues/7109));启动时默认应用抢占焦点([Issue #6935](https://github.com/farion1231/cc-switch/issues/6935));OpenCodeGo 通过 CLI 处理图像([Issue #5141](https://github.com/farion1231/cc-switch/issues/5141))。
-
-**近期已关闭：** ZCode 支持请求([Issue #4744](https://github.com/farion1231/cc-switch/issues/4744));OpenAI Codex v0.150.1 `unknown variant 'custom'`([Issue #6944](https://github.com/farion1231/cc-switch/issues/6944));Windows 找不到 `claude`([Issue #1438](https://github.com/farion1231/cc-switch/issues/1438));settings.json 登录问题([Issue #404](https://github.com/farion1231/cc-switch/issues/404))。
-
-## 对应用开发者意味着什么
-
-1. **重度依赖 Codex 的工作流请避开 v3.20.1**——两个尚未修复的死锁(认证迁移、fork 用量追踪)加上 macOS 直连绕过，可能悄然破坏路由并丢失用量记录。如果你依赖 Codex,请锁定 v3.20.0 或等待下一个补丁版本。
-2. **为 Qwen 3.8 迁移做好规划**——所有 Qwen 预设现均为 3.8 世代；在拉取预设更新之前，请检查固定脚本、CI 矩阵或成本看板中的模型名称。
-3. **流式遥测终于可信了**——Responses 流上的 TTFT 不再被钉死在总延迟上。如果你通过仪表盘观测 CC Switch,下个版本的指标将反映真实的首 token 行为。
-4. **跨 provider 的 Auto Mode 路由现已可行**——分类器队列允许你把安全分类器流量固定到一个便宜/快速的模型上，同时为会话保留更强的模型。适合用于 Claude Code Auto Mode 的成本控制。
-5. **macOS 用户需授予本地网络权限**——升级后会出现一次性授权提示；否则局域网 API 会静默失败([PR #7213](https://github.com/farion1231/cc-switch/pull/7213))。
-6. **Provider 管理更完善了**——跨应用复制([PR #7225](https://github.com/farion1231/cc-switch/pull/7225))与保留元数据的通用同步([PR #7212](https://github.com/farion1231/cc-switch/pull/7212))降低了在添加统一 provider 上游时丢失各应用专属用量脚本的风险。
+---
 
 </details>
 
 <details>
 <summary><strong>New API</strong> — <a href="https://github.com/QuantumNous/new-api">QuantumNous/new-api</a></summary>
 
-# 新 API 速览 — 2026-09-09
+# API 日报 — 2026-09-09
 
-## 今日要点
+## 1. 今日要点
 
-团队发布了 **v1.0.0-rc.36**，重点围绕任务插件、插件市场以及定价/配额配置，并新增了一项值得注意的能力：可以以站点本地货币显示价格，但仍然以美元扣除配额。在维护方面，暴露了两项计费/指标正确性问题（#7229 图片缓存重复计费、#7134 已取消的流被计入失败），运维人员应持续跟踪；AWS 默认凭证链提案（#7257）虽然被关闭并判定为无效，但随后又以实现 PR（#7258）的形式重新出现，仍处于开放状态。
+v1.0.0-rc.36 版本带来了 **任务插件与市场（Task Plugins & Marketplace）** 大改造（插件图标、元数据、能力标签、可切换币种的定价），同时附带配额/日志改进。今日 issue 与 PR 中的主导主题是**计费正确性**：围绕双重扣费、缓存 token 缺失、以及 Gemini 的 `:countTokens` 端点被错误路由为 `generateContent`（本应免费的计数调用却按生成内容计费）存在多个高严重性 bug。一个值得注意的元模式：今日合并的 PR 中，很大一部分是由 AI 编程代理（Claude Code、Codex CLI）在一个协调的"PR 贡献"活动中产出的。
 
-## 版本发布与破坏性变更
+## 2. 版本发布与破坏性变更
 
-- **v1.0.0-rc.36 — 任务插件、定价配置与配额**（[release](https://github.com/QuantumNous/new-api/releases/tag/v1.0.0-rc.36)）
-  - 新增插件图标、网站、元数据与能力字段；新增渠道流程可自动填充匹配的插件信息。
-  - 定价配置现可按站点显示货币录入/查看价格，**但配额仍以美元扣除** —— 运维人员应审查面向用户的定价页面，确认双币种的交互体验保持一致。
-  - 模型管理、目录/广场展示、API Key 与用户配额处理、使用日志以及兑换码均有改进。
-
-## 新模型与硬件支持
-
-- **xAI Grok Imagine Video 异步任务**提案（[#7251](https://github.com/QuantumNous/new-api/issues/7251)）—— 将为 Grok 的视频生成异步任务模型增加专用路径，与现有视频渠道并存。
-- **AWS Bedrock 默认凭证链**（[#7258](https://github.com/QuantumNous/new-api/pull/7258)，关闭 [#7257](https://github.com/QuantumNous/new-api/issues/7257)）—— 支持 AWS 渠道的实例角色 / IRSA / IAM Roles Anywhere，无需再将静态密钥硬编码到部署中。
-- **DaoXE 渠道类型**请求（[#7264](https://github.com/QuantumNous/new-api/issues/7264)）—— 关闭并判定为无效；用户已可通过通用 OpenAI 兼容的自定义渠道配合 base URL 完成接入。
-
-## 性能与优化
-
-- **多 Key 渠道「测试所有 Key」**（[#7112](https://github.com/QuantumNous/new-api/pull/7112)，开放）—— 并发测试多 Key 渠道中的所有 Key，并附带自动禁用规则；为管理大规模渠道池的运维人员带来显著提速。
-- **活跃渠道主动探测开关**（[#7161](https://github.com/QuantumNous/new-api/pull/7161)，开放）—— 优化了节流策略，并提供可选的探测开关，减少冷启动渠道上的无效上游调用。
-- **已取消流指标污染修复路径**（[#7134](https://github.com/QuantumNous/new-api/issues/7134)）—— 当下游客户端中途断开流式连接时，当前请求会被计入失败率的分母；该问题一旦修复，仪表盘上的渠道可靠性表现将得到实质性改善。
-- **本期窗口内关闭的探索性 PR**：Responses WebSocket v2 整合（[#6914](https://github.com/QuantumNous/new-api/pull/6914)）、非流式 Claude 调用方的 SSE 缓冲（[#6292](https://github.com/QuantumNous/new-api/pull/6292)）、使用日志实时刷新（[#6291](https://github.com/QuantumNous/new-api/pull/6291)）、渠道测试的 Responses 兼容策略（[#6290](https://github.com/QuantumNous/new-api/pull/6290)）、按小时更新的美元汇率源（[#7265](https://github.com/QuantumNous/new-api/pull/7265)）。
-
-## 稳定性与回归
-
-按严重程度排序，面向自托管用户：
-
-1. **[BUG，严重] 图片缓存命中触发重复计费** —— [#7229](https://github.com/QuantumNous/new-api/issues/7229)（开放，v1.0.0-rc.30）。缓存的图片响应似乎被计费两次。**应对措施：** 审计图片生成使用日志中的重复配额记录；在修复前考虑设置每日图片配额上限。
-2. **[BUG] 客户端取消的流被计入失败** —— [#7134](https://github.com/QuantumNous/new-api/issues/7134)（开放）。会抬高渠道失败率；该 issue 中包含完整的根因分析。
-3. **[BUG] Qwen3 `enable_thinking` 未透传至阿里云** —— [#1013](https://github.com/QuantumNous/new-api/issues/1013)（开放，长期未更新，6 条评论）。非流式 Qwen3 调用会静默继承默认的「开启思考」行为，而阿里云在非流式响应中禁止该行为。
-4. **[BUG] 注册时未发送 SMTP 验证码** —— [#3126](https://github.com/QuantumNous/new-api/issues/3126)（开放，长期未更新）。SMTP 测试发送正常，仅注册流程未能触发。
-5. **[BUG] 充值金额小数位显示异常** —— [#3177](https://github.com/QuantumNous/new-api/issues/3177)（开放，长期未更新）。
-6. **[BUG] 音频处理器缺少参数覆盖** —— [#3191](https://github.com/QuantumNous/new-api/issues/3191)（开放，长期未更新）。
-7. **[BUG] CNY 显示对订阅价格重复除以汇率** —— [#3206](https://github.com/QuantumNous/new-api/issues/3206)（开放，长期未更新）—— 涉及资金正确性，升级后值得复核。
-
-**本期窗口已落地的修复 PR：**
-
-- **SSE 编码加固**（[#7259](https://github.com/QuantumNous/new-api/pull/7259)，开放）—— 修复了 `common/custom-event.go` 中一个潜在的 `data.(string)` panic，适用于未来任何发出非字符串 SSE 负载的渠道；同时修复了 Coze 流式响应中的 body 泄露，并移除了默认密码的死代码。强烈建议尽快合入，这是一项边缘输入下的 panic 风险。
-
-## 对应用开发者的影响
-
-- **建议升级到 v1.0.0-rc.36 以获得市场/插件相关的改进**，但需审视双币种定价展示（本地币种用于显示，美元用于扣费）的对外沟通方式 —— 在本代码库中，意外少收费用类 bug（参见 #3206）是一类反复出现的问题。
-- **如果你使用 AWS Bedrock 自托管**，请关注 PR [#7258](https://github.com/QuantumNous/new-api/pull/7258) —— 合入后将无需再向中转 Pod 分发长期有效的 AWS 密钥。
-- **如果你将 Grok Image 路由至 Grok Imagine Video**，可通过 [#7251](https://github.com/QuantumNous/new-api/issues/7251) 申请访问；异步任务模型将需要新的客户端集成方式（轮询或 Webhook）。
-- **当前运营仪表盘上的失败率可能被高估**，原因正是 [#7134](https://github.com/QuantumNous/new-api/issues/7134)；在修复之前，针对渠道 SLO 告警前应先过滤掉已取消的流式样本。
-- **对于图片类工作负载，建议在应用层设置配额上限**，作为对 [#7229](https://github.com/QuantumNous/new-api/issues/7229) 重复计费问题的短期防御手段，直至修复落地。
-- **管理/安全姿态加固**即将到来，相关 issue 包括 [#7262](https://github.com/QuantumNous/new-api/issues/7262)（API Key 最大有效期强制执行）、[#7263](https://github.com/QuantumNous/new-api/issues/7263)（组织级 2FA）以及 [#7261](https://github.com/QuantumNous/new-api/issues/7261)（管理员查看/管理用户 API Key）—— 这些功能上线后请规划好面向租户的公告沟通。
-- **#7256（桌面端登录中转）被关闭并判定为无效**，说明维护者并不打算在网关层实现浏览器到桌面端的鉴权交接；LoongPort 等桌面端工具作者需要继续在客户端侧实现该流程。
+- **[v1.0.0-rc.36 — 任务插件、定价配置与配额](https://github.com/QuantumNous/new-api/releases)**（[仓库中的发布说明](https://github.com/QuantumNous/new-api)）
+  - 任务插件与市场：展示插件图标、网站 URL、元数据与能力描述符；新建渠道时现在会自动填充匹配的插件。
+  - 模型管理、模型目录、市场展示与定价配置经过重构。
+  - API 密钥 / 用户配额 / 用量日志 / 兑换码流程得到改进。
 
 </details>
 

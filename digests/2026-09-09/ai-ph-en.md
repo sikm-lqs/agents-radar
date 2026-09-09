@@ -1,74 +1,71 @@
 # Product Hunt AI Products Digest 2026-09-09
 
-> Source: [Product Hunt](https://www.producthunt.com/) | 14 products | Generated: 2026-09-08 23:30 UTC
+> Source: [Product Hunt](https://www.producthunt.com/) | 14 products | Generated: 2026-09-09 11:30 UTC
 
 ---
 
-# Product Hunt AI Products Digest — 2026-09-09
+# 🗞️ Product Hunt AI Products Digest — 2026-09-09
 
-## Today's Highlights
+## 1. Today's Highlights
 
-Today's Product Hunt lineup reflects a maturing AI ecosystem where the spotlight is shifting from raw model demos toward **agentic workflows and developer-centric tooling**. The top-voted launch, **PR Lens by Coldtea.ai**, is an open-source code-review tool that signals continued enthusiasm for transparent, community-driven developer products. Productivity-AI hybrids are also dominating, with **Scriptly** (voice-controlled teleprompter) and **Tucky** (edge-docked AI notes) showing how lightweight AI is being embedded into everyday tasks. A noteworthy vertical push comes from **Routines by Databox**, which packages an "AI Analyst on a schedule" for marketing and business intelligence teams — a clear indicator that scheduled, autonomous analytics is becoming a productized category.
+Today's Product Hunt AI landscape is dominated by the **agent economy**, with the top three launches all built around autonomous or multi-agent workflows. **Switch** (506 votes) sets the tone by bridging AI agents into mainstream team-chat platforms like Slack and Teams, signaling that integration — not raw model capability — is now the battleground. Infrastructure plays are stacking up too: **Kopai** positions itself as "the cloud for AI agents" while **OpenMarket** introduces proof-based competition among agents. Meanwhile, security and governance are emerging as first-class concerns, evidenced by **Replay QA Security Scan** and **Relaticle's** approval-gated AI writes.
 
 ---
 
-## Top Products
+## 2. Top Products
 
 ### 🤖 AI Agents & Assistants
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Tucky](https://www.producthunt.com/products/tucky?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/HOXPFE7M5744T2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 262 | 22 | A note-taking app pinned to your screen edge with a built-in AI agent for instant context-aware assistance. It solves the friction of switching windows to consult an assistant by keeping AI one keystroke away, ideal for focused, single-screen workflows. |
-| [Nina by Antalpha](https://www.producthunt.com/products/antalpha?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/CC7TGEK5H6UJIY?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 109 | 12 | A non-custodial AI agent that researches, predicts, and trades crypto on behalf of users. It stands out by combining AI autonomy with self-custody principles, addressing traders' top concern: keeping control of their private keys. |
-| [BotLinx](https://www.producthunt.com/products/botlinx?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/QAWQ3FL66IFNH6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 16 | 2 | A no-code platform to build an AI support chatbot trained on your docs and website. It targets small businesses needing an always-on support layer without engineering overhead, with content ingested directly from existing knowledge bases. |
-| [Ollie](https://www.producthunt.com/products/ollie-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/GEAGXVRJHACUTI?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 14 | 5 | A local-first AI teammate for productivity and fintech workflows, emphasizing on-device control. It differentiates by offering privacy-preserving AI that runs locally while still connecting to external services when needed. |
+| [Switch](https://www.producthunt.com/products/switch-11) · [site](https://www.producthunt.com/r/EAQYN6B2W3MDVB) | 506 | 82 | Bring any AI agent into Slack, Teams, and Discord with a unified integration layer. It removes the friction of deploying agents into existing workflows and stands out as an open-source, agent-agnostic connector. |
+| [OpenMarket](https://www.producthunt.com/products/openmarket) · [site](https://www.producthunt.com/r/MFJR2TQDFWCXQB) | 276 | 41 | A multi-agent marketplace where "proof decides who wins," letting agents compete on verifiable task execution. It brings e-commerce-style trust signals to agent transactions, a novel approach to agent-to-agent commerce. |
+| [bonds](https://www.producthunt.com/products/bonds-2) · [site](https://www.producthunt.com/r/LZNMWYZ4JH5FKQ) | 94 | 15 | An AI messenger that builds shared mini-apps directly inside group chats, blending health-tracking and conversational AI. It stands out by collapsing the gap between conversation and software creation within the chat itself. |
 
 ### 🛠️ Developer Tools
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [PR Lens by Coldtea.ai](https://www.producthunt.com/products/coldtea?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/QDW4KEB2OFO6GI?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 336 | 27 | An open-source code-review tool that helps engineers inspect pull requests with a fresh analytical perspective. It tackles review fatigue and missed defects by surfacing patterns and risks beyond simple diffs, and its open-source nature signals trust and extensibility. |
-| [Airuncode](https://www.producthunt.com/products/airuncode?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/LQFT5B5PA5MOJN?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 149 | 7 | A local orchestrator that lets developers run multiple coding agents side-by-side on the same machine. It solves the practical pain of juggling several agent CLIs or IDEs, enabling parallel experimentation without context switching. |
-| [Capslane](https://www.producthunt.com/products/capslane?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/S36IF2DPBX5VZR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 17 | 3 | A single API that delivers reliable YouTube transcripts for downstream pipelines. It targets developers building media-aware AI apps, removing the brittleness of scraping captions or running fragile local speech-to-text. |
-| [abha.page 2.0](https://www.producthunt.com/products/abha-page?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/7LT4SUKYYX42W7?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 16 | 2 | A 2.0 update that converts brand colors into a fully shippable design system. It shortens the gap between brand guidelines and production tokens, useful for frontend teams needing consistent theming across web and mobile. |
+| [Replay QA Security Scan](https://www.producthunt.com/products/replayio) · [site](https://www.producthunt.com/r/W4ZDVFAWS5EYAA) | 115 | 5 | Automated penetration testing purpose-built for AI-generated applications, addressing a growing blind spot in vibe-coded software. It stands out by treating AI-built code as a distinct security surface rather than legacy code with an LLM in the loop. |
+| [SODAX SDK](https://www.producthunt.com/products/sodax) · [site](https://www.producthunt.com/r/4PBLKS7ZQQU5DG) | 105 | 18 | A developer SDK for orchestrating digital-asset flows that can be composed and deployed with AI. It targets DeFi builders who want AI-assisted financial workflows without hand-rolling chain integrations. |
+| [Catenary](https://www.producthunt.com/products/catenary) · [site](https://www.producthunt.com/r/7W7UP5T6KKDWTI) | 89 | 7 | A spatial canvas IDE designed specifically for AI coding agents, replacing linear chat with a graph-like workspace. It stands out by giving agent-driven development a first-class visual environment instead of bolting onto a traditional IDE. |
+| [Pastea](https://www.producthunt.com/products/pastea) · [site](https://www.producthunt.com/r/YJXUI5D3GZQRDR) | 88 | 4 | A searchable, AI-aware clipboard manager for Mac that finally makes clipboard history usable. It stands out with semantic search rather than plain text matching, helping devs retrieve snippets they copied days ago. |
 
 ### 📊 AI Applications
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Scriptly](https://www.producthunt.com/products/sciptly?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/UO2ODGJRIT2SF5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 268 | 18 | An iOS teleprompter app controlled entirely by voice commands. It solves hands-free scrolling for video creators and speakers, with voice control reducing the need for foot pedals or separate operators. |
-| [Routines by Databox](https://www.producthunt.com/products/databox?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/XFUEYVLLCTAY6D?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 181 | 36 | An AI analyst that performs scheduled analysis and delivers reports automatically. It removes the manual reporting burden for marketing teams, standing out by combining BI data sources with narrative, on-cadence insights. |
-| [Clipnote](https://www.producthunt.com/products/clipnote-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/VPDNSBR7DX5UL4?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 115 | 9 | A browser-side utility that preserves AI chat conversations beyond tab closures. It addresses the common pain of losing valuable LLM context, letting users revisit, organize, and reuse prior dialogues. |
-| [Dash to Cart 2.0](https://www.producthunt.com/products/dash-to-cart?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/ZRNRJNNAD4Q73A?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 19 | 7 | A lightweight, no-code commerce layer augmented with AI. It targets indie merchants who want a minimalist storefront with intelligent product descriptions or recommendations, avoiding the overhead of full e-commerce suites. |
-| [CosmoDex](https://www.producthunt.com/products/cosmodex?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/OFP7SFJRYAXZYX?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 13 | 2 | An AI-powered, gamified coding platform with competitive elements. It aims to make learning to code stickier by blending AI tutoring with leaderboards and challenges, targeting self-learners and bootcamps. |
+| [Knockin'](https://www.producthunt.com/products/knockin) · [site](https://www.producthunt.com/r/4PUMMDMWUCEB6E) | 212 | 25 | Turns a static bio link into an AI-powered business card that can converse with visitors on your behalf. It solves cold-DM fatigue by giving every profile a 24/7 intelligent responder, ideal for creators and freelancers. |
+| [Relaticle](https://www.producthunt.com/products/relaticle) · [site](https://www.producthunt.com/r/MBVOOJKZXSJKZV) | 162 | 33 | An open-source CRM where every AI-generated write requires explicit human approval before reaching a record. It stands out by treating AI as a co-pilot with guardrails, appealing to teams worried about AI hallucinating into customer data. |
+| [GoodLads](https://www.producthunt.com/products/good-lads-1-0) · [site](https://www.producthunt.com/r/A3H3YY7MH7X7PM) | 148 | 26 | An AI growth manager that continuously optimizes Google Ads accounts, from bidding to creative. It replaces fragmented PPC agencies with always-on, data-driven campaign tuning that adapts to ad-platform shifts. |
+| [Tables.so](https://www.producthunt.com/products/tables-so) · [site](https://www.producthunt.com/r/WYDUAXBGW5MC7W) | 111 | 9 | AI that autonomously finds, qualifies, and enriches your next customer from the open web. It compresses the SDR workflow into a single agent, standing out by combining prospecting and enrichment in one loop. |
+| [AppGacha](https://www.producthunt.com/products/appgacha) · [site](https://www.producthunt.com/r/BRKA6HBEJN72C7) | 94 | 8 | Turns a single natural-language sentence into a tiny installable desktop app, open source. It stands out by shipping a real native artifact rather than a web preview, lowering the barrier for non-developers to build tools. |
 
 ### 🎨 Creative & Content
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [SwiftXR](https://www.producthunt.com/products/swiftxr?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/3ZQGVM32PD23XZ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 18 | 9 | An AI-assisted builder for interactive 3D, AR, and VR experiences. It targets creators who lack deep 3D expertise by turning prompts into immersive scenes, lowering the bar for spatial content production. |
+| [Kombai Gallery](https://www.producthunt.com/products/kombai) · [site](https://www.producthunt.com/r/ALNGUII2YBU3ZB) | 345 | 17 | A curated library of 20,000+ UI designs usable by both humans and AI agents as reference material. It solves the "blank canvas" problem for design-aware agents, giving front-end AI a high-quality training-grade corpus out of the box. |
 
 ### 🔧 Infrastructure & Models
 
-*No infrastructure- or model-serving products launched in this window — categories omitted.*
+| Product | Votes | Comments | Summary |
+| :--- | ---: | ---: | :--- |
+| [Kopai](https://www.producthunt.com/products/kopai-the-marketplace-for-ai-agents) · [site](https://www.producthunt.com/r/OTXLWAWZAJIB2E) | 107 | 9 | "The Cloud for AI Agents" — a marketplace and hosting layer where agents can be discovered, deployed, and called. It stands out by treating agents as first-class cloud citizens alongside APIs and serverless functions. |
 
 ---
 
-## Market Signal
+## 3. Market Signal
 
-Today's batch reveals a **Developer Tools + AI Applications duopoly**, together accounting for ~70% of launches. Within those, the standout trend is the **commoditization of "AI analyst" and "AI note-taker" patterns**: Routines, Tucky, and Clipnote all package the same underlying capability — persistent, contextual LLM memory — but differentiate sharply through UX (scheduled reports vs. edge-docked notes vs. browser-side chat saving). This points to a maturing market where differentiation is moving up the stack from model quality to **interface design and workflow fit**.
-
-Two genuinely novel angles appeared: **Nina's non-custodial crypto agent** (combining AI agency with user-controlled keys) and **Airuncode's multi-agent local orchestrator** (treating coding agents as first-class parallel processes). Both hint at where the next wave of differentiation lies — **trust boundaries and orchestration**, not raw chat quality.
-
-On the open-source front, only **PR Lens** is explicitly open-source in today's cohort, suggesting Product Hunt's AI launches remain predominantly closed/proprietary. However, the fact that an open-source dev tool topped the leaderboard at 336 votes reinforces that **transparency is a powerful vote-driver** in the developer segment.
+Today's batch is heavily skewed toward **AI Agents & Assistants** and **Developer Tools**, which together account for nearly 60% of launches — clear evidence that the "agentic" narrative has moved from theory to shipping product. Three launches (Switch, OpenMarket, Kopai) explicitly frame themselves around an agent marketplace or agent runtime, suggesting the ecosystem is fragmenting into specialized layers: orchestration (Switch), compute/marketplace (Kopai), and agent-to-agent commerce (OpenMarket). **Open-source momentum is unusually strong**: Switch, Relaticle, and AppGacha all launched open-source, while even closed products like Catenary and Kombai Gallery target developer workflows that prize extensibility. The most novel use case is **Replay QA Security Scan**, which carves out a brand-new category — penetration testing for AI-generated code — reflecting rising anxiety about vibe-coded apps entering production. Traditional "wraps an LLM around X" launches (Knockin', GoodLads, Tables.so) still surface but increasingly emphasize autonomy or human-in-the-loop safeguards, not raw chat.
 
 ---
 
-## Worth Trying
+## 4. Worth Trying
 
-1. **[PR Lens by Coldtea.ai](https://www.producthunt.com/products/coldtea?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — Open-source code review is a perennial pain point, and the community-driven approach plus strong vote count (336) make this a low-risk, high-reward tool to integrate into any team's PR workflow.
-2. **[Airuncode](https://www.producthunt.com/products/airuncode?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — Running multiple coding agents locally is an emerging need as devs increasingly combine Claude, Cursor, Aider, etc. A unified local orchestrator saves real cognitive overhead and CPU juggling.
-3. **[Capslane](https://www.producthunt.com/products/capslane?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — A clean, single-API path to YouTube transcripts unlocks a lot of downstream AI use cases (summarization, RAG, content repurposing). Worth bookmarking for any developer building media-aware AI features.
+- **[Switch](https://www.producthunt.com/products/switch-11)** — The highest-voted launch of the day and the most pragmatic pick. Any team already running bots or agents across Slack/Teams will immediately see ROI, and its open-source nature means you can audit and extend it.
+- **[Replay QA Security Scan](https://www.producthunt.com/products/replayio)** — A must-try for anyone shipping AI-generated code to users. As agents write more production code, automated security review at this layer will become table stakes.
+- **[Catenary](https://www.producthunt.com/products/catenary)** — A genuinely fresh take on the AI-coding IDE. Worth a spin for developers tired of fighting linear chat UIs when orchestrating multi-agent code work.
 
 ---
 *This digest is auto-generated by [agents-radar](https://github.com/sikm-lqs/agents-radar).*

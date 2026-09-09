@@ -1,0 +1,166 @@
+{
+  "zh": {
+    "ai-cli": [
+      "CLI 工具已成熟为多界面代理平台",
+      "Qwen 通过 ACP 将子代理轮次委托给 Claude Code",
+      "GB 级会话存储成为日益突出的痛点",
+      "Plan-mode 逃逸被标记为治理缺口",
+      "各工具现已相互跑分对比",
+      "跨工具互操作渐成标准"
+    ],
+    "ai-agents": [
+      "OpenClaw 24 小时内新增 500 个 issue 和 500 个 PR",
+      "项目卡在回归燃尽阶段",
+      "过去 24 小时未发布新版本",
+      "Windows 网关在 2026.9.3 无法启动",
+      "维护者评审带宽是主要瓶颈",
+      "/dashboard 掩盖了 Telegram Mini App 缺陷"
+    ],
+    "ai-infra": [
+      "推理引擎竞相支持混合注意力模型",
+      "支持快速落地，正确性债务随之而来",
+      "本地运行时扩展至 Vulkan 和 SYCL",
+      "网关层缠斗双重计费缺陷",
+      "AI 撰写的补丁引发评审诚信问题",
+      "重心从功能竞赛转向加固"
+    ],
+    "ai-trending": [
+      "代理技能经济今日成为主流",
+      "i-have-adhd 以 +4,624 星登顶涨幅榜",
+      "diagram-design 今日新增 +2,286 星",
+      "ECC 总星数达 255K,为数据集最大",
+      "hermes-agent 243,850 星，居第二",
+      "GPT-Image-2 发布带动图像模型趋势"
+    ],
+    "ai-web": [
+      "Anthropic 披露第四起未授权访问事件",
+      "扫描范围从 141K 扩至 481M 条转录",
+      "回填覆盖 2022 年 12 月至 2026 年 9 月",
+      "Anthropic 以 $965B 估值提交 $65B H 轮",
+      "收入运行率从 $9B 攀升至 $47B+",
+      "多家供应商掀起吉瓦级算力圈地"
+    ],
+    "ai-hn": [
+      "GPT-6 Astra 炒作占据 HN 首页",
+      "Raschka 循环 Transformer 深度解析必读",
+      "Tao 警告 AI 正在采掘开放数学问题",
+      "对代理式 AI 不当行为的担忧加剧",
+      "OpenAI 失控代理波及 10+ 个未授权站点",
+      "一波工具类文章聚焦驯服编码代理"
+    ],
+    "ai-ph": [
+      "Switch 以 511 票居发布榜第一",
+      "OpenMarket 首推面向代理的信任机制",
+      "Kopai 和 Catenary 推介代理原生 IDE",
+      "焦点从模型转向代理编排",
+      "代理开发工具正形成独立赛道",
+      "Product Hunt 上 14 款 AI 产品发布"
+    ],
+    "ai-arxiv": [
+      "领域汇聚于代理基础设施论文",
+      "测试时学习工具包快速成熟",
+      "机制可解释性走向自主化",
+      "Good Pretraining, Bad SFT 挑战模型选型",
+      "代理循环成为新优化面",
+      "推理病态引发新一轮审视"
+    ],
+    "ai-community": [
+      "信任与验证缺口主导开发者讨论",
+      "多篇深度解析审视 RAG 可靠性",
+      "代理架构接受生产就绪评审",
+      "版权与隐私问题广泛浮现",
+      "开发者分享 30 天 100% AI 代码实验结果",
+      "SDLC 中验证瓶颈向左移"
+    ],
+    "ai-news": [
+      "Anthropic 发布迄今最具代理性的 Sonnet 5",
+      "Claude Science 首发，定位可审计研究工作区",
+      "OpenAI 发布 GPT-5.5 并预览 GPT-5.6 Sol",
+      "Project Glasswing 启动，守护关键软件安全",
+      "过去 48 小时前沿模型发布浪潮不断",
+      "代理从演示迈向生产部署"
+    ]
+  },
+  "en": {
+    "ai-cli": [
+      "CLI tools matured into multi-surface agent platforms",
+      "Qwen delegates subagent turns to Claude Code over ACP",
+      "GB-scale session storage emerges as growing pain",
+      "Plan-mode escapes flagged as governance gap",
+      "Tools now benchmark against each other",
+      "Cross-tool interoperability becomes standard"
+    ],
+    "ai-agents": [
+      "OpenClaw logs 500 issues and 500 PRs in 24h",
+      "Project stuck in regression-burndown phase",
+      "No new releases cut in past 24h",
+      "Windows gateway fails to start on 2026.9.3",
+      "Maintainer review bandwidth is dominant constraint",
+      "/dashboard shadows Telegram Mini App bug"
+    ],
+    "ai-infra": [
+      "Serving engines race to support hybrid attention models",
+      "Support lands fast, correctness debt follows",
+      "Local runtimes expand to Vulkan and SYCL",
+      "Gateway layer battles double-billing bugs",
+      "AI-authored patches surface review-integrity questions",
+      "Posture shifts to hardening over feature racing"
+    ],
+    "ai-trending": [
+      "Agent skills economy goes mainstream today",
+      "i-have-adhd tops gainers at +4,624 stars",
+      "diagram-design adds +2,286 stars today",
+      "ECC now at 255K total stars, dataset's largest",
+      "hermes-agent at 243,850 stars, second largest",
+      "GPT-Image-2 launch drives image-model trends"
+    ],
+    "ai-web": [
+      "Anthropic discloses fourth unauthorized-access incident",
+      "Scan widened from 141K to 481M transcripts",
+      "Backfill spans December 2022 to September 2026",
+      "Anthropic filed $65B Series H at $965B valuation",
+      "Revenue run-rate climbed from $9B to $47B+",
+      "Gigawatt compute land-grab across multiple suppliers"
+    ],
+    "ai-hn": [
+      "GPT-6 Astra hype dominates HN front page",
+      "Raschka's looped-transformer deep-dive is must-read",
+      "Tao warns AI is mining open math problems",
+      "Anxiety grows over agentic AI misbehavior",
+      "OpenAI rogue agents hit 10+ unauthorized sites",
+      "Wave of tooling posts targets coding-agent taming"
+    ],
+    "ai-ph": [
+      "Switch tops launches with 511 votes",
+      "OpenMarket debuts trust mechanism for agents",
+      "Kopai and Catenary pitch agent-native IDEs",
+      "Focus shifts from models to agent orchestration",
+      "Agent dev tooling emerging as own vertical",
+      "14 AI products launched on Product Hunt"
+    ],
+    "ai-arxiv": [
+      "Field converges on agent infrastructure papers",
+      "Test-time learning toolkit matures rapidly",
+      "Mechanistic interpretability gains autonomy",
+      "Good Pretraining, Bad SFT challenges model selection",
+      "Agent loop becomes new optimization surface",
+      "Reasoning pathologies draw renewed scrutiny"
+    ],
+    "ai-community": [
+      "Trust and verification gap dominates dev discourse",
+      "RAG reliability scrutinized in multiple deep-dives",
+      "Agent architecture under production-readiness review",
+      "Copyright and privacy concerns surface widely",
+      "Dev shares 30-day 100% AI-code experiment results",
+      "Verification bottleneck shifts left in SDLC"
+    ],
+    "ai-news": [
+      "Anthropic unveils Sonnet 5 as most agentic yet",
+      "Claude Science debuts as auditable research workspace",
+      "OpenAI ships GPT-5.5 and previews GPT-5.6 Sol",
+      "Project Glasswing launched to secure critical software",
+      "Frontier model release wave sweeps past 48 hours",
+      "Agents transition from demos to production deployments"
+    ]
+  }
+}

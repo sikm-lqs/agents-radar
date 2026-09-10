@@ -1,0 +1,164 @@
+{
+  "zh": {
+    "ai-cli": [
+      "Claude Code v2.1.268 已发布",
+      "Codex python 0.154.0 / rust 0.155.0-alpha 已发布",
+      "Gemini CLI 每日构建版 v0.61.0 (20260910)",
+      "Copilot CLI v1.0.84-4 已发布",
+      "重心转向成本治理与 Windows 支持",
+      "追踪七款持续更新的 CLI 工具"
+    ],
+    "ai-agents": [
+      "OpenClaw v2026.6.35 final June LTS 已发布",
+      "24 小时内更新 421 个 issue、触及 500 个 PR",
+      "本期摘要覆盖五个智能体项目",
+      "Memory-core 与 codex-cli 为当前热点",
+      "迁移路径：滚动至 2026.9.x 系列",
+      "维护者经 clawsweeper 标签分类可见"
+    ],
+    "ai-infra": [
+      "llama.cpp 24 小时内发布 10 个构建",
+      "LiteLLM v1.100.1 + v1.101.0-rc.2 已发布",
+      "DeepSeek V4.1 为近期最受期待",
+      "混合注意力架构重塑技术栈",
+      "静默的正确性损失是生态最大风险",
+      "今日追踪九个基础设施项目"
+    ],
+    "ai-trending": [
+      "i-have-adhd 以 +3,854 星登顶趋势榜",
+      "Tencent teamai-cli 首秀获 +837 星",
+      "清华 OpenMAIC 多智能体课堂：+806",
+      "Colibri：纯 C MoE 引擎流式加载专家",
+      "llmfit 检查数百个模型的硬件适配",
+      "ECC (255K) 与 hermes-agent (244K) 领跑星数"
+    ],
+    "ai-web": [
+      "Anthropic 披露 4 起网络对齐事件",
+      "Claude Opus 4.6 经 481M 记录扫描获确认",
+      "Frontier Red Team 评估军事目标 AI",
+      "测试了战术情报与常规武器场景",
+      "今日追踪 55 篇 Anthropic + 6 篇 OpenAI 文章",
+      "Anthropic 批次含 2025 年 4–12 月回填文章"
+    ],
+    "ai-hn": [
+      "Vibe coding Claude 演示以 1160 分登顶 HN",
+      "Meta Muse 智能体发布引发 733 条评论",
+      "GPT-6 Astra 与循环 Transformer 深度解析：502",
+      "AlphaGenome Atlas 获得 598 分",
+      "Lean 4 Navier–Stokes 形式化证明引热议"
+    ],
+    "ai-ph": [
+      "Mastra Factory 以 479 票领先",
+      "Harden：首个 AI 智能体安全层",
+      "ChatGPT Images 2.5 获得 306 票",
+      "AlphaGenome Atlas 登陆 Product Hunt",
+      "今日有 14 款 AI 产品发布",
+      "2026 被视为「智能体栈之年」"
+    ],
+    "ai-arxiv": [
+      "Show-Harness：单一 VLM 控制机器人",
+      "JarvisGUI：跨设备 GUI 智能体基准",
+      "TRACE：用合成奖励做因果探索的强化学习",
+      "记忆架构成主流：ConvMem、RiLM、Fortunate Recall",
+      "50 篇 arXiv 论文摘要覆盖 cs.AI/CL/LG/MA",
+      "多智能体无人机野火应对论文"
+    ],
+    "ai-community": [
+      "开发者热议 AI 智能体安全与 MCP 安全",
+      "OpenAI 用 10K 智能体证 Navier–Stokes 引热议",
+      "Token 现被视为预算而非廉价品",
+      "无人阅读的臃肿 AI 生成 PR",
+      "静默失败困扰本地编程智能体",
+      "追踪 14 篇 Lobste.rs + 30 篇 Dev.to 文章"
+    ],
+    "ai-news": [
+      "GPT-6 Astra 上线，为 OpenAI 最具智能体特性模型",
+      "Claude Sonnet 5 发布，为最具智能体特性的 Sonnet",
+      "Anthropic 收购 Bun JS 工具包",
+      "Claude Code 营收突破 $1B 里程碑",
+      "Anthropic 企业市场份额增长 24% 至 40%",
+      "宣布与 Accenture、NEC、PwC、Salesforce 达成交易"
+    ]
+  },
+  "en": {
+    "ai-cli": [
+      "Claude Code v2.1.268 shipped",
+      "Codex python 0.154.0 / rust 0.155.0-alpha released",
+      "Gemini CLI nightly v0.61.0 (20260910)",
+      "Copilot CLI v1.0.84-4 released",
+      "Focus shifts to cost governance & Windows support",
+      "Seven actively-shipped CLI tools tracked"
+    ],
+    "ai-agents": [
+      "OpenClaw v2026.6.35 final June LTS released",
+      "421 issues updated, 500 PRs touched in 24h",
+      "Five agent projects covered in digest",
+      "Memory-core & codex-cli are current hot spots",
+      "Migration path: rolling 2026.9.x line",
+      "Maintainer triage via clawsweeper labels visible"
+    ],
+    "ai-infra": [
+      "llama.cpp shipped 10 builds in 24h",
+      "LiteLLM v1.100.1 + v1.101.0-rc.2 released",
+      "DeepSeek V4.1 is most anticipated near-term",
+      "Hybrid-attention architectures reshape stack",
+      "Silent correctness loss is ecosystem's biggest risk",
+      "Nine infrastructure projects tracked today"
+    ],
+    "ai-trending": [
+      "i-have-adhd tops trending with +3,854 stars",
+      "Tencent teamai-cli debuts with +837 stars",
+      "Tsinghua OpenMAIC multi-agent classrooms: +806",
+      "Colibri: pure-C MoE engine streams experts",
+      "llmfit checks hardware fit for hundreds of models",
+      "ECC (255K) and hermes-agent (244K) lead stars"
+    ],
+    "ai-web": [
+      "Anthropic discloses 4 cyber alignment incidents",
+      "Claude Opus 4.6 confirmed via 481M transcript scan",
+      "Frontier Red Team evaluates military targeting AI",
+      "Tactical intelligence & conventional weapons tested",
+      "55 Anthropic + 6 OpenAI articles tracked today",
+      "Anthropic batch includes Apr–Dec 2025 backfill"
+    ],
+    "ai-hn": [
+      "Vibe coding Claude demo tops HN at 1160 pts",
+      "Meta Muse agent launch sparks 733 comments",
+      "GPT-6 Astra & looped transformers deep dive: 502",
+      "AlphaGenome Atlas earns 598 points",
+      "Lean 4 Navier–Stokes formal proof discussed"
+    ],
+    "ai-ph": [
+      "Mastra Factory leads with 479 votes",
+      "Harden: first security layer for AI agents",
+      "ChatGPT Images 2.5 hits 306 votes",
+      "AlphaGenome Atlas launches on Product Hunt",
+      "14 AI products launched today",
+      "2026 emerges as 'year of the agent stack'"
+    ],
+    "ai-arxiv": [
+      "Show-Harness: single VLM controls robots",
+      "JarvisGUI benchmark for cross-device GUI agents",
+      "TRACE: RL for causal exploration via synthetic rewards",
+      "Memory architectures dominate: ConvMem, RiLM, Fortunate Recall",
+      "50 arXiv papers digested across cs.AI/CL/LG/MA",
+      "Multi-agent UAV wildfire response paper"
+    ],
+    "ai-community": [
+      "Devs debate AI agent safety & MCP security",
+      "OpenAI's Navier–Stokes via 10K agents debated",
+      "Tokens now treated as budget, not cheap",
+      "Bloated AI-generated PRs nobody reads",
+      "Silent failures plague local coding agents",
+      "14 Lobste.rs + 30 Dev.to articles tracked"
+    ],
+    "ai-news": [
+      "GPT-6 Astra rolls out as OpenAI's most agentic model",
+      "Claude Sonnet 5 ships as most agentic Sonnet",
+      "Anthropic acquires Bun JS toolkit",
+      "Claude Code crosses $1B revenue milestone",
+      "Anthropic enterprise share jumps 24% to 40%",
+      "Deals with Accenture, NEC, PwC, Salesforce announced"
+    ]
+  }
+}

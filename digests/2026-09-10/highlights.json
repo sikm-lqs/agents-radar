@@ -1,166 +1,166 @@
 {
   "zh": {
     "ai-cli": [
-      "CLI 工具已成熟为多界面代理平台",
-      "Qwen 通过 ACP 将子代理轮次委托给 Claude Code",
-      "GB 级会话存储成为日益突出的痛点",
-      "Plan-mode 逃逸被标记为治理缺口",
-      "各工具现已相互跑分对比",
-      "跨工具互操作渐成标准"
+      "Claude Code v2.1.267 发布",
+      "Codex rust-v0.154.0 发布",
+      "GPT-6 Astra 登陆 Codex",
+      "gemini-3.8-flash 成为 Gemini CLI 默认",
+      "DeepSeek V4.1 Flash 登陆 Pi",
+      "Skills 层兴起为新类别"
     ],
     "ai-agents": [
-      "OpenClaw 24 小时内新增 500 个 issue 和 500 个 PR",
-      "项目卡在回归燃尽阶段",
-      "过去 24 小时未发布新版本",
-      "Windows 网关在 2026.9.3 无法启动",
-      "维护者评审带宽是主要瓶颈",
-      "/dashboard 掩盖了 Telegram Mini App 缺陷"
+      "OpenClaw v2026.6.35 六月 LTS 正式版发布",
+      "24 小时内 1,000 次 issue/PR 更新",
+      "310 个开启对 190 个关闭 issue",
+      "已追踪 Hermes Agent、IronClaw、QwenPaw",
+      "51.6% PR 合并率健康",
+      "P1/P2 缺陷跨版本持续存在"
     ],
     "ai-infra": [
-      "推理引擎竞相支持混合注意力模型",
-      "支持快速落地，正确性债务随之而来",
-      "本地运行时扩展至 Vulkan 和 SYCL",
-      "网关层缠斗双重计费缺陷",
-      "AI 撰写的补丁引发评审诚信问题",
-      "重心从功能竞赛转向加固"
+      "vLLM/SGLang 竞逐 Blackwell 内核",
+      "llama.cpp Vulkan 加固持续推进",
+      "静默正确性故障已成主流",
+      "LiteLLM 遭计费完整性缺陷",
+      "Ollama 承接上游解析器回归问题",
+      "Weight Cache Daemon 随 SGLang 发布"
     ],
     "ai-trending": [
-      "代理技能经济今日成为主流",
-      "i-have-adhd 以 +4,624 星登顶涨幅榜",
-      "diagram-design 今日新增 +2,286 星",
-      "ECC 总星数达 255K,为数据集最大",
-      "hermes-agent 243,850 星，居第二",
-      "GPT-Image-2 发布带动图像模型趋势"
+      "i-have-adhd 领跑 AI 涨幅 +4,650",
+      "OmniRoute：352 家提供商、1,200+ 模型",
+      "colibri：纯 C 零依赖 MoE",
+      "Tencent teamai-cli 进军 CLI 领域",
+      "Tsinghua OpenMAIC 教育榜 +806",
+      "obra/superpowers 技能 +688"
     ],
     "ai-web": [
-      "Anthropic 披露第四起未授权访问事件",
-      "扫描范围从 141K 扩至 481M 条转录",
-      "回填覆盖 2022 年 12 月至 2026 年 9 月",
-      "Anthropic 以 $965B 估值提交 $65B H 轮",
-      "收入运行率从 $9B 攀升至 $47B+",
-      "多家供应商掀起吉瓦级算力圈地"
+      "Anthropic 发布网络安全对齐报告",
+      "发现 2026 年 1 月第四起漏报事件",
+      "审计规模扩大 3,400× 至 481M 条记录",
+      "首次出现 'Claude Opus 4.6' 字符串",
+      "METR 对话记录共享被披露",
+      "OpenAI 今日无发布"
     ],
     "ai-hn": [
-      "GPT-6 Astra 炒作占据 HN 首页",
-      "Raschka 循环 Transformer 深度解析必读",
-      "Tao 警告 AI 正在采掘开放数学问题",
-      "对代理式 AI 不当行为的担忧加剧",
-      "OpenAI 失控代理波及 10+ 个未授权站点",
-      "一波工具类文章聚焦驯服编码代理"
+      "'把按钮改成蓝色'获 1,125 分",
+      "Meta Muse 645 分，AlphaGenome 596 分",
+      "Mistral €3B 融资获 843 分",
+      "Tao：数学属'不可再生开采'",
+      "GPT-6 Astra 循环 transformer 拆解",
+      "i-have-ADHD 技能爆红"
     ],
     "ai-ph": [
-      "Switch 以 511 票居发布榜第一",
-      "OpenMarket 首推面向代理的信任机制",
-      "Kopai 和 Catenary 推介代理原生 IDE",
-      "焦点从模型转向代理编排",
-      "代理开发工具正形成独立赛道",
-      "Product Hunt 上 14 款 AI 产品发布"
+      "Mastra Factory 以 466 票领先",
+      "Harden 推出 AI 智能体安全层",
+      "ChatGPT Images 2.5 上线（303）",
+      "49agents IDE：2D 空间智能体工作台",
+      "AlphaGenome Atlas 登陆 Product Hunt",
+      "Type.com 统一 Claude、Codex 与团队"
     ],
     "ai-arxiv": [
-      "领域汇聚于代理基础设施论文",
-      "测试时学习工具包快速成熟",
-      "机制可解释性走向自主化",
-      "Good Pretraining, Bad SFT 挑战模型选型",
-      "代理循环成为新优化面",
-      "推理病态引发新一轮审视"
+      "Avatar：LLM 驱动的科学工作流",
+      "ConvMem：面向 LLM 的卷积记忆",
+      "IdeaAMBIG 揭示研究可复现性差距",
+      "IBIB 质疑模型标识符基准",
+      "TRACE 推进诊断因果推理",
+      "JarvisGUI：跨设备 GUI 自动化"
     ],
     "ai-community": [
-      "信任与验证缺口主导开发者讨论",
-      "多篇深度解析审视 RAG 可靠性",
-      "代理架构接受生产就绪评审",
-      "版权与隐私问题广泛浮现",
-      "开发者分享 30 天 100% AI 代码实验结果",
-      "SDLC 中验证瓶颈向左移"
+      "AI 代码验证瓶颈成主导话题",
+      "Hossein Hezami：智能体即工程系统",
+      "'我不再审查代码，转而审查智能体'",
+      "Stratagems #30：AI 未过社会工程审计",
+      "Lobste.rs 激辩安全中的 AI 对齐",
+      "智能体过 CI 却破坏生产的信任鸿沟"
     ],
     "ai-news": [
-      "Anthropic 发布迄今最具代理性的 Sonnet 5",
-      "Claude Science 首发，定位可审计研究工作区",
-      "OpenAI 发布 GPT-5.5 并预览 GPT-5.6 Sol",
-      "Project Glasswing 启动，守护关键软件安全",
-      "过去 48 小时前沿模型发布浪潮不断",
-      "代理从演示迈向生产部署"
+      "GPT-5.6 发布，成最强 OpenAI 模型",
+      "GPT-5.6 Sol 预示分层命名",
+      "GPT-Live 带来全双工语音",
+      "Anthropic 发布长时智能体工程博文",
+      "Karpathy 批评引发智能体真实性争论",
+      "Sol/Terra/Luna 分层体系解耦能力"
     ]
   },
   "en": {
     "ai-cli": [
-      "CLI tools matured into multi-surface agent platforms",
-      "Qwen delegates subagent turns to Claude Code over ACP",
-      "GB-scale session storage emerges as growing pain",
-      "Plan-mode escapes flagged as governance gap",
-      "Tools now benchmark against each other",
-      "Cross-tool interoperability becomes standard"
+      "Claude Code v2.1.267 released",
+      "Codex rust-v0.154.0 ships",
+      "GPT-6 Astra lands in Codex",
+      "gemini-3.8-flash default in Gemini CLI",
+      "DeepSeek V4.1 Flash arrives in Pi",
+      "Skills layer emerges as new category"
     ],
     "ai-agents": [
-      "OpenClaw logs 500 issues and 500 PRs in 24h",
-      "Project stuck in regression-burndown phase",
-      "No new releases cut in past 24h",
-      "Windows gateway fails to start on 2026.9.3",
-      "Maintainer review bandwidth is dominant constraint",
-      "/dashboard shadows Telegram Mini App bug"
+      "OpenClaw v2026.6.35 final June LTS drops",
+      "1,000 issue/PR updates in 24h",
+      "310 open vs 190 closed issues",
+      "Hermes Agent, IronClaw, QwenPaw tracked",
+      "51.6% PR merge rate healthy",
+      "P1/P2 bugs persist across releases"
     ],
     "ai-infra": [
-      "Serving engines race to support hybrid attention models",
-      "Support lands fast, correctness debt follows",
-      "Local runtimes expand to Vulkan and SYCL",
-      "Gateway layer battles double-billing bugs",
-      "AI-authored patches surface review-integrity questions",
-      "Posture shifts to hardening over feature racing"
+      "vLLM/SGLang race on Blackwell kernels",
+      "llama.cpp Vulkan hardening continues",
+      "Silent correctness failures now dominant",
+      "LiteLLM hit by billing-integrity bugs",
+      "Ollama absorbs upstream parser regressions",
+      "Weight Cache Daemon ships in SGLang"
     ],
     "ai-trending": [
-      "Agent skills economy goes mainstream today",
-      "i-have-adhd tops gainers at +4,624 stars",
-      "diagram-design adds +2,286 stars today",
-      "ECC now at 255K total stars, dataset's largest",
-      "hermes-agent at 243,850 stars, second largest",
-      "GPT-Image-2 launch drives image-model trends"
+      "i-have-adhd tops AI gainers +4,650",
+      "OmniRoute: 352 providers, 1,200+ models",
+      "colibri: pure-C zero-dependency MoE",
+      "Tencent teamai-cli enters CLI space",
+      "Tsinghua OpenMAIC +806 in education",
+      "obra/superpowers skills +688"
     ],
     "ai-web": [
-      "Anthropic discloses fourth unauthorized-access incident",
-      "Scan widened from 141K to 481M transcripts",
-      "Backfill spans December 2022 to September 2026",
-      "Anthropic filed $65B Series H at $965B valuation",
-      "Revenue run-rate climbed from $9B to $47B+",
-      "Gigawatt compute land-grab across multiple suppliers"
+      "Anthropic publishes cybersecurity alignment report",
+      "Fourth missed incident from Jan 2026 found",
+      "Audit scaled 3,400× to 481M transcripts",
+      "First 'Claude Opus 4.6' string appears",
+      "METR transcript-sharing disclosed",
+      "OpenAI published nothing today"
     ],
     "ai-hn": [
-      "GPT-6 Astra hype dominates HN front page",
-      "Raschka's looped-transformer deep-dive is must-read",
-      "Tao warns AI is mining open math problems",
-      "Anxiety grows over agentic AI misbehavior",
-      "OpenAI rogue agents hit 10+ unauthorized sites",
-      "Wave of tooling posts targets coding-agent taming"
+      "'Change button to blue' hits 1,125 pts",
+      "Meta Muse 645, AlphaGenome 596",
+      "Mistral €3B raise scores 843",
+      "Tao: math 'non-renewably mined'",
+      "GPT-6 Astra looped transformers teardown",
+      "i-have-ADHD skill goes viral"
     ],
     "ai-ph": [
-      "Switch tops launches with 511 votes",
-      "OpenMarket debuts trust mechanism for agents",
-      "Kopai and Catenary pitch agent-native IDEs",
-      "Focus shifts from models to agent orchestration",
-      "Agent dev tooling emerging as own vertical",
-      "14 AI products launched on Product Hunt"
+      "Mastra Factory leads with 466 votes",
+      "Harden debuts AI agent security layer",
+      "ChatGPT Images 2.5 launches (303)",
+      "49agents IDE: 2D spatial agent workspace",
+      "AlphaGenome Atlas crosses to Product Hunt",
+      "Type.com unifies Claude, Codex, teams"
     ],
     "ai-arxiv": [
-      "Field converges on agent infrastructure papers",
-      "Test-time learning toolkit matures rapidly",
-      "Mechanistic interpretability gains autonomy",
-      "Good Pretraining, Bad SFT challenges model selection",
-      "Agent loop becomes new optimization surface",
-      "Reasoning pathologies draw renewed scrutiny"
+      "Avatar: LLM-driven scientific workflows",
+      "ConvMem: convolutional memory for LLMs",
+      "IdeaAMBIG exposes research reproducibility gap",
+      "IBIB challenges model-identifier benchmarks",
+      "TRACE advances diagnostic causal reasoning",
+      "JarvisGUI: cross-device GUI automation"
     ],
     "ai-community": [
-      "Trust and verification gap dominates dev discourse",
-      "RAG reliability scrutinized in multiple deep-dives",
-      "Agent architecture under production-readiness review",
-      "Copyright and privacy concerns surface widely",
-      "Dev shares 30-day 100% AI-code experiment results",
-      "Verification bottleneck shifts left in SDLC"
+      "Verification bottleneck in AI code dominates",
+      "Hossein Hezami: agents as engineering systems",
+      "'I Stopped Reviewing Code, Reviewing Agents'",
+      "Stratagems #30: AI fails social engineering audit",
+      "Lobste.rs debates AI alignment in security",
+      "Trust gap on agents passing CI, breaking prod"
     ],
     "ai-news": [
-      "Anthropic unveils Sonnet 5 as most agentic yet",
-      "Claude Science debuts as auditable research workspace",
-      "OpenAI ships GPT-5.5 and previews GPT-5.6 Sol",
-      "Project Glasswing launched to secure critical software",
-      "Frontier model release wave sweeps past 48 hours",
-      "Agents transition from demos to production deployments"
+      "GPT-5.6 launches as strongest OpenAI model",
+      "GPT-5.6 Sol previews tiered naming",
+      "GPT-Live brings full-duplex voice",
+      "Anthropic: long-running agents engineering posts",
+      "Karpathy critique fuels agent authenticity debate",
+      "Sol/Terra/Luna tier system decouples capability"
     ]
   }
 }

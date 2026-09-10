@@ -1,6 +1,6 @@
 # OpenClaw 生态日报 2026-09-10
 
-> Issues: 500 | PRs: 500 | 覆盖项目: 5 个 | 生成时间: 2026-09-09 23:30 UTC
+> Issues: 500 | PRs: 500 | 覆盖项目: 5 个 | 生成时间: 2026-09-10 11:30 UTC
 
 - [OpenClaw](https://github.com/openclaw/openclaw)
 - [Hermes Agent](https://github.com/nousresearch/hermes-agent)
@@ -12,191 +12,217 @@
 
 ## OpenClaw 项目深度报告
 
-# OpenClaw 项目摘要 — 2026-09-10
+# OpenClaw 项目简报 — 2026-09-10
 
 ## 1. 今日概览
 
-OpenClaw 仓库活跃度非常高：**过去 24 小时内有 500 个 issue 和 500 个 PR 被更新**（issue 310/190 拆分，PR 262/238 拆分），期间未发布任何带 tag 的版本。活动明显偏向 **2026.9.x 系列的稳定化** —— 今日几乎所有 P0/P1 都涉及 2026.7.1-2 到 2026.9.3 之间引入的回归问题，主要集中在 Gateway 事件循环、memory-core SQLite 膨胀、OAuth/Codex 流程以及渠道插件（Telegram、Slack、Discord、飞书）方面。维护者评审带宽是最大的瓶颈：许多高优先级 bug 已有关联的修复 PR 处于 "ready for maintainer look" 或 "needs proof" 状态，但今日没有任何合并动作。社区显然处于回归消化阶段，而非功能扩展阶段。
+OpenClaw 呈现出 **高频维护活动** 态势，过去 24 小时共有 1,000 条 issue/PR 更新（500 个 issue、500 个 PR），但未关闭 issue 库存仍偏重，活跃项达 310 个，关闭项为 190 个。唯一一次发布是 **2026 年 6 月最终 LTS 版本**（`v2026.6.35`），重点放在加固 provider/channel 输入边界上，而非引入新功能——这清晰地表明项目在 LTS 分支处于稳定阶段，而主线开发则在内存核心、Gateway 与 Android UI 方面持续推进。PR 合入/关闭率达到 51.6%（258/500），表现健康，但长期存在的多月份 P1/P2 bug（如僵尸进程 #97616、SQLite 争用 #117262）反映出系统性的稳定性债务，单靠 24 小时的修复无法化解。
 
 ## 2. 版本发布
 
-**过去 24 小时无新版本发布。** issue 流中引用的最新 tag 版本为 2026.8.1、2026.8.2、2026.9.1、2026.9.2 和 2026.9.3（commit `1391f7c`）；特别是 2026.9.x 系列在过去 24 小时内引发了数个"发布阻塞"回归 —— 参见 [Issue #137813](https://github.com/openclaw/openclaw/issues/137813)（Windows gateway 无法启动）、[Issue #142336](https://github.com/openclaw/openclaw/issues/142336)（`/dashboard` 遮挡 Telegram Mini App），以及 [Issue #142585](https://github.com/openclaw/openclaw/issues/142585)（在 2026.9.3 上 Doctor 拒绝合法的旧版工作区配置）。
+**v2026.6.35 — 2026 年 6 月最终长期支持版（LTS）**（2026-09-10 发布）
+
+- **更安全的 provider 与 channel 边界：** 内置 provider 与 channel 适配器现在对不受信任的响应体进行边界限制，在执行开销较大的操作前拒绝超大规模输入，并在传输中断时保留安全恢复能力。
+- **截取的变更日志片段中没有记录任何新功能或破坏性变更；** 本次发布是 LTS 分支的一次加固汇总。
+- **迁移说明：** 无显式迁移说明——这是 6 月 LTS 的收尾版本，因此部署在 `2026.6.x` 的实例应将其作为补丁目标进行升级，而非直接跳到 `2026.9.x`。
+
+6 月 LTS 节奏与快速的 `2026.8.x → 2026.9.x` 主线周期并行运行，表明项目同时维护两条受支持分支，相应扩大了测试与维护面。
 
 ## 3. 项目进展
 
-相对于庞大的活动量，今日关闭/合并的 PR 数量很少。值得注意的已关闭 PR 都是低影响范围的内部改进：
+**已关闭/合入 PR（24 小时）：** 258 个已关闭，其中值得关注的有：
 
-- [PR #143451](https://github.com/openclaw/openclaw/pull/143451) — `fix(sessions): identify slow SQLite writer operations`（XL，涉及 docs/gateway/commands/agents）。具有运营意义：解决了 [Issue #119720](https://github.com/openclaw/openclaw/issues/119720)（Gateway 事件循环卡顿）中提到的"慢写入缺少 trace 上下文"的缺口。
-- [PR #143472](https://github.com/openclaw/openclaw/pull/143472) — `docs(gateway): lift non-family sections out of RPC method families`（XS）。纯文档整理。
-- [PR #143469](https://github.com/openclaw/openclaw/pull/143469) — `improve(test): reduce Gateway worktree fixture setup`（S）。测试基础设施提速，无运行时行为变更。
+- **#140296**（P0，等待维护者审阅）— `fix(doctor): session SQLite import drops Codex assistant messages from legacy transcripts`。关闭 #140100。
+- **#137008**（P1）— `fix: skip managed gateway stop on no-op openclaw update`。关闭 #136997。
+- **#142626**（P2，已开启自动合入）— `fix(imessage): restore feedback after bridge recovery`。关闭 #142603。
+- **#143978**（重构）— `refactor(memory-wiki): share deferred test fixtures`（消除 6 个测试套件中重复的样板 fixture）。
+- **#143982 / #143983 / #143969** — 文档审计闭环（53+20+1 行准确性发现）及一处无用代码清理。
 
-其他仍处于开放队列、"ready for maintainer look" 状态尚未合并的值得注意的 PR 包括：[PR #141072](https://github.com/openclaw/openclaw/pull/141072)（空闲超时结束的回合应标记为 `failed`）、[PR #143433](https://github.com/openclaw/openclaw/pull/143433)（heartbeat MCP 子进程泄漏）、[PR #142626](https://github.com/openclaw/openclaw/pull/142626)（bridge 恢复后 iMessage 反馈 —— 已准备好 automerge）、[PR #142768](https://github.com/openclaw/openclaw/pull/142768)（排空 ingress 声明）、[PR #142888](https://github.com/openclaw/openclaw/pull/142888)（OpenAI completions 文本重复），以及 [PR #143437](https://github.com/openclaw/openclaw/pull/143437)（Control UI Stop 按钮持久化）。
+**活跃开发主题（242 个开放 PR）：**
 
-## 4. 社区热点
+- `RomneyDa` 主导的 **配置 schema 推导重构系列**（#143985、#143986、#143987、#143988）——将手写的契约层级收敛为 schema 推导类型；每个 PR 均带来净代码量缩减。
+- **Android 实时客户端** 加固（#142297、#142298）——在延迟启动、agent 运行与关闭过程中协调响应与转录状态。
+- **Memory-core 与 active-memory** 可靠性（#142545、#142693）——防止超过引导上限的过度晋升，并在触发查找超时时继续 recall。
+- **转录数据脱敏正确性**（#143937，P1）——仅回放带有来源标记的持久化掩码，避免将 `***` / `first6…last4` 当作真实值回传给模型。
 
-按评论数和反应数排序，置顶项目都集中在同样的几个反复出现的痛点：**工具调用可靠性**、**多 agent 编排**、**memory-core SQLite 膨胀**、**OAuth/Codex 回归**，以及 **prompt cache 失效**。
+## 4. 社区热门话题
 
-- [Issue #135111](https://github.com/openclaw/openclaw/issues/135111)（26 条评论）— 在 v2026.8.1 上使用 claude-sonnet-5 时偶发 `Provider completed tool call with malformed JSON arguments`。**诉求：** 在模型侧对部分 JSON 工具参数增加重试/容错，并补充 provider 版本固定的相关文档。
-- [Issue #97616](https://github.com/openclaw/openclaw/issues/97616)（16 条评论，👍1）— 在 `openclaw` 下，未被回收的 hook/工具子进程会累积为僵尸进程。**诉求：** 为工具/hook 执行期间衍生的子进程建立显式的生命周期/清理契约。
-- [Issue #119720](https://github.com/openclaw/openclaw/issues/119720)（15 条评论）— 同步的 agent 持久化和会话记录维护在大规模下阻塞 Gateway 事件循环。**诉求：** 异步/队列解耦的持久化路径。
-- [Issue #43367](https://github.com/openclaw/openclaw/issues/43367)（14 条评论，👍1）— 多 agent 编排不稳定：并发的 `agents add/config` 相互覆盖、会话锁失败、子任务脱离管控。**诉求：** 按 agent 粒度的配置锁以及幂等的 CLI 语义。
-- [Issue #89278](https://github.com/openclaw/openclaw/issues/89278)（12 条评论，👍2）— Codex OAuth 刷新成功，但 cron/heartbeat 以 10s 超时失败。**诉求：** 增加一个与实际探测时长对齐的刷新超时旋钮。
-- [Issue #95610](https://github.com/openclaw/openclaw/issues/95610)（12 条评论，👍2）— OpenAI 模型上的 prompt cache 前缀抖动：每轮动态注入破坏了自动前缀缓存。**诉求：** 具备缓存感知能力的布局（手动的 `cache_control` 断点或将易变块提升到前缀之外）。
-- [Issue #88757](https://github.com/openclaw/openclaw/issues/88757)（6 条评论，👍3 —— 今日反应数最高）— 主动发送的消息未出现在会话上下文中，导致状态不同步。**诉求：** 将主动发送的记账信息回写到会话记录中。
-- [Issue #126906](https://github.com/openclaw/openclaw/issues/126906)（5 条评论）— 拒绝 write 工具会静默禁用 memory 持久化，但 agent 仍然报告成功。**诉求：** 当 `tools.deny` 与系统关键工具冲突时，向运维者发出显式可见的告警，并向 agent 抛出可见的错误。
+评论最多的 Issue（前 5）：
+
+- **#135111**（已关闭，26 条评论）— 在 `v2026.8.1` 上使用 `claude-sonnet-5` 时偶发 "malformed JSON arguments"。凸显了一个小版本中 provider 工具调用解析回归会如何主导噪声问题。[link](https://github.com/openclaw/openclaw/issues/135111)
+- **#97616**（开放，15 条评论，🦪 银贝壳）— 未被回收的 hook/tool 子进程累积为僵尸进程，拖慢运行时。长达 3 个多月的高评论数说明分诊陷入停滞。[link](https://github.com/openclaw/openclaw/issues/97616)
+- **#119720**（开放，15 条评论，🦞 钻石龙虾）— 同步持久化在规模化时阻塞 Gateway 事件循环；这是一个 *系统性* 的伸缩性问题，目前已被 #140231 与 #138984 部分缓解，但仍处于维护者持续审查中。[link](https://github.com/openclaw/openclaw/issues/119720)
+- **#137927**（已关闭，14 条评论）— 内部 `<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>` 块以可见的 Telegram 文本形式呈现——这既是 **提示注入泄露**，同时也是一次 UX 回归。[link](https://github.com/openclaw/openclaw/openclaw/issues/137927)
+- **#43367**（开放，14 条评论）— 多 agent 编排不稳定：并发 `agents add`、会话锁失败、子进程脱离。[link](https://github.com/openclaw/openclaw/issues/43367)
+
+**潜在诉求：** 运维人员反复暴露同一模式——*核心运行时原语（进程生命周期、SQLite 锁、并发写入）尚未达到生产级别*。"clawsweeper" 自动分诊标签（`needs-maintainer-review`、`needs-product-decision`、`no-new-fix-pr`）出现在约一半的热门 issue 上，表明维护者注意力才是真正的瓶颈，而非缺乏诊断。
 
 ## 5. Bug 与稳定性
 
-今日新增或今日更新，按 P 级别和 `impact:*` 标签排序。P0/P1 优先。
+按严重程度排序（先列 P0/P1），仅展示今日有更新的条目：
 
-### P0 / 发布阻塞回归（2026.9.x 系列）
-- **[Issue #137813](https://github.com/openclaw/openclaw/issues/137813)** — 更新到 2026.9.1 后 Windows gateway 无法启动；新增的 `--task-supervisor` 标志静默退出码 0。*尚无关联的修复 PR。*
-- **[Issue #89278](https://github.com/openclaw/openclaw/issues/89278)** — cron/heartbeat 内部 Codex OAuth 10s 刷新超时失败。已有关联 PR，但今日未进入关闭集合。
-- **[Issue #115642](https://github.com/openclaw/openclaw/issues/115642)** — 订阅鉴权下，计费冷却时长在故障结束后仍未解除；在一次瞬态计费错误后长达 5 小时内请求仍因 `Provider anthropic is in cooldown (suspending lanes) (billing)` 失败。*尚无关联的修复 PR。*
-- **[Issue #142585](https://github.com/openclaw/openclaw/issues/142585)** — 2026.9.3 上 Doctor 在缺少规范行时拒绝合法的旧版工作区配置和 attestation 导入。*尚无关联的修复 PR。*
+| 严重程度 | Issue | 状态 | 修复 PR？ | 备注 |
+|---|---|---|---|---|
+| **P0 / 发布阻塞** | [#142585](https://github.com/openclaw/openclaw/issues/142585) — 2026.9.3 Doctor 拒绝合法的旧版 workspace 设置 | 开放，需要补充信息 | — | 迁移阻塞；等待维护者信息。 |
+| **P0 / 发布阻塞** | [#137813](https://github.com/openclaw/openclaw/issues/137813) — 2026.9.1 之后 Windows gateway 无法启动；`--task-supervisor` 静默退出码 0 | 已关闭 | 可能已合入 | Gateway.cmd 重新生成回归。 |
+| **P0 / 发布阻塞** | [#140162](https://github.com/openclaw/openclaw/issues/140162) — Windows `gateway restart` 在 181s 后将已就绪的 gateway 作为 "stale process" 终止；漏掉手动启动的前台 gateway | 开放，需要现场复现 | — | 多种失败模式叠加；慢启动时会出现停机。 |
+| **P0 / 发布阻塞** | [#101763](https://github.com/openclaw/openclaw/issues/101763) — Hosted Molty：模型选择器无法持久化（`claude-opus-4.8` vs `4-8`） | 已关闭，需要补充信息 | — | Provider-id 点号 vs 短横线回归。 |
+| **P0 / 发布阻塞** | [#115642](https://github.com/openclaw/openclaw/issues/115642) — 订阅鉴权故障恢复后，计费冷却仍持续生效（约 5 小时 `disabledUntil`） | 开放，可源码复现 | — | 需要基于探针的恢复 + 手动重置。 |
+| **P1 / 崩溃循环** | [#117262](https://github.com/openclaw/openclaw/issues/117262) — SQLite 争用：3 个并发写句柄 → 约 33 秒事件循环停顿（DEF-61） | 开放，可源码复现 | 已关联开放 PR | 影响最严重的运行时 bug。 |
+| **P1 / 安全** | [#115367](https://github.com/openclaw/openclaw/issues/115367) — Provider 自有的读取门控要求 `origin: bundled`，但 Slack/Discord/Matrix/MSTeams/Feishu 以外部插件形式分发 | 开放 | — | 2026.7.2-beta 之后权限边界不一致。 |
+| **P1 / 会话状态** | [#127148](https://github.com/openclaw/openclaw/issues/127148) — Codex `sessions.compact` 获取第二个 app-server，触发活跃写者冲突 | 开放 | — | |
+| **P1 / memory-core** | [#136311](https://github.com/openclaw/openclaw/issues/136311) — Gateway 每次启动都重新获取 reindex 锁；产生 19 GB 孤儿 `memory-reindex-*` 临时数据库 | 开放，需要现场复现 | — | |
+| **P1 / memory-core** | [#143640](https://github.com/openclaw/openclaw/issues/143640) — 完整索引发布在单个 `IMMEDIATE` 事务中超出 5 秒 `busy_timeout` | 开放，可源码复现 | — | 同属 SQLite 争用主题。 |
+| **P1 / 数据丢失** | [#104719](https://github.com/openclaw/openclaw/issues/104719) — memory-wiki 补充穷尽式回退忽略工具 deadline | 开放 | 已关联开放 PR | |
+| **P1 / 消息丢失** | [#139274](https://github.com/openclaw/openclaw/issues/139274) — 原生 `/codex bind` 丢弃语音附件并跳过配置的 STT | 开放，可源码复现 | — | |
+| **P1 / gateway 挂起** | [#138042](https://github.com/openclaw/openclaw/issues/138042) — Gateway 控制请求挂起 157–276 秒，无 OOM | 开放 | — | |
+| **P1** | [#88757](https://github.com/openclaw/openclaw/issues/88757) — 主动消息在会话上下文中不可见，导致会话失步 | 开放 | — | |
+| **P1** | [#128637](https://github.com/openclaw/openclaw/issues/128637) — 多 agent `AgentSelectionRequiredError` 回归 | 开放 | — | |
 
-### P1 平台/稳定性
-- **[Issue #97616](https://github.com/openclaw/openclaw/issues/97616)** — 僵尸 hook/工具子进程。自 2026-06-29 起开放。
-- **[Issue #119720](https://github.com/openclaw/openclaw/issues/119720)** — 同步持久化阻塞 Gateway 事件循环。近期评论指出 [#140231](https://github.com/openclaw/openclaw/issues/140231) 和 [#138984](https://github.com/openclaw/openclaw/issues/138984) 带来了部分修复。
-- **[Issue #140010](https://github.com/openclaw/openclaw/issues/140010)** — Windows 休眠/唤醒后：WebSocket 重连可能失败 30–60s 以上。
-- **[Issue #138042](https://github.com/openclaw/openclaw/issues/138042)** — Gateway 控制请求可能停顿 157–276s。
-- **[Issue #127148](https://github.com/openclaw/openclaw/issues/127148)** — `sessions.compact` 会获取第二个 app-server，触发 active-writer 冲突。
-- **[Issue #136311](https://github.com/openclaw/openclaw/issues/136311)** — `memory-core` Gateway 每次启动都重新获取 reindex 锁；产生 19 GB 孤立的 `memory-reindex-*` 临时数据库。
-- **[Issue #114612](https://github.com/openclaw/openclaw/issues/114612)** — `memory_index_chunks` + `memory_embedding_cache` 表缺少保留策略。
-- **[Issue #125570](https://github.com/openclaw/openclaw/issues/125570)** — Skill Workshop 的 update apply 会覆盖在线 skill 的描述，静默破坏 skill 路由。
-- **[Issue #139274](https://github.com/openclaw/openclaw/issues/139274)** — 原生 `/codex bind` 丢弃语音附件，并跳过配置的 STT。
-- **[Issue #115367](https://github.com/openclaw/openclaw/issues/115367)** — 平台自有的读访问门控要求 `origin: bundled`，但 slack/discord/matrix/msteams/feishu 现在以外部插件形式分发 → 读取被限定在当前会话内。
-- **[Issue #123799](https://github.com/openclaw/openclaw/issues/123799)** — 基于 2026.5.12 的生产部署仍被 Codex compact 404 阻塞；需要明确的升级/backport 指引。
+**模式：** SQLite 争用 / 锁生命周期 / 进程生命周期是至少四个 P1 中最主要的一类根因。今天关闭的 P0 都需要显式提及修复 PR；仍有数个 P0 处于开放状态，被 `needs-info` 卡住。
 
-### 今日关闭的 P1 回归（残余风险）
-- **[Issue #135111](https://github.com/openclaw/openclaw/issues/135111)** — 格式错误的 JSON 工具调用（已关闭）。
-- **[Issue #137927](https://github.com/openclaw/openclaw/issues/137927)** — 内部的 `<<<BEGIN_OPENCLAW_INTERNAL_CONTEXT>>>` 块泄漏到 Telegram 消息正文中（已关闭）。
-- **[Issue #140971](https://github.com/openclaw/openclaw/issues/140971)** — 在消息驱动的运行中，全部 13 个 Feishu 插件工具被静默丢弃（已关闭）。
-- **[Issue #133692](https://github.com/openclaw/openclaw/issues/133692)** — 隔离的 cron 在派发前拒绝了已被取代的 prepared runtime generation（已关闭，已关联 PR）。
-- **[Issue #141617](https://github.com/openclaw/openclaw/issues/141617)** — 2026.9.2 npm 更新在完成支持的修复后仍卡在 `requested/running`（已关闭）。
+## 6. 功能请求与路线图信号
 
-### P2 渠道/UX 回归
-- **[Issue #142037](https://github.com/openclaw/openclaw/issues/142037)** — 内嵌运行时会将显式路由的 `message` 工具回复在 Slack 中记录为 "mute"。
-- **[Issue #142336](https://github.com/openclaw/openclaw/issues/142336)** — `/dashboard` 遮挡 Telegram Mini App 启动器。
-- **[Issue #143278](https://github.com/openclaw/openclaw/issues/143278)** — 2026.9.3 上 heartbeat 内部输出泄漏到 Telegram 用户聊天中。
-- **[Issue #139714](https://github.com/openclaw/openclaw/issues/139714)** — `updateCommand()` 接受了一个永远无法完成的 `update_runs` 行 → `openclaw status` 永远报告 "update in progress"。
-- **[Issue #44502](https://github.com/openclaw/openclaw/issues/44502)** — Discord 路由/mention 门控过于宽松的回归。
-- **[Issue #112160](https://github.com/openclaw/openclaw/issues/112160)** — SSH 沙箱不会把入站媒体暂存到已有的远端工作区。
-- **[Issue #128637](https://github.com/openclaw/openclaw/issues/128637)** — 多 agent 场景下 Exec/无 agent 操作出现 `AgentSelectionRequiredError`。
-- **[Issue #99925](https://github.com/openclaw/openclaw/issues/99925)** — WebChat 新建会话会丢失全部历史会话上下文（Windows）。
-- **[Issue #53628](https://github.com/openclaw/openclaw/issues/53628)** — 安装 skill 时未对 `${XDG_CONFIG_HOME}` 进行展开（自 2026-03-24 起开放）。
-- **[Issue #41201](https://github.com/openclaw/openclaw/issues/41201)** — Control UI 头像图片显示为损坏（自 2026-03-09 起开放）。
+今日有更新的开放增强请求（按参与度排序）：
 
-### 严重度模式
+- **#6599**（P3，11 条评论，👍1）— `/models test-fallback` 命令，用于在等待真实故障前验证 fallback 链。**极有可能进入下一个小版本**——契合 "运维工具化" 主题，且规模小到可以快速合入。
+- **#6757**（P3，8 条评论，👍2）— Agent 触发的上下文压缩（自压缩工具）。与活跃的 memory-core / 压缩重写（#132762 后续工作）一致。可能以可选形式提供。
+- **#46058**（P3，6 条评论，👍1）— 以聊天为先的 Android 界面讨论。Android 投入明显在加码（#142297、#142298），本次讨论正逢其时。
+- **#87584**（P2，5 条评论，👍2）— 让群组房间事件引导可配置（目前对房间事件硬禁用）。属于实时运维诉求；很可能进入 2026.9.x 或 2026.10。
+- **#8285**（P3，5 条评论）— 在 agent 处理之前自动发送意图/确认文本。
+- **#6625**（P3，6 条评论）— 子 agent 超时前的优雅处理（超时前预警）。运维吸引力强；目前没有替代方案。
+- **#109657**（P1，7 条评论，**已关闭**）— 在 WhatsApp/Discord/Slack/Signal/iMessage 上采用持久化入站排空。该功能已通过 #108924 上线，且批量 PR #141283 已关闭；这是顺理成章的 **"持久化入站成为默认行为"** 里程碑。
 
-主导的故障模式是 **2026.7 → 2026.9 迁移过程中引入的、对运维者可见的回归**：更严格的插件来源门控（[#115367](https://github.com/openclaw/openclaw/issues/115367)）、Windows 上 `--task-supervisor` 静默退出（[#137813](https://github.com/openclaw/openclaw/issues/137813)）、命令遮挡（[#142336](https://github.com/openclaw/openclaw/issues/142336)），以及 Doctor 拒绝旧版状态（[#142585](https://github.com/openclaw/openclaw/issues/142585)）。围绕 SQLite 路径的 memory-core 回归是第二类聚集问题（[#136311](https://github.com/openclaw/openclaw/issues/136311)、[#114612](https://github.com/openclaw/openclaw/issues/114612)、[#50611](https://github.com/openclaw/openclaw/issues/50611)）。
+**预测 `2026.10.x` 候选：** fallback 验证命令（#6599）、可配置群组引导（#87584）、自压缩工具（#6757）、子 agent 超时前预警（#6625）。PR 待办区已经包含相应的支撑性重构（#143985–#143988 schema 推导）。
 
-## 6. 功能请求与 Roadmap 信号
+## 7. 用户反馈汇总
 
-今日更新的功能请求大多是长寿命、尚未获得维护者产品决策的项目（多数带有 `clawsweeper:needs-product-decision` 标签）。
+**主要痛点**（摘录自 issue 概要）：
 
-- **[Issue #6599](https://github.com/openclaw/openclaw/issues/6599)** — 增加 `/models test-fallback` 命令。*很可能在下一个 minor 版本中落地*：低风险、高实用性，契合现有的 `/models` 入口。
-- **[Issue #6757](https://github.com/openclaw/openclaw/issues/6757
+1. **生产部署被钉在旧版本上**，因为近期的回归都很严重——`2026.5.12 → 2026.7.1-2 → 2026.8.x → 2026.9.x` 各自携带不同类型的发布阻塞 bug。[#123799](https://github.com/openclaw/openclaw/issues/123799) 明确请求安全的升级与回退指导。
+2. **SQLite 是吞吐量天花板。** 单进程内三个并发写句柄、`memory_index_chunks` / `memory_embedding_cache` 无界增长（#114612）、5 秒 `busy_timeout` 被全量发布事务突破（#143640）、争用下出现 33 秒停顿（#117262）。用户是在 *生产环境* 中真实遇到这些问题，并附有现场证据。
+3. **Windows 是二等公民。** 顶部开放的 P0/P1 中有三个是 Windows 特有的：gateway.cmd 重新生成（#137813）、`gateway restart` 杀掉已就绪进程（#140162），以及历史 launchd 回归（#90711，现已关闭）。
+4. **Channel 适配器权限边界不一致。** `origin: bundled` 读取门控（#115367）静默地破坏 Slack/Discord/Matrix/MSTeams/Feishu；Feishu 的全部 13 个工具因此丢失（#140971，回归）。
+5. **Memory-core 在重启时很脆弱。** Reindex 锁从未释放（#136311）、索引发布阻塞写者数据库（#143640）、19 GB 临时数据库残留。用户想要的不是新的内存功能，而是可靠性。
+6. **运维可见性存在空白。** launchd 中隐藏的 stderr（#90711）、缺失的诊断阈值连线（#87441）、插件 hook 中无 trace 上下文（#50291）。运维人员无法诊断上面 #1–#5 中的问题。
+
+**满意度信号：** 点赞最多的条目上，issue 评级明显偏向 🦞 *钻石龙虾* 与 🦐 *金虾*——这并非小问题，而是项目内部评级体系中的最高严重等级，其中数项已开放数周到数月。
+
+## 8. 待办观察
+
+带有持续 `clawsweeper` 标记、表明需要 **维护者关注** 的 issue 与 PR：
+
+- **#97616**（P1，自 2026-06-29 开放，15 条评论）— 僵尸进程泄漏。开放三个月，无修复 PR。**下一次维护者扫排的首要优先级。**
+- **#115642**（P0 发布阻塞，自 2026-07-29 开放，8 条评论）— 计费冷却持续超过故障窗口。需要明确的产品决策（`needs-product-decision`）。
+- **#115367**（P1 安全，自 2026-07-28 开放，9 条评论）— `origin: bundled` 权限边界不一致。`needs-product-decision`。
+- **#119720**（P1 伸缩性，自 2026-08-05 开放，15 条评论）— Gateway 事件循环阻塞。已有部分修复合入，但根因仍在审查。
+- **#50291**（P2，自 2026-03-19 开放，9 条评论）— 插件 hook 缺少 trace 上下文。`needs-product-decision`，无明确负责人。
+- **#43367**（P2 多 agent，自 2026-03-11 开放，14 条评论）— 并发 `agents add`、会话锁失败。已有 `linked-pr-open`，但尚未合入。
+- **#6599**（P3，自 2026-02-01 开放，11 条评论）— `/models test-fallback` 命令。规模小到可以直接发布；只差维护者点头。
+- **#114612**（P2，自 2026-07-27 开放，12 条评论）— SQLite 无界增长。已附生产数据；**缺失的是保留策略，不只是修一个 bug。**
+- **#117262**（P1，自 2026-08-01 开放，10 条评论）— SQLite 争用导致 33 秒停顿。`linked-pr-open`，但尚未合入。
+- **PR #137008**（P1，自 2026-09-03 开放）— `skip managed gateway stop on no-op openclaw update`。状态：`📣 needs proof`。本应可轻易验证；一次验证即可解锁合入。
+
+**模式：** 约一半的顶部开放 issue 同时携带 `clawsweeper:no-new-fix-pr` *和* `clawsweeper:needs-maintainer-review`。瓶颈在于审阅者容量，而非诊断——上面每一条都已在 issue 正文中有清晰、可追溯的根因。
+
+---
+
+*简报基于 2026-09-10 的 GitHub 24 小时活动窗口生成。展示的为参与度最高的子集；完整清单：500 个 issue、500 个 PR。*
 
 ---
 
 ## 横向生态对比
 
-# 跨项目对比报告：开源个人 AI 助手生态
-**数据窗口：2026-09-10（24小时）| 涉及项目：OpenClaw、Hermes Agent、QwenPaw、ZeroClaw、IronClaw**
+# 跨项目对比报告：个人 AI 助手 / Agent 开源生态
+**快照日期：2026-09-10** | 项目：OpenClaw、Hermes Agent、IronClaw、QwenPaw、ZeroClaw
 
 ---
 
 ## 1. 生态概览
 
-个人 AI 助手/Agent 赛道已经过了功能抢地盘的阶段，进入**整合与稳定期**——五个跟踪项目在窗口期内均零发布，其中四个要么处于回归收敛阶段（OpenClaw、QwenPaw），要么处于架构/RFC 迭代周期（ZeroClaw）。趋同现象十分显著：各独立代码库正同时撞上同样的墙——上下文压缩预算、记忆存储膨胀、供应商成本与提示缓存经济性、MCP 标准化、Windows 平台对齐以及移动端覆盖。普遍瓶颈已不再是创意匮乏或贡献不足，而是**维护者审阅带宽**——每个项目都有修复 PR 卡在"待审阅"或"需作者/维护者操作"状态。对开发者而言，这是一个走向成熟的市场，竞争前沿已转向可靠性工程与信任边界，而非新增能力。
+个人 AI 助手开源版图呈现出清晰的梯队：一个超大规模旗舰（OpenClaw，每日 ~1,000 条 issue/PR 更新），两个快速迭代、每周都在出货功能的中型项目（QwenPaw、Hermes Agent），一个在 RFC 治理下进行架构重写的项目，以及一个尚处早期奠基模式的项目。纵观全部五个项目，产品品类已然趋同：Agent 不再是 CLI 聊天工具，而是具备持久记忆、定时任务和桌面/移动承载面的常驻式多渠道个人助手。值得注意的是，硬骨头也高度趋同——存储争用、跨渠道会话身份、沙箱/租户隔离以及供应商路由保真度，几乎在每个项目中都独立出现，说明生态已经走出拼新奇功能的阶段，进入基础设施级的可靠性建设。各项目公认的头号瓶颈不是问题诊断本身，而是维护者的评审容量。
 
 ---
 
 ## 2. 活跃度对比
 
-*计数 = 24 小时窗口内更新的条目（不仅限于新增）；合入 = 窗口期内 PR 的 merge/close。*
-
-| 项目 | Issue（24h） | PR（24h） | 已合入 PR | 发布状态 | 健康度（0–10） |
+| 项目 | Issue 更新（24h） | PR 更新（24h） | 关闭/合并率 | 发布状态 | 健康分* |
 |---|---|---|---|---|---|
-| **OpenClaw** | ~500（310 开放 / 190 关闭） | ~500（262 / 238） | ~3 | 无；最新版本 2026.9.3，分支持续生成发布阻塞 | **6.5** — 速度与采用率无出其右，但 P0 未修，合并率仅 ~0.6% |
-| **Hermes Agent** | 50（46 / 4） | 50（42 / 8） | 8 | 无；发布流水线被阻塞（#88584，已 24 天） | **7.0** — 修复合并纪律最佳；Windows 技术债 + 发布受阻 |
-| **QwenPaw** | 22（11 / 11） | 34（26 / 8） | 8 | 无；正在稳定 v2.2.0（2.2.0b7） | **7.5** — 吞吐量、分诊速度与功能管线三者最均衡；3 个高危 bug 缺修复 PR |
-| **ZeroClaw** | 33 开放 | 49 开放 | 1 | 无；ZeroCode v0.8.5 发布引入回归 | **6.0** — 设计文化最强；合并率约 2%，有数月之久的已确认 bug |
-| **IronClaw** | 1 | 6（4 开放 / 2 合入） | 2 | 无 | **5.0** — 干净且稳定，但单一贡献者高度集中，社区参与为零 |
+| **OpenClaw** | 500（310 开放 / 190 关闭） | 500 | 51.6% PR 关闭（258/500） | ✅ `v2026.6.35` — 6 月 LTS 最终版今日发布；主线 `2026.9.x` 推进中 | **7.0** |
+| **QwenPaw** | ~29 | 33 | 41% PR 合并（13/33） | ✅ `v2.2.1-beta.2` 同日发布，并经发布值班验证 | **7.5** |
+| **Hermes Agent** | 50（14% 已关闭） | 50 | 34% PR 关闭（17/50） | ❌ 无发布；停留于 `v0.21.1` | **6.5** |
+| **ZeroClaw** | 26（2 个已关闭） | 50 | 14% PR 关闭（7/50） | ❌ 无发布；处于设计/稳定化阶段 | **6.0** |
+| **IronClaw** | 1 | 4（0 个合并） | 0% | ❌ 无发布 | **5.0** |
+
+\* 基于 24h 窗口内的速度、吞吐比、积压老化与发布节奏合成的综合指标。尽管 OpenClaw 的活跃量高出 16 倍，综合权衡下 QwenPaw 仍略胜一筹（如期发布 + 41% 合并率 + 协同的可靠性清扫）；OpenClaw 被扣分是因为存在积压数月的 P1（#97616 僵尸进程，已超 3 个月），且约半数热门 issue 上都标注了评审瓶颈。IronClaw 的分数反映的是社区信号不足，而非质量低劣。
 
 ---
 
 ## 3. OpenClaw 的定位
 
-**相对同行的优势**
-- **量级不在一个层次：** 日均 issue/PR 量是任何同行的约 10 倍。累计追踪编号（~#143k 对比 Hermes ~#106k、ZeroClaw ~#10.7k、IronClaw ~#8k、QwenPaw ~#7.6k\*）印证了其最大的历史贡献者与用户基数。\*各项目编号规则不同，仅作方向性参考。
-- **集成覆盖面最广：** Telegram、Slack、Discord、飞书、Matrix、MS Teams、iMessage、WebChat，外加心跳/定时、memory-core 以及多 Agent CLI。企业级痛点（计费冷却、飞书工具掉线、订阅鉴权）表明其已具备同行尚未呈现的生产部署采用度。
-- **结构化分诊成熟度高：** 产品决策门槛标签与按影响打标的做法显示出制度化流程。
+**相对同类项目的优势：**
+- **规模领先：** 日均 ~1,000 条更新——约为次大项目（Hermes/QwenPaw，50–100）的 10 倍。issue 编号已达 143k 量级，同类项目为 8k–107k，表明其累计用户基础最为深厚。
+- **唯一拥有正式 LTS 模型的项目：** 双支持分支（6 月 LTS + `2026.9.x` 主线）——这是同类项目目前无人能及的企业级可运维性信号。
+- **渠道覆盖最广：** WhatsApp、Slack、Discord、Signal、iMessage、Telegram、Matrix、MSTeams、Feishu，外加 Android 与托管版（Molty）承载面。同类项目各覆盖 1–3 个渠道（QwenPaw：Feishu/WeCom/Telegram；ZeroClaw/IronClaw：Telegram；Hermes：WeChat/iLink）。
+- **记忆栈最深：** 设有专职的 memory-core、active-memory 与 memory-wiki 子系统，并支持带出处标记的对话记录脱敏——同类项目仍处早期（QwenPaw 的 ReMe 命令；Hermes 仅单一 MEMORY.md 工具）。
+- **大规模自动化分诊**（`clawsweeper` 分类法）——针对这一体量 issue 队列的独门运维工具。
 
-**短板**
-- **吞吐转化率低：** 约 500 条 PR 更新仅合入 ~3 条；Hermes 以十分之一的体量合入了 8 条。多个 P0（Windows 网关启动 #137813、计费冷却 #115642、Doctor 拒绝旧版工作区 #142585）排在队列顶端却无关联修复 PR。
-- **发布列车回归：** 2026.7→2026.9 迁移反复触发发布阻塞——属于节奏问题，而非偶发事件。
+**技术路线差异：** OpenClaw 采用以网关为中心、渠道适配器可插拔的单体架构；对照之下，ZeroClaw 在做 RFC 驱动的 Rust crate 架构重写，IronClaw 走扩展/托管 MCP 模型，Hermes 主打桌面优先的插件目录。OpenClaw 为覆盖广度与快速主线迭代而优化；ZeroClaw 则明确以发布速度换取设计严谨。
 
-**技术路线差异：** OpenClaw 是**以网关为中心的单体 + 插件化通道**——集成价值最大化，但网关事件循环本身就是反复出问题的表面（#119720 同步持久化卡顿、#138042 157–276 秒控制卡顿）。ZeroClaw 正有意识地朝相反方向重构（runtime 拥有 session + transport 适配器，RFC #9487）；QwenPaw 以打磨良好的 Console/Desktop 搭配可替换的本地运行时；Hermes 跑的是跨 fork 的交付流水线；IronClaw 是托管 MCP 平台层。
-
-**社区：** OpenClaw 的互动广而浅（每条平均热度 12–26 评论、点赞 ≤3👍）；Hermes 呈集中式深度讨论（81 条评论的流程辩论）；QwenPaw 的新人漏斗最健康（首次贡献者能交付有意义的修复）。
+**直陈风险：** SQLite 争用（#117262，33 秒卡顿）、Windows 网关 P0（#137813、#140162），以及 `origin: bundled` 权限边界失守（#115367），迫使生产用户锁定旧版本（#123799）——稳定性债务正是同类项目可乘之隙。
 
 ---
 
-## 4. 共同关注的技术方向
+## 4. 共性技术焦点
 
-| 主题 | 项目 | 具体证据与诉求 |
+| 主题 | 涉及项目 | 具体证据 |
 |---|---|---|
-| **上下文压缩与会话完整性** | OpenClaw、QwenPaw、ZeroClaw、Hermes | OpenClaw 同步持久化阻塞事件循环（#119720）；QwenPaw 压缩超出 provider 预算（#7628、PR #7652）；Hermes 压缩后上下文过期（#94001）；ZeroClaw 压缩比例 PR 停滞（#9535）。诉求：预算感知的异步持久化路径。 |
-| **记忆存储膨胀与保留策略** | OpenClaw、QwenPaw、Hermes、ZeroClaw | 19 GB 孤儿重建索引数据库 + 无保留策略（OpenClaw #136311、#114612）；QwenPaw FTS 损坏 + 静默清除失败（#7596/PR #7655）；Hermes 记忆合并需手动开启（#106919）；ZeroClaw 采用仅追加历史设计（#10526）。 |
-| **Provider 成本与提示缓存经济性** | OpenClaw、ZeroClaw、Hermes | OpenClaw 缓存前缀抖动击穿 OpenAI 缓存（#95610）；ZeroClaw Anthropic 支出上报始终 $0.00 导致预算上限永不生效（#9816）；1 小时缓存 TTL + 缓存写入计费（ZeroClaw #10663/#10699）。 |
-| **MCP 成熟化** | IronClaw（核心）、QwenPaw、Hermes、ZeroClaw | SEP-414 调用方归属、按调用方目录（IronClaw #8084/#8090）；QwenPaw 可配置 HTTP/SSE 超时（#7649）；Hermes 桥接审批布线（#56971）；ZeroClaw WASM 插件运行时（#10076）。 |
-| **Windows 平台对齐** | OpenClaw、Hermes、QwenPaw | OpenClaw 网关无法启动（#137813）；Hermes 13 个 bug 中有 5 个是 Windows 专属；QwenPaw 事件循环冻结 118–135 秒（#7363，已 2 周无修复 PR）。 |
-| **进程生命周期 / 僵尸处理** | OpenClaw、Hermes | OpenClaw 工具/钩子子进程成僵尸（#97616，6 月以来未关）；MCP 子进程泄漏（#143433）；Hermes 网关僵尸 + TCP 耗尽（#106359）。 |
-| **移动端与多设备覆盖** | Hermes、QwenPaw、OpenClaw | Hermes 原生移动 + 语音（#11911）；QwenPaw Expo/RN 客户端处于草案阶段（#7378，DO-NOT-MERGE）；QwenPaw 移动端 Web 人体工学投诉（#7177、#5329）；OpenClaw Telegram Mini App 被屏蔽（#142336）。 |
-| **细粒度信任与安全** | Hermes、OpenClaw、ZeroClaw | Hermes 按工具 YOLO 作用域（#106267）、子 Agent 验证模式（#356）；OpenClaw 被拒写入工具静默破坏记忆（#126906）；ZeroClaw 沙箱策略统一 RFC（#6996）。 |
+| **阻塞事件循环 / 存储争用** | OpenClaw、Hermes、QwenPaw | 33 秒 SQLite 卡顿（#117262）、51 秒 GIL 冻结（#58576）、118–135 秒同步调用冻结（#7363）。堪称全生态最普遍的运行时问题。 |
+| **SQLite 持久化与损坏** | OpenClaw、QwenPaw、Hermes | FTS `SQLITE_CORRUPT_VTAB`（#7596）、索引无限增长（#114612）、`BEGIN IMMEDIATE` 重试原语（#97863）。所需：单写入者纪律 + 数据保留策略。 |
+| **跨渠道会话身份与静默失败** | QwenPaw、OpenClaw、Hermes、ZeroClaw | QwenPaw 前 5 热门 issue 中占 3 个（#7579、#7011、#7661）；OpenClaw 多 Agent 锁失效（#43367）；Hermes 幻影会话（#107069）；Feishu 死锁（#7534）。 |
+| **沙箱、租户与权限边界** | 全部五个项目 | QwenPaw Windows 沙箱逃逸（#7672，无修复 PR）；OpenClaw `origin: bundled` 门禁（#115367）+ 提示注入披露（#137927）；ZeroClaw 细粒度沙箱 RFC（已接受）；IronClaw 多租户 MCP 按调用方键控。 |
+| **供应商路由保真度与成本控制** | OpenClaw、Hermes、ZeroClaw | 模型 ID 错乱（OpenClaw #101763；Hermes DeepSeek 集群——今日 6 个合并中占 3 个）；思考 token 浪费 68%（#107260）；成本账本计价与预算强制（#10716、#10645）。 |
+| **Windows 平台对齐** | OpenClaw、QwenPaw、ZeroClaw | 三者均存在 Windows 专属 P1/P0（网关生命周期、桌面冻结、`0xc00000fd` 栈溢出 #10734）。 |
+| **评测/回归门禁** | ZeroClaw、QwenPaw | 回放回归套件作为硬性 CI 门禁（#9212）；QPQAT 测试计划（+2,475 个后端用例）。 |
 
 ---
 
 ## 5. 差异化分析
 
-| 维度 | OpenClaw | Hermes Agent | QwenPaw | ZeroClaw | IronClaw |
-|---|---|---|---|---|---|
-| **功能侧重** | 通道广度、网关、多 Agent 编排 | 桌面 UX、本地模型互通（Ollama/Qwen）、信任控制、语音 | 终端用户产品：Console、Desktop、应用/技能市场、Advisor 模式（双模型） | 架构正确性：沙箱化、会话/传输分离、成本账本、协议对齐（OpenAI Responses、A2A） | 托管 MCP 提供方平台、扩展生命周期 |
-| **目标用户** | 自托管玩家与多通道生产运维者 | 桌面优先用户、本地模型爱好者 | 非技术终端用户；自托管面板；中国生态通道（QQ） | 开发者、安全敏感的运维者、TUI/CLI 用户 | 嵌入 Agent 基础设施的平台集成方 |
-| **架构** | 单体网关事件循环 + 插件化通道 | 网关 + 辅助重试/压缩栈；跨 fork 发布流水线 | Console + Desktop 客户端，底层可替换本地运行时（llama.cpp） | Rust 守护进程，RFC 驱动，TUI（ZeroCode/ACP） | 打包的扩展/Provider 包，多租户目录 |
-| **质量姿态** | 流量驱动；发布列车易回归 | 维护者主导的热修复纪律 | 小版本存在 QA 缺口，分诊关闭迅速 | 设计先行、执行力不足 | 规模小、干净、低 churn |
+| 项目 | 功能侧重 | 目标用户 | 架构特征 |
+|---|---|---|---|
+| **OpenClaw** | 记忆连续性、10+ 消息渠道、Android、托管服务 | 生产级自托管用户 / 运维者 | 网关 + memory-core 单体，LTS/主线双分支 |
+| **Hermes Agent** | 桌面体验、插件目录、DeepSeek/供应商调优、cron 定时任务 | 高级用户、模型玩家（NousResearch 出身） | 插件/调度器生命周期；正向应用级插件转型 |
+| **IronClaw** | 托管 MCP 多租户、SEP-414 调用方归因、扩展打包 | 面向托管/共享部署的构建者 | 扩展宿主 + 按调用方凭据键控 |
+| **QwenPaw** | 中文渠道生态（WeCom、Feishu）、控制台/移动端体验、PawPort 导入（Codex/Qoder） | 自托管用户（含中国市场）；桌面用户 | 渠道适配器 + 控制台/桌面端；重仓测试覆盖率 |
+| **ZeroClaw** | 运行时自有会话、仅追加事件历史、WASM 插件、成本账本、边缘 mesh | 看重架构的技术用户 | Rust crate、正式 RFC 投票、确定性回放评测 |
 
-**总评：** OpenClaw 与 QwenPaw 争夺终端用户广度（集成为先 vs. UX 为先）；ZeroClaw 以架构正确性为竞争点；Hermes 与 IronClaw 分占开发者/平台细分领域。
+**核心结论：** OpenClaw 与 QwenPaw 比拼覆盖广度与交付速度；ZeroClaw 与 IronClaw 比拼底层根基（正确性、租户化）；Hermes 比拼桌面体验与模型供应商的敏捷度。目前尚无人占据“可靠的多租户托管个人助手”这一生态位——IronClaw 卡位最早。
 
 ---
 
 ## 6. 社区动能与成熟度
 
-- **第一梯队 — 规模（OpenClaw）：** 原始动能最高，但处于回归收敛的*稳定期*；社区精力被迁移善后吞噬，而非用于新能力。
-- **第二梯队 — 均衡迭代（QwenPaw、Hermes）：** 真正的最快前行者。QwenPaw 跑双轨（v2.2.0 清理 + 重大布局：Advisor 模式、移动端、Data 0.3、后端插件化），新人漏斗最健康。Hermes 合并率占更新 PR 的 16%，P1 当日关闭（#105145），但被 24 天阻塞的发布管线卡住上限。
-- **第三梯队 — 设计驱动（ZeroClaw）：** 核心圈活跃（36 与 29 条评论的 RFC，已到 Rev 5/Rev 10），但设计吞吐跑赢合并吞吐（~1 合入/天 对比 49 个开放 PR）；多个已确认 issue 自 4–5 月以来一直未关。
-- **第四梯队 — 维护态（IronClaw）：** 内部 churn 平稳，但 6 个 PR 中 4 个、两个合入全部来自单一贡献者（`kirikov`），无任何外部评论/点赞——属于巴士因子风险，并非真正的社区。
-
-**快速迭代：** QwenPaw、Hermes。**稳定中：** OpenClaw、QwenPaw（同时进行）。**架构期：** ZeroClaw。**半休眠：** IronClaw。
+- **第一梯队 — 规模 + 稳定化：** **OpenClaw**。互动量最高（热门 issue 评论数达 14–26 条），但处于 LTS 加固模式，背负系统性稳定性债务；24 小时吞吐量清不完 310 个开放 issue 的存量。
+- **第二梯队 — 快速迭代：** **QwenPaw**（动能最佳：当日发 beta、41% 合并率、首次贡献者也能落地修复——贡献门槛健康）与 **Hermes**（维护者亲笔 PR，桌面插件转型在即；拖累项：与 Enterkey 跨 fork 的发布摩擦讨论已积至 83 条评论，以及 67 天未解的 GIL 卡顿这类陈旧 P1）。
+- **第三梯队 — 审慎架构期：** **ZeroClaw**。设计参与度深（RFC 讨论串评论 19–37 条，文档迭代至 Rev. 5–10），但 60% 的活跃缺陷尚无修复 PR，且因非正式评审已经饱和而设立了正式决策队列（#8692）。
+- **第四梯队 — 奠基/早期：** **IronClaw**。所有条目零评论/零反应；PR 技术质量高，但社区尚未成形。
 
 ---
 
 ## 7. 趋势信号
 
-1. **审阅带宽是生态最稀缺的资源。** 每个项目都有待修 PR 卡在维护者注意力上（OpenClaw 的"待维护者审阅"队列、ZeroClaw 的 XL PR 积压、Hermes 已 2 个月的安全 PR）。*含义：* 贡献容易、落地难——分诊自动化与审阅能力是杠杆最高的投入方向。
-2. **成本可观测性正在成为标配。** 预算上限失灵（ZeroClaw #9816）、缓存写入计费缺口、缓存前缀抖动（OpenClaw #95610）在各项目中独立出现。*含义：* 从第一天起就应构建缓存感知的提示布局与诚实的成本账本。
-3. **记忆/上下文工程在大规模场景下仍未解决。** 五个项目中有四个本周撞上了存储膨胀、保留策略或压缩预算失败。*含义：* 保留策略与预算感知的压缩已成为差异化能力，而非基础卫生。
-4. **MCP 正快速标准化——假设多调用方场景。** SEP-414 归属、按调用方目录（IronClaw）、超时可配置（QwenPaw）。*含义：* 托管/多租户 MCP 的正确性将在数季度内成为基本预期。
-5. **移动端是下一战场。** 两个原生客户端在推进（Hermes #11911、QwenPaw #7378），加上持续的移动端 Web 投诉。
-6. **信任正在走向细粒度。** 按工具权限作用域、沙箱策略统一、子 Agent 验证模式本周悉数浮出水面——非全即无的自治模式正被深度用户拒绝。
-7. **静默失败是头号信任杀手。** 引发社区最大反弹的 bug 都属于隐藏性故障：QwenPaw 静默运行时回滚（#7633）、ZeroClaw 知识工具静默禁用（#10721）、OpenClaw 工具被拒却回报成功（#126906）。*含义：* 每条降级路径都应向运维方暴露可见错误，应作为设计硬性要求。
-8. **Windows 仍是开放的差异化点** — 三个项目背负活跃的 Windows P1；率先达成对齐者将收获被忽视的细分市场。
+1. **持久层是整个生态的天花板。** 三个规模最大的项目中均独立出现 SQLite 争用/阻塞。持久化、单写入者、异步的存储方案（OpenClaw 的持久化入口、ZeroClaw 的仅追加事件历史）是正在成形的答案——从第一天起就要按此构建。
+2. **以事件溯源赢得信任。** 带出处标记的脱敏（OpenClaw #143937）、带 CI 门禁的确定性回放以及 FTS 完整性修复表明，可审计性/可回放性正成为可靠性的权威机制。
+3. **多渠道已是入场券，会话身份才是新前沿。** 各处互动量最高的缺陷类型都是“切换渠道/UI 后 Agent 状态漂移”。权威的会话身份模型尚无人占位，是现成的差异化高地。
+4. **隔离与多租户正在快速升温。** 沙箱策略 RFC、MCP 调用方归因（SEP-414）与权限边界缺陷，都预示着个人助手正从单用户主机走向共享/托管服务。
+5. **成本可观测性正在成为功能卖点。** 思考 token 浪费修复、按模型的 `memory_model` 拆分、提示词缓存透传以及溢价计价账本，都表明 token 经济学正在驱动设计。
+6. **Windows 对齐是敞口的差异化机会**——每个主要项目都背着 Windows 专属 P1/P2；先动者将赢得一块守得住的细分市场。
+7. **评审容量是普遍约束。** 自动分诊机器人、决策队列，以及 OpenClaw 和 ZeroClaw 上 `needs-maintainer-review` 标签的主导地位，都指向对 AI 辅助评审/分诊工具的旺盛需求——这是 Agent 开发者的一次元级机会。
 
 ---
 
-*方法学说明：所有数据来源于各项目 2026-09-10 digest，覆盖此前 24 小时。"Updated" 计数包含收到评论/标签的长期条目，并非仅为新增项；解读合并率时应注意此前提。健康度评分综合了速度、高危 bug 的修复 PR 关联度、发布节奏与贡献者/社区多元化程度。*
+*数据来源：标注日期为 2026-09-10 的各项目 24h 摘要。健康分为分析师推导的综合评分；所有 issue/PR 引用均可在所引仓库中解析查证。*
 
 ---
 
@@ -205,111 +231,144 @@ OpenClaw 仓库活跃度非常高：**过去 24 小时内有 500 个 issue 和 5
 <details>
 <summary><strong>Hermes Agent</strong> — <a href="https://github.com/nousresearch/hermes-agent">nousresearch/hermes-agent</a></summary>
 
-# Hermes Agent — 项目摘要 (2026-09-10)
+# Hermes Agent — 项目摘要
+
+**日期：** 2026-09-10
+**仓库：** [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent)
+
+---
 
 ## 1. 今日概览
 
-Hermes Agent 展现出**高频维护活动**，过去 24 小时内共有 100 项更新（50 个 issue：46 开放 / 4 关闭；50 个 PR：42 开放 / 8 已合并/关闭）。今日未发布新版本，但更新日志形态的流量主要由 Windows 桌面端回归、网关/会话生命周期修复以及对辅助重试/压缩栈的协同重构（PR #106866、#106955）主导。围绕 Windows 打包、OAuth 和更新交接的几个长期未解决的 P1 缺陷仍然处于开放状态。维护者 @teknium1 极为活跃，亲自合并关键的可靠性修复（压缩、OAuth、lint 策略），而非通过发布分支交付。
+Hermes Agent 今日活动较为活跃，**过去 24 小时内有 50 个 issue 被更新、50 个 PR 被更新**，尽管没有新版本发布，仍可视为高产能的一天。**关闭比率健康**：在活跃条目中，7 个 issue 被关闭（14%），17 个 PR 被合并/关闭（34%），说明维护者正在积极分流与交付。反复出现的主题集中在**提供商路由 bug**（DeepSeek、OpenRouter）、**插件/调度器生命周期问题**（看板、校验顺序）以及**桌面端 UI 回归**。今日未产出新的发布制品，所有修复仍停留在 PR 队列中，等待下一次版本号提升（根据 issue 上下文，目前版本为 `v0.21.1`）。
 
-## 2. 发布版本
+---
 
-**过去 24 小时无新版本发布。** 一项待处理的发布工程 issue（#88584）持续阻塞计划的 Nous→Enterkey 合并，导致仪表板更新器仍停留在上次测试通过的 Enterkey 版本。
+## 2. 版本发布
 
-## 3. 项目进展
+**过去 24 小时内无新版本发布。** 当前 issue 报告中引用的最新已发布版本为 `v0.21.1`（参见 [#107238](https://github.com/NousResearch/hermes-agent/issues/107238)）。
 
-**今日合并/关闭的 PR（共 8 个，可见前几项）：**
+---
+
+## 3. 项目进展 — 今日合并/关闭的 PR
+
+今日共有六个 PR 被合并/关闭，涉及提供商兼容性、会话状态泄漏以及跨版本兼容性问题：
 
 | PR | 标题 | 影响 |
 |---|---|---|
-| [#106866](https://github.com/NousResearch/hermes-agent/pull/106866) | fix: compression no longer times out silently on aux retries (#98466) | P1 — OpenAI 后端会话的可靠性；挽救先前的尝试 #98480 |
-| [#106955](https://github.com/NousResearch/hermes-agent/pull/106955) | fix(auxiliary): origin-scoped session-key shield, task overrides, negotiation-only stream fallback | P2 — 对 #106866 的后续安全加固 |
-| [#106953](https://github.com/NousResearch/hermes-agent/pull/106953) | fix(cli): stop gateway `start()` blocking on non-TTY prompts and double-spawning | P2 — 在 Windows 上解除 agent/cron 触发 `hermes gateway restart` 的阻塞 |
-| [#103776](https://github.com/NousResearch/hermes-agent/pull/103776) | fix(tools): guide malformed tool_call without `name` to direct tool (Ollama/Qwen) | 本地模型后端的工具调用健壮性 |
-| [#106646](https://github.com/NousResearch/hermes-agent/pull/106646) | fix(gateway): preserve `x-opencode-session` on `llm.oneshot` for OpenCode Go | 全新安装场景下的 provider 崩溃修复 |
-| [#106885](https://github.com/NousResearch/hermes-agent/pull/106885) | fix(release): correctly strip scoped conventional prefixes in `clean_subject` | 发布说明生成正确性 |
-| （另有 2 个已关闭 PR 未显示在前 20 名） | — | — |
+| [#107295](https://github.com/NousResearch/hermes-agent/pull/107295) | DeepSeek 提供商不再重写自定义模型 id（#107206 的后续修复） | 厂商模型名称（如 `deepseek-flash`）现在按原样传递给 API；仅对已弃用 id 进行重映射 |
+| [#107215](https://github.com/NousResearch/hermes-agent/pull/107215) | 保留厂商 `deepseek-flash`，不再重写为已弃用的 `v4-flash` | 与 #107295 同源；关闭模型 id 回归问题 |
+| [#107069](https://github.com/NousResearch/hermes-agent/pull/107069) | 停止后台审核创建幽灵插件会话 | 后台技能/记忆审核不再以活跃会话的 session id 发布生命周期事件 |
+| [#107144](https://github.com/NousResearch/hermes-agent/pull/107144) | 让 `DaemonThreadPoolExecutor` 兼容 Python 3.14 | 修复因移除 `_initializer`/`_initargs` 导致的 `AttributeError` — 解锁 Py3.14 用户 |
+| [#107260](https://github.com/NousResearch/hermes-agent/pull/107260) | 将 `effort: none` 与 `enabled: false` 一同视为禁用思考 | 为 DeepSeek 桌面端用户解决 68% 的思考 token 浪费 |
+| [#97863](https://github.com/NousResearch/hermes-agent/pull/97863) | 加固访客 DB 争用与日志所有权 | 取代 #89420；引入带 bounded jitter 的 `BEGIN IMMEDIATE` 重试原语 |
 
-**净效果：** 压缩、Windows 网关启动、OpenCode/Ollama provider 互通、发布工具链方面获得可衡量的可靠性提升。今日未交付面向用户的新功能。
+一个值得关注的模式：**六个合并中有三个针对 DeepSeek 提供商的相关问题**，表明在下次发布前对这一集成进行了集中清理。
+
+---
 
 ## 4. 社区热门话题
 
-| 排名 | 项目 | 评论 / 👍 | 核心诉求 |
-|---|---|---|---|
-| 1 | [Issue #88584](https://github.com/NousResearch/hermes-agent/issues/88584) — "Automated Nous integration is blocked" | 81 💬 / 0 👍 | 流程/协作摩擦：计划的 Enterkey↔Nous 合并在 `cron/jobs.py` 上持续失败；发布分支无任何推进。社区期望跨 fork 的自动化交付能真正跑通。 |
-| 2 | [Issue #105145](https://github.com/NousResearch/hermes-agent/issues/105145) — "Windows desktop-driven `hermes update` always reports FAILED (exit 8)" | 17 💬 / 0 👍 | Windows 上的更新通道 UX 损坏：实际成功但返回错误退出码；工作目录解析错误。P1，已在本次修复浪潮中关闭。 |
-| 3 | [Issue #11911](https://github.com/NousResearch/hermes-agent/issues/11911) — "Native Mobile App (iOS & Android) with Voice Calling" | 7 💬 / 2 👍 | 长期产品愿景：在手机上通过免提语音访问 Hermes 助手。投入小、对用户增长影响大。 |
-| 4 | [Issue #70421](https://github.com/NousResearch/hermes-agent/issues/70421) — "Desktop: show all chats under a project (remove 3-session cap)" | 5 💬 / 7 👍 | 实际的生产力痛点：被隐藏的会话迫使用户层层点入。今日 👍/💬 比值最高 — 需求明确。 |
-| 5 | [Issue #48860](https://github.com/NousResearch/hermes-agent/issues/48860) — "OAuth prompt sanitizer greedy-replaces docs URL → NXDOMAIN" | 5 💬 / 1 👍 | 反规避清洗器的连带损伤：产品名改写破坏合法文档 URL（NXDOMAIN）。P1，尚未修复。 |
-| 6 | [Issue #106267](https://github.com/NousResearch/hermes-agent/issues/106267) — "per-tool-scope YOLO mode via `/yolo allow/deny`" | 5 💬 / 0 👍 | 高阶用户的安全控制：细粒度信任，而非要么全开要么全关的会话绕过。 |
-| 7 | [Issue #356](https://github.com/NousResearch/hermes-agent/issues/356) — "Acceptance Criteria & Independent Judge for Sub-agent Delegation"（今日关闭） | 3 💬 / 2 👍 | 来自 OpenPlanter 的质量门控模式（`IMPLEMENT-THEN-VERIFY`）。虽已关闭，但代表了社区对子代理验证的反复诉求。 |
+按评论数排名的前五大讨论条目揭示了用户正在将维护者注意力引向何处：
 
-**共同主线：** 社区日益推动**信任边界**（per-tool YOLO、子代理验证、OAuth 清洗）和**多设备一致性**（移动端、桌面端会话列表完整性），同时伴随持续的可靠性投诉。
+1. **[#88584](https://github.com/NousResearch/hermes-agent/issues/88584) — 83 条评论** — *Nous→Enterkey 自动合并被阻塞*。`cron/jobs.py` 中的合并冲突导致仪表板更新器在较旧的 Enterkey 版本上停滞。这是一个**发布工程**问题而非面向用户的 bug，但其评论数远超第二名 4 倍，暗示 Nous 与 Enterkey 两个分支之间存在长期摩擦。
 
-## 5. Bug 与稳定性
+2. **[#10421](https://github.com/NousResearch/hermes-agent/issues/10421) — 21 条评论，9 👍（数据集中 👍 最高）** — *功能：回合级实时时间上下文*。用户希望智能体拥有一个稳定的"现在/今天/当前星期几"感知，而无需显式调用工具。强烈的点赞信号表明**对提示词中时间锚定的广泛潜在需求**。
 
-按严重程度排序，并标注修复 PR 状态：
+3. **[#100401](https://github.com/NousResearch/hermes-agent/issues/100401) — 13 条评论** — *Cron 触发心跳在其自身运行上死锁*。一条仍在传输中的 cron 投递在 60 秒心跳到来时，30 秒后被当作幽灵"关闭"而杀掉。这是项目自身的扫描器分类法标记的**消息投递风险**。
 
-| 严重程度 | Issue | 摘要 | 修复 PR？ |
-|---|---|---|---|
-| **P1** | [#105145](https://github.com/NousResearch/hermes-agent/issues/105145) | Windows `hermes update` 在成功后始终报告 FAILED（exit 8） | **今日关闭** |
-| **P1** | [#105629](https://github.com/NousResearch/hermes-agent/issues/105629) | Windows 桌面端构建：electron-builder asar 完整性重写 → rcedit `Unable to commit changes` | 无 |
-| **P1** | [#48860](https://github.com/NousResearch/hermes-agent/issues/48860) | OAuth 清洗器改写文档 URL → `claude-code.nousresearch.com` NXDOMAIN | 无 |
-| **P2** | [#106909](https://github.com/NousResearch/hermes-agent/issues/106909) | 无 root Docker：iron-proxy 绑定 `127.0.0.1`，从 `host.docker.internal` 不可达 | 无 |
-| **P2** | [#102958](https://github.com/NousResearch/hermes-agent/issues/102958) | Cron：在非默认 profile 中 `--no-agent` 任务脚本路径格式错误（缺少分隔符，2026-09-04 回归） | 无 |
-| **P2** | [#79833](https://github.com/NousResearch/hermes-agent/issues/79833) | 桌面端：内嵌卡片（X/Twitter card）跨视图遮盖 UI | 无 |
-| **P3** | [#94001](https://github.com/NousResearch/hermes-agent/issues/94001) | 桌面端状态栏上下文用量在压缩后过期，跨会话污染 | 无 |
-| **P3** | [#106292](https://github.com/NousResearch/hermes-agent/issues/106292) | `hermes kanban complete` 绕过 `pre_tool_call` hooks → 过早标记根任务完成 | 无 |
-| **P3** | [#106285](https://github.com/NousResearch/hermes-agent/issues/106285) | 跨混合 DPI 显示器时 Windows 桌面窗口变透明 | 无 |
-| **P3** | [#106359](https://github.com/NousResearch/hermes-agent/issues/106359) | Windows 网关僵尸进程：TCP 端口耗尽冻结事件循环 | 无 |
-| **P3** | [#99533](https://github.com/NousResearch/hermes-agent/issues/99533) | Firecrawl `web_extract` 将 4xx/5xx 折叠为成功的空结果（未检查 `metadata.statusCode`） | 无 |
-| **P3** | [#89700](https://github.com/NousResearch/hermes-agent/issues/89700) | 桌面端：取消固定会话不生效 — 会移至 Pinned 列表底部 | 无 |
-| **P3** | [#45983](https://github.com/NousResearch/hermes-agent/issues/45983) | 在技能繁重的 orchestrator profile 中约 19 轮后陷入循环（bg-review + Compressor 冲突） | 无 |
+4. **[#58576](https://github.com/NousResearch/hermes-agent/issues/58576) — 12 条评论** — *`web_server` 事件循环在重负载智能体工作下停滞长达 51 秒（GIL 压力）*。在工具密集的会话中，桌面 UI 会冻结约 1 分钟。涉及 CLI、TUI、Gateway、Dashboard、Desktop 等多个组件，P1 严重程度。
 
-**稳定性概览：** 今日共有 13 个不同的 bug 被提出或处于活跃状态。**已关闭的 Windows 更新之外，其余 4 个 P1 全部无修复 PR。** Windows 桌面端仍是主要的故障面（13 个中占 5 个）。网关/会话回收的正确性正在 PR [#106966](https://github.com/NousResearch/hermes-agent/pull/106966) 和 [#106964](https://github.com/NousResearch/hermes-agent/pull/106964) 中积极推进。
+5. **[#71650](https://github.com/NousResearch/hermes-agent/issues/71650) — 10 条评论** — *工具集校验早于插件加载执行*。注册自有工具集（如 `beads`）的插件总是触发"未知工具集"警告 — 这一误报已让用户困扰两个月。
+
+**底层需求：** 用户希望**确定性的、低摩擦的插件与提供商生命周期** — 他们正撞上框架严格顺序在发现、校验与运行时之间留下的接缝。
+
+---
+
+## 5. Bug 与稳定性 — 今日报告，按严重程度排序
+
+### P1（关键 / 消息投递风险）
+- **[#100401](https://github.com/NousResearch/hermes-agent/issues/100401)** — Cron 触发自死锁；暂无关联 PR。
+- **[#58576](https://github.com/NousResearch/hermes-agent/issues/58576)** — 51 秒事件循环停滞，Windows 上 GIL 压力；暂无关联 PR。
+- **[#88667](https://github.com/NousResearch/hermes-agent/issues/88667)** — 来自 `key_cmd` 的可调用 `api_key` 在自定义提供商解析时因 `AttributeError` 崩溃（认证/配置边界）。
+
+### P2（功能性 / 会话状态风险、兼容性风险）
+- **[#74712](https://github.com/NousResearch/hermes-agent/issues/74712)** — `codex_app_server` 系统提示词始终未发送（SOUL.md、记忆、channel_overrides 静默失效）。
+- **[#105104](https://github.com/NousResearch/hermes-agent/issues/105104)** — 桌面 Bot Mode 侧边栏点击偶发为 no-op（失败时后端无任何活动）。
+- **[#106292](https://github.com/NousResearch/hermes-agent/issues/106292)** — Kanban CLI 完成绕过 `pre_tool_call` 钩子，允许提前完成根任务。
+- **[#107238](https://github.com/NousResearch/hermes-agent/issues/107238)** — 桌面端"Thinking: Off"开关被 DeepSeek 插件忽略 → **PR [#107260](https://github.com/NousResearch/hermes-agent/pull/107260) 已合并 ✅**。
+- **[#107270](https://github.com/NousResearch/hermes-agent/issues/107270)** — `memory` 工具在 MEMORY.md 与 `.bak` 字节完全一致时误报文件漂移（循环拒绝）。
+- **[#107272](https://github.com/NousResearch/hermes-agent/issues/107272)** — 图像预处理期间的 `/steer` 被确认但被忽略。
+- **[#100602](https://github.com/NousResearch/hermes-agent/issues/100602)** — 当压缩调用失败/超时时，会话卡在"正在总结会话…"（无 fail-soft）。
+- **[#107199](https://github.com/NousResearch/hermes-agent/issues/107199)** — 桌面 Bot Chat 在历史刷新后回退到 `default` 配置。
+- **[#101039](https://github.com/NousResearch/hermes-agent/issues/101039)** — 微信/iLink "rate limited" 误报掩盖了连接不稳定。
+- **[#105719](https://github.com/NousResearch/hermes-agent/issues/105719)** — `hermes status` 将其他用户的网关进程计入调用者（`/proc` 扫描无 UID 过滤）。
+- **[#103717](https://github.com/NousResearch/hermes-agent/issues/103717)** — `multiplex_profiles` 丢弃来自次级配置所有者的后续消息（忙路径无配置作用域）。
+
+### P3（外观 / 警告 / 低影响）
+- **[#107296](https://github.com/NousResearch/hermes-agent/issues/107296)** — systemd 网关单元 PATH 遗漏 NixOS 的 `/run/current-system/sw/bin`。
+- **[#101160](https://github.com/NousResearch/hermes-agent/issues/101160)** — Buzz 读空闲看门狗在健康的静默中继上每 300 秒重连。
+
+**今日刚关闭的 P1：** [#106459](https://github.com/NousResearch/hermes-agent/issues/106459) — "永久不可压缩"的痛点群，此前已通过每周用户痛点挖掘器标记。
+
+**修复覆盖率：** 今日约 13 个活跃 bug issue 中，**仅有一个（#107238 → #107260）有确认合并**。P1 集群大体上**仍未修复**，尤其是 Cron 死锁（#100401）与 GIL 事件循环停滞（#58576）。
+
+---
 
 ## 6. 功能请求与路线图信号
 
-| 功能 | Issue | 预计时间窗 |
+值得在下个版本中关注的开放功能/增强请求：
+
+| 功能 | Issue/PR | 进入 v0.22 的可能性 |
 |---|---|---|
-| 原生 iOS/Android 移动应用 + 语音通话 | [#11911](https://github.com/NousResearch/hermes-agent/issues/11911) | **长期**（1–2 个季度）。基础设施投入大；尚未进入近期视野。 |
-| 桌面端：移除 3 会话预览上限 | [#70421](https://github.com/NousResearch/hermes-agent/issues/70421) | **下一小版本**（0.21.x / 0.22）。低风险 UX 改动，👍 信号强（7）。 |
-| Per-tool-scope `/yolo allow/deny` | [#106267](https://github.com/NousResearch/hermes-agent/issues/106267) | **近期**。现有 YOLO 管线的自然延伸。 |
-| 针对实时选项的斜杠命令自然语言解析（`"switch to grok oauth"` → `/model xai-oauth`） | [#106258](https://github.com/NousResearch/hermes-agent/issues/106258) | **近期**。与更宏观的模型切换 UX 工作方向一致。 |
-| Cron：周期性任务的 `start_at` | [#106908](https://github.com/NousResearch/hermes-agent/issues/106908) | **近期**。消除文档中已记录的不安全变通方案。 |
-| `feat(voice): Codex OAuth STT/TTS/live voice` | [PR #106640](https://github.com/NousResearch/hermes-agent/pull/106640) | **下一小版本**，若合并。 |
-| 后台记忆整合 opt-in + `/memory` 策略展示 | [#106919](https://github.com/NousResearch/hermes-agent/issues/106919), [#106918](https://github.com/NousResearch/hermes-agent/issues/106918) | **近期**。直接构建于 #106310 之上。 |
-| 动态工作区绑定至终端 env-provider 插件 | [#104163](https://github.com/NousResearch/hermes-agent/issues/104163) | **中期**，依赖树外插件生态的成熟度。 |
-| Computer-use provider 工厂接缝 + 远程桌面传输 | [PR #103653](https://github.com/NousResearch/hermes-agent/pull/103653) | **中期**，基础性工作 — 尚未形成面向用户的功能。 |
-| 桌面端 Fast 切换重新定位为优先通道 | [#106253](https://github.com/NousResearch/hermes-agent/issues/106253) | **下一小版本**。纯 UI/文案调整。 |
-| `feat(delegate)`：per-parent-session 子代理上限 | [PR #59233](https://github.com/NousResearch/hermes-agent/pull/59233) | **即将合并** — 关闭来自 #52484 的失控生成路径。 |
+| 回合级实时时间上下文 | [#10421](https://github.com/NousResearch/hermes-agent/issues/10421)（9 👍） | **高** — 数据集中最强的点赞信号 |
+| 独立桌面插件纳入插件目录 | [#107262](https://github.com/NousResearch/hermes-agent/issues/107262) + PR [#107314](https://github.com/NousResearch/hermes-agent/pull/107314) | **高** — PR 今日已开启 |
+| 运算符自定义子智能体委托的工作者配置 | [PR #103346](https://github.com/NousResearch/hermes-agent/pull/103346) | 中 — needs-decision 标签 |
+| 在运行时页脚展示当前活跃提供商 | [PR #95135](https://github.com/NousResearch/hermes-agent/pull/95135) | 中 |
+| Cron 可信计划运行钩子 | [PR #93977](https://github.com/NousResearch/hermes-agent/pull/93977) | 中 |
+| `lsp.servers` 中的自定义语言服务器 | [PR #103372](https://github.com/NousResearch/hermes-agent/pull/103372) | 中 |
+| 经典 CLI 中的 Markdown 流式重设计 | [PR #107074](https://github.com/NousResearch/hermes-agent/pull/107074) | 中 |
+| 在终端中运行助手 shell 代码块（桌面端） | [PR #92017](https://github.com/NousResearch/hermes-agent/pull/92017) | 低–中 |
+
+**信号：** 维护者 `teknium1` 今日开启了两个 PR（[#107314](https://github.com/NousResearch/hermes-agent/pull/107314)、[#107295](https://github.com/NousResearch/hermes-agent/pull/107295)），表明**桌面插件架构转向**（插件上移到应用级作用域）即将到来。
+
+---
 
 ## 7. 用户反馈摘要
 
-**满意信号：**
-- 对 Windows 更新 P1 的快速响应表示高度认可（Issue #105145 当日关闭）。
-- 对桌面端会话列表扩展的高 👍（#70421：7 个赞，5 条评论）反映出该小而明显的 UX 缺口存在已久。
-- 接受 OpenPlanter 风格的子代理验证模式（#356 已关闭，2 个赞） — 社区对质量门控模式持开放态度。
+**反复出现的痛点（从活跃 issue 中提炼的主题）：**
 
-**痛点（反复出现的主题）：**
-1. **Windows 是最弱的平台。** 24 小时内出现 5 个独立的 Windows 专项 bug（更新交接、electron-builder、DPI 透明、网关僵尸进程、Kanban worker）。用户感到桌面端质量落后于 macOS/Linux。
-2. **信任边界不一致。** OAuth 清洗器过度触发（#48860），YOLO 要么全开要么全关（#106267），Kanban CLI 绕过 hooks（#106292）。用户希望获得明确、有作用域的信任控制。
-3. **会话/上下文状态错位。** 压缩后状态栏过期（#94001），跨会话污染，刷新迟缓 — 用户无法信任 UI 所显示的内容。
-4. **斜杠命令的 CLI 摩擦**（#106258）：用户希望支持自然语言解析，而非要求精确输入指令。
-5. **反规避改写造成的文档/URL 损坏**（#48860）：安全工具正在破坏合法文档链接。
+1. **提供商路由的意外行为** — 多个不同 issue（#59089、#74143、#88667、#99389）报告用户明确选择的提供商会被静默重新路由到 OpenRouter，或在自定义凭据上崩溃。用户感到自己正在失去**对模型选择的控制权**。
+2. **静默的插件生命周期缺口** — 插件工具集被标记为"未知"（#71650、#91757 重复）、桌面插件在 null SDK 命名空间下失败（[PR #107309](https://github.com/NousResearch/hermes-agent/pull/107309)）、Kanban 完成绕过钩子（#106292）。用户希望**确定性的插件表现**。
+3. **会话状态泄漏与压缩脆弱性** — #106459（已关闭）、#100602（开放）、#74712（系统提示词静默丢失）。用户报告**token 浪费、上下文丢失以及会话无法恢复** — 高影响挫败感。
+4. **桌面 UI 不稳定** — #58576（51 秒冻结）、#105104（侧边栏点击 no-op）、#107199（刷新后配置错误）、#107238（开关被忽略）。**桌面端界面**是回归密度最高的区域。
+5. **多用户 / NixOS 主机边缘场景** — #105719（跨用户进程扫描）、#107296（NixOS 上 systemd PATH）。高级用户存在摩擦。
 
-**不满集中点：** 集中在 (a) Windows 桌面端质量，以及 (b) 智能体如何判定"可信"的不透明性。对已关闭的 #356 功能无社区反弹 — 关闭结果可接受。
+**满意度解读：** bug issue 上没有任何正面反应（👍），最强的 👍（9）出现在**功能**请求（#10421）上，而非修复。社区在请求**新能力**，而不仅仅是稳定性工作 — 对一个活跃项目而言是健康信号，但已解决 bug 缺少 👍 也表明用户对表达感激并不像表达功能需求那样积极。
 
-## 8. 待办观察
+---
 
-因时效、严重程度或停滞进度需要**维护者关注**的项目：
+## 8. 待办观察 — 长期未回应或需维护者关注
 
-| 项目 | 存在时长 | 状态 | 需要关注的原因 |
+| 条目 | 开启时间 | 已开放天数 | 关注点 |
 |---|---|---|---|
-| [Issue #88584](https://github.com/NousResearch/hermes-agent/issues/88584) | 24 天 | **开放**，81 条评论 | 计划的 Nous→Enterkey 自动合并因 `cron/jobs.py` 冲突阻塞；阻塞定时发布交付。当前最大的活跃讨论 — 社区期待解决。 |
-| [PR #59233](https://github.com/NousResearch/hermes-agent/pull/59233) — `fix(delegate): cap total subagent children per parent session` | 2 个月 | **开放**，P2，影响半径中等 | 关闭已记录的失控生成路径（#52484）；低风险防护措施，审阅周期过长。 |
-| [PR #56971](https://github.com/NousResearch/hermes-agent/pull/56971) — `fix(mcp): wire bridge approval tools to the gateway` | 2 个月 | **开放**，P2，需决策 | 安全边界修复；目前 MCP bridge 无法看到网关审批。 |
-| [Issue #45983](https://github.com/NousResearch/hermes-agent/issues/45983) — 技能繁重 profile 中的聊天循环 | 约 3 个月 | **开放**，P3 | 在 247 技能 profile 上 bg-review + Compressor 冲突；仅在大型 homelab profile 上可完整复现。 |
-| [Issue #42289](https://github.com/NousResearch/hermes-agent/issues/42289) — Windows Kanban worker 误报 'pid not alive' | 约 3 个月
+| **[#10421](https://github.com/NousResearch/hermes-agent/issues/10421)** | 2026-04-15 | ~148 天 | 点赞最高的功能；需要维护者 `needs-decision` 决策 |
+| **[#58576](https://github.com/NousResearch/hermes-agent/issues/58576)** | 2026-07-05 | ~67 天 | P1，跨组件，无 PR — 可能需要去除 GIL 或异步重构 |
+| **[#71650](https://github.com/NousResearch/hermes-agent/issues/71650)** | 2026-07-26 | ~46 天 | 微小修复（重排校验顺序），两份重复报告（#91757）累积 — **可快速赢取** |
+| **[#74712](https://github.com/NousResearch/hermes-agent/issues/74712)** | 2026-07-30 | ~42 天 | `codex_app_server` 系统提示词始终未发送 — 该运行时下整套 SOUL/记忆栈静默失效 |
+| **[#67426](https://github.com/NousResearch/hermes-agent/pull/67426)** | 2026-07-19 | ~53 天 | `write_file` 路径规范化开放 PR；`needs-decision`、`blast-moderate` 标签，未合并 |
+| **[#10421](https://github.com/NousResearch/hermes-agent/issues/10421)** | — | — | 同上；标记 `needs-decision` |
+| **[#91981](https://github.com/NousResearch/hermes-agent/pull/91981)** | 2026-08-22 | ~19 天 | Docker worker 工作区，安全边界标签，作者披露大量使用 AI — 需仔细人工审查 |
+| **[#88584](https://github.com/NousResearch/hermes-agent/issues/88584)** | 2026-08-17 | ~24 天 | 跨分支发布流水线（Nous→Enterkey）；83 条评论但似乎需要跨组织维护者协调 |
+
+**维护者待办：**
+- 解决 [#71650](https://github.com/NousResearch/hermes-agent/issues/71650) — 一行重排序即可关闭 2 个开放 issue。
+- 分流 [#100401](https://github.com/NousResearch/hermes-agent/issues/100401) 与 [#58576](https://github.com/NousResearch/hermes-agent/issues/58576) — 二者均为 P1，且均已停滞。
+- 决策 [#10421](https://github.com/NousResearch/hermes-agent/issues/10421) — 已开放 148 天，9 👍，已标记 `needs-decision`。
+
+---
+
+*摘要基于 2026-09-10 的 GitHub 活动生成。所有链接指向 NousResearch/hermes-agent 的 issue 与 PR。*
 
 </details>
 
@@ -320,80 +379,60 @@ Hermes Agent 展现出**高频维护活动**，过去 24 小时内共有 100 项
 
 ## 1. 今日概览
 
-IronClaw 在过去 24 小时内活动温和,主要集中在基础设施层面,**共更新了 6 个 PR**(2 个已合并,4 个仍处于开放状态)以及 **1 个 issue**(唯一的开放 bug)。所有活动集中在单一内部方向——**托管 MCP 提供商与扩展生命周期相关工作**——其中 6 个 PR 中的 4 个(以及两个已合并项)均由同一贡献者(`kirikov`)提交。期间没有发布新版本,所有更新的 issue/PR 均无任何反应或评论,表明尽管内部迭代持续,但外部社区对这些具体事项的参与度较低。总体而言,该项目维护节奏健康,但主题聚焦较为狭窄,且缺乏外部贡献者信号。
+IronClaw 目前处于低活跃度但技术含量较高的开发阶段。过去 24 小时内仅有 1 个 issue 和 4 个 pull request 产生了活动，没有新的版本发布。所有 4 个 PR 仍保持开启状态，说明今天是一个活跃但尚未收尾的工作日。技术内容质量较高——开放的工作覆盖了 hosted-MCP 正确性、扩展打包语义以及 Telegram 体验，表明维护者的关注点在基础完整性而非表层功能。未出现重大故障或社区升级信号。
 
 ## 2. 版本发布
 
-*过去 24 小时内无新版本发布。无可报告内容。*
+过去 24 小时内未发布任何新版本。无可报告的版本变更或更新日志更新。
 
 ## 3. 项目进展
 
-两个 PR 已关闭/合并:
+**今天没有 PR 被合并或关闭。** 所有进行中的工作仍处于开启状态：
 
-- **#8088 — feat(common): 区分已设置但为空的环境变量与未设置的环境变量** ([link](https://github.com/nearai/ironclaw/pull/8088))
-  - 修复了 `env_or_override` 将 `FOO=` 与缺失的 `FOO` 折叠为同一情形的问题。运维人员在设置具有部署语义的变量(例如端点覆盖)时,将不再因拼写错误而默默回退到默认值。作者:`kirikov`。
+- [#8090](https://github.com/nearai/ironclaw/pull/8090) — `fix(mcp): key discovered hosted-MCP catalogs per caller, not per extension`（更新于 2026-09-10）。旨在修复 hosted-MCP 服务器上一个跨租户工具列表覆盖的缺陷——该场景下工具发现依赖于调用方凭据。
+- [#8084](https://github.com/nearai/ironclaw/pull/8084) — `feat(mcp): opt-in SEP-414 caller attribution on outbound hosted-MCP calls`（更新于 2026-09-09）。为出站 MCP 调用添加按会话归属和重试幂等语义。
+- [#8085](https://github.com/nearai/ironclaw/pull/8085) — `fix(extensions): treat operator-installed packages like host-bundled ones`（更新于 2026-09-09）。调和扩展构造函数与校验器在处理内联动态 schema 时的不一致。
+- [#8072](https://github.com/nearai/ironclaw/pull/8072) — `feat(telegram): register the Bot API command menu at activation`（更新于 2026-09-09）。在扩展生命周期边界添加原生 Telegram 命令菜单注册（`setMyCommands` / `deleteMyCommands`）。
 
-- **#8089 — feat(extensions): 打包 agent-market 托管 MCP 提供商** ([link](https://github.com/nearai/ironclaw/pull/8089))
-  - 为 `agent.market` 托管 MCP 提供商新增了一等打包包,形态与其他打包提供商一致,包含清单、各工具的输入 schema,以及作为预发现回退的静态工具声明。作者:`kirikov`。备注:摘要说明此 PR"重新打开"了此前的讨论线程,表明这是对之前工作的重新提交。
+以上均尚未合入，因此今天没有功能正式进入代码库。
 
-净效果:在环境变量处理方面带来小而实在的可靠性提升,并对打包的 MCP 目录进行了渐进式扩展。
+## 4. 社区热门话题
 
-## 4. 社区热点话题
+所有列出的条目互动度都很低——每个 issue 和 PR 都是零点赞、零评论。没有病毒式讨论或争议性辩论可见。主题上最突出的线索是 **hosted-MCP 调用方键控（caller-keying）工作**，由同一作者发起两个相关 PR（[#8090](https://github.com/nearai/ironclaw/pull/8090)、[#8084](https://github.com/nearai/ironclaw/pull/8084)），呈现出一个连贯的设计方向：让 hosted MCP 服务器正确支持多租户并具备重试安全性。所回应的社区底层需求：**在多用户 / 托管环境中安全部署 IronClaw**，在这些场景下用户间隔离是硬性要求。
 
-按 GitHub 原生参与度指标(评论、反应)来看,**今日更新中的所有条目均没有任何评论或 👍 反应**。每个条目都显示 0 评论和 0 点赞,因此"热点"必须从主题聚类而非用户信号来推断:
+## 5. 缺陷与稳定性
 
-- **托管 MCP 提供商基础设施** 是主导主题:
-  - #8084 [open] — SEP-414 调用方归属 ([link](https://github.com/nearai/ironclaw/pull/8084))
-  - #8090 [open] — 目录按调用方而非按扩展进行键控 ([link](https://github.com/nearai/ironclaw/pull/8090))
-  - #8089 [merged] — 打包 agent.market 提供商 ([link](https://github.com/nearai/ironclaw/pull/8089))
-- **扩展生命周期 / 打包一致性**: #8085 [open] ([link](https://github.com/nearai/ironclaw/pull/8085))
-- **渠道 UX(Telegram)**: #8072 [open] ([link](https://github.com/nearai/ironclaw/pull/8072))
+**今天提交/更新了一个缺陷报告：**
 
-**底层需求:** 打包的 MCP 模型正在被加固,以抵御多租户与多调用方带来的混淆(目录争用、重试归属、运维安装包的等价性)。Telegram PR 是今日唯一面向用户侧的变更。
+| 严重程度 | 条目 | 描述 | 是否有修复？ |
+|---|---|---|---|
+| 中（UX） | [#8091](https://github.com/nearai/ironclaw/issues/8091) | WebChat v2 在按下回车确认 IME 组合输入时，会发送一条聊天消息，导致未完成文本外泄。报告者指出这似乎是之前已修复行为的一次复现。 | 尚未关联 PR。 |
 
-## 5. Bug 与稳定性
-
-| # | 标题 | 状态 | 严重程度 | 修复 PR? |
-|---|------|------|----------|----------|
-| [#8091](https://github.com/nearai/ironclaw/issues/8091) | bug(webchat-v2): 在确认 IME 组合输入时按 Enter 会发送消息 | OPEN, 0 评论 | 低–中(UX,为此前行为的复现) | 未关联 |
-
-**#8091 备注:** WebChat v2 即使在按键本意是确认 IME 候选词时,也会触发发送动作,从而发送出一条不完整的消息。报告者明确指出这是此前已修复的用户可见行为的复现。过去 24 小时内尚未开启修复 PR。严重程度有限(不太可能导致数据损坏;属轻微困扰与误发),但这是今日浮现的唯一开放 bug,值得维护者响应。
-
-在该时间窗口内未提交崩溃、回归或数据丢失的报告。
+今天未报告崩溃、数据丢失或安全回归。唯一开放的缺陷是 WebChat v2 IME 流程中一个局部化的输入处理回归。
 
 ## 6. 功能请求与路线图信号
 
-今日未开启明确的"功能请求"issue。从开放 PR 中可以观察到以下前瞻性信号:
+过去 24 小时内没有用户明确提交的功能请求。然而，由维护者发起的 PR 构成了前瞻性的路线图信号：
 
-- **#8084 — 在出站托管 MCP 调用上实现 SEP-414 调用方归属** ([link](https://github.com/nearai/ironclaw/pull/8084)):使 IronClaw 与新兴的 MCP 规范扩展对齐,以便托管服务器能够将调用关联到对话并检测重试。如果两者评审通过,很可能与 #8090 一同发布。
-- **#8090 — 按调用方键控的托管 MCP 目录** ([link](https://github.com/nearai/ironclaw/pull/8090)):消除多用户目录争用 bug。是下一版本的有力候选。
-- **#8072 — Telegram Bot API 命令菜单注册** ([link](https://github.com/nearai/ironclaw/pull/8072)):在激活时注册 `/model`、`/status`、`/new`、`/stop`、`/interrupt`;在停用时清除。是面向用户的 Telegram UX 改进。
+- **Hosted MCP 多租户**（[#8090](https://github.com/nearai/ironclaw/pull/8090)、[#8084](https://github.com/nearai/ironclaw/pull/8084)）——强烈暗示下一个版本将使 IronClaw 的 MCP 集成能够部署为共享托管服务，并具备正确的调用方隔离与符合 SEP-414 的归属机制。
+- **扩展打包一致性**（[#8085](https://github.com/nearai/ironclaw/pull/8085)）——表明正在清理扩展安装期不变量，是更广泛分发/部署工作流的前置工作。
+- **Telegram 原生命令菜单**（[#8072](https://github.com/nearai/ironclaw/pull/8072)）——标志着对 Telegram 渠道作为一等交互面的持续投入。
 
-**预测:** 当下一个带标签版本发布时,合理推测将包含 #8084、#8090 和 #8088,作为一个托管 MCP / 通用工具批次,#8072 要么一并纳入,要么留待后续渠道 UX 版本单独发布。#8085(扩展打包一致性)依赖于构造器与校验器之间的跨模块共识,可能需要额外评审。
+下一版本可能性：Telegram 命令菜单很高（低风险、范围明确、依赖较轻）；MCP 调用方键控修复为中等（架构上重要但可能需要额外评审）；SEP-414 归属功能为可选启用，很可能与该修复一同发布。
 
 ## 7. 用户反馈摘要
 
-过去 24 小时内的外部用户反馈量**几乎为零**:所有更新条目均无评论、无反应。唯一由用户发起的实质性内容是来自 `supermomonga` 的 **#8091** bug 报告,该报告揭示了 WebChat v2 的一个具体 UX 痛点(IME 与 Enter 冲突),并指出其为**对先前修复的复现**。这是对 WebChat v2 输入处理鲁棒性的一个微弱不满信号。
+今天的用户层面信号量极少。唯一的用户报告条目 [#8091](https://github.com/nearai/ironclaw/issues/8091) 表达了对 WebChat v2 输入处理回归的不满，影响使用非英语 / IME 的用户。痛点具体且可复现：一次本应完成文本组合的按键意外地触发了消息发送。从现有互动（所有条目均为 0 反应、0 评论）无法有意义地评估满意度，但报告者的技术描述相当精准，提示其为一位有经验的用户。
 
-从进行中的工作推断出的隐含需求:
-- 托管 MCP 部署中的多租户正确性(面向多用户托管服务的运维人员)。
-- 在部署环境变量中更清晰地区分"已配置"与"默认值"。
-- 在聊天平台(Telegram)上提供可发现的命令菜单,而非依赖记忆斜杠命令。
+## 8. 待办观察
 
-## 8. 待办事项观察
+今天活动集中的条目都没有陈旧——所有条目日期均在 2026-09-08 或 2026-09-09，远在有效关注窗口内。以下值得维护者以监控模式留意：
 
-由于缺乏互动、存在歧义或依赖评审者,以下条目可能需要维护者关注:
+- [#8091](https://github.com/nearai/ironclaw/issues/8091) — WebChat v2 的 IME 缺陷；报告为之前已修复行为的复现，需要尽快分诊以确认是回归还是新出现的表面现象。
+- [#8090](https://github.com/nearai/ironclaw/pull/8090) — hosted-MCP 上的多租户正确性修复；正确性影响很大（跨用户工具覆盖），应优先安排评审。
+- [#8072](https://github.com/nearai/ironclaw/pull/8072) — 今天 PR 中最老的一个（创建于 2026-09-04）；标注为低风险、仅涉及文档与依赖、贡献者为资深——若评审者有余力，是快速取胜的候选。
 
-- **#8091(issue)** — 开放 bug,自创建以来 0 评论;报告者明确指出其为回归。**需要维护者分诊并提交确认/拒绝的 PR**,尤其考虑到其引用了先前的修复。
-- **#8072(PR)** — 标签为 `[size: L, risk: low, scope: docs, scope: dependencies, contributor: experienced]`;最后更新于 2026-09-09,仍处开放状态。工作量大但风险低的文档/依赖类工作,不太可能引发争议;经一次维护者审阅即可合并。
-- **#8085(PR)** — 旨在解决两个扩展清单函数之间的不一致;评审者应先确认哪一侧为规范实现,然后再合并。
-- **#8084(PR)** — 引用新兴 MCP 规范(SEP-414);鉴于规范状态尚不确定,合并前宜由维护者确认对齐情况。
-- **#8090(PR)** — 动机明确的正确性修复;风险低,与 #8084 天然适合合并到同一轮评审中。
-- **贡献者集中度风险:** 今日 6 个 PR 中的 4 个以及两个合并项均来自 `kirikov`。该时间窗口内未捕捉到任何外部贡献者信号(评论、反应、评审)。维护者或宜关注托管 MCP 与扩展层的"巴士因子"暴露风险。
-
----
-
-*数据窗口:截至 2026-09-10 的过去 24 小时。基于 `nearai/ironclaw` 的公开 GitHub 活动生成。*
+今天的数据集中没有长期未得到回应的条目浮现。
 
 </details>
 
@@ -404,119 +443,111 @@ IronClaw 在过去 24 小时内活动温和,主要集中在基础设施层面,**
 
 ## 1. 今日概览
 
-QwenPaw 呈现 **中高度活跃** 状态：过去 24 小时内有 22 个 issue（11 个开放 / 11 个已关闭）和 34 个 PR（26 个开放 / 8 个已合并或已关闭）更新，尽管没有新版本发布。该模式强烈反映了 **v2.2.0 的发布后稳定期**：大部分已关闭项针对近期版本升级引入的回归和 UX 问题（模态背景蒙层、FTS 损坏、控制台流式输出、MCP 超时）。同时，多个雄心勃勃的功能 PR（Advisor Mode、QwenPaw Mobile、QwenPaw-Data 0.3、ADBPG/PowerContext 插件化）在评审管线中持续成熟，表明路线图推进势头不减。整体项目健康度良好：bug 报告被快速响应和分流，至少有三个开放 bug 已与修复 PR 配对。
+QwenPaw 目前处于高活跃度的预发布稳定阶段。维护者已于同日发布 **v2.2.1-beta.2**，并照例开出了发布值班验证工单（#7674）。流水线在 24 小时内共有 **62 项 issue/PR 更新**，合并/关闭率达到健康的 41%（33 个 PR 中合并 13 个），表明正在进行主动分流而非积压。任务分布偏向 **渠道可靠性**（飞书死锁、企业微信流式问题、Telegram 轮询黑洞）、**内存子系统成熟化**（ReMe 命令、记忆后端回退、FTS 损坏），以及 **测试覆盖加固**（多个 +2.4k 与 +382 用例的 PR 落地）。今日新增一份关于 Windows 安全沙箱的关键报告（#7672），应及时处理。整体项目健康度：**活跃且持续交付**，主要风险集中在跨会话/多渠道状态机层面。
 
 ## 2. 版本发布
 
-**过去 24 小时内无新版本发布。** 在 issue 和 PR 中引用的最新版本仍为 **v2.2.0**（包括预发布 `2.2.0b7`），旧版 **v2.1.1b1** 仍被 Windows 桌面端用户引用。
+### v2.2.1-beta.2 — 发布于 2026-09-10
+- **类型：** Beta（预发布）
+- **发布页：** https://github.com/agentscope-ai/QwenPaw/releases/tag/v2.2.1-beta.2
 
-## 3. 项目进展
+**变更内容：**
+- `feat(console): improve mobile agent selector` — [#7623](https://github.com/agentscope-ai/QwenPaw/pull/7623) by @zhaozhuang521
+- `chore: bump the version to 2.2.1b2` — [#7643](https://github.com/agentscope-ai/QwenPaw/pull/7643) by @cuiyuebing
+- `fix(console): align qwenpaw CSS selectors` — by @zhaozh（PR 在信息流中被截断）
 
-过去 24 小时内有八个 PR 已合并或已关闭，推进了若干主题：
+**迁移说明：** Beta 版本；当前使用 2.2.0 稳定版的用户不会被强制升级。发布值班清单 #7674 要求在 2026-09-10 14:20 UTC 前完成全部一级平台的安装验证。变更日志中未涉及破坏性的 schema 或配置变更。
 
-| PR | 标题 | 影响 |
-|---|---|---|
-| [#7577](https://github.com/agentscope-ai/QwenPaw/pull/7577)（已关闭） | fix(console): enqueue follow-up messages when chat task is running | 解决长期存在的 UX 摩擦点：在聊天进行中发送的后续文本/文件消息现在会排队而不是返回 HTTP 409。 |
-| [#7649](https://github.com/agentscope-ai/QwenPaw/pull/7649)（已关闭） | feat(mcp): support configurable timeout for HTTP/SSE clients | 在 `MCPClientConfig` 中新增可选的 `http_timeout`，并通过 DriverCard 和 handlers 传递；关闭了长期未决的 issue [#3997](https://github.com/agentscope-ai/QwenPaw/issues/3997)。 |
-| [#7609](https://github.com/agentscope-ai/QwenPaw/pull/7609)（已关闭） | feat(skills): expose versions and validate declared dependencies | 实现技能版本管理和依赖校验（响应 [#7557](https://github.com/agentscope-ai/QwenPaw/issues/7557) 的诉求）。 |
-| 其他已关闭 | 较小的修复 | 可能是例行清理和依赖更新。 |
+## 3. 项目进展（已合并/已关闭 PR）
 
-**评审中进展显著的开放 PR：**
-- [#7655](https://github.com/agentscope-ai/QwenPaw/pull/7655) — FTS 损坏 + 保留期清理（修复 [#7596](https://github.com/agentscope-ai/QwenPaw/issues/7596)）
-- [#7639](https://github.com/agentscope-ai/QwenPaw/pull/7639) — 避免重复执行历史完整性扫描的性能修复
-- [#7652](https://github.com/agentscope-ai/QwenPaw/pull/7652) — 保留 provider 解析的上下文窗口以防止过早压缩
-- [#7641](https://github.com/agentscope-ai/QwenPaw/pull/7641) — 重试并校验桌面端产物下载（发布硬化）
-- [#7647](https://github.com/agentscope-ai/QwenPaw/pull/7647) — 在跨渠道的外发媒体中支持 Base64 data URL
-- [#7616](https://github.com/agentscope-ai/QwenPaw/pull/7616) — 重构：将 ADBPG 和 PowerContext 内存后端迁移为插件
-- [#7569](https://github.com/agentscope-ai/QwenPaw/pull/7569) — Advisor Mode（双模型循环模式）
-- [#7378](https://github.com/agentscope-ai/QwenPaw/pull/7378) — QwenPaw 原生移动端体验（Expo/React Native）
-- [#7637](https://github.com/agentscope-ai/QwenPaw/pull/7637) — QwenPaw-Data 0.3 集成
-- [#7653](https://github.com/agentscope-ai/QwenPaw/pull/7653) — 新增 +2,475 个后端 pytest 用例（覆盖率 +5.02pp）
+**今日关闭（重要）：**
+- **#7647** — `fix(channels): support Base64 data URLs in outbound media`（[链接](https://github.com/agentscope-ai/QwenPaw/pull/7647)）— 解决企业微信图片发送崩溃问题；与 #7516 和 #7370 配套。
+- **#7663** — `fix(memory): fall back when plugin backend is unavailable`（[链接](https://github.com/agentscope-ai/QwenPaw/pull/7663)）— 提升记忆用户体验韧性；已配置的后端信息在磁盘上保留。
+- **#7658** — `fix(backup): preserve Unix permission bits during restore for SECRET_DIR and .master_key`（[链接](https://github.com/agentscope-ai/QwenPaw/pull/7658)）— **安全修复**，修复静默发生的权限退化（`0o700→0o755`、`0o600→0o644`）。
+- **#7655** — `fix(history): repair FTS corruption and retention cleanup`（[链接](https://github.com/agentscope-ai/QwenPaw/pull/7655)）— 修复 #7596（`history.db` 中的 `SQLITE_CORRUPT_VTAB`）。
+- **#7641** — `fix(release): retry and verify desktop artifact downloads`（[链接](https://github.com/agentscope-ai/QwenPaw/pull/7641)）— 提升发布工具链可靠性。
+- **#7667** — `fix(files): show upload only in workspace`（[链接](https://github.com/agentscope-ai/QwenPaw/pull/7667)）— 明确前端作用范围。
+- **#7645** — `test(e2e): rebuild the Environments suite for the unified env page`（[链接](https://github.com/agentscope-ai/QwenPaw/pull/7645)）— 在 #7538 重构后保持 e2e 测试绿灯。
+- **#7325** — `test(console): expand console unit tests`（+382 用例，+5.49pp）（[链接](https://github.com/agentscope-ai/QwenPaw/pull/7325)）— 质量提升。
+- **#6978** — `feat(commands): add session management slash commands`（[链接](https://github.com/agentscope-ai/QwenPaw/pull/6978)）— 首次贡献者作品；为 IM 渠道提供 `/sessions`、`/session` 接口。
 
-## 4. 社区热门话题
+**综合效果：** 一组围绕 **记忆 + 备份 + 历史** 的耐久性修复同时落地，呈现协同的可靠性冲刺；同时 QPQAT 发起的测试覆盖计划持续推进（仅一个 PR 就新增了 2,475 个后端用例）。
 
-按评论数排序（过去 24h）：
+## 4. 社区热点
 
-| 排名 | 条目 | 评论数 | 为何重要 |
+| 排名 | 条目 | 互动量 | 背后诉求 |
 |---|---|---|---|
-| 1 | [#7177](https://github.com/agentscope-ai/QwenPaw/issues/7177) — Deploy 页面 UX（rerbin） | 8 | 关于部署页移动端/Web 端 UI 人体工学的反复痛点（按钮位置、误触停止运行）。 |
-| 2 | [#7597](https://github.com/agentscope-ai/QwenPaw/issues/7597) — 工具返回的二进制为裸 base64（已关闭） | 7 | 跨切面的 schema 契约问题：携带 base64 图片/PDF 的工具结果被拒绝并返回 HTTP 400；影响所有多模态智能体流水线。 |
-| 3 | [#7363](https://github.com/agentscope-ai/QwenPaw/issues/7363) — 同步调用冻结事件循环（Windows） | 6 | Desktop 2.1.1b1 中的高严重度回归：启动停顿 118–135s，消息延迟约 126s。 |
-| 4 | [#7228](https://github.com/agentscope-ai/QwenPaw/issues/7228) — 已安装应用仍显示"安装"按钮（已关闭） | 6 | 一个破坏应用内市场信任感的视觉 bug。 |
-| 5 | [#5329](https://github.com/agentscope-ai/QwenPaw/issues/5329) — 紧凑模式下的侧边栏智能体切换器（已关闭） | 5 | 移动端浏览器用户希望在紧凑模式下控制侧边栏。 |
-| 6 | [#6460](https://github.com/agentscope-ai/QwenPaw/issues/6460) — Edge+Wayland 下 CPU 高占用（已关闭） | 5 | 渲染相关：在 Wayland 下的 Edge 中，大结果集或 WebSocket 推送似乎会引发 CPU 飙升。 |
-| 7 | [#7642](https://github.com/agentscope-ai/QwenPaw/issues/7642) — Chrome 中控制台流式输出失效 | 4 | 浏览器特定的流式输出回归，在同一会话的 Safari 中"自然正常"。 |
+| 1 | [#7579](https://github.com/agentscope-ai/QwenPaw/issues/7579) — 模型回复在持久化后从上下文中消失 | 10 条评论 | 对话连续性的信任；"模型看不到自己刚说过的话"这一长期 UX 问题 |
+| 2 | [#7177](https://github.com/agentscope-ai/QwenPaw/issues/7177) — 优化部署页入口位置 | 9 条评论 | platform.agentscope.io/deploy 托管部署页面的移动优先 UX |
+| 3 | [#7011](https://github.com/agentscope-ai/QwenPaw/issues/7011) — Console 停止会取消飞书会话 | 8 条评论 | 跨渠道会话身份隔离 |
+| 4 | [#7597](https://github.com/agentscope-ai/QwenPaw/issues/7597) — 裸 base64 工具输出被拒（返回 400） | 7 条评论 | 在 agent→model 契约中提供一等公民的多模态支持 |
+| 5 | [#7363](https://github.com/agentscope-ai/QwenPaw/issues/7363) — 同步调用冻结事件循环（118–135s） | 6 条评论 | Windows 桌面端的启动/响应速度 |
 
-**讨论反映出的潜在需求：**（a）**移动优先的人体工学**——头部投诉中有不少来自移动端用户；（b）**多模态/工具结果 schema 的稳定性**；（c）**Windows 上的运行时响应能力**；（d）**新版 Console UI 的跨浏览器一致性**。
+**贯穿性信号：** 前五名中有三项都涉及 **跨 UI 界面与渠道的会话/状态正确性**。社区实际上在呼吁一套统一且权威的会话身份模型，能够穿越界面切换与渠道交接 —— 这是 QwenPaw 长期存在的一类问题。
 
 ## 5. Bug 与稳定性
 
-按可能的用户影响排序：
+按影响范围与可复现性排序：
 
-| 严重度 | Issue | 摘要 | 修复 PR |
+| 严重程度 | Issue | 组件 | 修复状态 |
 |---|---|---|---|
-| **高** | [#7363](https://github.com/agentscope-ai/QwenPaw/issues/7363) | 同步调用在启动时冻结 QwenPaw Desktop 2.1.1b1 事件循环 118–135s，发送时约 126s；超时永不触发。 | 暂无关联 |
-| **高** | [#7633](https://github.com/agentscope-ai/QwenPaw/issues/7633) | llama.cpp 的 5 位构建号无法被版本解析正确处理；QwenPaw 在约 40 分钟内静默将用户升级后的运行时回滚到 4 位快照版本，且无任何告警。 | 暂无关联 |
-| **高** | [#7642](https://github.com/agentscope-ai/QwenPaw/issues/7642) | 控制台流式输出 **仅在 Chrome 中** 直到回合结束才渲染（Safari 正常）。影响 v2.2.0 上所有 Chrome 用户。 | 暂无关联 |
-| **高** | [#7628](https://github.com/agentscope-ai/QwenPaw/issues/7628) | 在 v2.2.0b7 上，上下文压缩可能超出 provider 的完整请求预算，导致回合中途失败。 | 暂无关联（[#7652](https://github.com/agentscope-ai/QwenPaw/pull/7652) 中有相关方向的上下文窗口保留工作） |
-| **中** | [#7596](https://github.com/agentscope-ai/QwenPaw/issues/7596) — *已关闭* | `history.db` FTS 损坏未被完整性检查发现；保留期清理静默失败。 | [#7655](https://github.com/agentscope-ai/QwenPaw/pull/7655) 开放中 |
-| **中** | [#7622](https://github.com/agentscope-ai/QwenPaw/issues/7622) — *已关闭* | v2.2.0 模态背景蒙层"透明"；背景内容透出（官方样式问题，非插件导致）。 | 暂无关联 |
-| **中** | [#7618](https://github.com/agentscope-ai/QwenPaw/issues/7618) — *已关闭* | QQ Channel：bot 在私聊中可用，但在群聊中无响应。 | 暂无关联 |
-| **低–中** | [#7597](https://github.com/agentscope-ai/QwenPaw/issues/7597) — *已关闭* | 工具返回的图片/PDF 为裸 base64（`type:"data"`）触发 HTTP 400。 | 暂无关联 |
-| **低** | [#5688](https://github.com/agentscope-ai/QwenPaw/issues/5688) — *已关闭* | CSS 前缀不匹配 `ant-` 与 `qwenpaw-`（关于样式正确性的疑问）。 | 暂无关联 |
-| **低** | [#6460](https://github.com/agentscope-ai/QwenPaw/issues/6460) — *已关闭* | Edge+Wayland 单标签页 CPU 飙升。 | 暂无关联 |
-| **低** | [#7228](https://github.com/agentscope-ai/QwenPaw/issues/7228) — *已关闭* | 应用市场中已安装应用的"安装"按钮 hover 状态错误。 | 暂无关联 |
-| **低** | [#7601](https://github.com/agentscope-ai/QwenPaw/issues/7601) — *已关闭* | v2.2.0 在目录选择器中丢失手动路径编辑字段（自 2.1.0 起的回归）。 | 暂无关联 |
+| 🔴 严重 | [#7672](https://github.com/agentscope-ai/QwenPaw/issues/7672) — Windows 安全沙箱绕过 | 核心沙箱 | **尚无修复 PR** |
+| 🔴 高 | [#7363](https://github.com/agentscope-ai/QwenPaw/issues/7363) — 事件循环阻塞 118–135s，超时未触发 | 运行时/桌面 | 尚无修复 PR |
+| 🔴 高 | [#7534](https://github.com/agentscope-ai/QwenPaw/issues/7534) — 飞书队列消费者死锁，会话静默无响应 | 飞书渠道 | 尚无修复 PR |
+| 🟠 中 | [#7597](https://github.com/agentscope-ai/QwenPaw/issues/7597) — 工具返回的图片/PDF 以裸 base64 形式提交 → 400 | 工具契约 | 今日合并集合中无直接修复 |
+| 🟠 中 | [#7596](https://github.com/agentscope-ai/QwenPaw/issues/7596) — `history.db` FTS 损坏，在完整性检查中静默 | 历史/SQLite | **已由** [#7655](https://github.com/agentscope-ai/QwenPaw/pull/7655) **修复** |
+| 🟠 中 | [#7445](https://github.com/agentscope-ai/QwenPaw/issues/7445) — QwenPaw Hub 在 LAN/本地 URL 上无法连接 | Hub | 尚无修复 PR |
+| 🟠 中 | [#7507](https://github.com/agentscope-ai/QwenPaw/issues/7507) — 企业微信 150ms 字符节流 | 企业微信渠道 | 尚无修复 PR |
+| 🟠 中 | [#7668](https://github.com/agentscope-ai/QwenPaw/issues/7668) — 邮件监控 `last_uid=0` 导致整个收件箱被重新处理 | 邮件监控 | 尚无修复 PR |
+| 🟡 低 | [#7642](https://github.com/agentscope-ai/QwenPaw/issues/7642) — Chrome 控制台流式输出无渲染 | Console | 今日关闭 |
+| 🟡 低 | [#7661](https://github.com/agentscope-ai/QwenPaw/issues/7661) — 首次提问时新建对话被重复创建 | Console | 尚无修复 PR |
+| 🟡 低 | [#7666](https://github.com/agentscope-ai/QwenPaw/issues/7666) — 本地模型无法从 HF 下载 | 桌面 | 已关闭（先关闭后续评审） |
+| 🟡 低 | [#7662](https://github.com/agentscope-ai/QwenPaw/issues/7662) — Telegram 轮询在代理后静默停止 | Telegram 渠道 | 今日关闭 |
 
-**观察：** 三个高严重度 bug（llama.cpp 回滚、Chrome 流式输出、上下文预算）目前都 **没有关联的修复 PR**，这是下一个补丁版本的主要风险所在。相反，FTS 损坏和历史清理路径有一份高质量修复正在进行中。
+**安全项：** Windows 沙箱绕过报告 #7672 是一份刚开、单条评论的 issue，不应任其搁置。
 
 ## 6. 功能请求与路线图信号
 
-过去 24 小时用户提交的功能请求（以及邻近的近期请求）：
+当前活跃且有望进入下一个次要版本（2.2.x → 2.3）的候选：
 
-| 请求 | 来源 | 在下一个小版本中的可能性 |
-|---|---|---|
-| **ntfy channel 支持**（推送通知、自托管） | [#7657](https://github.com/agentscope-ai/QwenPaw/issues/7657) — 作者提供可用的实现 | **高** — 作者表示 PR 已就绪；契合自托管用户群体 |
-| **Console 标签页的自定义页面标题**（多项目用户） | [#7648](https://github.com/agentscope-ai/QwenPaw/issues/7648) | **高** — 实现简单，直击标签页管理痛点 |
-| **在 UI 中编辑默认 agent 参数** | [#7644](https://github.com/agentscope-ai/QwenPaw/issues/7644) | **中–高** — 常见的管理员痛点 |
-| **红绿灯状态指示器**（长时任务的感知） | [#7600](https://github.com/agentscope-ai/QwenPaw/issues/7600) | **中** — 可作为小型 UX 改进交付 |
-| **持久化的跨会话记忆**（MemCode 集成） | [#7656](https://github.com/agentscope-ai/QwenPaw/issues/7656) | **低–中** — 外部集成提案 |
-| **Channel 请求元数据 → MCP 工具**（如 QQ ID、手机号） | [#7650](https://github.com/agentscope-ai/QwenPaw/issues/7650) | **中** — 合理的开发者体验诉求 |
-| **QwenPaw Mobile 原生客户端**（Expo/RN） | [#7378](https://github.com/agentscope-ai/QwenPaw/pull/7378) | **中** — PR 是 `DO NOT MERGE` 草稿，但指明了产品方向 |
-| **Skills 版本管理 / 元数据** | [#7557](https://github.com/agentscope-ai/QwenPaw/issues/7557) / [#7609](https://github.com/agentscope-ai/QwenPaw/pull/7609) | **已落地**（PR 已关闭） |
-| **可配置的 MCP HTTP/SSE 超时** | [#3997](https://github.com/agentscope-ai/QwenPaw/issues/3997) / [#7649](https://github.com/agentscope-ai/QwenPaw/pull/7649) | **已落地**（PR 已关闭） |
-| **已压缩聊天的向上滚动分页** | [#7542](https://github.com/agentscope-ai/QwenPaw/pull/7542)（首次贡献者） | **中** — 解决"对话中途静默"的 UX bug |
-| **Deploy 页面 UX**（移动端按钮位置、open 与 stop 排序） | [#7177](https://github.com/agentscope-ai/QwenPaw/issues/7177) | **中** — 反复出现的需求表明维护者已在关注 |
-| **QQ Channel 群聊支持** | [#7618](https://github.com/agentscope-ai/QwenPaw/issues/7618) — *已关闭* | 修复后状态不明；存在被重新打开的风险 |
+| 功能 | Issue / PR | 可能性 | 理由 |
+|---|---|---|---|
+| ReMe 斜杠命令统一 | [#7444](https://github.com/agentscope-ai/QwenPaw/pull/7444) | **高** | 已基于落地的 #7561 基础进行 rebase；面向聊天的接口已就绪 |
+| Advisor 模式（双模型 worker/advisor 循环） | [#7569](https://github.com/agentscope-ai/QwenPaw/pull/7569) | 高 | 自洽的循环模式；契合现有 "Goal/Mission" 选择器模式 |
+| PawPort 导入流程（Codex/Qoder） | [#6960](https://github.com/agentscope-ai/QwenPaw/pull/6960) | 中-高 | 长寿 issue（自 2026-08-13 起），持续更新中 |
+| ntfy 渠道支持 | [#7657](https://github.com/agentscope-ai/QwenPaw/issues/7657) | 中 | 作者提供了可运行实现；契合自托管理念 |
+| MCP `tls_verify` / `ca_file` | [#4175](https://github.com/agentscope-ai/QwenPaw/issues/4175) | 中 | 已存续 4 个月；企业/私有 CA 部署所需 |
+| 附件图片过大时自动缩小 | [#7671](https://github.com/agentscope-ai/QwenPaw/issues/7671) | 中 | 范围明确；可消除一个令人沮丧的体验断崖 |
+| Files 面板 Preview 支持语法高亮 | [#7670](https://github.com/agentscope-ai/QwenPaw/issues/7670) | 低-中 | 表面优化但易于实现 |
+| 在 `MemoryConfig` 中分离 `memory_model` | [#7664](https://github.com/agentscope-ai/QwenPaw/issues/7664) | 中 | 成本控制的叙事颇具说服力 |
+| 原生移动端（Expo/RN） | [#7378](https://github.com/agentscope-ai/QwenPaw/pull/7378) | 低（更长周期） | 标注 `[DO NOT MERGE]`；尚处探索阶段 |
+| 第三方持久记忆集成（MemCode） | [#7656](https://github.com/agentscope-ai/QwenPaw/issues/7656) | 低 | 厂商对接类 issue；可作为生态信号参考 |
 
-**路线图信号：** 信号汇聚最多的三个方向是（a）**移动端 / 移动浏览器 UX**，（b）**MCP 生态成熟**（超时、structuredContent、channel 元数据），以及（c）**长时任务的可观测性**（红绿灯、上下文预算）。
+## 7. 用户反馈汇总
 
-## 7. 用户反馈摘要
-
-**今日报告的痛点：**
-
-- **移动端的使用体验始终逊于桌面端。** 多个 issue（[#7177](https://github.com/agentscope-ai/QwenPaw/issues/7177)、[#5329](https://github.com/agentscope-ai/QwenPaw/issues/5329)、[#7601](https://github.com/agentscope-ai/QwenPaw/issues/7601)）抱怨在手机尺寸的屏幕上关键控件无法触达、目录选择器不再支持手动输入，以及模态操作可能被误触发。明显有大量用户将移动浏览器作为主要界面，却感觉被当作二等公民。
-- **v2.2.0 回归是呼声最高的主题。** 模态背景透明（[#7622](https://github.com/agentscope-ai/QwenPaw/issues/7622)）、Chrome 流式输出失效（[#7642](https://github.com/agentscope-ai/QwenPaw/issues/7642)）、目录选择器字段丢失（[#7601](https://github.com/agentscope-ai/QwenPaw/issues/7601)）——每一项都被快速关闭，但累积起来反映出预发布 QA 环节的缺失。
-- **资深用户对透明度的担忧。** [#7633](https://github.com/agentscope-ai/QwenPaw/issues/7633)（运行时静默回滚）和 [#7363](https://github.com/agentscope-ai/QwenPaw/issues/7363)（事件循环冻结且无超时反馈）都描述了应用对用户隐瞒失败的情境——这是一个反复出现的信任问题。
-- **多项目工作流支持不足。** [#7648](https://github.com/agentscope-ai/QwenPaw/issues/7648)（自定义标题）和 [#7177](https://github.com/agentscope-ai/QwenPaw/issues/7177)（部署页）来自同时运行 7–8 个及以上 QwenPaw 面板的用户；他们需要 UI 当前并未提供的身份标识。
-
-**积极信号：**
-
-- MCP 超时和 Skills 版本管理的功能请求在 24 小时内被关闭，表明维护者对边界清晰的提案响应迅速。
-- 一位首次贡献者（[PR #7577](https://github.com/agentscope-ai/QwenPaw/pull/7577)）正在交付有意义的 Console UX 修复——社区入门引导看起来很健康。
+- **痛点 — 稳定性胜于花活：** 今日最热的 issue 都聚焦于静默失败（#7579、#7534、#7668、#7662）。用户反复反映在很多场景下无法区分智能体"在思考"还是"卡死"。一个清晰的 **会话活跃度指示器 + 自动恢复机制** 被反复提及。
+- **痛点 — Windows 桌面体验：** #7363（长达数分钟的冻结）、#7672（沙箱）、#7666（HF 下载）都集中在 Windows，表明桌面端与 macOS/Linux 的体验差距切实存在。
+- **痛点 — 移动端人体工学：** #7177 与 #7642（仅 Chrome 流式输出）显示移动端/浏览器版 Console 仍需专门的 UX 打磨 —— v2.2.1b2 的智能体选择器优化（#7623）只是起点而非终点。
+- **正面信号：** #7569（Advisor 模式）、#7444（ReMe 命令）、#6960（PawPort）持续产生积极互动且无投诉线程，表明社区认可 **可插拔模型角色** 与 **可移植性** 的方向。
+- **生态人气：** 首次贡献者（myselfAbdullah007、chenzier、LUOSENGWA）正在提交有意义的修复（#7611、#7614、#6978） —— 贡献门槛处于健康水平。
 
 ## 8. 待办观察
 
-长期未响应、高影响或等待维护者关注的条目：
+以下条目已超出应有的悬置时间，仍处于未回应状态：
 
-| 条目 | 时长 | 关切点 |
-|---|---|---|
-| [#7363](https://github.com/agentscope-ai/QwenPaw/issues/7363) — 桌面端事件循环冻结 | 约 2 周 | 高严重度 Windows 回归，暂无修复 PR。 |
-| [#7633](https://github.com/agentscope-ai/QwenPaw/issues/7633) — llama.cpp 静默回滚 | 约 2 天 | 属于数据丢失级别的 UX bug；需要一个明确的"不要自动更新此二进制"的开关。 |
-| [#7628](https://github.com/agentscope-ai/QwenPaw/issues/7628) — 上下文压缩超出预算 | 约 2 天 | 可能让进行中的回合在对话中途失败；与 [#7652](https://github.com/agentscope-ai/QwenPaw/pull/7652) 紧密相关。 |
-| [#7642](https://github.com/agentscope-ai/QwenPaw/issues/7642) — 仅 Chrome 的流式输出回归 | 约 1 天 | 最新版本上所有 Chrome 用户受影响。 |
-| [#7177](https://github.com/agentscope-ai/QwenPaw/issues/7177) — Deploy 页面 UX | 约 3 周 | 8 条评论，尽管已有明显共识仍未落地实现。 |
-| [#7378](https
+| 条目 | 存续时长 | 重要性 | 需采取的行动 |
+|---|---|---|---|
+| [#3113](https://github.com/agentscope-ai/QwenPaw/issues/3113) — 团队协作在首次请求时被忽略 | **约 5 个月**（2026-04-08） | 已确认可复现；属核心宣传特性 | 分配至里程碑，或给出理由后关闭 |
+| [#4175](https://github.com/agentscope-ai/QwenPaw/issues/4175) — MCP 客户端的 `tls_verify`/`ca_file` | **约 4 个月**（2026-05-10） | 阻碍企业 MCP 集成 | 打上 `accepted` 或 `needs-design` 标签 |
+| [#7507](https://github.com/agentscope-ai/QwenPaw/issues/7507) — 企业微信 150ms 字符节流 | 8 天 | 影响每位企业微信用户；性能立竿见影 | 快速修复候选 |
+| [#7445](https://github.com/agentscope-ai/QwenPaw/issues/7445) — Hub 本地 URL 连接问题 | 10 天 | Hub 是 2.2 的旗舰特性 | 需回应并开出修复分支 |
+| [#7534](https://github.com/agentscope-ai/QwenPaw/issues/7534) — 飞书队列死锁 | 7 天 | 会话级别故障；影响生产用户 | 不应错过下一个版本 |
+| [#7363](https://github.com/agentscope-ai/QwenPaw/issues/7363) — 同步事件循环阻塞 | 14 天 | 冷启动 UX 回退 | 需由维护者显式认领 |
+| [#7672](https://github.com/agentscope-ai/QwenPaw/issues/7672) — Windows 沙箱绕过 | **不足 24 小时** | 安全严重级 | 立即分诊并评估 CVE |
+
+---
+
+**结论：** QwenPaw 正在稳定推进（v2.2.1-beta.2 顺利发布），同时围绕记忆、历史与渠道层开展一轮有意识的可靠性清扫。下一个稳定版本最实质的风险是：（1）Windows 沙箱报告 #7672；（2）飞书死锁 #7534；（3）反复出现的跨会话状态类 bug（#7579、#7011、#7661、#7231） —— 把后者作为一类问题集中处理，而不是逐个击破，将带来超额的稳定性收益。
 
 </details>
 
@@ -527,105 +558,111 @@ QwenPaw 呈现 **中高度活跃** 状态：过去 24 小时内有 22 个 issue�
 
 ## 1. 今日概览
 
-ZeroClaw 呈现出**高设计强度但无交付产出**的状态：仍有 33 个 issue 和 49 个 PR 处于 open 状态，过去 24 小时内仅合并 1 个 PR、关闭 3 个 issue，且没有新的 release tag。当前活跃工作流以长篇 RFC 和架构追踪 issue 为主（尤其是 NiuBlibing 的会话表面、会话历史和 WASM 插件提案），同时还集中了一批围绕 Anthropic provider 成本核算、ZeroCode ACP 转录文本以及反复出现的 CI 安全告警的 P1/P2 Bug。整体活动健康且活跃，但开合比表明项目处于**提案密集、吞吐受限**的阶段，而非发布周期。
+ZeroClaw 呈现出异常高的治理与架构导向的活动模式。在 26 条 issue 更新与 50 条 PR 更新中，项目由**长期推进的 RFC**（运行时会话、文件/附件架构、WASM 插件运行时、仅追加事件历史）和**追踪类条目**主导，而非大量新功能落地。过去 24 小时内关闭了 2 条 issue 和若干 PR，但**未发布任何新版本**，表明项目处于设计与稳定化阶段，而非发布阶段。活动集中在少数高影响力贡献者之间（Audacity88、NiuBlibing、IftekharUddin），维护者的注意力通过 issue #8692 的决策队列明确路由。
 
-## 2. 发布
+## 2. 版本发布
 
-*过去 24 小时内无新发布。* 最近的可交付工作通过合并的 issue（ZeroCode 多会话跟踪批次）实现，而非通过打 tag 的版本。
+**过去 24 小时内无新版本发布。** 本期摘要暂无版本标签或发布说明可供记录。
 
 ## 3. 项目进展
 
-三个与多会话侧边栏计划（`#9727`）相关的 ZeroCode issue 于今日关闭，标志着 TUI/agent 侧边栏工作取得了具体进展：
+过去 24 小时内关闭/合并的 PR（共 7 个）：
 
-- [#9729](https://github.com/zeroclaw-labs/zeroclaw/issues/9729) — 在每个聊天面板中跟踪多个并发实时会话（P2，已接受，规模：XL）
-- [#9730](https://github.com/zeroclaw-labs/zeroclaw/issues/9730) — Agent 侧边栏，含状态点、添加选择器、点击切换（P2，已接受）
-- [#9731](https://github.com/zeroclaw-labs/zeroclaw/issues/9731) — 将 Quickstart 从模式栏移至侧边栏（P2，已接受）
+- **[#9212](https://github.com/zeroclaw-labs/zeroclaw/pull/9212)** — `feat(eval): gate CI on the replay regression suite` — 将回放 fixture 拆分至 `evals/regression/`，并通过 `crates/zeroclaw-eval/tests/regression_suite.rs` 将其设为强 CI 关卡，包含一个负向用例（`no_tools_on_greeting.json`）。
+- **[#8546](https://github.com/zeroclaw-labs/zeroclaw/pull/8546)** — `fix(cli): localize status fragments` — 基于当前 master 刷新，补齐缺失的 dashboard 与文件系统隔离回归测试；CLI 状态现已本地化。
+- **[#10730](https://github.com/zeroclaw-labs/zeroclaw/pull/10730)** — `chore(assets): optimize PR-evidence images via ImgBot lossless compression` — 14 个 PNG 资源已无损压缩。
+- （另有 4 个已关闭 PR 未列入 top-20 评论列表。）
 
-在该时间窗口内仅有 1 个 PR 被合并/关闭，今日没有 PR 以 merged 状态落地，说明长期挂起的安全、ACP 和 provider 侧的变更集存在 review 阻力。
+过去 24 小时内关闭的 issue：
 
-## 4. 社区热门话题
+- **[#10548](https://github.com/zeroclaw-labs/zeroclaw/issues/10548)** — PR #10515 引入的 Mermaid 图表 `aria-hidden` 可访问性回归；已修复。
+- **[#10540](https://github.com/zeroclaw-labs/zeroclaw/issues/10540)** — `zeroclaw status` 现已上报 Web dashboard 资源可用性。
 
-讨论主要由处于修订周期的架构 RFC 主导：
+净进展信号：渐进式、偏治理导向。无用户可见的新功能落地；已关闭的工作集中在 CI 加固、i18n 与诊断改进上。
 
-- [#9487](https://github.com/zeroclaw-labs/zeroclaw/issues/9487) — **RFC：运行时持有的会话会话和传输表面适配器（Rev 5）** — 36 条评论。参与度最高的讨论串。底层需求：在运行时持有的会话状态和传输适配器之间实现清晰分离，使渠道（Telegram、WhatsApp、ACP、Web）可以在不泄露会话语义的情况下接入。
-- [#9488](https://github.com/zeroclaw-labs/zeroclaw/issues/9488) — **RFC：会话表面的统一文件与附件架构（Rev 10）** — 29 条评论。反复的修订周期表明维护者仍在协调各渠道间的附件语义。
-- [#6996](https://github.com/zeroclaw-labs/zeroclaw/issues/6996) — **RFC：细粒度沙箱策略 — 文件系统限制** — 28 条评论，进行中。社区希望在应用层 `SecurityPolicy` 与 OS 级沙箱（Bubblewrap、Landlock、Seatbelt）之间建立单一事实来源。
-- [#8692](https://github.com/zeroclaw-labs/zeroclaw/issues/8692) — **RFC 和设计 issue 的维护者决策队列** — 15 条评论。这本身就是一个协调追踪 issue；属于关于流程的元讨论。
-- [#10076](https://github.com/zeroclaw-labs/zeroclaw/issues/10076) — **RFC：可组合的 WASM 插件运行时架构** — 12 条评论。表明团队正在投入一个类型化、可替换的 provider/插件表面。
+## 4. 社区热点话题
 
-模式：**长期 RFC 评审的维护者带宽是瓶颈**，而非创意数量。
+| # | 条目 | 评论数 | 类型 |
+|---|---|---|---|
+| [#9487](https://github.com/zeroclaw-labs/zeroclaw/issues/9487) | RFC：Runtime-owned conversation sessions and transport surface adapters (Rev. 5) | 37 | RFC, p2 |
+| [#9488](https://github.com/zeroclaw-labs/zeroclaw/issues/9488) | RFC：Unified file and attachment architecture for conversation surfaces (Rev. 10) | 30 | RFC, p2 |
+| [#6996](https://github.com/zeroclaw-labs/zeroclaw/issues/6996) | RFC：Granular sandbox policy — filesystem restrictions | 29 | RFC, p2, accepted |
+| [#8396](https://github.com/zeroclaw-labs/zeroclaw/issues/8396) | RFC：Make wire protocol first-class in provider construction | 19 | RFC, p2 |
+| [#8692](https://github.com/zeroclaw-labs/zeroclaw/issues/8692) | Tracker：Maintainer decision queue for RFCs and design issues | 15 | Tracker |
+
+**底层诉求：**会话与渠道子系统正围绕统一的 runtime-owned session 模型、统一的附件处理以及 wire-protocol-as-first-class 进行重新架构。这意味着项目正处于 agent ↔ channel 边界核心重写的中期，社区讨论能量主要集中在这一区域。维护者决策队列追踪条目（#8692）明确承担起吸收这些长期 RFC 决策积压的职责——这是一个信号，表明非正式评审已触及极限。
 
 ## 5. Bug 与稳定性
 
-**P1（最高严重程度，今日仍 open）：**
+按严重程度标签与风险排序：
 
-- [#9816](https://github.com/zeroclaw-labs/zeroclaw/issues/9816) — Anthropic provider 报告 `$0.00` 支出，导致每日/每月预算上限永远无法触发。**已接受，进行中。** 静默的预算上限失效对于成本受控部署而言是真实的安全隐患。*今日 open 列表中无关联修复 PR。*
-- [#10697](https://github.com/zeroclaw-labs/zeroclaw/issues/10697) — ZeroCode ACP 转录文本丢失工具调用前发出的助手文本；仅渲染最后一次工具调用之后的文本。P1，高风险。**尚无修复 PR。**
+| 严重程度 | Issue | 描述 | 是否有修复 PR |
+|---|---|---|---|
+| **S1（工作流阻塞）** | [#10673](https://github.com/zeroclaw-labs/zeroclaw/issues/10673) | 失败的 ACP 轮次未在 daemon RPC 路径上持久化（ZeroCode Code 面板）—— #9333 的剩余切片 | 相关修复已在 #9378 落地；本切片尚无关联 PR |
+| **S1/P1** | [#10645](https://github.com/zeroclaw-labs/zeroclaw/issues/10645) | 成本追踪上下文未传递至委托子循环；`check_tool_loop_budget` 返回 None | 无修复 PR |
+| **High（依赖）** | [#10728](https://github.com/zeroclaw-labs/zeroclaw/issues/10728) | `npm audit` 失败——`js-yaml` 存在高危漏洞 | 无 PR |
+| **S2** | [#10734](https://github.com/zeroclaw-labs/zeroclaw/issues/10734) | 在 Windows nextest 上 `process_line` 发生栈溢出（`0xc00000fd`），位于 `zeroclaw-runtime::rpc::dispatch::tests` | 无修复 PR |
+| **S2** | [#10731](https://github.com/zeroclaw-labs/zeroclaw/issues/10731) | `zeroclaw service logs` 在 macOS/Windows/OpenRC 上无任何输出 | 无修复 PR |
+| **S2** | [#10741](https://github.com/zeroclaw-labs/zeroclaw/issues/10741) | ZeroCode 在一次看似正常的完成响应后静默暂停队列中的工作 | 无修复 PR |
+| **S2** | [#10740](https://github.com/zeroclaw-labs/zeroclaw/issues/10740) | `Ctrl+N` 与 `[+]` 侧边栏在"new session"语义上不一致 | 无修复 PR |
+| **S2** | [#10736](https://github.com/zeroclaw-labs/zeroclaw/issues/10736) | 预输出流失败时跳过了声明的非流式回退路径 | 无修复 PR |
+| **S2** | [#10689](https://github.com/zeroclaw-labs/zeroclaw/issues/10689) | 当回复以 `[` 开头（ElevenLabs v3 音频标签）时 Telegram 语音回复被跳过 | 无修复 PR |
+| **S2/Follow-up** | [#10662](https://github.com/zeroclaw-labs/zeroclaw/issues/10662) | OAuth 系统前缀缓存标记低于 Anthropic 的下限，占用一个断点 slot | 无修复 PR |
 
-**P2（值得关注）：**
-
-- [#5514](https://github.com/zeroclaw-labs/zeroclaw/issues/5514) — Telegram 媒体组被分批处理为 N 个独立回合，而非一个多模态回合（进行中）。
-- [#10625](https://github.com/zeroclaw-labs/zeroclaw/issues/10625) — `[media attachment]` 占位符在非视觉模型上泄漏给用户（已接受）。
-- [#10690](https://github.com/zeroclaw-labs/zeroclaw/issues/10690) — 集成中的「Configure」链接对显示名称做了 slugify（Z.AI → `z-ai`），而非使用 family key（已接受）。
-- [#10720](https://github.com/zeroclaw-labs/zeroclaw/issues/10720) — ZeroCode v0.8.5 会重复渲染 agent 回复（进行中）。
-- [#10721](https://github.com/zeroclaw-labs/zeroclaw/issues/10721) — `knowledge.db_path` 的波浪号展开是全局替换而非家目录前缀，导致 knowledge 工具被静默丢弃。
-- [#10731](https://github.com/zeroclaw-labs/zeroclaw/issues/10731) — `zeroclaw service logs` 在 macOS/Windows/OpenRC 上不输出任何内容；守护进程日志选择存在平台回归。
-- [#10728](https://github.com/zeroclaw-labs/zeroclaw/issues/10728) — **CI：npm audit 失败（js-yaml 高危）**。修复已立即落地：[#10729](https://github.com/zeroclaw-labs/zeroclaw/pull/10729) 将 `js-yaml` 升级至 4.3.2。
-
-**修复相关 Bug 的 PR（open，等待合并）：**
-
-- [#10732](https://github.com/zeroclaw-labs/zeroclaw/pull/10732) — 修复 #10731（按内容而非存在性选择守护进程日志）。
-- [#10733](https://github.com/zeroclaw-labs/zeroclaw/pull/10733) — Telegram/WhatsApp 上的语音回复以表现性音频标签开头。
-- [#10442](https://github.com/zeroclaw-labs/zeroclaw/pull/10442) — 保持 OpenRouter 流存活（自定义客户端，无 reqwest 超时）。
-- [#10337](https://github.com/zeroclaw-labs/zeroclaw/pull/10337) — 为 git 操作遵守允许的根目录。
-- [#10391](https://github.com/zeroclaw-labs/zeroclaw/pull/10391) — 有界委托文件系统工具遵守目标工作区。
+**模式：** 10 个活跃 bug 中有 6 个**未关联修复 PR**。最紧迫的稳定性风险为：(a) daemon RPC 路径上 ACP 轮次持久化丢失，以及 (b) 委托子循环中成本执行存在缺口——两者均为尚无待提交补丁的安全/正确性问题。
 
 ## 6. 功能请求与路线图信号
 
-对 **provider 成本/可观测性成熟度** 和 **OpenAI Responses 功能对等** 有强烈需求：
+活跃的增强类 RFC 与功能工作：
 
-- [#10663](https://github.com/zeroclaw-labs/zeroclaw/issues/10663) — 为 Anthropic 缓存标记配置 1 小时 prompt-cache TTL。与 [#10662](https://github.com/zeroclaw-labs/zeroclaw/issues/10662)（低于 Anthropic 最小值的 OAuth 系统前缀缓存标记）和 [#10699](https://github.com/zeroclaw-labs/zeroclaw/issues/10699)（成本账本缺少缓存写入定价）相互呼应。**预测：** Anthropic 缓存工作将在下一个版本中以打包形式落地 —— 三个相关 issue，其中两个触及同一模块。
-- [#10706](https://github.com/zeroclaw-labs/zeroclaw/issues/10706)、[#10708](https://github.com/zeroclaw-labs/zeroclaw/issues/10708)、[#10704](https://github.com/zeroclaw-labs/zeroclaw/issues/10704) — 来自 IftekharUddin 的一组协调性需求：OpenAI Responses 的不透明推理重放、WebSocket 上的主动响应引导、异步函数工具以及有界编程式工具调用。**预测：** 这些将一并评审；要么以单个 PR 形式呈现，要么以序列化方式分批发布。
-- [#8763](https://github.com/zeroclaw-labs/zeroclaw/issues/8763) — ZeroCode 中的子 agent 活动与可展开的工具结果。已接受，作为刚刚关闭的多会话工作的补充。
-- [#10277](https://github.com/zeroclaw-labs/zeroclaw/issues/10277) — 通过 digest 固定已发布的 `zerorelay` 镜像基础标签。供应链卫生；改动小但出于安全动机。
+- **[#10076](https://github.com/zeroclaw-labs/zeroclaw/issues/10076)** — 可组合的 WASM 插件运行时架构（Rev. 2026-09-01，会话历史已拆分至 #10526）。**很可能塑造未来的一个版本**；被声明为今后仅追加事件词汇表的唯一权威来源。
+- **[#10526](https://github.com/zeroclaw-labs/zeroclaw/issues/10526)** — 仅追加的会话事件历史，具备确定性回放与派生 agent 流。**未来记忆连续性特性的基石。**
+- **[#10549](https://github.com/zeroclaw-labs/zeroclaw/issues/10549)** — RFC 投票机制简化（取消强制讨论窗口，REVISE 即终止当前快照）。流程变更；预计可快速落地。
+- **[#10360](https://github.com/zeroclaw-labs/zeroclaw/issues/10360)** — 可选的家居边缘网格，配备 pull worker 与签名回执。更宏观的架构方向。
+- **[#10346](https://github.com/zeroclaw-labs/zeroclaw/issues/10346)** — Gateway/channels 采用 heartbeat worker 的 MCP-registry 缓存模式（修复每次启动 3× stdio spawn 问题）。
+- **[#9967](https://github.com/zeroclaw-labs/zeroclaw/issues/9967)** — harness 评测框架追踪条目（基准选择、配置锁定、master 上的基线）。
 
-长期信号（很可能在 **0.9 之后**）：WASM 插件运行时（#10076）、仅追加的会话事件历史（#10526），以及统一的会话/附件架构（#9488、#9487）。
+最有可能在下一版本落地的开放 PR：
+
+- **[#10716](https://github.com/zeroclaw-labs/zeroclaw/pull/10716)** — 按配置的写入溢价进行价格缓存写入（成本账本修复，覆盖 11 个 provider 后端）。
+- **[#10480](https://github.com/zeroclaw-labs/zeroclaw/pull/10480)** — 使用类型化 adapter 可识别代码隔离 provider 拒绝的图片（Anthropic + 兼容）。
+- **[#10640](https://github.com/zeroclaw-labs/zeroclaw/pull/10640)** — 被动 Telegram 群组上下文（可选 `passive_group_context`）。
+- **[#10623](https://github.com/zeroclaw-labs/zeroclaw/pull/10623)** — 面向 OpenAI 兼容 provider 的 Anthropic prompt-cache passthrough。
+- **[#10455](https://github.com/zeroclaw-labs/zeroclaw/pull/10455)** — Gateway 配置写入不变量（与安全相关；区分配置写入安全性）。
+- **[#9535](https://github.com/zeroclaw-labs/zeroclaw/pull/9535)** — 按模型窗口比例进行上下文压缩（XL 级变更；涉及多个 crate）。
+- **[#10553](https://github.com/zeroclaw-labs/zeroclaw/pull/10553)** — ZeroCode "Add to Chat"，用于转写选区。
 
 ## 7. 用户反馈摘要
 
-**issue 作者和报告者表达的痛点：**
+从今日条目中可直接观察到的用户/运维者痛点：
 
-- *Anthropic 成本可见性损坏*（[#9816](https://github.com/zeroclaw-labs/zeroclaw/issues/9816)）—— 运维人员没有可用的预算上限，削弱了 `zeroclaw status` 作为可信信息源的地位。
-- *ZeroCode ACP 转录文本丢失工具调用前文本*（[#10697](https://github.com/zeroclaw-labs/zeroclaw/issues/10697)）和*重复渲染*（[#10720](https://github.com/zeroclaw-labs/zeroclaw/issues/10720)）—— v0.8.5 在旗舰 TUI 中带可见回归发布；发布后 48 小时内被报告，说明用户测试活跃。
-- *Telegram 语音/elevenlabs 冲突*和*媒体批处理* —— 高频用户渠道流程（音频标签、多图）未得到妥善处理。
-- *跨平台守护进程日志查看*（[#10731](https://github.com/zeroclaw-labs/zeroclaw/issues/10731)）—— macOS/Windows 用户目前实际上无法访问守护进程日志。
-- *波浪号展开 Bug 导致 knowledge 工具被静默禁用*（[#10721](https://github.com/zeroclaw-labs/zeroclaw/issues/10721)）—— 用户 joalvaradon 标记的高影响「静默失败」模式。
+- **跨平台 daemon 诊断已失效。** `zeroclaw service logs` 在 macOS、Windows 与 OpenRC 上健康运行却无任何输出（[#10731](https://github.com/zeroclaw-labs/zeroclaw/issues/10731)）。运维者无法脱离 `journalctl` 假设观察 daemon 状态。
+- **Windows CI 脆弱。** 在受限的 Windows 线程栈下 `process_line` 测试发生栈溢出（[#10734](https://github.com/zeroclaw-labs/zeroclaw/issues/10734)），表明测试套件假设了 Linux 友好的栈大小。
+- **Telegram 体验缺口。** ElevenLabs v3 音频标签（`[...]`）会静默降级为纯文本语音回复，且无日志记录（[#10689](https://github.com/zeroclaw-labs/zeroclaw/issues/10689)）。
+- **ZeroCode TUI 不一致。** Ctrl+N 语义与 `[+]` 侧边栏相左（[#10740](https://github.com/zeroclaw-labs/zeroclaw/issues/10740)）；在一次干净的响应后队列中的工作可能静默卡住（[#10741](https://github.com/zeroclaw-labs/zeroclaw/issues/10741)）。
+- **供应链隐患。** `js-yaml` 高危审计发现（[#10728](https://github.com/zeroclaw-labs/zeroclaw/issues/10728)）由 CI 自动提出；其处理节奏对下游运维者至关重要。
+- **架构诉求。** 运维者希望通过家居边缘网格（[#10360](https://github.com/zeroclaw-labs/zeroclaw/issues/10360)）获得单一运行时的扩展路径——现有的"单主机"模型被视为天花板。
 
-在 24 小时窗口内，除技术报告外未出现明确的满意/不满讨论串；社区信号是**对已接受工作执行速度的挫败感**（多个「已接受、进行中」的 issue 已挂起数月，例如 5 月的 #6996、4 月的 #5514）。
+数据集中未出现明确的满意度/不满评价（所有 issue 的点赞数均为 0）。
 
-## 8. 待办观察
+## 8. 待办积压观察
 
-那些开放时间最长但仍然重要且缺乏合并修复的条目：
+需要维护者关注且近期未推进的条目：
 
-- [#5514](https://github.com/zeroclaw-labs/zeroclaw/issues/5514) — Telegram 媒体批处理 Bug，开启于 **2026-04-08**（约 5 个月）。状态：进行中，24 小时窗口内无合并 PR。
-- [#6996](https://github.com/zeroclaw-labs/zeroclaw/issues/6996) — 细粒度沙箱策略 RFC，开启于 **2026-05-28**。高风险安全架构；进行中但无落地 PR。
-- [#8546](https://github.com/zeroclaw-labs/zeroclaw/pull/8546) — 本地化 CLI 状态片段。由维护者 Audacity88 刷新，但需要维护者评审。
-- [#8966](https://github.com/zeroclaw-labs/zeroclaw/pull/8966) — 使用事件上的实时 provider 身份；开启于 2026-07-11，规模 XL，需要作者响应。
-- [#9324](https://github.com/zeroclaw-labs/zeroclaw/pull/9324) — A2A 出站客户端，开启于 2026-07-24，需要作者响应，XL。
-- [#9535](https://github.com/zeroclaw-labs/zeroclaw/pull/9535) — 上下文压缩与模型窗口比，开启于 2026-07-29，需要作者响应。
-- [#9713](https://github.com/zeroclaw-labs/zeroclaw/pull/9713) — 历史裁剪事件上的 token 核算，**已阻塞 / 禁止合并**。
-- [#10197](https://github.com/zeroclaw-labs/zeroclaw/pull/10197) — ACP 中断回合持久化，需要维护者评审，高风险。
-- [#10214](https://github.com/zeroclaw-labs/zeroclaw/pull/10214) — 日志条目计数轮转，需要作者响应，高风险。
-- [#10381](https://github.com/zeroclaw-labs/zeroclaw/pull/10381) — 在工作区 cwd 之前解析宿主机启动器（安全），需要维护者评审，XL。
-- [#10358](https://github.com/zeroclaw-labs/zeroclaw/pull/10358) — Mattermost 审批提示，已阻塞 / 禁止合并。
-- [#10430](https://github.com/zeroclaw-labs/zeroclaw/pull/10430) — Gemini 语音转语音代理（PR1），需要作者响应，XL。
-- [#10405](https://github.com/zeroclaw-labs/zeroclaw/issues/10405) — #9998（会话作用域 prompt 附件）的实现批次追踪器。已接受但执行归口尚未产出合并。
+- **[#10412](https://github.com/zeroclaw-labs/zeroclaw/pull/10412)** — XL 级 PR，抽取 `SessionBackend::claim_session_agent_alias`；`needs-author-action`。相对同类条目已显陈旧（开于 2026-08-27）。
+- **[#10468](https://github.com/zeroclaw-labs/zeroclaw/pull/10468)** — XL 级 PR，向会话工具暴露 owned ACP 会话；`needs-maintainer-review`，`risk:high`。与 ACP 流程安全相关。
+- **[#9819](https://github.com/zeroclaw-labs/zeroclaw/pull/9819)** — XL 级多模态 PR，加入像素级图片校验；`needs-author-action`，`risk:high`。对防止损坏图片导致的 provider 失败至关重要。
+- **[#9214](https://github.com/zeroclaw-labs/zeroclaw/pull/9214)** — XL 级 eval 实时执行模式 PR；依赖于 #9212（现已关闭）。很可能解锁。
+- **[#9225](https://github.com/zeroclaw-labs/zeroclaw/pull/9225)** — XL 级 eval PR，新增 boundary-backed 回放用例；叠加于 #9212（已关闭）之上，因此当前很可能可行动。
+- **[#10346](https://github.com/zeroclaw-labs/zeroclaw/issues/10346)** — Gateway/channel 共享 MCP-registry 缓存模式的 RFC；`needs-author-action`。已陈旧（开于 2026-08-25）。
+- **[#8396](https://github.com/zeroclaw-labs/zeroclaw/issues/8396)** — Wire-protocol-first-class RFC；`needs-author-action`，自 Rev. 15 以来无维护者动作。
+- **[#10645](https://github.com/zeroclaw-labs/zeroclaw/issues/10645)** — P1 成本追踪 bug；**无修复 PR 待处理**，影响委托子循环的预算执行。
 
-**模式：** 队列中充斥着**大量需要作者或维护者评审的大型（XL）安全与架构 PR** —— 不是被放弃的工作，而是阻塞在人力带宽上。这是项目的主要健康风险：设计吞吐量超过评审吞吐量。
+**维护者瓶颈信号：** `needs-maintainer-review` 是高影响力 RFC 与 PR 上占主导的关卡标签。当前活跃的决策队列追踪条目（[#8692](https://github.com/zeroclaw-labs/zeroclaw/issues/8692)）是项目的明确缓解手段；其吞吐能力将决定下一版本的形态。
 
 ---
 
-*摘要生成于 2026-09-10，基于过去 24 小时的 GitHub 数据。所有计数和链接均引用观察窗口内处于活跃状态的条目。*
+*本摘要基于 2026-09-10 的 GitHub 活动快照生成。来源：[github.com/zeroclaw-labs/zeroclaw](https://github.com/zeroclaw-labs/zeroclaw)。*
 
 </details>
 

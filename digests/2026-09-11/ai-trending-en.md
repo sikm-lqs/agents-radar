@@ -1,18 +1,18 @@
 # AI Open Source Trends 2026-09-11
 
-> Sources: GitHub Trending + GitHub Search API | Generated: 2026-09-10 23:30 UTC
+> Sources: GitHub Trending + GitHub Search API | Generated: 2026-09-11 11:30 UTC
 
 ---
 
-# 📊 AI Open Source Trends Report — September 11, 2026
+# AI Open Source Trends Report — 2026-09-11
 
-> **Filtering note (Step 1):** 91 raw entries reviewed; ~80 retained as clearly AI/ML-related. Excluded as non-AI: `gods-eye-view` (geospatial 3D visualization, no ML), `armorpaint` (3D graphics tool), `system-design-notes`, `JavaGuide`, `cs-video-courses` (general interview/course content), `netdata` (observability), `medusa` (commerce platform), `Scrapling` (general scraping framework). `OmniRoute` (appears on both lists) is deduplicated with combined star data.
+**Filtering note:** Excluded from trending as non-AI: `Sonarr`, `armorpaint`, `OpenFlux`, `iloader`, `gods-eye-view`. Excluded from topic search as general-purpose platforms with only AI-adjacent positioning: `medusa`, `netdata`, `JavaGuide`, `cs-video-courses`. 39 projects retained and categorized below.
 
 ---
 
 ## 1. Today's Highlights
 
-The day belongs to the **agent "skills" layer**: the top trending repo overall, `i-have-adhd` (+3,854), is not a framework but a packaged agent behavior — evidence that skills are becoming the dominant distribution format for agent capabilities. Institutional players made visible moves, with **Tencent's `teamai-cli` (+837)** pushing team-wide AI-native workflows and **Tsinghua's `OpenMAIC` (+806)** debuting multi-agent interactive classrooms. Local inference regained momentum via **`colibri`**, a pure-C MoE engine that streams experts from disk, and **`llmfit`**, a hardware-fit checker for hundreds of models. Meanwhile, the multi-provider gateway **`OmniRoute` (+591)** crossed today's list while its total sits at 64,211 stars. At the mega-scale end, **ECC (255,873)** and **hermes-agent (244,204)** confirm that the agent-harness category is consolidating around a few winner platforms.
+The day's top AI gainer is not a framework or a model but a single-purpose agent skill: [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) (+3,882), which stops coding agents from burying the answer — confirmation that the "skills layer" is where community energy now concentrates. GitHub's own [spec-kit](https://github.com/github/spec-kit) (+985) and [obra/superpowers](https://github.com/obra/superpowers) (+732) show agentic development methodology (Spec-Driven Development, skills frameworks) hardening into default practice. Token economics has matured into a full product category, with [rtk](https://github.com/rtk-ai/rtk) (79,917⭐), [headroom](https://github.com/headroomlabs-ai/headroom) (71,495⭐) and [caveman](https://github.com/JuliusBrussee/caveman) (104,837⭐) all attacking context cost from different angles. Money-moving agents arrived on the trending list: [CloddsBot](https://github.com/alsk1992/CloddsBot) (+277) trades autonomously across 1,000+ markets with machine-to-machine payments. Finally, an explicit "post-RAG" pattern surfaced twice in one day — [llm_wiki](https://github.com/nashsu/llm_wiki) (+142) and [hyperresearch](https://github.com/jordan-gibbs/hyperresearch) (+118) build persistent, curated wikis instead of retrieve-and-answer.
 
 ---
 
@@ -22,88 +22,89 @@ The day belongs to the **agent "skills" layer**: the top trending repo overall, 
 
 | Project | Lang | Stars (total / today) | Summary |
 | :--- | :--- | ---: | :--- |
-| [ollama/ollama](https://github.com/ollama/ollama) | Go | 180,592 | The de facto local runtime for frontier open models, now supporting Kimi-K2.6, GLM-5.2, MiniMax, DeepSeek, gpt-oss, Qwen, and Gemma. Its model roster is a reliable proxy for which open weights matter right now. |
-| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | Rust | 132,180 | Cross-platform desktop control center for Claude Code, Codex, OpenCode, OpenClaw, Grok Build, and Hermes Agent. Its 132k stars reflect how mainstream multi-agent-tool switching has become. |
-| [headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) | Python | 71,366 | Compresses tool outputs, logs, files, and RAG chunks before they hit the LLM — 20% token savings for coding agents, 60–95% for JSON. A flagship of the fast-growing "token economics" tooling category. |
-| [diegosouzapw/OmniRoute](https://github.com/diegosouzapw/OmniRoute) | TypeScript | 64,211 (+591) | Free MIT AI gateway unifying 352 providers (150+ free) and 1,200+ models behind one endpoint, with quota-aware fallback and 15–95% token compression. Trending today on both the hot list and MCP topic search — strong dual-signal momentum. |
-| [Tencent/teamai-cli](https://github.com/Tencent/teamai-cli) | TypeScript | 0 (+837) | Tencent's CLI to "Make Every Team AI Native," bringing agent workflows to group collaboration. A major Chinese tech entrant on the trending list signals enterprise push into team-scale agent tooling. |
-| [vercel-labs/skills](https://github.com/vercel-labs/skills) | TypeScript | 0 (+175) | Vercel's official open agent-skills tool (`npx skills`) for installing portable skills into any agent. First-party backing from a major platform validates skills as a standard packaging format. |
-| [AlexsJones/llmfit](https://github.com/AlexsJones/llmfit) | Rust | 0 (+247) | One Rust command to determine which of hundreds of models actually runs on your hardware. Solves the practical pain of the exploding open-model catalog — a nice companion to local runtimes. |
-| [JustVugg/colibri](https://github.com/JustVugg/colibri) | C | 0 (+130) | Pure-C, zero-dependency inference engine that streams MoE experts from disk to run frontier models on owned hardware. A minimalist counter-trend to heavy inference stacks; worth watching for consumer-GPU frontier MoE. |
+| [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) | Python | 0 (+3,882) | A skill that stops coding agents from burying the answer, enforcing ADHD-friendly concise output. Today's #1 AI gainer by a wide margin — a single-behavior skill out-drew full frameworks, confirming the skills-layer land grab. |
+| [github/spec-kit](https://github.com/github/spec-kit) | Python | 0 (+985) | GitHub's toolkit for Spec-Driven Development — write specs before agent codegen. +985 today signals SDD graduating from blog posts to default workflow. |
+| [obra/superpowers](https://github.com/obra/superpowers) | Shell | 0 (+732) | An agentic skills framework plus a software development methodology "that works." Anchor of a sprawling ecosystem including the Chinese localization [superpowers-zh](https://github.com/jnMetaCode/superpowers-zh) (8,062⭐). |
+| [vastsa/PI-Desktop](https://github.com/vastsa/PI-Desktop) | TypeScript | 0 (+624) | Local-first AI coding agent desktop (Electron + Rust core + pi Agent Harness + user-installable plugins). Signals agent harnesses migrating from terminal to installable desktop apps. |
+| [affaan-m/ECC](https://github.com/affaan-m/ECC) | JavaScript | 256,182 | Agent harness performance optimization: skills, instincts, memory, and security across Claude Code, Codex, OpenCode, and Cursor. The largest repo in today's dataset — harness engineering is the new platform layer. |
+| [farion1231/cc-switch](https://github.com/farion1231/cc-switch) | Rust | 132,308 | Cross-platform desktop hub managing Claude Code, Codex, OpenCode, Grok Build, and Hermes Agent side-by-side. Its star count proves multi-agent setups are common enough to need a control panel. |
+| [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | Rust | 79,917 | Single-binary CLI proxy cutting LLM token consumption 60–90% on common dev commands, zero dependencies. Tops the fast-growing token-economics stack. |
+| [headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) | Python | 71,495 | Compresses tool outputs, logs, files, and RAG chunks before they reach the LLM (60–95% token cuts on JSON). Together with rtk and caveman, cost plumbing is now mandatory infrastructure. |
 
 ### 🤖 AI Agents / Workflows
 
 | Project | Lang | Stars (total / today) | Summary |
 | :--- | :--- | ---: | :--- |
-| [affaan-m/ECC](https://github.com/affaan-m/ECC) | JavaScript | 255,873 | An agent-harness performance system adding skills, instincts, memory, security, and research-first development to Claude Code, Codex, OpenCode, and Cursor. The highest-starred repo in today's dataset — the harness layer is where value is consolidating. |
-| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Python | 244,204 | Nous Research's personal agent that "grows with you," emphasizing long-term adaptation. 244k stars shows sustained appetite for persistent, personal agents beyond coding. |
-| [n8n-io/n8n](https://github.com/n8n-io/n8n) | TypeScript | 203,952 | Fair-code workflow automation with native AI capabilities and 400+ integrations, self-hostable. Remains the default bridge between agent workflows and enterprise systems. |
-| [langgenius/dify](https://github.com/langgenius/dify) | TypeScript | 155,356 | Collaborative workspace for building agentic workflows and RAG pipelines across cloud, VPC, or self-hosted deployment. Its steady scale reflects production-grade agent adoption beyond hobbyists. |
-| [browser-use/browser-use](https://github.com/browser-use/browser-use) | Python | 114,079 | The standard library for agents that operate a real browser. A foundational dependency for the web-automation and agentic-trading projects trending around it. |
-| [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) | Python | 0 (+3,854) | A skill that stops coding agents from burying the answer — ADHD-friendly, concise output. Today's #1 trending repo overall; proof that "agent output UX" is an unmet pain point with explosive demand. |
-| [obra/superpowers](https://github.com/obra/superpowers) | Shell | 0 (+731) | An agentic skills framework and software development methodology that works across coding agents. Its Chinese localization cites 250k+ original stars, making it a cornerstone of the skills ecosystem. |
-| [vastsa/PI-Desktop](https://github.com/vastsa/PI-Desktop) | TypeScript | 0 (+636) | Local-first AI coding agent desktop combining Electron, a Rust host core, the pi agent harness, and user-installable plugins. Trending momentum shows demand for desktop-grade, privacy-preserving agent environments. |
+| [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent) | Python | 244,401 | "The agent that grows with you" — the most-starred agent runtime in the dataset and a first-class target in cc-switch and superpowers-zh integrations. The reference point for personal agents. |
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | TypeScript | 203,990 | Fair-code workflow automation with native AI and 400+ integrations. The incumbent bridge between autonomous agents and enterprise systems. |
+| [Significant-Gravitas/AutoGPT](https://github.com/Significant-Gravitas/AutoGPT) | Python | 187,253 | The original autonomous-agent project. Still compounding stars even as the center of gravity shifts to harnesses and skills. |
+| [langchain-ai/langchain](https://github.com/langchain-ai/langchain) | Python | 146,118 | Now self-described as "the agent engineering platform." The framework layer beneath production agent graphs. |
+| [browser-use/browser-use](https://github.com/browser-use/browser-use) | Python | 114,167 | Agents that operate the browser; the substrate for computer-use workflows (cf. [AIHawk](https://github.com/feder-cr/AIHawk), 30,338⭐). The browser remains the default agent actuator. |
+| [lobehub/lobehub](https://github.com/lobehub/lobehub) | TypeScript | 82,394 | "Chief Agent Operator" that hires, schedules, and reports on your AI team 7×24. Agent fleet management is emerging as a distinct product genre. |
+| [alsk1992/CloddsBot](https://github.com/alsk1992/CloddsBot) | TypeScript | 0 (+277) | Autonomous trading agent spanning 1,000+ markets (Polymarket, Kalshi, Binance, Hyperliquid, Solana DEXs, 5 EVM chains) with an agent commerce protocol for machine-to-machine payments, built on Claude. +277 today shows self-hosted money-moving agents going mainstream. |
+| [alphaXiv/OpenResearch](https://github.com/alphaXiv/OpenResearch) | Rust | 0 (+210) | Run parallel research agents with any model. From the alphaXiv team — research-agent orchestration promoted to a first-class tool. |
 
 ### 📦 AI Applications
 
 | Project | Lang | Stars (total / today) | Summary |
 | :--- | :--- | ---: | :--- |
-| [open-webui/open-webui](https://github.com/open-webui/open-webui) | Python | 151,566 | The user-friendly self-hosted AI interface supporting Ollama, OpenAI API, and more. Still the default front door for local model stacks. |
-| [harry0703/MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) | Python | 122,228 | Generates HD short videos from a single topic or keyword via automated LLM workflows. A long-running benchmark for AI content-generation apps, especially in the Chinese ecosystem. |
-| [koala73/worldmonitor](https://github.com/koala73/worldmonitor) | TypeScript | 85,983 | Real-time global intelligence dashboard combining AI news aggregation, geopolitical monitoring, and infrastructure tracking. A notable example of agents applied to situational awareness rather than coding. |
-| [career-ops-hq/career-ops](https://github.com/career-ops-hq/career-ops) | JavaScript | 71,138 | Open-source AI job search running locally in Claude Code, Codex, or OpenCode — scans portals, scores listings A–H, and tailors CVs. Representative of "personal ops" apps built on coding CLIs as runtimes. |
-| [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) | HTML | 0 (+1,287) | 38 editorial diagram types as self-contained HTML/SVG for Claude Code, Codex, and Pi — explicitly "no Mermaid slop." +1,287 today shows appetite for design-quality agent output assets. |
-| [freestylefly/awesome-gpt-image-2](https://github.com/freestylefly/awesome-gpt-image-2) | JavaScript | 0 (+957) | Prompt-as-code library with 530+ cases, 20+ industrial templates, and a GPT Image 2 vs 2.5 comparison zone. Rides the GPT Image 2.5 release wave directly — image-prompt engineering is professionalizing. |
-| [THU-MAIC/OpenMAIC](https://github.com/THU-MAIC/OpenMAIC) | TypeScript | 0 (+806) | Tsinghua's Open Multi-Agent Interactive Classroom delivering immersive multi-agent learning in one click. A credible academic entrant making education a visible agent vertical. |
-| [alsk1992/CloddsBot](https://github.com/alsk1992/CloddsBot) | TypeScript | 0 (+299) | Autonomous AI trading agent operating across 1,000+ markets (Polymarket, Kalshi, Binance, Hyperliquid, Solana DEXs, 5 EVM chains) with an agent-commerce payment protocol. Built on Claude; the most aggressive "agent commerce" showcase on today's list. |
+| [langgenius/dify](https://github.com/langgenius/dify) | TypeScript | 155,410 | Agentic workflow + RAG building platform deployable on cloud, VPC, or self-hosted. The de-facto open standard for shipping agent applications. |
+| [open-webui/open-webui](https://github.com/open-webui/open-webui) | Python | 151,612 | Self-hosted AI interface supporting Ollama and OpenAI-compatible backends. The front door for local-model stacks. |
+| [harry0703/MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) | Python | 122,391 | One-click HD short-video generation from a topic or keyword via automated AI workflows. AI content automation at serious scale. |
+| [koala73/worldmonitor](https://github.com/koala73/worldmonitor) | TypeScript | 86,038 | Real-time global intelligence dashboard with AI-powered news aggregation and geopolitical monitoring. Situational-awareness apps built on agent-collected data. |
+| [career-ops-hq/career-ops](https://github.com/career-ops-hq/career-ops) | JavaScript | 71,222 | Local AI job-search agent running inside Claude Code, Codex, or OpenCode: scan, score A–H, tailor CV, track applications. A novel distribution model — apps shipped as agent skills rather than standalone binaries. |
+| [ZhuLinsen/daily_stock_analysis](https://github.com/ZhuLinsen/daily_stock_analysis) | Python | 64,926 | LLM-driven multi-market stock analysis with decision dashboards and zero-cost scheduled runs. Part of a dense finance-agent cluster alongside [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) (33,234⭐) and [FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) (21,237⭐). |
+| [jihe520/MathModelAgent](https://github.com/jihe520/MathModelAgent) | Python | 0 (+132) | An agent plus skills that completes mathematical modeling end-to-end and generates a submission-ready paper. A clean example of the "agent delivers a document artifact" vertical pattern, trending today. |
+| [melgarafael/DeskcommCRM](https://github.com/melgarafael/DeskcommCRM) | TypeScript | 0 (+126) | Self-hosted AI sales OS: CRM with native agents, WhatsApp via WAHA, MCP-ready, multi-tenant, LGPD-compliant. An open Kommo/Intercom alternative showing agents entering vertical SMB SaaS. |
 
 ### 🧠 LLMs / Training
 
 | Project | Lang | Stars (total / today) | Summary |
 | :--- | :--- | ---: | :--- |
-| [huggingface/transformers](https://github.com/huggingface/transformers) | Python | 165,088 | The model-definition framework for state-of-the-art text, vision, audio, and multimodal models, for inference and training. Still the load-bearing wall of the open-model ecosystem. |
-| [unslothai/unsloth](https://github.com/unslothai/unsloth) | Python | 75,998 | Local UI to run and train LLMs and diffusion models, supporting GGUF/MLX, Qwen3.8, DeepSeek-V4, MiniMax-H3, Gemma 4, and FLUX. Fine-tuning has clearly moved to the desktop. |
-| [ray-project/ray](https://github.com/ray-project/ray) | Python | 43,770 | Distributed AI compute engine pairing a core runtime with libraries accelerating ML workloads. The substrate underneath most large-scale training stacks on this list. |
-| [AI4Finance-Foundation/FinGPT](https://github.com/AI4Finance-Foundation/FinGPT) | Jupyter Notebook | 21,236 | Open-source financial LLMs with trained weights on HuggingFace. Pairs with today's agentic-trading momentum (CloddsBot, Vibe-Trading) as the model layer for finance. |
-| [OpenPipe/ART](https://github.com/OpenPipe/ART) | Python | 10,712 | Agent Reinforcement Trainer applying GRPO to multi-step agents — "on-the-job training" for Qwen3.6, GPT-OSS, and Llama. A clean signal that RL is shifting from chat models to agentic behavior. |
-| [OpenRLHF/OpenRLHF](https://github.com/OpenRLHF/OpenRLHF) | Python | 9,994 | Scalable, high-performance agentic RL framework (PPO, DAPO, REINFORCE++) built on Ray with vLLM and async execution. Approaching 10k stars as RL-training infrastructure standardizes. |
-| [jeinlee1991/chinese-llm-benchmark](https://github.com/jeinlee1991/chinese-llm-benchmark) | | 6,431 | Benchmarks 374 models — from GPT-5.4 and Gemini 3.1 Pro to Kimi-K2.6, DeepSeek-V4, and GLM-5.1 — plus a 2M+ sample model-defect database. Unusually valuable evaluation corpus for the Chinese model landscape. |
-| [areal-project/AReaL](https://github.com/areal-project/AReaL) | Python | 5,749 | The "RL Bridge" making reinforcement learning for LLM agent applications simple and flexible. Completes a visible cluster of agentic-RL tooling appearing across today's data. |
+| [ollama/ollama](https://github.com/ollama/ollama) | Go | 180,650 | Local runtime shipping Kimi-K2.6, GLM-5.2, DeepSeek, gpt-oss, Qwen, and Gemma. Its README is effectively a snapshot of the current open-weights frontier. |
+| [huggingface/transformers](https://github.com/huggingface/transformers) | Python | 165,108 | The model-definition framework for state-of-the-art text, vision, audio, and multimodal models. Still the substrate beneath nearly everything in this report. |
+| [unslothai/unsloth](https://github.com/unslothai/unsloth) | Python | 76,014 | Local UI to run and train LLMs and diffusion models (GGUF, MLX, Qwen3.8, DeepSeek-V4, Gemma 4, FLUX). Fine-tuning has become a desktop activity. |
+| [ray-project/ray](https://github.com/ray-project/ray) | Python | 43,775 | Distributed AI compute engine underlying training and serving stacks. The throughput backbone for scaled RL workloads. |
+| [sgl-project/sglang](https://github.com/sgl-project/sglang) | Python | 35,806 | High-performance serving framework for LLMs and multimodal models. Inference throughput remains a competitive battleground. |
+| [OpenPipe/ART](https://github.com/OpenPipe/ART) | Python | 10,711 | Agent Reinforcement Trainer: on-the-job GRPO training for multi-step agents (Qwen3.6, GPT-OSS, Llama). Agentic RL is this cycle's breakout training direction. |
+| [OpenRLHF/OpenRLHF](https://github.com/OpenRLHF/OpenRLHF) | Python | 9,994 | Scalable agentic RL framework (PPO, DAPO, REINFORCE++, VLM, vLLM + Ray). The post-training backbone behind many agent-tuning pipelines. |
+| [jeinlee1991/chinese-llm-benchmark](https://github.com/jeinlee1991/chinese-llm-benchmark) | | 6,431 | ReLE evaluation covering 374 models — GPT-5.4, Gemini-3.1-pro, Claude-4.6, Qwen3.6, DeepSeek-V4, GLM-5.1 — plus a 2M+ sample defect database. The best public map of the September 2026 frontier. |
 
 ### 🔍 RAG / Knowledge
 
 | Project | Lang | Stars (total / today) | Summary |
 | :--- | :--- | ---: | :--- |
-| [firecrawl/firecrawl](https://github.com/firecrawl/firecrawl) | TypeScript | 178,824 | The context API to search, scrape, and interact with the web at scale. Web retrieval remains the default grounding layer for agents despite the graph challengers below. |
-| [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) | Python | 116,711 | Turns any codebase (plus docs, SQL, PDFs) into a queryable knowledge graph via a `/graphify` skill for Claude Code, Cursor, Codex, and Gemini CLI — local AST parsing, every edge explained, no vector store. 116k stars makes it the flagship of the "graphs over embeddings" movement. |
-| [upstash/context7](https://github.com/upstash/context7) | TypeScript | 61,852 | Serves up-to-date code documentation directly to LLMs and AI editors. A quiet but critical fix for stale-training-data hallucinations in coding agents. |
-| [siyuan-note/siyuan](https://github.com/siyuan-note/siyuan) | TypeScript | 46,275 | Privacy-first, self-hosted knowledge workspace where humans and AI agents collaborate. A mature open alternative in the human+agent knowledge-tooling space. |
-| [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph) | Python | 31,311 | Local-first code intelligence graph for MCP and CLI that builds a persistent codebase map so agents read only what matters, with benchmarked context reductions. Practical proof that graph context cuts review costs. |
-| [nashsu/llm_wiki](https://github.com/nashsu/llm_wiki) | TypeScript | 0 (+94) | Desktop app that incrementally builds and maintains a persistent, interlinked wiki from your documents — explicitly positioning itself against per-query RAG. A "post-RAG" thesis worth tracking as it trends today. |
+| [firecrawl/firecrawl](https://github.com/firecrawl/firecrawl) | TypeScript | 179,002 | The context API to search, scrape, and interact with the web at scale. The de-facto web-ingestion layer for agent and RAG pipelines. |
+| [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) | Python | 116,877 | Turns codebases, docs, SQL schemas, and PDFs into queryable knowledge graphs via deterministic local AST parsing — no vector store, every edge explained. Flagship of the "graph over embeddings" movement for code. |
+| [MemPalace/mempalace](https://github.com/MemPalace/mempalace) | Python | 58,991 | The best-benchmarked open-source AI memory system, free. Agent memory has crystallized into a standalone, benchmark-driven product category. |
+| [siyuan-note/siyuan](https://github.com/siyuan-note/siyuan) | TypeScript | 46,300 | Privacy-first, self-hosted knowledge workspace where humans and AI agents collaborate. Long-form knowledge apps are absorbing agent capabilities natively. |
+| [tirth8205/code-review-graph](https://github.com/tirth8205/code-review-graph) | Python | 31,329 | Persistent codebase map for MCP and CLI so AI tools read only what matters, with benchmarked context reduction. Code-intelligence graphs as reusable agent infrastructure. |
+| [nashsu/llm_wiki](https://github.com/nashsu/llm_wiki) | TypeScript | 0 (+142) | Desktop app that incrementally builds and maintains a persistent, interlinked wiki from your documents instead of per-query RAG. Trending today with explicit post-RAG positioning. |
+| [jordan-gibbs/hyperresearch](https://github.com/jordan-gibbs/hyperresearch) | Python | 0 (+118) | Agents collect, search, and synthesize web research into a persistent searchable wiki. The same anti-RAG curation thesis as llm_wiki, gaining traction the same day. |
+
+*Note: trending-list repos show ⭐0 total in the source data; today's delta is the reliable signal for those rows.*
 
 ---
 
 ## 3. Trend Signal Analysis
 
-**Agent skills are the breakout format of the cycle.** The day's hottest repo, `i-have-adhd` (+3,854), is not a framework but a packaged behavior — and it sits alongside `superpowers` (+731), `vercel-labs/skills`, and the 255k-star ECC. Skills are becoming a portable, tool-agnostic packaging standard across Claude Code, Codex, Cursor, and Gemini CLI — effectively the "npm moment" for agent capabilities, now with first-party Vercel validation.
+**The skills layer is absorbing all the attention.** Today's top three AI gainers — i-have-adhd (+3,882), spec-kit (+985), superpowers (+732) — are behavior and methodology artifacts, not models or frameworks. Around them sits a genuine skills economy with six-figure star counts ([caveman](https://github.com/JuliusBrussee/caveman) 104,837; [ponytail](https://github.com/DietrichGebert/ponytail) 135,362; [ECC](https://github.com/affaan-m/ECC) 256,182), localizations, and skill-distillation tooling ([distilly](https://github.com/titanwings/distilly), 24,616⭐). Skills are becoming the portable, cross-agent format.
 
-**Token economics has matured into a product category.** As agent loops multiply spend, compression layers are scaling fast: headroom (71k stars, 60–95% JSON savings), rtk (79.8k, 60–90% on dev commands), caveman (104k, 65% via terse prompts), and OmniRoute's built-in 15–95% compression. Expect proxy-plus-skill combos to become default cost infrastructure.
+**Token economics matured into a category.** [rtk](https://github.com/rtk-ai/rtk), [headroom](https://github.com/headroomlabs-ai/headroom), and [codeburn](https://github.com/getagentseal/codeburn) (10,959⭐) attack context cost from proxy, pre-compression, and accounting angles; 15–95% savings claims are now standard.
 
-**Local-first inference is resurging**, driven by frontier open weights (Kimi-K2.6, GLM-5.2, DeepSeek-V4, Qwen3.6): colibri's pure-C MoE engine with disk-streamed experts, llmfit's hardware-fit checks, and PI-Desktop's local agent harness all point to sovereignty over cloud.
+**New stacks appearing:** (1) multi-agent control planes — [cc-switch](https://github.com/farion1231/cc-switch) managing five harnesses side-by-side, [superset](https://github.com/superset-sh/superset) (14,079⭐) orchestrating 100+ agents, [OmniRoute](https://github.com/diegosouzapw/OmniRoute) unifying 352 providers; (2) MCP escaping the IDE — [pascalorg/editor](https://github.com/pascalorg/editor) (+83) ships MCP tools inside a 3D architecture editor; (3) deterministic AST knowledge graphs displacing vector stores; (4) post-RAG persistent wikis.
 
-**Genuinely new directions today:** agent commerce (CloddsBot's machine-to-machine payments across 1,000+ markets), knowledge-graph context displacing vector RAG (graphify at 116k), post-RAG persistent wikis (llm_wiki), and multi-agent education (Tsinghua's OpenMAIC).
-
-**Model-release coupling is visible:** `awesome-gpt-image-2` (+957) rides the GPT Image 2/2.5 release, while the agentic-RL cluster (ART, OpenRLHF, AReaL) tracks the industry pivot to RL-trained agents on open weights.
+**Model-cycle connection:** READMEs and benchmarks reference DeepSeek-V4, Qwen3.6/3.8, GLM-5.x, Kimi-K2.6, GPT-5.4 — a frontier refresh driving model-native tooling ([DeepSeek-Reasonix](https://github.com/esengine/DeepSeek-Reasonix), 35,503⭐, optimizes DeepSeek prefix-cache stability) and cheap long-running loops that make self-evolving agents ([GenericAgent](https://github.com/lsdefine/GenericAgent), [CowAgent](https://github.com/zhayujie/CowAgent)) and agentic RL training practical.
 
 ---
 
 ## 4. Community Hot Spots
 
-- **[vercel-labs/skills](https://github.com/vercel-labs/skills) + [obra/superpowers](https://github.com/obra/superpowers) — the skills standard.** With 26+ tools already supported (per superpowers-zh) and Vercel shipping an official installer, skills are the highest-leverage place to contribute or build distribution right now.
-- **The token-efficiency stack — [headroom](https://github.com/headroomlabs-ai/headroom), [rtk](https://github.com/rtk-ai/rtk), [OmniRoute](https://github.com/diegosouzapw/OmniRoute).** Combined 15–95% documented savings across three complementary layers (compression library, CLI proxy, gateway). Immediate ROI for any heavy agent user; the category is consolidating quickly.
-- **[JustVugg/colibri](https://github.com/JustVugg/colibri) — local MoE inference.** Pure C, zero deps, experts streamed from disk. If it delivers frontier MoE quality on consumer hardware, it resets local-inference economics; pair with [llmfit](https://github.com/AlexsJones/llmfit) for the full stack.
-- **Graph-based context engineering — [graphify](https://github.com/Graphify-Labs/graphify) (116k) and [code-review-graph](https://github.com/tirth8205/code-review-graph) (31k).** Deterministic AST-derived graphs with explainable edges are winning developer trust over opaque vector retrieval; this is the most credible architectural challenge to mainstream RAG.
-- **Agentic trading & agent commerce — [CloddsBot](https://github.com/alsk1992/CloddsBot), [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading), [FinGPT](https://github.com/AI4Finance-Foundation/FinGPT).** Autonomous execution plus machine-to-machine payments is a forward-looking but high-risk frontier; expect security and regulatory scrutiny to intensify before institutional adoption.
+- **[obra/superpowers](https://github.com/obra/superpowers) (+732) and the skills ecosystem** — the fastest-compounding layer today; contributing portable skills (see [superpowers-zh](https://github.com/jnMetaCode/superpowers-zh), [distilly](https://github.com/titanwings/distilly)) offers outsized distribution for minimal code.
+- **Token-cost stack: [rtk](https://github.com/rtk-ai/rtk) + [headroom](https://github.com/headroomlabs-ai/headroom) + [caveman](https://github.com/JuliusBrussee/caveman)** — immediately adoptable, measurable ROI (15–95% token savings); the safest productivity win on this list.
+- **Post-RAG research curation: [alphaXiv/OpenResearch](https://github.com/alphaXiv/OpenResearch) + [hyperresearch](https://github.com/jordan-gibbs/hyperresearch) + [llm_wiki](https://github.com/nashsu/llm_wiki)** — three independent projects converging on persistent agent-maintained wikis the same week; watch this replace naive RAG for research workflows.
+- **Deterministic code knowledge graphs: [graphify](https://github.com/Graphify-Labs/graphify) (116,877⭐) + [code-review-graph](https://github.com/tirth8205/code-review-graph)** — "no vector store, every edge explained" is a credible challenger to embedding-based code retrieval.
+- **Autonomous finance agents: [CloddsBot](https://github.com/alsk1992/CloddsBot) + [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading)** — autonomous execution plus machine-to-machine payments is high-signal but high-risk; expect regulatory attention and fork churn.
 
 ---
 *This digest is auto-generated by [agents-radar](https://github.com/sikm-lqs/agents-radar).*

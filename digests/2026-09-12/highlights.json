@@ -1,166 +1,166 @@
 {
   "zh": {
     "ai-cli": [
-      "Codex 每天发布 7 个版本，对手保持稳定",
-      "Claude Code 规范正成为事实上的互操作契约",
-      "Windows 支持仍是全部 7 款工具的共同短板",
-      "Claude Code v2.1.269 已发布；追踪器异常安静",
-      "桌面应用催生新缺陷：进程泄漏、文件锁定",
-      "需求聚焦循环保护、成本上限与遥测"
+      "Claude Code v2.1.269发布插件评估功能",
+      "7款工具中4款存在计费/配额信任问题",
+      "追踪七款CLI工具：Claude、Codex、Gemini",
+      "GPT-6 Astra与Fable 5令配额承压",
+      "各工具均要求/rewind功能对齐",
+      "桌面应用现为回归问题主要来源"
     ],
     "ai-agents": [
-      "OpenClaw v2026.9.4 新增更新失败安全回滚",
-      "新版本自身引发一波升级阻塞问题",
-      "24 小时内涉及 500 个 issue 和 500 个 PR",
-      "网关崩溃循环与会话回退主导追踪器",
-      "9.4 遗漏修复 #144208；租约缺陷致每次写配置失败",
-      "steipete 领衔升级路径的协同修复批次"
+      "OpenClaw：24小时内500个issue与500个PR",
+      "OpenClaw 2.0发布协作智能体",
+      "2026.9.4发布不完整；2026.9.5待发布",
+      "P0问题集群：#142585、#144742、#145192、#142770",
+      "追踪五款智能体：Hermes、IronClaw、QwenPaw",
+      "OpenClaw处于2026.9.x版本热修复期"
     ],
     "ai-infra": [
-      "9 个项目中 6 个以 DeepSeek-V4.1-Flash 为集成目标",
-      "投机解码＝最大性能杠杆与最大正确性风险",
-      "llama.cpp 24 小时内发布 8 个小版本",
-      "vLLM 批次不变性话题 #27433 评论超 90 条",
-      "LiteLLM 新增 cosign 签名镜像；New API 计费规则",
-      "Blackwell SM120 各层级仍是正确性雷区"
+      "DeepSeek-V4.1/V4.1-Flash主导内核工作",
+      "llama.cpp发布10个版本（b10909→b10927）",
+      "混合线性注意力成主流（GLM-5.3）",
+      "各基础设施层均有静默失败特征",
+      "vLLM推进MegaMoE融合与FP4 KV",
+      "网关层新增计费表达式与Responses-API"
     ],
     "ai-trending": [
-      "'i-have-adhd' 技能仓库以 +3,440 星登顶",
-      "GitHub 的 spec-kit (+985) 让规格驱动开发成主流",
-      "后 RAG 浪潮：llm_wiki (+640) 构建持久知识",
-      "CloddsBot (+627) 自主交易超 1,000 个市场",
-      "superpowers (+731) 提供底层技能框架",
-      "ECC（256k 星）领先；hermes-agent 以 245k 紧随"
+      "CloddsBot +626星：覆盖1000+市场的智能体",
+      "pentagi +250星：全自主渗透测试",
+      "Claude skills生态在GitHub爆发式增长",
+      "awesome-llm-apps +237星精选100+智能体",
+      "system_prompts_leaks +216星，来自Claude/GPT-6",
+      "YuE +193星推进智能体音乐生成"
     ],
     "ai-web": [
-      "Anthropic 借隐私工具 Insights 公开真实使用数据",
-      "12 个「新」Anthropic 页面实为 URL 迁移回填",
-      "Economic Index「Cadences」：智能体会话现已占主导",
-      "报告追踪 Claude Code 与 Cowork 的智能体使用",
-      "Anthropic 测度 Claude 价值观随语言的差异",
-      "OpenAI 的 1B 用户存储一文仅含元数据"
+      "Anthropic Insights开放Claude使用数据",
+      "Claude Tag：产品团队65%的代码",
+      "Economic Index Cadences证实Cowork存在",
+      "Anthropic发布Claude价值观框架",
+      "OpenAI发布《Scaling Storage 1B Users》上篇",
+      "Claude Academy打造教育垂直领域"
     ],
     "ai-hn": [
-      "「限制 AI 新闻泛滥」帖获 739 分",
-      "三款「无 AI 版 HN」克隆同日上线",
-      "对 OpenAI 未公开数学的质疑以 856 分登顶",
-      "GPT-6 Astra 循环 Transformer 深析引 161 评论",
-      "OpenAI 为 Navier-Stokes 结果配 Lean 4 形式证明",
-      "Moonshot 被指秘密使用 Claude 做训练"
+      "OpenAI/RubyGems被指遭供应链攻击",
+      "AI数学错位：967分，926条评论",
+      "GPT-6 Astra循环transformer解析",
+      "Anthropic称胡塞武装武器化Claude",
+      "Claude年龄门槛争议：629条评论",
+      "HN舆论对实验室透明度颇为警惕"
     ],
     "ai-ph": [
-      "Typewise Nova（340 票）：自我改进的 CX 平台",
-      "OpenObserve (304) 带来 OTel 原生 LLM 智能体监控",
-      "Suno v6：首个协作式 AI 音乐模型发布",
-      "hob（90 票）集中化多智能体编排",
-      "Desert Ant Labs 押注专用小模型",
-      "趋势：从「AI 能行吗」到观察与规模化"
+      "Anysite.io：聊天式B2B线索获450票",
+      "Loqua语音优先助手：396票",
+      "Raycast 2.0发布重大平台更新",
+      "Cline：面向开放权重模型的开源桌面端",
+      "Jackalope与chat-recall领跑隐私优先工具",
+      "Devin Voice入局语音界面竞争"
     ],
     "ai-arxiv": [
-      "《人类打造的最后 AI》提出 RSI 框架",
-      "MoE Transformer 比稠密模型更易过拟合重复数据",
-      "推理时算力挑战参数/Token 规模法则",
-      "论文审计泄露、后门与夸大的基准宣称",
-      "智能体持久身份成核心研究主线",
-      "AI 应用进军海事、医疗、CRISPR 与金融"
+      "《Last AI Built by Humans》冲击RSI天花板",
+      "Headroom-Closed Index诊断LLM性能平台期",
+      "MoE Transformer对重复数据更易过拟合",
+      "CausalArena强化因果推理基准",
+      "智能体对齐：提出'Artificial Id'与ORCH",
+      "AdamX优化器与FKL/RKL蒸馏门控"
     ],
     "ai-community": [
-      "随笔：AI「推理」痕迹是逆向的答案",
-      "「我的智能体永不累，我会」点破人类满意即止",
-      "Nexpath 提示质量层测试以提升代码生成安全",
-      "智能体 vs「Agentic AI」：组件与连线模式之争",
-      "Apple Neural Engine 深度逆向工程登上 Lobste.rs",
-      "分类器识别 Lobste.rs 上的 AI 生成评论"
+      "开发者：推理轨迹是事后合理化",
+      "ExecCritic揪出薄弱的合成测试",
+      "MCP与A2A协议争论升温",
+      "厘清AI Agents与Agentic AI模式",
+      "编程智能体或损害软件质量：真实bug",
+      "生产部署与营销宣称存在背离"
     ],
     "ai-news": [
-      "Claude Opus 5：半价实现智能体级跃迁",
-      "OpenAI 发布 GPT-5.5、GPT-5.6 Sol 与全双工 GPT-Live",
-      "Anthropic 的 Project Glasswing 承诺 $100M 额度",
-      "近人类专家级找缺陷能力现身 Mythos 2 预览",
-      "Willison 与 Huryn 反驳「自主 AI」炒作",
-      "吴恩达推出智能体评估短课"
+      "GPT-6 Astra在UE5中生成可步行3D场景",
+      "Claude Opus 5发布，成本仅Fable 5一半",
+      "Abliteration.ai售卖去护栏模型",
+      "9月7家供应商推出11款新模型",
+      "Sakana Fugu Ultra v2.0与DeepSeek V4.1 Flash发布",
+      "OpenClaw 2.0带来协作式开源智能体"
     ]
   },
   "en": {
     "ai-cli": [
-      "Codex ships 7 releases/day while rivals hold stable lines",
-      "Claude Code conventions becoming de facto interop contract",
-      "Windows support remains shared gap across all 7 tools",
-      "Claude Code v2.1.269 shipped; tracker unusually quiet",
-      "Desktop apps spawn new bugs: process leaks, file locks",
-      "Demand converges on loop protection, cost caps, telemetry"
+      "Claude Code v2.1.269 ships plugin eval",
+      "Billing/quota trust issues hit 4 of 7 tools",
+      "Seven CLI tools tracked: Claude, Codex, Gemini",
+      "GPT-6 Astra and Fable 5 stress quotas",
+      "/rewind feature parity demanded across tools",
+      "Desktop apps now dominant source of regressions"
     ],
     "ai-agents": [
-      "OpenClaw v2026.9.4 adds safe rollback from failed updates",
-      "New release itself triggers wave of upgrade blockers",
-      "500 issues + 500 PRs touched in just 24 hours",
-      "Gateway crash-loops, session regressions dominate tracker",
-      "9.4 omits fix #144208; lease bug fails every config write",
-      "steipete leads coordinated fix batch for upgrade path"
+      "OpenClaw: 500 issues and 500 PRs in 24h",
+      "OpenClaw 2.0 ships collaborative agents",
+      "2026.9.4 shipped incomplete; 2026.9.5 pending",
+      "P0 cluster: #142585, #144742, #145192, #142770",
+      "Five agents tracked: Hermes, IronClaw, QwenPaw",
+      "OpenClaw in hotfix window around 2026.9.x line"
     ],
     "ai-infra": [
-      "DeepSeek-V4.1-Flash is integration target in 6 of 9 projects",
-      "Spec decoding = top perf lever and top correctness risk",
-      "llama.cpp ships 8 point releases in 24 hours",
-      "vLLM batch-invariance thread #27433 hits 90+ comments",
-      "LiteLLM adds cosign-signed images; New API billing rules",
-      "Blackwell SM120 remains correctness minefield at every tier"
+      "DeepSeek-V4.1/V4.1-Flash dominates kernel work",
+      "llama.cpp shipped 10 builds (b10909→b10927)",
+      "Hybrid linear-attention goes mainstream (GLM-5.3)",
+      "Silent failure signature across all infra layers",
+      "MegaMoE fusion and FP4 KV work in vLLM",
+      "Gateway layer adding billing expressions, Responses-API"
     ],
     "ai-trending": [
-      "'i-have-adhd' skill repo is #1 with +3,440 stars",
-      "GitHub's spec-kit (+985) makes spec-driven dev mainstream",
-      "Post-RAG wave: llm_wiki (+640) builds persistent knowledge",
-      "CloddsBot (+627) trades 1,000+ markets autonomously",
-      "superpowers (+731) supplies the skills framework beneath",
-      "ECC (256k stars) leads; hermes-agent close at 245k"
+      "CloddsBot +626 stars: agent on 1000+ markets",
+      "pentagi +250 stars: fully autonomous pentesting",
+      "Claude skills ecosystem exploding on GitHub",
+      "awesome-llm-apps +237 stars curates 100+ agents",
+      "system_prompts_leaks +216 stars from Claude/GPT-6",
+      "YuE +193 stars advances agentic music generation"
     ],
     "ai-web": [
-      "Anthropic opens real usage data via privacy tool Insights",
-      "12 'new' Anthropic pages are URL-migration backfill",
-      "Economic Index 'Cadences': agentic sessions now dominate",
-      "Report tracks agentic usage across Claude Code and Cowork",
-      "Anthropic measures how Claude's values vary by language",
-      "OpenAI's 1B-user storage post landed metadata-only"
+      "Anthropic Insights opens Claude usage data",
+      "Claude Tag: 65% of product team code",
+      "Cowork confirmed in Economic Index Cadences",
+      "Claude values framework published by Anthropic",
+      "OpenAI ships 'Scaling Storage 1B Users' Part 1",
+      "Claude Academy builds education vertical"
     ],
     "ai-hn": [
-      "'Limit the AI news flood' thread hits 739 points",
-      "Three 'HN without AI' clones launch in a single day",
-      "Distrust of OpenAI's unpublished math tops day at 856",
-      "GPT-6 Astra looped-transformer deep-dive draws 161 comments",
-      "OpenAI pairs Navier-Stokes result with Lean 4 formal proof",
-      "Moonshot allegedly used Claude secretly for training"
+      "OpenAI/RubyGems supply-chain attack alleged",
+      "AI math misalignment: 967 pts, 926 comments",
+      "GPT-6 Astra looped transformers dissected",
+      "Anthropic: Houthis weaponizing Claude",
+      "Claude age-gate debate: 629 comments",
+      "HN sentiment notably wary of lab transparency"
     ],
     "ai-ph": [
-      "Typewise Nova (340 votes): self-improving CX platform",
-      "OpenObserve (304) brings OTel-native LLM agent monitoring",
-      "Suno v6: first collaborative AI music model launches",
-      "hob (90 votes) centralizes multi-agent orchestration",
-      "Desert Ant Labs bets on specialized small models",
-      "Trend: from 'can AI work?' to observing and scaling it"
+      "Anysite.io: 450 votes for chat-based B2B leads",
+      "Loqua voice-first assistant: 396 votes",
+      "Raycast 2.0 ships major platform refresh",
+      "Cline: open-source desktop for open-weight models",
+      "Jackalope and chat-recall lead privacy-first tools",
+      "Devin Voice enters voice interface competition"
     ],
     "ai-arxiv": [
-      "'The Last AI Built by Humans' unveils RSI framework",
-      "MoE transformers overfit more to repeated data than dense",
-      "Reasoning-time compute challenges parameter/token scaling",
-      "Papers audit leaks, backdoors, inflated benchmark claims",
-      "Agentic persistent identity emerges as core research thread",
-      "AI apps move into maritime, healthcare, CRISPR, finance"
+      "'Last AI Built by Humans' attacks RSI ceiling",
+      "Headroom-Closed Index diagnoses LLM plateaus",
+      "MoE Transformers overfit more to repeated data",
+      "CausalArena hardens causal reasoning benchmarks",
+      "Agentic alignment: 'Artificial Id' and ORCH proposed",
+      "AdamX optimizer and FKL/RKL distillation gating"
     ],
     "ai-community": [
-      "Essay: AI 'reasoning' traces are answers in reverse",
-      "'My Agents Never Get Tired. I Do' nails human satisficing",
-      "Nexpath prompt-quality layer tested for safer codegen",
-      "Agents vs 'agentic AI': component vs wiring pattern debate",
-      "Apple Neural Engine deep reverse-engineering hits Lobste.rs",
-      "Classifier spots AI-generated comments on Lobste.rs"
+      "Devs: reasoning traces are post-hoc rationalization",
+      "ExecCritic catches weak synthetic tests",
+      "MCP vs A2A protocol debates heat up",
+      "AI Agents vs Agentic AI patterns clarified",
+      "Coding agents may hurt software quality: real bugs",
+      "Production deployments diverge from marketing claims"
     ],
     "ai-news": [
-      "Claude Opus 5: agent step change at half the price",
-      "OpenAI ships GPT-5.5, GPT-5.6 Sol, full-duplex GPT-Live",
-      "Anthropic's Project Glasswing commits $100M in credits",
-      "Near-human-expert bug discovery seen in Mythos 2 preview",
-      "Willison, Huryn push back on 'autonomous AI' hype",
-      "Andrew Ng launches short course on evaluating agents"
+      "GPT-6 Astra generates walkable 3D in UE5",
+      "Claude Opus 5 ships at half Fable 5 cost",
+      "Abliteration.ai sells guardrail-stripped models",
+      "11 new models from 7 providers in September",
+      "Sakana Fugu Ultra v2.0 and DeepSeek V4.1 Flash drop",
+      "OpenClaw 2.0 brings collaborative open-source agents"
     ]
   }
 }

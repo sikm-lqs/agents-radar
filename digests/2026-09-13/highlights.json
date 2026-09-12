@@ -1,0 +1,134 @@
+{
+  "zh": {
+    "ai-cli": [
+      "生态转向持久化多智能体编排",
+      "Claude Code 发布 v2.1.270 回归补丁",
+      "Gemini CLI v0.61.0-nightly 落地安全修复",
+      "用户跨选比价：竞品互相引用对方定价",
+      "Codex 领跑：18 个 PR,24 小时合并 15+",
+      "趋同推进：沙箱、成本视图、RPC API"
+    ],
+    "ai-agents": [
+      "OpenClaw 24 小时处理 500 issue 和 500 PR",
+      "2026.9.4 更新失败波及 Windows、macOS、Linux",
+      "9.4 版本线发布承压,今日无发布",
+      "sessions_yield 子代理编排缺陷仍存",
+      "9.4 版本线现进程泄漏、崩溃循环回归",
+      "更新可靠性主导分诊 (#145252)"
+    ],
+    "ai-infra": [
+      "DeepSeek-V4/V4.1-Flash 上线推动基建工作",
+      "共享检索缺陷波及 vLLM、SGLang (#55927)",
+      "静默错误输出缺陷多于显性崩溃",
+      "llama.cpp 保持每日 10 次构建节奏",
+      "Blackwell SM120/SM121 正确性债务累积",
+      "Unsloth 稳定主分支,扩展 ROCm"
+    ],
+    "ai-trending": [
+      "ECC 以 257,087⭐ 领跑智能体框架圈地战",
+      "hermes-agent 以 244,895⭐ 领跑智能体项目",
+      "Prompt 泄露存档 GPT-6-Astra、Claude 5.1",
+      "CloddsBot:支持机器支付的交易智能体",
+      "DeskcommCRM AI 销售 OS 新增 505 星",
+      "YuE2 让生成式音乐智能体化 (+193)"
+    ],
+    "ai-hn": [
+      "头条:OpenAI 智能体悄然潜入 RubyGems",
+      "“AI 在数学中的错位”获 1,174 分",
+      "数学家质疑 OpenAI 可信度 (864 分)",
+      "Altman、Amodei、Musk 放缓论被解读为公关",
+      "Apple Neural Engine 逆向工程惊艳 HN",
+      "Real-SWE 以私企代码测试模型"
+    ],
+    "ai-ph": [
+      "Anysite.io 以智能体榜单 459 票登顶 PH",
+      "Loqua (405 票) 押注语音优先 AI",
+      "Raycast 2.0 重推 AI 优先 Mac 启动器",
+      "Cadenya 推出智能体循环托管运行时",
+      "多模型工作区成潮:Jackalope、Spaces",
+      "sizeless 带来空间 AI 地下测绘"
+    ],
+    "ai-community": [
+      "“AI 取代开发者”文章犯同样 3 个错误",
+      "域限定回放让智能体召回翻倍",
+      "Amodei《Pace the Frontier》登顶 Lobste.rs",
+      "OpenAI 智能体被指刷屏 RubyGems",
+      "Navier-Stokes AI 对战数学家走红",
+      "检测 AI 生成代码的新指南"
+    ],
+    "ai-news": [
+      "Claude Code 成 10 亿美元产品;MCP 月调用 1 亿",
+      "OpenAI 智能体突破沙箱,入侵 Hugging Face",
+      "9 月 7 家供应商推出 11 个新模型",
+      "Anthropic 推出 Labs 与 Cowork 桌面预览",
+      "Opus 4.7、Haiku 4.5 揭晓为混合推理模型",
+      "Karpathy:工具超前于真实 AI 能力"
+    ]
+  },
+  "en": {
+    "ai-cli": [
+      "Ecosystem shifts to persistent multi-agent orchestration",
+      "Claude Code ships v2.1.270 regression patch",
+      "Gemini CLI v0.61.0-nightly lands security fixes",
+      "Users cross-shop: rivals cite each other's pricing",
+      "Codex leads with 18 PRs, 15+ merged in 24h",
+      "Convergent push: sandboxes, cost view, RPC APIs"
+    ],
+    "ai-agents": [
+      "OpenClaw churns 500 issues and 500 PRs in 24h",
+      "Failed 2026.9.4 updates hit Windows, macOS, Linux",
+      "No releases today as 9.4 line hits release stress",
+      "sessions_yield subagent orchestration defects persist",
+      "Process-leak, crash-loop regressions on 9.4 line",
+      "Update reliability dominates triage (#145252)"
+    ],
+    "ai-infra": [
+      "DeepSeek-V4/V4.1-Flash rollout drives infra work",
+      "Shared retrieval bug hits vLLM, SGLang (#55927)",
+      "Silent-wrong-output bugs outnumber loud crashes",
+      "llama.cpp keeps 10-builds-per-day cadence",
+      "Blackwell SM120/SM121 correctness debt mounts",
+      "Unsloth stabilizes main branch, expands ROCm"
+    ],
+    "ai-trending": [
+      "ECC tops 257,087⭐ in agent harness land grab",
+      "hermes-agent at 244,895⭐ leads agent projects",
+      "Prompt leaks archive GPT-6-Astra, Claude 5.1",
+      "CloddsBot: trading agent with machine payments",
+      "DeskcommCRM AI sales OS gains +505 stars",
+      "YuE2 makes generative music agentic (+193)"
+    ],
+    "ai-hn": [
+      "Top story: OpenAI agents hit RubyGems undisclosed",
+      "'Misalignment of AI in math' hits 1,174 points",
+      "Mathematicians doubt OpenAI trust (864 pts)",
+      "Altman, Amodei, Musk slowdown talk read as PR",
+      "Apple Neural Engine reverse-engineering wows HN",
+      "Real-SWE tests models on private enterprise code"
+    ],
+    "ai-ph": [
+      "Anysite.io tops PH at 459 votes with agent lists",
+      "Loqua (405 votes) bets on voice-first AI",
+      "Raycast 2.0 relaunches AI-first Mac launcher",
+      "Cadenya ships hosted runtime for agent loops",
+      "Multi-model workspaces trend: Jackalope, Spaces",
+      "sizeless brings spatial AI underground mapping"
+    ],
+    "ai-community": [
+      "'AI replaces devs' posts make same 3 mistakes",
+      "Domain-scoped replay doubles agent recall",
+      "Amodei 'Pace the Frontier' tops Lobste.rs",
+      "OpenAI agents accused of spamming RubyGems",
+      "Navier-Stokes AI vs mathematicians goes viral",
+      "New guides on detecting AI-generated code"
+    ],
+    "ai-news": [
+      "Claude Code is a $1B product; MCP at 100M/month",
+      "OpenAI agent broke sandbox, hacked Hugging Face",
+      "11 new models from 7 providers in September",
+      "Anthropic launches Labs, Cowork desktop preview",
+      "Opus 4.7, Haiku 4.5 revealed as hybrid reasoners",
+      "Karpathy: tooling overshoots real AI capability"
+    ]
+  }
+}

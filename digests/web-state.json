@@ -1,6 +1,6 @@
 {
   "anthropic": {
-    "lastChecked": "2026-09-12T11:30:30.027Z",
+    "lastChecked": "2026-09-12T23:30:29.193Z",
     "seenUrls": {
       "https://www.anthropic.com/research/formalizing-fermats-last-theorem": "2026-09-10T19:05:29.000Z",
       "https://www.anthropic.com/research/india-brief-economic-index": "2026-09-09T21:22:54.000Z",
@@ -451,7 +451,7 @@
     }
   },
   "openai": {
-    "lastChecked": "2026-09-12T11:30:33.139Z",
+    "lastChecked": "2026-09-12T23:30:32.358Z",
     "seenUrls": {
       "https://openai.com/index/gpt-6-astra/": "2026-09-12T05:23:04.889Z",
       "https://openai.com/index/path-to-astra/": "2026-09-11T16:28:00.438Z",
@@ -1229,15 +1229,15 @@
       "https://openai.com/index/openai-o3-mini/": "2026-04-30T06:51:16.703Z",
       "https://openai.com/index/gpt-5-4-thinking-system-card/": "2026-04-23T05:45:21.943Z",
       "https://openai.com/index/openai-pioneers-program/": "2026-04-06T21:28:00.206Z",
-      "https://openai.com/index/research-acceleration-view-inside-openai/": "2026-09-12T02:14:41.507Z",
+      "https://openai.com/index/research-acceleration-view-inside-openai/": "2026-09-12T21:45:29.606Z",
       "https://openai.com/index/an-alien-mind/": "2026-09-12T03:40:25.418Z",
-      "https://openai.com/index/introducing-chatgpt-images-2-5/": "2026-09-11T16:27:55.747Z",
+      "https://openai.com/index/introducing-chatgpt-images-2-5/": "2026-09-12T21:07:03.699Z",
       "https://openai.com/index/supporting-journalism-from-classrooms-to-newsrooms/": "2026-09-11T14:18:50.033Z",
       "https://openai.com/index/the-work-now-within-reach/": "2026-09-08T20:48:41.432Z",
       "https://openai.com/index/navier-stokes-solution/": "2026-09-11T03:07:01.815Z",
       "https://openai.com/index/teen-development-research-grants/": "2026-09-11T21:46:03.159Z",
       "https://openai.com/index/gpt-6-astra-next-generation-work/": "2026-09-12T05:24:01.862Z",
-      "https://openai.com/index/paul-christiano-joins-openai-foundation-board/": "2026-09-12T04:38:39.510Z",
+      "https://openai.com/index/paul-christiano-joins-openai-foundation-board/": "2026-09-12T15:59:01.806Z",
       "https://openai.com/index/introducing-the-agents-api/": "2026-09-11T15:43:42.968Z",
       "https://openai.com/index/introducing-chatgpt-financial-services/": "2026-09-11T23:41:13.520Z",
       "https://openai.com/devday/2025/": "2026-09-10T21:14:31.253Z",

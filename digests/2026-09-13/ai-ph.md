@@ -1,77 +1,66 @@
 # Product Hunt AI 产品日报 2026-09-13
 
-> 数据来源: [Product Hunt](https://www.producthunt.com/) | 共 16 个产品 | 生成时间: 2026-09-12 23:30 UTC
+> 数据来源: [Product Hunt](https://www.producthunt.com/) | 共 9 个产品 | 生成时间: 2026-09-13 11:31 UTC
 
 ---
 
-# Product Hunt AI 产品日报
-**日期：** 2026-09-13 · **发布总数：** 16
+# Product Hunt AI 产品速览
+**日期：** 2026-09-13 · **今日发布总数：** 9 · **最高票数：** 325
 
 ---
 
-## 🌟 今日精选
+## 🔥 今日亮点
 
-今天 Product Hunt 的 AI 领域由**语音优先与智能体体验**主导，Anysite.io 以 459 票登顶榜首，它将 B2B 线索构建转变为对话式智能体工作流；而 Loqua（405 票）则将自然语音定位为处理事务的新交互界面。面向开发者的 AI 基础设施持续走强 —— Raycast 2.0（318 票）通过更深入的 AI 整合重塑了 Mac 启动器，Cadenya 则推出面向生产环境的智能体托管运行时，致力于将自主循环产品化。围绕**多模型工作空间**（Jackalope、Spaces）的明显元趋势正在显现，它们将 Codex、Claude、Grok 等智能体聚合到共享协作界面中。与此同时，sizeless（面向地下基础设施的空间 AI）和 TIM PG（AI 数据匿名化）等小众但具影响力的产品发布表明，垂直领域与注重隐私的 AI 应用正在突破通用聊天机器人的范畴，获得实质性增长。
+今天的 Product Hunt 产品阵容以**面向开发者的 AI 工具**为主，九款产品中有四款明确瞄准工程师和 API 构建者。**Cortex**（286 票）凭借其雄心勃勃的承诺脱颖而出 —— 可直接从 API 规范自动生成文档、SDK 和 MCP 服务器 —— 这是一个强有力的信号，表明 **Model Context Protocol 生态正在快速成熟**。销售/营销 AI 赛道也在升温，两款竞争性的潜客情报工具 —— **Youkti**（325 票，今日榜首）和 **Coldlineai** —— 都在竞相自动化外部拓客流程。与此同时，**Wokyintosh**（一款复古 Mac 仪表盘）和 **SUDARI**（一只像素水獭桌面宠物）这类轻量、新奇驱动型的产品表明，融入 AI 的趣味性产品在首页仍占有一席之地。
 
 ---
 
-## 🤖 AI 智能体与助手
+## 📋 各品类热门产品
 
-| 产品 | 投票 | 评论 | 简介 |
+### 🤖 AI 智能体与助手
+
+| Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Loqua](https://www.producthunt.com/products/loqua?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/TI22A4U5XM3DVC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 405 | 114 | 一款语音优先的 AI 助手，让用户通过自然语音将想法付诸行动。它通过将打字壁垒转化为免提对话流程脱颖而出，非常适合思维速度快于打字速度的用户。 |
-| [Devin Voice](https://www.producthunt.com/products/devin-voice?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/4RQP6CHF5CGKTB?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 121 | 1 | Devin 编程智能体的语音界面，将口头提示转化为可上线的代码。它的差异化之处在于将 IDE 从流程中剥离，让用户能够完全通过语音指挥一位自主工程师。 |
-| [ChatHop](https://www.producthunt.com/products/chathop?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/DGVVESZHKMLLGQ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 97 | 7 | 一款 Chrome 扩展，使 AI 对话可在任何浏览器场景中无缝迁移。它通过让用户随时随地恢复或转移对话，解决了对话碎片化的痛点。 |
-| [Accordio](https://www.producthunt.com/products/accordio?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/6CSFR4NE6G7XJI?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 81 | 5 | 一款开源工具包，为 Claude 赋予其出厂时缺乏的管理与会议管理增强能力。它将 Claude 延伸至团队工作流的操作层，而不仅停留在对话层面，因而脱颖而出。 |
-| [Spaces](https://www.producthunt.com/products/spaces-21?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/KO2XTGNZQD7RMU?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 77 | 1 | 一个统一的工作空间，让人类同事与 AI 智能体并肩协作。它瞄准的是团队聊天与自主智能体运行之间日益加剧的上下文切换摩擦。 |
+| [QApilot MCP for Android](https://www.producthunt.com/products/qapilot) | 207 | 40 | MCP 服务器，可让编码智能体驱动 Android 应用测试。它通过将测试执行直接融入 AI 开发工作流，解决了移动端 QA 的摩擦问题，以一流的智能体集成脱颖而出。 |
 
----
+### 🛠️ 开发者工具
 
-## 🛠️ 开发者工具
-
-| 产品 | 投票 | 评论 | 简介 |
+| Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Raycast 2.0](https://www.producthunt.com/products/raycast?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/MLZTWKGQKD6OHY?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 318 | 16 | Mac 启动器的下一代版本，现已在命令、代码片段和扩展程序中深度实现 AI 原生化。它是为希望将 AI 融入每一次按键的开发者打造的最精致的生产力外壳。 |
-| [Cline Desktop App](https://www.producthunt.com/products/cline-4?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/LTNZETAC7HBN7K?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 256 | 20 | 一款开源桌面客户端，可在本地运行开源权重模型，用于编程与任务自动化。它通过让开发者完全掌控模型选择、成本与数据隐私而实现差异化。 |
-| [easyspecs.ai](https://www.producthunt.com/products/easyspecs-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/HI6RJ5V5HIW3SN?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 153 | 25 | 一款 AI 驱动的规格审查平台，在代码编写前捕捉漏洞与歧义。它通过结构化、自动化的反馈，攻克了长期存在的工程痛点 —— PRD 对齐偏差。 |
-| [Moji](https://www.producthunt.com/products/moji-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/IARQKQK776V4WE?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 109 | 10 | 一款开源工具，能像 PDF 一样流畅地打开 Markdown 文件。对于厌倦了在不同编辑器中笨拙地预览 `.md` 文件的开发者来说，它格外亮眼。 |
-| [chat-recall](https://www.producthunt.com/products/chat-recall?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/YNWVM3VBLFBGJU?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 95 | 13 | 一款通用搜索工具，可像 Ctrl+F 一样搜索你所有的 AI 对话记录。它解决了埋藏在 ChatGPT、Claude、Copilot 等零散历史记录中的洞察难以检索的痛点。 |
-| [Jackalope](https://www.producthunt.com/products/jackalope?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/FNA57HIHIZRIAY?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 80 | 3 | 一个共享工作空间，将 Codex、Claude Code、Grok 与 OpenCode 统一于同一平台。它作为供应商中立的枢纽脱颖而出，适合那些不希望统一于单一编程智能体的团队。 |
-| [TIM PG](https://www.producthunt.com/products/tim-pg?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/2CCZ2AFNMHTTRO?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 77 | 7 | 一款隐私优先的工具，可在敏感数据粘贴到 AI 工具前对其进行匿名化处理。它解决了企业及合规层面对于 PII 泄漏至 LLM 提示词中的担忧。 |
+| [Cortex](https://www.producthunt.com/products/cortex-25) · [site](https://www.producthunt.com/r/2YCIFX5SDWGMX6) | 286 | 32 | 直接从 API 规范生成文档、SDK 和 MCP 服务器。它消除了数小时的手写集成代码工作，作为首批专为 MCP 生态打造的开源工具之一脱颖而出。 |
+| [Wokyintosh](https://www.producthunt.com/products/wokyintosh) · [site](https://www.producthunt.com/r/DOU2O35DWJVGFT) | 94 | 9 | 将闲置的 Mac 显示器改造成复古风格的系统仪表盘。它解决了硬件闲置问题，以迷人的怀旧驱动设计美学脱颖而出。 |
+| [Stackness](https://www.producthunt.com/products/stackness) · [site](https://www.producthunt.com/r/NHEA5EBWIJFZS2) | 92 | 14 | 一个供开发者展示和发现其工具栈的社交网络。它解决了"我应该用什么？"的发现难题，通过将工具选择转化为可分享、可对比的个人档案脱颖而出。 |
+| [Pascal's Pager](https://www.producthunt.com/products/pascal-s-pager) · [site](https://www.producthunt.com/r/GPBP6USTE4A6RV) | 74 | 2 | 将原始的 webhook JSON 负载转换为人类可读的 iPhone 推送通知。它为独立开发者和副业项目解决了嘈杂的告警问题，以专注、单一用途的工具设计脱颖而出。 |
 
----
+### 📊 AI 应用
 
-## 📊 AI 应用
-
-| 产品 | 投票 | 评论 | 简介 |
+| Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Anysite.io](https://www.producthunt.com/products/anysite?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/LWEA45Q3YRJ7ZK?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 459 | 165 | 一款对话式智能体，通过自然聊天构建并丰富 B2B 线索列表。它以能够理解用户意图的交互式 AI 销售替代僵化的客户开发界面，因而登上今日榜首。 |
-| [Wisry](https://www.producthunt.com/products/wisry?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/T5YGJQXMEGFQV4?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 314 | 49 | 一款 AI，能够克隆你所在市场中表现优异的广告并进行规模化投放。它将竞品广告洞察转化为即插即用的电商创意生成能力，因而脱颖而出。 |
-| [sizeless](https://www.producthunt.com/products/sizeless?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/7FDNA34TLBFPN5?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 93 | 7 | 一套专为绘制与管理地下基础设施而打造的空间 AI 系统。它将现代 AI 引入一个长期停留在传统模式下的行业 —— 公用事业、电信与土木工程，在那里数据无论在字面还是隐喻意义上都深埋不露。 |
+| [Youkti](https://www.producthunt.com/products/youkti) · [site](https://www.producthunt.com/r/AXBZALUEGRY3KK) | 325 | 53 | AI 销售助手，可识别高意向买家并推荐下一步最佳行动。它解决了被浪费的外部拓客精力，作为今日票数最高的产品，凭借强劲的社区参与度脱颖而出。 |
+| [SUDARI](https://www.producthunt.com/products/sudari) · [site](https://www.producthunt.com/r/UQ6KXSRZZGHRQ7) | 67 | 3 | 一只开源的像素水獭桌面伴侣，其行为会适应你的工作模式。它将专注与休息游戏化，通过将生产力工具与个性驱动的 AI 相结合脱颖而出。 |
+| [Coldlineai](https://www.producthunt.com/products/coldlineai) · [site](https://www.producthunt.com/r/BZGTXPI52PAPIP) | 18 | 20 | 为冷邮件拓客生成个性化的 AI 话术。它针对冷邮件回复率低的问题，不过其较低的票数-评论比表明社区正在辩论而非认可。 |
 
----
+### 🎨 创意与内容
 
-## 🔧 基础设施与模型
-
-| 产品 | 投票 | 评论 | 简介 |
+| Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Cadenya](https://www.producthunt.com/products/cadenya-the-agent-runtime?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/JKJBKV6LY7NQII?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 89 | 3 | 一款托管式智能体运行时，将智能体循环封装为托管式基础设施。它通过处理编排、重试与状态管理等平凡却关键的任务，为自主智能体提供底层支撑，从而实现差异化。 |
+| [ABrush](https://www.producthunt.com/products/abrush-2) · [site](https://www.producthunt.com/r/WNR63HR4RGXHOI) | 139 | 22 | 专为数字艺术家打造的 AI 驱动创意工作室。它解决了笔刷、参考素材和生成之间的工作流碎片化问题，作为垂直整合的创意套件而非一次性生成器脱颖而出。 |
 
 ---
 
 ## 📈 市场信号
 
-开发者工具是今日**最为拥挤的类别**，几乎占据全部 AI 发布的一半（16 个中的 8 个）。清晰的子趋势是**智能体基础设施** —— Cadenya（托管式智能体循环）、Jackalope（多模型工作空间）、Spaces（团队 + 智能体协作）与 Accordio（Claude 管理扩展）均在攻克智能体在生产环境中的运行摩擦。第二个强烈信号是**语音成为 AI 新界面**：Loqua 与 Devin Voice 在同日发布，均押注语音将取代打字成为 AI 的主要输入方式。
+**开发者工具主导了今日的产品发布阵容（9 款中占 4 款，约 44%）**，这反映出 AI 构建者的关注点正集中在哪里 —— 尤其是在 **MCP（Model Context Protocol）生态**周边。票数前三的产品中有两款（Cortex 和 QApilot MCP）是 MCP 原生工具，这表明"智能体基础设施管线"正在成为一个真正的产品品类。**销售/营销 AI 赛道是第二拥挤的领域**，Youkti 和 Coldlineai 都在追逐同一个冷启动拓客痛点 —— 这表明该赛道正趋于饱和，差异化将越来越多地来自数据质量和意向信号准确度，而非提示词工程。
 
-创新集中于**具备深厚领域背景的垂直应用** —— Wisry（电商广告克隆），尤其是 sizeless（面向地下基础设施的空间 AI），后者将 AI 应用于物理世界的测绘问题，堪称今年最具真正新颖性的用例之一。Anysite.io 459 票的成绩也验证了"**以聊天作为 B2B 数据工作流界面**"是一种成功模式。
-
-关于开源势头：今日约**三分之一的发布产品为开源**（Cline Desktop App、Moji、Accordio、Jackalope） —— 这一比例相当高，表明 AI 开发者日益将透明度和社区信任视为竞争优势，而非单纯的理念立场。
+**开源势头强劲**：至少有四款产品（Cortex、Wokyintosh、Stackness、SUDARI）明确标注了 GitHub 或开源标签，表明面向开发者的 AI 工具持续青睐透明、可自托管的模式。**新颖的用例**由 Wokyintosh 对闲置 Mac 显示屏的创造性再利用，以及 Pascal's Pager 的极简 webhook 转推送通知桥接领衔 —— 两者都是精益、观点鲜明的工具，专注于把一件事做到极致，而非铺开成庞大的平台。
 
 ---
 
-## ✨ 值得一试
+## ⭐ 值得一试
 
--
+1. **[Cortex](https://www.producthunt.com/products/cortex-25)** — 如果你维护一个 API，它有望取代数小时的文档编写和 SDK 维护工作，其 MCP 服务器输出对于智能体原生应用来说确实具有前瞻性。
+2. **[QApilot MCP for Android](https://www.producthunt.com/products/qapilot)** — 将移动端 QA 融入现有编码智能体工作流的实用方式，对于通过 Claude/Cursor 发布 Android 功能的团队尤其有价值。
+3. **[Pascal's Pager](https://www.producthunt.com/products/pascal-s-pager)** — 一款令人耳目一新的简洁工具，搭建仅需约 5 分钟；非常适合想要获得有意义的告警、而又不想搭建完整监控栈的独立开发者。
 
 ---
 *本日报由 [agents-radar](https://github.com/sikm-lqs/agents-radar) 自动生成。*

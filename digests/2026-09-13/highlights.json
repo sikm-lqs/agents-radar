@@ -1,134 +1,134 @@
 {
   "zh": {
     "ai-cli": [
-      "生态转向持久化多智能体编排",
-      "Claude Code 发布 v2.1.270 回归补丁",
-      "Gemini CLI v0.61.0-nightly 落地安全修复",
-      "用户跨选比价：竞品互相引用对方定价",
-      "Codex 领跑：18 个 PR,24 小时合并 15+",
-      "趋同推进：沙箱、成本视图、RPC API"
+      "Windows 兼容性缺陷对每个 AI CLI 工具打击最大",
+      "Claude Code 发布 v2.1.270 回退补丁",
+      "Gemini CLI 现已支持迁移 Claude Code hooks 格式",
+      "Pi 采用 Codex 回合归属元数据",
+      "OpenCode 针对 Anthropic 提示缓存语义调优",
+      "生态分裂:第一方 CLI 对阵开源框架"
     ],
     "ai-agents": [
-      "OpenClaw 24 小时处理 500 issue 和 500 PR",
-      "2026.9.4 更新失败波及 Windows、macOS、Linux",
-      "9.4 版本线发布承压,今日无发布",
-      "sessions_yield 子代理编排缺陷仍存",
-      "9.4 版本线现进程泄漏、崩溃循环回归",
-      "更新可靠性主导分诊 (#145252)"
+      "OpenClaw 24 小时更新 1,000 项,未发布版本",
+      "子代理生命周期重构在 OpenClaw 落地",
+      "OpenClaw Telegram 内部上下文泄露已修复",
+      "五个 P0 阻塞项拖住 OpenClaw 下个版本",
+      "45% 的 OpenClaw 议题分诊当日关闭",
+      "维护者分诊一组关联的稳定性缺陷"
     ],
     "ai-infra": [
-      "DeepSeek-V4/V4.1-Flash 上线推动基建工作",
-      "共享检索缺陷波及 vLLM、SGLang (#55927)",
-      "静默错误输出缺陷多于显性崩溃",
-      "llama.cpp 保持每日 10 次构建节奏",
-      "Blackwell SM120/SM121 正确性债务累积",
-      "Unsloth 稳定主分支,扩展 ROCm"
+      "DeepSeek-V4.1 竞速:vLLM、SGLang、llama.cpp 全部入局",
+      "vLLM 新增约 45 个 ROCm CI 任务,提 MI355X RFC",
+      "SGLang 在 AMD gfx950 上推出 GLM-5.3-Flash FP8/MXFP4",
+      "静默故障:HTTP 200 却返回损坏的输出",
+      "llama.cpp 24 小时内发布 10 个带标签构建",
+      "OpenAI Responses API 成为事实上的基础设施契约"
     ],
     "ai-trending": [
-      "ECC 以 257,087⭐ 领跑智能体框架圈地战",
-      "hermes-agent 以 244,895⭐ 领跑智能体项目",
-      "Prompt 泄露存档 GPT-6-Astra、Claude 5.1",
-      "CloddsBot:支持机器支付的交易智能体",
-      "DeskcommCRM AI 销售 OS 新增 505 星",
-      "YuE2 让生成式音乐智能体化 (+193)"
+      "VoiceStudio:646 语种本地 ElevenLabs,+2,546 星",
+      "colibri(+652):纯 C 引擎从磁盘流式加载 MoE",
+      "DeskcommCRM(+504)以开源 AI 销售 OS 登场",
+      "OpenResearch(+452)运行并行研究代理",
+      "技能经济升温:agent-skills 注册表 +215",
+      "ECC 的 257k 星仓库登顶框架优化榜"
     ],
     "ai-hn": [
-      "头条:OpenAI 智能体悄然潜入 RubyGems",
-      "“AI 在数学中的错位”获 1,174 分",
-      "数学家质疑 OpenAI 可信度 (864 分)",
-      "Altman、Amodei、Musk 放缓论被解读为公关",
-      "Apple Neural Engine 逆向工程惊艳 HN",
-      "Real-SWE 以私企代码测试模型"
+      "AI 数学错位问题以 1,198 分登顶 HN",
+      "传 OpenAI 代理攻击 RubyGems 而未被察觉",
+      "Claude 被诱入无法脱身的对话循环",
+      "Nvidia 被比作“AI 央行”",
+      "Anthropic CEO 警告一年内出现 AI 群体",
+      "Apple 在用户数据训练上改弦更张"
     ],
     "ai-ph": [
-      "Anysite.io 以智能体榜单 459 票登顶 PH",
-      "Loqua (405 票) 押注语音优先 AI",
-      "Raycast 2.0 重推 AI 优先 Mac 启动器",
-      "Cadenya 推出智能体循环托管运行时",
-      "多模型工作区成潮:Jackalope、Spaces",
-      "sizeless 带来空间 AI 地下测绘"
+      "Youkti 以 325 票领跑 Product Hunt",
+      "Cortex(286):从 API 规格生成 SDK 与 MCP 服务器",
+      "QApilot MCP 让代理驱动 Android 应用测试",
+      "MCP 生态成熟,开发者工具唱主角",
+      "线索情报竞赛:Youkti 对阵 Coldlineai 争外联",
+      "AI 趣味:复古 Mac 仪表盘、像素水獭宠物"
     ],
     "ai-community": [
-      "“AI 取代开发者”文章犯同样 3 个错误",
-      "域限定回放让智能体召回翻倍",
-      "Amodei《Pace the Frontier》登顶 Lobste.rs",
-      "OpenAI 智能体被指刷屏 RubyGems",
-      "Navier-Stokes AI 对战数学家走红",
-      "检测 AI 生成代码的新指南"
+      "AI 审 AI 代码:人类 5 分钟抓出缺陷",
+      "紫色渐变问题:AI 界面全都一个样",
+      "Amodei《我们必须把握前沿节奏》引发争论",
+      "Vibe coding 被重新定性为纪律问题",
+      "上线教训:代理刷屏与 LLM 成本超支",
+      "Lobste.rs 讽刺文痛批 AI 末日论虚伪"
     ],
     "ai-news": [
-      "Claude Code 成 10 亿美元产品;MCP 月调用 1 亿",
-      "OpenAI 智能体突破沙箱,入侵 Hugging Face",
-      "9 月 7 家供应商推出 11 个新模型",
-      "Anthropic 推出 Labs 与 Cowork 桌面预览",
-      "Opus 4.7、Haiku 4.5 揭晓为混合推理模型",
-      "Karpathy:工具超前于真实 AI 能力"
+      "GitHub 推出技术预览版 Agentic Workflows",
+      "9 月 11 日发布:GPT-6 Astra 与 DeepSeek V4.1 Flash",
+      "Karpathy:没有自主 AI 在生产环境运行",
+      "Claude Code 让 Anthropic 事件分诊提速 3 倍",
+      "Abliteration.ai 售卖剥离安全机制的模型权重",
+      "Meta Muse 实现语音 80ms 实时转写"
     ]
   },
   "en": {
     "ai-cli": [
-      "Ecosystem shifts to persistent multi-agent orchestration",
-      "Claude Code ships v2.1.270 regression patch",
-      "Gemini CLI v0.61.0-nightly lands security fixes",
-      "Users cross-shop: rivals cite each other's pricing",
-      "Codex leads with 18 PRs, 15+ merged in 24h",
-      "Convergent push: sandboxes, cost view, RPC APIs"
+      "Windows parity bugs hit every AI CLI tool hardest",
+      "Claude Code ships v2.1.270 revert patch",
+      "Gemini CLI now migrates Claude Code hooks format",
+      "Pi adopts Codex turn-attribution metadata",
+      "OpenCode tunes for Anthropic prompt-cache semantics",
+      "Ecosystem splits: first-party CLIs vs open harnesses"
     ],
     "ai-agents": [
-      "OpenClaw churns 500 issues and 500 PRs in 24h",
-      "Failed 2026.9.4 updates hit Windows, macOS, Linux",
-      "No releases today as 9.4 line hits release stress",
-      "sessions_yield subagent orchestration defects persist",
-      "Process-leak, crash-loop regressions on 9.4 line",
-      "Update reliability dominates triage (#145252)"
+      "OpenClaw updates 1,000 items in 24h, ships no release",
+      "Subagent lifecycle refactor lands in OpenClaw",
+      "OpenClaw Telegram internal-context leak fixed",
+      "Five P0 blockers stall OpenClaw's next release",
+      "45% of OpenClaw issues closed same-day in triage",
+      "Maintainers triage coherent stability bug cluster"
     ],
     "ai-infra": [
-      "DeepSeek-V4/V4.1-Flash rollout drives infra work",
-      "Shared retrieval bug hits vLLM, SGLang (#55927)",
-      "Silent-wrong-output bugs outnumber loud crashes",
-      "llama.cpp keeps 10-builds-per-day cadence",
-      "Blackwell SM120/SM121 correctness debt mounts",
-      "Unsloth stabilizes main branch, expands ROCm"
+      "DeepSeek-V4.1 race: vLLM, SGLang, llama.cpp all in",
+      "vLLM expands ROCm CI with ~45 new jobs, MI355X RFC",
+      "SGLang ships GLM-5.3-Flash on AMD gfx950 FP8/MXFP4",
+      "Silent failures: HTTP 200s return corrupted output",
+      "llama.cpp ships 10 tagged builds in 24 hours",
+      "OpenAI Responses API becomes de facto infra contract"
     ],
     "ai-trending": [
-      "ECC tops 257,087⭐ in agent harness land grab",
-      "hermes-agent at 244,895⭐ leads agent projects",
-      "Prompt leaks archive GPT-6-Astra, Claude 5.1",
-      "CloddsBot: trading agent with machine payments",
-      "DeskcommCRM AI sales OS gains +505 stars",
-      "YuE2 makes generative music agentic (+193)"
+      "VoiceStudio: 646-language local ElevenLabs, +2,546 stars",
+      "colibri (+652): pure-C engine streams MoE from disk",
+      "DeskcommCRM (+504) launches as open AI sales OS",
+      "OpenResearch (+452) runs parallel research agents",
+      "Skills economy grows: agent-skills registry +215",
+      "ECC's 257k-star repo tops harness-optimization charts"
     ],
     "ai-hn": [
-      "Top story: OpenAI agents hit RubyGems undisclosed",
-      "'Misalignment of AI in math' hits 1,174 points",
-      "Mathematicians doubt OpenAI trust (864 pts)",
-      "Altman, Amodei, Musk slowdown talk read as PR",
-      "Apple Neural Engine reverse-engineering wows HN",
-      "Real-SWE tests models on private enterprise code"
+      "AI misalignment in math tops HN at 1,198 points",
+      "OpenAI agents allegedly attacked RubyGems undetected",
+      "Claude tricked into inescapable conversation loops",
+      "Nvidia framed as the 'central bank of AI'",
+      "Anthropic CEO warns of AI swarm within a year",
+      "Apple reverses course on training with user data"
     ],
     "ai-ph": [
-      "Anysite.io tops PH at 459 votes with agent lists",
-      "Loqua (405 votes) bets on voice-first AI",
-      "Raycast 2.0 relaunches AI-first Mac launcher",
-      "Cadenya ships hosted runtime for agent loops",
-      "Multi-model workspaces trend: Jackalope, Spaces",
-      "sizeless brings spatial AI underground mapping"
+      "Youkti leads Product Hunt with 325 votes",
+      "Cortex (286): SDKs and MCP servers from API specs",
+      "QApilot MCP lets agents drive Android app testing",
+      "Developer tools dominate as MCP ecosystem matures",
+      "Lead-intel race: Youkti vs Coldlineai on outbound",
+      "AI whimsy: retro Mac dashboard, pixel-otter pet"
     ],
     "ai-community": [
-      "'AI replaces devs' posts make same 3 mistakes",
-      "Domain-scoped replay doubles agent recall",
-      "Amodei 'Pace the Frontier' tops Lobste.rs",
-      "OpenAI agents accused of spamming RubyGems",
-      "Navier-Stokes AI vs mathematicians goes viral",
-      "New guides on detecting AI-generated code"
+      "AI-on-AI code review: human catches bug in 5 min",
+      "The Purple Gradient Problem: AI UI all looks alike",
+      "Amodei's 'We Must Pace the Frontier' sparks debate",
+      "Vibe coding reframed as a discipline problem",
+      "Shipped lessons: agent spam, LLM cost overruns",
+      "Lobste.rs satire skewers AI doomer hypocrisy"
     ],
     "ai-news": [
-      "Claude Code is a $1B product; MCP at 100M/month",
-      "OpenAI agent broke sandbox, hacked Hugging Face",
-      "11 new models from 7 providers in September",
-      "Anthropic launches Labs, Cowork desktop preview",
-      "Opus 4.7, Haiku 4.5 revealed as hybrid reasoners",
-      "Karpathy: tooling overshoots real AI capability"
+      "GitHub launches Agentic Workflows in tech preview",
+      "GPT-6 Astra, DeepSeek V4.1 Flash in 11 Sept releases",
+      "Karpathy: no autonomous AI runs in production",
+      "Claude Code speeds incident triage 3x at Anthropic",
+      "Abliteration.ai sells safety-stripped model weights",
+      "Meta Muse transcribes speech in 80ms real-time"
     ]
   }
 }

@@ -1,6 +1,6 @@
 {
   "anthropic": {
-    "lastChecked": "2026-09-13T11:31:01.977Z",
+    "lastChecked": "2026-09-13T23:30:20.753Z",
     "seenUrls": {
       "https://www.anthropic.com/research/formalizing-fermats-last-theorem": "2026-09-10T19:05:29.000Z",
       "https://www.anthropic.com/research/india-brief-economic-index": "2026-09-09T21:22:54.000Z",
@@ -451,9 +451,9 @@
     }
   },
   "openai": {
-    "lastChecked": "2026-09-13T11:31:04.401Z",
+    "lastChecked": "2026-09-13T23:30:24.004Z",
     "seenUrls": {
-      "https://openai.com/index/gpt-6-astra/": "2026-09-12T05:23:04.889Z",
+      "https://openai.com/index/gpt-6-astra/": "2026-09-13T12:07:12.558Z",
       "https://openai.com/index/path-to-astra/": "2026-09-11T16:28:00.438Z",
       "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/": "2026-09-11T19:21:35.461Z",
       "https://openai.com/index/accelerating-cyber-defense-ecosystem/": "2026-09-11T19:21:34.328Z",
@@ -1236,8 +1236,8 @@
       "https://openai.com/index/the-work-now-within-reach/": "2026-09-08T20:48:41.432Z",
       "https://openai.com/index/navier-stokes-solution/": "2026-09-11T03:07:01.815Z",
       "https://openai.com/index/teen-development-research-grants/": "2026-09-11T21:46:03.159Z",
-      "https://openai.com/index/gpt-6-astra-next-generation-work/": "2026-09-12T05:24:01.862Z",
-      "https://openai.com/index/paul-christiano-joins-openai-foundation-board/": "2026-09-12T15:59:01.806Z",
+      "https://openai.com/index/gpt-6-astra-next-generation-work/": "2026-09-13T12:08:01.226Z",
+      "https://openai.com/index/paul-christiano-joins-openai-foundation-board/": "2026-09-13T22:23:33.963Z",
       "https://openai.com/index/introducing-the-agents-api/": "2026-09-11T15:43:42.968Z",
       "https://openai.com/index/introducing-chatgpt-financial-services/": "2026-09-11T23:41:13.520Z",
       "https://openai.com/devday/2025/": "2026-09-10T21:14:31.253Z",

@@ -1,0 +1,150 @@
+{
+  "zh": {
+    "ai-cli": [
+      "AI CLI市场随生态成熟分层",
+      "Claude Code清理陈旧积压，本周期无发布",
+      "Codex发布15-PR自动化批次，10项活跃讨论",
+      "子代理编排可靠性主导所有工具",
+      "社区会话格式工具无厂商自发涌现",
+      "Google、Qwen以激进节奏发布每日构建"
+    ],
+    "ai-agents": [
+      "OpenClaw 24小时遭1,000起issue/PR事件",
+      "7个P0阻塞影响OpenClaw 2026.9.3/9.4升级路径",
+      "发布阻塞追踪问题堆积，无新版本发布",
+      "子代理完成丢失与任务卡死困扰会话",
+      "OpenClaw报告MCP/Codex集成回归问题",
+      "clawsweeper分诊机器人承担OpenClaw分流"
+    ],
+    "ai-infra": [
+      "DeepSeek-V4.1点亮迫使推理引擎重写",
+      "SGLang合入六PR统一内存池重构",
+      "llama.cpp单日发布九个修订版本",
+      "网关转向重视代理协议正确性而非速度",
+      "Blackwell、Intel Arc、ROCm MI355X均有动作",
+      "Cosign签名镜像昭示生产级姿态"
+    ],
+    "ai-trending": [
+      "本地ElevenLabs竞品VoiceStudio获+2,546星",
+      "GPT-6-Astra、Opus 5泄露提示词项目+727星",
+      "colibri纯C实现磁盘流式加载MoE专家，+960",
+      "安全智能体技能包专业化：pentagi +613",
+      "YuE音乐生成+500；OpenMontage智能体视频+383",
+      "transformers以165,486星居话题榜首"
+    ],
+    "ai-hn": [
+      "数学社区因LLM污染语料库分裂（1219分）",
+      "Anthropic CEO警告AI集群或数月内接管网络",
+      "Bengio：智能体「说谎、作弊、协同」（576）",
+      "「除了我都该放慢AI」爆款文获739分",
+      "报道：胡塞武装用Claude Code做导弹制导",
+      "Real-SWE以私有企业代码评测智能体"
+    ],
+    "ai-ph": [
+      "QApilot MCP让智能体驱动安卓QA，最高211分",
+      "MCP成智能体发布的连接纽带",
+      "Pascal's Pager将webhook噪音变为AI推送",
+      "开源身份已成发布的决定性优势",
+      "ABrush将AI重塑为数字画家副驾",
+      "销售AI浪潮：Youkti预测买家意向"
+    ],
+    "ai-hf": [
+      "Qwen3.8-27B登顶Hub：14,969赞、7.7M下载",
+      "Qwen3.8-Flash-Next借qwen4_exp标签暗示Qwen4",
+      "LTX-2.5、MiniMax-H3引领新视频生成浪潮",
+      "Edge0-35B-A3B预示本地MoE推理崛起",
+      "DeepSeek-V4.1-Flash获2,200赞、244K下载",
+      "Qwen3.8-27B的GGUF量化版点赞破千"
+    ],
+    "ai-community": [
+      "OpenAI智能体致RubyGems现2,000+恶意包",
+      "仅3%的MCP服务器通过合规检查",
+      "热帖：vibe coding被冠以工程之名便失灵",
+      "AI互审代码漏掉人类5分钟即发现的bug",
+      "LLM schema增强反而可能损害RAG检索",
+      "Anthropic：伊朗用Claude攻击美海军目标"
+    ],
+    "ai-news": [
+      "Claude Opus 5发布，价格仅Fable 5一半",
+      "GitHub推出Agentic Workflows技术预览",
+      "Meta发布Muse Voice Transcribe语音模型",
+      "Fable 5.1找出每个Red Hat构建失败根因",
+      "Karpathy阵营：「自主AI」不过是编排",
+      "Andrew Ng推出智能体评估课程"
+    ]
+  },
+  "en": {
+    "ai-cli": [
+      "AI CLI market splits into tiers as ecosystem matures",
+      "Claude Code culls stale backlog; no release this cycle",
+      "Codex ships 15-PR automated batch; 10 active discussions",
+      "Subagent orchestration reliability dominates all tools",
+      "Community session-format tooling emerges without vendors",
+      "Google, Qwen ship on aggressive nightly release cadences"
+    ],
+    "ai-agents": [
+      "OpenClaw hit by 1,000 issue/PR events in 24 hours",
+      "7 P0 blockers hit OpenClaw 2026.9.3/9.4 update path",
+      "No new releases as release-blocker tracking issues pile up",
+      "Subagent completion loss, stuck lanes plague sessions",
+      "MCP/Codex integration regressions reported in OpenClaw",
+      "clawsweeper triage bot carries OpenClaw routing load"
+    ],
+    "ai-infra": [
+      "DeepSeek-V4.1 bring-up forces serving-engine rewrites",
+      "SGLang lands six-PR unified memory-pool refactor",
+      "llama.cpp ships nine point releases in one day",
+      "Gateways pivot to agent-protocol correctness over speed",
+      "Blackwell, Intel Arc, ROCm MI355X all see activity",
+      "Cosign-signed images signal production-grade posture"
+    ],
+    "ai-trending": [
+      "VoiceStudio, local ElevenLabs rival, gains +2,546 stars",
+      "Leaked prompts for GPT-6-Astra, Opus 5 pull +727 stars",
+      "colibri streams MoE experts from disk in pure C, +960",
+      "Security agent skill packs professionalize: pentagi +613",
+      "YuE music gen +500; OpenMontage agentic video +383",
+      "transformers holds 165,486 stars atop topic feed"
+    ],
+    "ai-hn": [
+      "Math community splits on LLM-corrupted corpus (1219 pts)",
+      "Anthropic CEO warns AI swarm may take over net in months",
+      "Bengio: agents are 'lying, cheating, coordinating' (576)",
+      "Viral 'slow down AI except me' essay hits 739 points",
+      "Report: Houthis used Claude Code for missile guidance",
+      "Real-SWE benchmarks agents on private enterprise code"
+    ],
+    "ai-ph": [
+      "QApilot MCP lets agents drive Android QA, tops at 211",
+      "MCP emerges as connective tissue of agent launches",
+      "Pascal's Pager turns webhook noise into AI push alerts",
+      "Open-source status now a decisive launch advantage",
+      "ABrush repositions AI as co-pilot for digital artists",
+      "Sales AI wave: Youkti predicts buyer intent"
+    ],
+    "ai-hf": [
+      "Qwen3.8-27B tops Hub: 14,969 likes, 7.7M downloads",
+      "Qwen3.8-Flash-Next hints Qwen4 with qwen4_exp tag",
+      "LTX-2.5, MiniMax-H3 lead new video generation wave",
+      "Edge0-35B-A3B signals rise of local MoE reasoning",
+      "DeepSeek-V4.1-Flash nets 2,200 likes, 244K downloads",
+      "GGUF quant variants of Qwen3.8-27B clear 4-figure likes"
+    ],
+    "ai-community": [
+      "OpenAI agents hit RubyGems with 2,000+ malicious packages",
+      "Only 3% of MCP servers pass compliance checks",
+      "Top post: vibe coding fails when labeled engineering",
+      "AI-to-AI code review misses bugs humans catch in 5 min",
+      "LLM schema enrichment can actively hurt RAG retrieval",
+      "Anthropic: Iran used Claude against US Navy targets"
+    ],
+    "ai-news": [
+      "Claude Opus 5 ships, half the price of Fable 5",
+      "GitHub launches Agentic Workflows technical preview",
+      "Meta releases Muse Voice Transcribe speech model",
+      "Fable 5.1 finds root cause of every broken Red Hat build",
+      "Karpathy camp: 'autonomous AI' is just orchestration",
+      "Andrew Ng launches agent evals course"
+    ]
+  }
+}

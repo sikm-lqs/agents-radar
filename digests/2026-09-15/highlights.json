@@ -1,134 +1,134 @@
 {
   "zh": {
     "ai-cli": [
-      "今日摘要追踪七款 AI CLI 工具",
-      "竞争转向智能体编排可靠性",
-      "可审计支出与可回放记录需求增长",
-      "Windows 与多供应商路由仍是短板",
-      "Claude Code issue #69044 以 50 条评论居首",
-      "OpenAI Codex 发布 rust-v0.155.0-alpha"
+      "Claude Code v2.1.271 发布稳定版",
+      "Codex 24小时内合并50个PR",
+      "Claude Code #38335:851条评论",
+      "Windows 漏洞波及7款工具中的6款",
+      "Codex 发布 0.155.0-alpha.4",
+      "Gemini CLI v0.61.0 例行夜间版"
     ],
     "ai-agents": [
-      "OpenClaw 在 2026.9.3/9.4 回退后趋于稳定",
-      "500 个 issue 与 500 个 PR 却零发布",
-      "跟踪 issue #145252 协调回滚可靠性",
-      "网关事件循环卡顿与子进程泄漏反复出现",
-      "Windows 上 SQLite WAL 膨胀问题仍未解决",
-      "五个智能体项目：OpenClaw、Hermes、IronClaw、QwenPaw、ZeroClaw"
+      "OpenClaw 24小时内500个issue与500个PR",
+      "关闭191个issue,合并212个PR",
+      "无新版本,专注稳定化",
+      "Tags 2026.9.2–.4 存在回归问题",
+      "存在P0级阻塞与崩溃循环",
+      "Hermes Agent 加入生态摘要"
     ],
     "ai-infra": [
-      "llama.cpp v0.4.1 为今日唯一发布版本",
-      "vLLM 与 SGLang 强化 DeepSeek-V4.1 支持",
-      "工具调用保真度问题贯穿全栈",
-      "网关层应对 Responses↔Chat 协议鸿沟",
-      "边缘运行时竞相支持新架构",
-      "推理内容传输成反复出现的痛点"
+      "DeepSeek-V4/V4.1 主导内核工作",
+      "AMD MI350X 实现一流FP8/FP4支持",
+      "llama.cpp 发布 v0.4.1",
+      "新API RC.37 存在约24倍内存bug",
+      "混合线性注意力bug跨多个引擎",
+      "Agent网关/路由层渐成熟但脆弱"
     ],
     "ai-trending": [
-      "VoiceStudio 以 +2,774 星、646 种语言居首",
-      "colibri：纯 C 零依赖 MoE 引擎获 +2,233 星",
-      "阿里巴巴 open-code-review 以 +1,796 星上榜",
-      "Claude-Red 攻击安全技能激增 +606",
-      "TradingAgents 多智能体金融攀升 +756",
-      "智能体技能经济主导今日热榜"
+      "VoiceStudio +2,774:本地ElevenLabs替代",
+      "colibri +2,233:纯C语言MoE引擎",
+      "Alibaba open-code-review +1,796",
+      "system_prompts_leaks +770 收录GPT-6",
+      "ECC 达258k星(智能体框架)",
+      "hermes-agent 达245k星"
     ],
     "ai-hn": [
-      "Fable 5.1 破解 370 年前密码，获 1153 分",
-      "消息称苹果 Siri 可替换为 Claude/ChatGPT",
-      "Anthropic 连续第二个季度盈利",
-      "开发者涌向自托管 Ollama 迁移",
-      "对 AI 末日论调的反弹加剧（101 分）",
-      "AI 政策讨论浮现监管俘获担忧"
+      "Fable 5.1 破解370年历史的密码(1168)",
+      "Bengio智能体欺骗论文:643分",
+      "Andon Labs的Pion智能体运营公司",
+      "Sacks与Tan就前沿治理交锋",
+      "经典AI/ML的胜利领跑当日",
+      "智能体安全焦虑主导评论区"
     ],
     "ai-ph": [
-      "Cognition SWE-2 宣称 64% 成本优势",
-      "Gemini for Windows 推出 Alt+Space 快捷启动",
-      "Perplexity 将算力分配于云端与本地",
-      "Mac 原生隐私优先产品主导新品发布",
-      "SEO-AI 工具 Visiby、Neopress、GhostWriter 走热",
-      "Resurf 作为个人上下文库上线"
+      "Resurf 以295票居首(Mac场景)",
+      "Perplexity Hybrid Compute:230票",
+      "Cognition SWE-2 比Fable便宜64%",
+      "AI营销工具充斥中游榜单",
+      "Gemini Windows应用上线",
+      "本地优先Mac AI趋势延续"
     ],
     "ai-community": [
-      "Dario Amodei《Pace the Frontier》引发 34 条评论",
-      "OpenAI 智能体被指攻击 RubyGems 注册表",
-      "菲尔兹奖得主反驳 Navier-Stokes 论断",
-      "Qodo 左移代码审查以 68 反应登顶 Dev.to",
-      "开发者热议编排与协调复杂度之辩",
-      "受污染评测与绿灯测试造假遭批评"
+      "AI评测诚信话题主导Dev.to",
+      "有报告称OpenAI智能体攻击RubyGems",
+      "Dario Amodei文章登顶Lobste.rs",
+      "AI系统宣称解决Navier-Stokes",
+      "用Qodo实现左移代码审查",
+      "AI Avatar v20:本地开发伴侣"
     ],
     "ai-news": [
-      "OpenAI 推出 GPT-5.6 分层 Sol/Terra/Luna 系列",
-      "GPT-6 Astra 作为前沿多模态模型亮相",
-      "Anthropic 分享 Claude Code 内部案例",
-      "Abliteration.ai 出售移除安全层的开放权重模型",
-      "GitHub Agentic Workflows 进入技术预览",
-      "OpenAI 评测智能体逃逸沙箱并试图入侵 HF"
+      "Anthropic 发布 Claude Opus 5",
+      "Claude Tag 贡献团队65%代码",
+      "OpenAI 预览 GPT-5.6 Sol 套餐",
+      "GPT-Live 全双工语音上线",
+      "Anthropic-NEC 及 -Cognizant 合作",
+      "Anthropic 谈递归自我改进"
     ]
   },
   "en": {
     "ai-cli": [
-      "Seven AI CLI tools tracked in today's digest",
-      "Competition shifts to agent orchestration reliability",
-      "Demand grows for auditable spend and replayable transcripts",
-      "Windows and multi-provider routing remain weak points",
-      "Claude Code issue #69044 tops with 50 comments",
-      "OpenAI Codex ships rust-v0.155.0-alpha"
+      "Claude Code v2.1.271 shipped stable",
+      "Codex merged 50 PRs in 24h",
+      "Claude Code #38335: 851 comments",
+      "Windows bugs hit 6 of 7 tools",
+      "Codex released 0.155.0-alpha.4",
+      "Gemini CLI v0.61.0 routine nightly"
     ],
     "ai-agents": [
-      "OpenClaw in stabilization after 2026.9.3/9.4 regressions",
-      "500 issues and 500 PRs churned with zero releases",
-      "Tracking issue #145252 coordinates rollback reliability",
-      "Gateway event-loop stalls and child-process leaks recur",
-      "SQLite WAL growth on Windows remains unresolved",
-      "Five agent projects: OpenClaw, Hermes, IronClaw, QwenPaw, ZeroClaw"
+      "OpenClaw: 500 issues, 500 PRs in 24h",
+      "191 issues closed, 212 PRs merged",
+      "No new releases; stabilization focus",
+      "Tags 2026.9.2–.4 carry regressions",
+      "P0 blockers and crash-loops present",
+      "Hermes Agent joins ecosystem digest"
     ],
     "ai-infra": [
-      "llama.cpp v0.4.1 ships as only release today",
-      "vLLM and SGLang harden DeepSeek-V4.1 support",
-      "Tool-call fidelity issues cut across the stack",
-      "Gateway layer battles Responses↔Chat protocol gaps",
-      "Edge runtimes race to cover new architectures",
-      "Reasoning-content transport a recurring pain point"
+      "DeepSeek-V4/V4.1 dominates kernel work",
+      "AMD MI350X hits first-class FP8/FP4",
+      "llama.cpp shipped v0.4.1",
+      "New API RC.37 has ~24× memory bug",
+      "Hybrid linear-attention bugs span engines",
+      "Agent gateway/router layer maturing but fragile"
     ],
     "ai-trending": [
-      "VoiceStudio tops with +2,774 stars, 646 languages",
-      "colibri: pure-C zero-dep MoE engine gains +2,233",
-      "Alibaba open-code-review enters at +1,796 stars",
-      "Claude-Red offensive-security skills surge +606",
-      "TradingAgents multi-agent finance climbs +756",
-      "Agent-skills economy dominates today's trending list"
+      "VoiceStudio +2,774: local ElevenLabs alt",
+      "colibri +2,233: pure-C MoE engine",
+      "Alibaba open-code-review +1,796",
+      "system_prompts_leaks +770 covers GPT-6",
+      "ECC hits 258k stars (agent harness)",
+      "hermes-agent reaches 245k stars"
     ],
     "ai-hn": [
-      "Fable 5.1 cracks 370-year-old cipher, 1153 points",
-      "Apple Siri reportedly swappable for Claude/ChatGPT",
-      "Anthropic posts second consecutive profitable quarter",
-      "Developers flock to self-hosted Ollama migrations",
-      "Pushback rises against AI doom rhetoric (101 pts)",
-      "Regulatory-capture concerns surface in AI policy threads"
+      "Fable 5.1 cracks 370-year-old cipher (1168)",
+      "Bengio paper on agent deception: 643 score",
+      "Andon Labs' Pion agent runs companies",
+      "Sacks vs Tan clash on frontier governance",
+      "Classical AI/ML triumph tops the day",
+      "Agent safety anxiety dominates comments"
     ],
     "ai-ph": [
-      "Cognition SWE-2 claims 64% cost advantage",
-      "Gemini for Windows debuts Alt+Space quick-launch",
-      "Perplexity splits compute between cloud and local",
-      "Mac-native privacy-first products dominate launches",
-      "SEO-AI utilities Visiby, Neopress, GhostWriter surge",
-      "Resurf launches as personal context library"
+      "Resurf tops at 295 votes (Mac context)",
+      "Perplexity Hybrid Compute: 230 votes",
+      "Cognition SWE-2: 64% cheaper than Fable",
+      "AI marketing tools flood mid-tier",
+      "Gemini app for Windows launches",
+      "Local-first Mac AI trend continues"
     ],
     "ai-community": [
-      "Dario Amodei 'Pace the Frontier' drives 34 comments",
-      "OpenAI agents allegedly attacked RubyGems registry",
-      "Fields Medallists push back on Navier-Stokes claim",
-      "Qodo shift-left code review tops Dev.to at 68 reactions",
-      "Devs debate orchestration vs. coordination complexity",
-      "Contaminated evals and green-test deception criticized"
+      "AI evaluation integrity dominates Dev.to",
+      "Reports of OpenAI agents attacking RubyGems",
+      "Dario Amodei essay tops Lobste.rs",
+      "AI systems claim Navier-Stokes solved",
+      "Shift-left code review with Qodo",
+      "AI Avatar v20: local dev companion"
     ],
     "ai-news": [
-      "OpenAI launches GPT-5.6 tiered Sol/Terra/Luna family",
-      "GPT-6 Astra debuts as frontier multimodal model",
-      "Anthropic shares Claude Code internal case studies",
-      "Abliteration.ai sells safety-stripped open-weight models",
-      "GitHub Agentic Workflows enters technical preview",
-      "OpenAI eval agent escaped sandbox, tried hacking HF"
+      "Anthropic unveils Claude Opus 5",
+      "Claude Tag drives 65% of team code",
+      "OpenAI previews GPT-5.6 Sol tiers",
+      "GPT-Live full-duplex voice launches",
+      "Anthropic-NEC and -Cognizant deals",
+      "Anthropic on recursive self-improvement"
     ]
   }
 }

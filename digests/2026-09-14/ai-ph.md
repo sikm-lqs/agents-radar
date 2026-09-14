@@ -1,16 +1,14 @@
 # Product Hunt AI 产品日报 2026-09-14
 
-> 数据来源: [Product Hunt](https://www.producthunt.com/) | 共 9 个产品 | 生成时间: 2026-09-13 23:30 UTC
+> 数据来源: [Product Hunt](https://www.producthunt.com/) | 共 12 个产品 | 生成时间: 2026-09-14 11:30 UTC
 
 ---
 
-# 🚀 Product Hunt AI 产品速览 — 2026-09-14
+# 🚀 Product Hunt AI 产品日报 — 2026-09-14
 
 ## 1. 今日亮点
 
-今日 Product Hunt 上的 AI 发布明显偏向**面向开发者的工具链与 AI 增强工作流**。Cortex 和 QApilot MCP 都在押注快速崛起的 **Model Context Protocol（MCP）** 标准——这是一个清晰的信号，表明 MCP 已成为智能体生态的连接层。销售与营收团队也迎来了自己的 AI 浪潮：Youkti（买家意向预测）和 ClearList.me（AI 托管的二手市场转售）都在攻克那些原本依赖人工、基于意图的重复性工作流。创意侧，ABrush 把 AI 重新定位为数字艺术家的"副驾驶"而非替代者。值得一提的是，开源项目占比相当高（Cortex、Wokyintosh、Stackness、SUDARI），说明信任和透明度正在成为 AI 工具品类的关键发布优势。
-
----
+今天的 Product Hunt 阵容以 **AI 生产力与开发者工具** 为主，**Resurf**（279 票）以一款 Mac 个人上下文库领跑，显示出用户对"管理上下文"而非仅"生成内容"的 AI 工具存在强劲需求。**Perplexity Hybrid Compute** 引入了一种新颖的混合架构模式——将研究任务卸载到云端，把敏感任务保留在 Mac 本地——预示着 **混合式 AI 部署** 趋势的兴起，在能力与隐私之间取得平衡。在开发者工具侧，**Cognition 的 SWE-2**（一款比 Fable 5.1 便宜 64% 的编程模型）进一步激化了 AI 编程助手的价格战。大型科技公司的存在感则通过 **Gemini Windows 版应用** 体现，而 **Visiby**（AI 搜索可见度追踪）和 **Epilude Notetaker**（私密会议笔记）这类细分领域产品反映出 AI 应用正从聊天机器人扩展到更专业的工作流。
 
 ## 2. 热门产品
 
@@ -18,44 +16,52 @@
 
 | 产品 | 票数 | 评论 | 简介 |
 | :--- | ---: | ---: | :--- |
-| [QApilot MCP for Android](https://www.producthunt.com/products/qapilot?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 211 | 41 | 一款 MCP 服务器，让你的编程智能体能够端到端驱动真实的 Android 应用测试。它消除了"AI 生成代码"与"人工执行测试"之间脆弱的交接——是迈向真正自主移动端 QA 的重要一步。 |
-| [Pascal's Pager](https://www.producthunt.com/products/pascal-s-pager?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 74 | 2 | 利用 AI 摘要能力，将原始的 webhook JSON 负载转换为简洁易读的 iPhone 推送通知。它精准解决了常被低估的开发者痛点：机器事件噪声引发的告警疲劳。 |
+| [Perplexity Hybrid Compute](https://www.producthunt.com/products/perplexity-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/5IWKJOELJGRMKZ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 225 | 3 | 将 AI 工作负载拆分为云端深度研究与本地 Mac 隐私敏感任务。以混合执行模型见长，在单一产品中同时回应了能力上限与数据本地化的关切。 |
+| [Gemini app for Windows](https://www.producthunt.com/products/gemini-6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/SUJWMVICSLS2SN?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 10 | 1 | 通过 Alt + Space 快捷键唤起，将 Google 的 Gemini 助手直接带入 Windows 桌面。作为系统级 AI 入口，与操作系统原生搜索和 Copilot 类产品形成竞争。 |
 
 ### 🛠️ 开发者工具
 
 | 产品 | 票数 | 评论 | 简介 |
 | :--- | ---: | ---: | :--- |
-| [Cortex](https://www.producthunt.com/products/cortex-25?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 301 | 33 | 直接从 OpenAPI 规范生成文档、SDK 和 MCP 服务器——用一个源文件撑起完整的开发者体验。其开源属性和 MCP 输出形态，对正在构建"智能体就绪"API 的团队尤其有吸引力。 |
-| [Wokyintosh](https://www.producthunt.com/products/wokyintosh?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 94 | 9 | 把闲置的 Mac 显示器改造成带怀旧 CRT 美学的复古风系统仪表盘。它踩中了"第二屏"工作流的趋势，对开发者桌面而言既是工具也是氛围单品。 |
-| [Stackness](https://www.producthunt.com/products/stackness?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 92 | 14 | 专为开发者打造的社交主页，一个可分享链接就能展示完整的技术栈。区别于通用 link-in-bio 工具的地方在于它真正理解开发者语境（框架、基础设施、编辑器）。 |
-| [SUDARI](https://www.producthunt.com/products/sudari?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 67 | 3 | 一只开源的像素风水獭，住在你的桌面上，会跟着你的编码/工作节奏做出反应。这是一个轻松可爱的环境计算（ambient computing）示例——在场而不打扰。 |
+| [TablePro](https://www.producthunt.com/products/tablepro?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/DQLUFLFL6B3CAX?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 17 | 1 | 一款面向开发者的原生、免费、开源数据库客户端，是重型商业 GUI 工具的轻量替代品。亮点在于兼顾原生性能、零成本与开源透明。 |
+| [MonoDuty](https://www.producthunt.com/products/monoduty?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/BBPZQXI4QDOOSU?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 11 | 2 | 值班告警系统，通过邮件、短信与电话逐步升级，确保事件永远不会被遗漏。以多通道冗余升级和面向工程团队的 SaaS 友好封装脱颖而出。 |
 
 ### 📊 AI 应用
 
 | 产品 | 票数 | 评论 | 简介 |
 | :--- | ---: | ---: | :--- |
-| [Youkti](https://www.producthunt.com/products/youkti?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 331 | 52 | 识别正处于采购决策窗口期的潜客，并为每个人推荐下一步最佳行动——从线索评分迈向处方式销售。今日票选第一，反映出市场对"替代销售调研苦力活、而非仅仅做分析"的 AI 有着强烈需求。 |
-| [ClearList.me](https://www.producthunt.com/products/clearlist-me?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 20 | 7 | 一个 AI 智能体，能为个人卖家端到端处理整条转售链路——从"还在吗？"的私信到议价和交付。它瞄准的是一个碎片化、高摩擦的市场：大多数卖家因私信轰炸而放弃上架。 |
+| [Resurf](https://www.producthunt.com/products/resurf-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/64OVTILJFOSXX3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 279 | 22 | 一款 Mac 个人上下文库，可在多个 AI 工具之间捕获并复用用户上下文。直击日常使用多个 AI 助手时的"上下文碎片化"痛点。 |
+| [Visiby](https://www.producthunt.com/products/visiby?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/K5QKGJPDFGTEKH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 134 | 13 | 追踪并提升品牌在 Perplexity、ChatGPT、Gemini 等 AI 搜索引擎中的可见度。瞄准新兴的"AI-SEO"赛道，应对自然发现从 Google 转向 LLM 驱动回答的趋势。 |
+| [Neopress](https://www.producthunt.com/products/neopress?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/2EZNTKTNXHKP34?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 108 | 2 | 通过聊天界面端到端地搭建并运营网站。亮点在于将设计、内容与 SEO 工作流整合为单一对话闭环，面向非技术背景的创始人。 |
+| [Epilude Notetaker](https://www.producthunt.com/products/epilude?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/2NAVFS6PSGYRKR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 108 | 9 | 在设备本地生成 100% 私密的会议笔记，确保机密对话永不离开用户设备。在日趋拥挤的 AI 会议助手市场中以隐私优先为差异化卖点。 |
 
 ### 🎨 创意与内容
 
 | 产品 | 票数 | 评论 | 简介 |
 | :--- | ---: | ---: | :--- |
-| [ABrush](https://www.producthunt.com/products/abrush-ai-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 147 | 22 | 专为数字艺术家打造的 AI 原生工作室，把生成、重绘（inpainting）和迭代整合进同一条工作流。它区别于通用图像工具的点是保留了艺术家本位的能力（图层、笔刷逻辑），而非把这些抽象掉。 |
+| [GhostWriter by MyHandler](https://www.producthunt.com/products/ghostwriter-by-myhandler?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/BF5SIJICZW37PQ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 108 | 18 | AI 写作助手，主打"两下点击"完成内容草稿，面向需要快速出稿的繁忙专业人士。亮点是极致出稿速度，优先于深度定制能力。 |
+| [SHIUI](https://www.producthunt.com/products/shiui-hinomaru-ink-ui-kit?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/DM2MJFTO3DRRTB?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 111 | 4 | 一套以日本传统水墨美学为主题的开源 Hinomaru Ink Web UI Kit。亮点在于提供了在西方主导的 UI Kit 市场中鲜见、独具文化辨识度的设计原语。 |
+| [Cue](https://www.producthunt.com/products/cue-21?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/3CV3Z57TD3CYBG?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 11 | 1 | 一款精致的 UI 组件库，定位"Awwwards 级别"的设计品质，面向开发者。亮点是弥合了设计系统的工艺水准与复制即用的开发者体验之间的差距。 |
 
----
+### 🔧 基础设施与模型
+
+| 产品 | 票数 | 评论 | 简介 |
+| :--- | ---: | ---: | :--- |
+| [Cognition's SWE-2](https://www.producthunt.com/products/cognition-s-swe-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/FCGUK3GAKZ3BLA?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 183 | 3 | 一款专为软件工程智能体工作流打造的编程模型，价格比 Fable 5.1 低 64%。亮点是激进的价格策略与对代码生成任务的窄而专的定位。 |
 
 ## 3. 市场信号
 
-今日共 9 款发布，其中**开发者工具**（4 款，占 44%）和 **AI 应用**（2 款）占据主导，**创意与内容**和 **AI 智能体**各贡献了一到两款亮眼产品。最值得关注的模式是 **MCP 相关产品双双出现**（Cortex 可生成 MCP 服务器；QApilot 本身就是面向 Android 测试的 MCP）——这是 MCP 正在成为连接智能体与工具/数据的"事实标准"的明确证据，也意味着开发者的注意力正在转向智能体栈的"管道层"。**开源势头同样值得关注**：Cortex、Wokyintosh、Stackness 和 SUDARI 均为开源项目，反映出在发布日，信任、可审计性和社区贡献正变得越来越具决定性。在**环境计算与"在场式"计算**（SUDARI、Pascal's Pager）以及**智能体电商**（ClearList.me）等方向上，新颖用例正在涌现——AI 不再只是回答问题，而是执行多步骤的市场交互。总体来看，当前的发布组合表明市场正在走出"聊天机器人套壳"的阶段，迈向垂直化、基础设施级的 AI 工具。
+今天的发布分布偏向 **AI 应用型工作流** 而非基础模型——**AI 应用（4 款）** 与 **创意与内容（3 款）** 合计占整个产品阵容的一半以上，而仅 **一款产品（Cognition 的 SWE-2）** 聚焦模型/基础设施层。这表明开发者越来越倾向于用现有模型包装出垂直场景（AI-SEO、会议笔记、上下文管理、网页搭建），而非在原生模型质量上正面对刚。
 
----
+最具新意的模式是 **Perplexity Hybrid Compute 的混合架构**，将研究负载路由至云端、隐私敏感任务交给本地芯片——预示着一个"推理在哪里运行？"将成核心产品维度的近期未来。**Resurf** 的高票数也表明，一个面向 AI 工具上下文碎片化的"上下文即产品"品类正在浮现。会议笔记赛道显然已相当拥挤，**Epilude Notetaker** 仅凭"隐私优先、设备本地"的定位差异化突围。
+
+在 **开源 vs 闭源** 维度上，今天的发布以闭源 SaaS 为主，开源产品则集中在开发者基础设施（**TablePro**、**SHIUI**），说明开源仍是工具类软件的默认选择，而 AI 驱动的终端用户产品仍依赖专有模型进行商业化。
 
 ## 4. 值得一试
 
-1. **[Cortex](https://www.producthunt.com/products/cortex-25?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 如果你在维护 API，这大概是今日杠杆率最高的工具。一份 OpenAPI 规范 → 文档、SDK *以及* MCP 服务器，几分钟内搞定。它是开源的，并且开箱即用。
-2. **[QApilot MCP for Android](https://www.producthunt.com/products/qapilot?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 对于移动开发者来说，在同一个智能体工作流里把代码生成和设备级测试打通，是一个真正能带来生产力跃升的解锁点，值得上手实测。
-3. **[Youkti](https://www.producthunt.com/products/youkti?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 即便不在销售领域，"识别意图 → 推荐行动"这一模式也具有普适参考价值。它拿下当日 #1 票数和 52 条评论，说明已被充分验证，值得试用以理解这个品类正在树立的标准。
+- **[Cognition's SWE-2](https://www.producthunt.com/products/cognition-s-swe-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 编程专用模型相对 Fable 5.1 直降 64%，幅度可观；运行智能体编程流水线的开发者应立即跑分，评估性价比。
+- **[Perplexity Hybrid Compute](https://www.producthunt.com/products/perplexity-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 云端/本地混合执行模式确有新意，对任何在 Apple Silicon 上构建隐私敏感型 AI 功能的开发者都值得上手体验。
+- **[TablePro](https://www.producthunt.com/products/tablepro?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 免费、原生、开源的数据库客户端本就少见；值得在本地开发中作为日常替代品安装使用，替换掉那些更重的商业客户端。
 
 ---
 *本日报由 [agents-radar](https://github.com/sikm-lqs/agents-radar) 自动生成。*

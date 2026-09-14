@@ -1,6 +1,6 @@
 # Hugging Face Trending Models Weekly 2026-09-14
 
-> Source: [Hugging Face Hub](https://huggingface.co/) | 30 models | Generated: 2026-09-13 23:30 UTC
+> Source: [Hugging Face Hub](https://huggingface.co/) | 30 models | Generated: 2026-09-14 11:30 UTC
 
 ---
 
@@ -8,83 +8,67 @@
 
 ---
 
-## 1. Today's Highlights
+## 🌟 Today's Highlights
 
-Qwen3.8 continues its dominance this week, with **Qwen3.8-27B** amassing an extraordinary 14,969 weekly likes and over 7.7M downloads — the single most-engaged model on the Hub. The experimental **Qwen3.8-Flash-Next** (tagged `qwen4_exp`) is also surging, suggesting Alibaba is previewing next-gen architecture directions. **Lightricks/LTX-2.5** and **MiniMaxAI/MiniMax-H3** lead a renewed wave of high-quality video generation releases, while edge-inference MoE models like **Edge0-35B-A3B-preview** point to a growing demand for locally-deployable reasoning. Quantization activity around Qwen3.8-27B is intense, with unsloth and ISTA-DASLab GGUF variants each clearing 4-figure like counts alongside the base model.
-
----
-
-## 2. Trending Models
-
-### 🧠 Language Models
-
-| Model | Author | Likes | Downloads | Summary |
-| :--- | :--- | ---: | ---: | :--- |
-| [Qwen/Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B) | Qwen | 14,969 | 7,768,964 | The flagship Qwen3.8 release — a 27B multimodal-chat model and this week's runaway leader with 14,969 weekly likes. Its conversational quality and broad instruction-following make it the de-facto open baseline for current-generation chat workloads. |
-| [Qwen/Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next) | Qwen | 5,164 | 624,390 | A smaller "Flash" variant tagged `qwen4_exp`, hinting at the next Qwen architecture iteration. Trending strongly thanks to its speed/cost profile and early-access curiosity from the community. |
-| [deepseek-ai/DeepSeek-V4.1-Flash](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash) | deepseek-ai | 2,200 | 244,457 | DeepSeek's V4.1 "Flash" tier — a compact image-text-to-text model optimized for throughput. It's trending as a strong open-weight alternative for budget-conscious multimodal deployments. |
-| [TokenRhythm/NeoHorse-1-4B](https://huggingface.co/TokenRhythm/NeoHorse-1-4B) | TokenRhythm | 1,737 | 7,979 | A 4B agentic text model built on the qwen3_5_text backbone, gaining attention for its tool-use focus. Trending because small agentic models are scarce and the downloads-per-like ratio is rising fast. |
-| [openbmb/MiniCPM5-2B](https://huggingface.co/openbmb/MiniCPM5-2B) | openbmb | 1,339 | 150,110 | MiniCPM5 in its 2B configuration — a highly efficient small LLM. It's trending as a go-to edge-device baseline thanks to its llama-derived architecture and strong benchmark-per-parameter ratio. |
-| [zai-org/GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash) | zai-org | 2,304 | 1,576,209 | Zhipu AI's GLM-5.3 Flash — a multimodal-chat model with the new `glm5_next` architecture tag. Trending for pushing open-weight quality on image-text reasoning at the flash tier. |
-| [XHToken/Spark-X2.5-4B](https://huggingface.co/XHToken/Spark-X2.5-4B) | XHToken | 1,154 | 21,336 | A 4B text model from the Spark2.5 family, positioned as a lightweight general-purpose LLM. Trending in the Asian-language ecosystem for its multilingual coverage at low parameter count. |
-| [Edge0/Edge0-35B-A3B-preview](https://huggingface.co/Edge0/Edge0-35B-A3B-preview) | Edge0 | 1,026 | 3,552 | A 35B-parameter MoE with 3B active — built on qwen3_5_moe and packaged for MLX edge inference. Trending as one of the first preview models explicitly targeting Apple Silicon / local MoE serving. |
-| [Agnes-AI/Agnes-3.0-Flash](https://huggingface.co/Agnes-AI/Agnes-3.0-Flash) | Agnes-AI | 138 | 474 | An early Agnes-3.0 flash release — a multimodal text-generation model from a newer entrant. Trending on novelty despite low absolute downloads, signaling community interest in emerging labs. |
-| [nex-agi/Nex-N2.5-mini](https://huggingface.co/nex-agi/Nex-N2.5-mini) | nex-agi | 755 | 3,970 | A mini MoE built on qwen3_5_moe with image-text-to-text capability. Trending as a cost-efficient multimodal baseline in the emerging Nex family. |
-| [nex-agi/Nex-N2.5-Pro](https://huggingface.co/nex-agi/Nex-N2.5-Pro) | nex-agi | 623 | 30,289 | The Pro-tier counterpart in Nex-N2.5, also qwen3_5_moe-based with multimodal support. Trending for offering higher-quality outputs at competitive parameter counts. |
-| [openai-community/gpt2](https://huggingface.co/openai-community/gpt2) | openai-community | 4,030 | 15,158,496 | The classic GPT-2 — still pulling thousands of weekly likes thanks to its role as a teaching and benchmarking artifact. Its enduring presence confirms HF Hub's archival role for foundational models. |
-
-### 🎨 Multimodal & Generation
-
-| Model | Author | Likes | Downloads | Summary |
-| :--- | :--- | ---: | ---: | :--- |
-| [MiniMaxAI/MiniMax-H3](https://huggingface.co/MiniMaxAI/MiniMax-H3) | MiniMaxAI | 5,237 | 4,819,845 | A flagship image-text-to-video generation model — the dominant video release this week with 5,237 likes. Trending for its strong prompt-following across both text-to-video and image-to-video modes. |
-| [Lightricks/LTX-2.5](https://huggingface.co/Lightricks/LTX-2.5) | Lightricks | 3,738 | 1,548,442 | LTX-2.5 is a diffusion single-file model supporting image-to-video, text-to-video, and video-to-video in one weight. Trending for unifying multiple video pipelines and shipping as a single deployable file. |
-| [WarmBloodAban/Minimax-h3_Singularity](https://huggingface.co/WarmBloodAban/Minimax-h3_Singularity) | WarmBloodAban | 371 | 123,491 | A community-tuned variant of the Minimax-h3 video model branded "Singularity." Trending among video-generation enthusiasts for pushing stylistic boundaries on the base architecture. |
-| [m-a-p/YuE2-3B](https://huggingface.co/m-a-p/YuE2-3B) | m-a-p | 402 | 3,707 | A 3B text-to-audio model specialized for music generation with symbolic planning and agentic editing features. Trending as a rare open model that combines long-form music generation with controllable editing hooks. |
-| [tencent/AuK](https://huggingface.co/tencent/AuK) | tencent | 189 | 1,202 | Tencent's AuK — a zero-shot TTS system with voice cloning. Trending for bringing industrial-grade voice-cloning quality to the open community at a small download footprint. |
-| [Viggle/Viggle-Animate](https://huggingface.co/Viggle/Viggle-Animate) | Viggle | 215 | 0 | A video-to-video pipeline focused on character replacement and animation editing. Trending on novelty and zero initial downloads suggest pre-launch hype among video-editing developers. |
-
-### 🔧 Specialized Models
-
-| Model | Author | Likes | Downloads | Summary |
-| :--- | :--- | ---: | ---: | :--- |
-| [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) | sentence-transformers | 5,927 | 252,928,721 | The canonical compact sentence-embedding model with cross-framework support (PyTorch, TF, Rust, ONNX). Trending perpetually thanks to ~253M downloads — by far the most-downloaded model on the Hub. |
-| [google/timesfm-3.0-pytorch](https://huggingface.co/google/timesfm-3.0-pytorch) | google | 774 | 797,832 | Google's TimesFM 3.0 — a pretrained time-series foundation model with a PyTorch port. Trending as one of the few credible open foundation models for forecasting at production scale. |
-| [Qwen/Qwen-Drive-1.0-4B](https://huggingface.co/Qwen/Qwen-Drive-1.0-4B) | Qwen | 196 | 4,119 | A 4B model purpose-built for autonomous driving motion planning under the `qwen_drive` family. Trending as a rare open-weights release for end-to-end driving policy research. |
-| [facebook/mms-300m](https://huggingface.co/facebook/mms-300m) | facebook | 526 | 12,880 | Meta's 300M-parameter multilingual speech (wav2vec2) pretraining checkpoint covering 1,000+ languages. Trending as a foundational resource for low-resource speech research. |
-| [google-bert/bert-base-uncased](https://huggingface.co/google-bert/bert-base-uncased) | google-bert | 3,300 | 46,513,338 | The original BERT base — a fill-mask encoder still defining NLP pedagogy. Trending with 46M+ downloads as the de-facto baseline for encoder fine-tuning and probing studies. |
-| [distilbert/distilbert-base-uncased](https://huggingface.co/distilbert/distilbert-base-uncased) | distilbert | 1,433 | 7,325,282 | The distilled BERT — offering ~97% of BERT's quality at 60% of the size. Trending as the standard lightweight encoder for production NLP pipelines. |
-| [openai/clip-vit-base-patch32](https://huggingface.co/openai/clip-vit-base-patch32) | openai | 1,499 | 21,331,361 | OpenAI's CLIP ViT-B/32 — a zero-shot image-classification vision-language encoder. Trending for its foundational role in retrieval, captioning, and modern multimodal research. |
-
-### 📦 Fine-tunes & Quantizations
-
-| Model | Author | Likes | Downloads | Summary |
-| :--- | :--- | ---: | ---: | :--- |
-| [unsloth/Qwen3.8-27B-GGUF](https://huggingface.co/unsloth/Qwen3.8-27B-GGUF) | unsloth | 4,009 | 11,005,880 | The community-standard GGUF quantization of Qwen3.8-27B from unsloth. Trending massively (11M+ downloads) as the primary delivery format for llama.cpp / Ollama users running Qwen3.8 locally. |
-| [ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF](https://huggingface.co/ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF) | ISTA-DASLab | 969 | 769,557 | A Qwen3.8-27B GGUF variant using GSQ and RCO mixed-precision quantization. Trending for pushing accuracy-preserving low-bit compression, attractive for researchers benchmarking quant techniques. |
-| [DavidAU/Qwen3.8-27B-TURBO-Fable-Cold-Fusion-735-882-Heretic-Uncensored-NEO-CODER-MAX-MTP-GGUF](https://huggingface.co/DavidAU/Qwen3.8-27B-TURBO-Fable-Cold-Fusion-735-882-Heretic-Uncensored-NEO-CODER-MAX-MTP-GGUF) | DavidAU | 632 | 750,591 | An aggressively-named community fine-tune of Qwen3.8-27B with MTP (multi-token prediction) and uncensored / coding emphasis. Trending in the roleplay-and-coder fine-tune ecosystem for its turbo/MTP claims. |
-| [openbmb/MiniCPM5-2B-GGUF](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) | openbmb | 216 | 99,716 | The official GGUF quantization of MiniCPM5-2B. Trending as the canonical local-deploy format for the MiniCPM5 line on consumer hardware. |
-| [dealignai/GLM-5.3-CYBERSECURITY-FP8](https://huggingface.co/dealignai/GLM-5.3-CYBERSECURITY-FP8) | dealignai | 431 | 30,310 | A GLM-5.3 derivative fine-tuned for cybersecurity tasks, with refusals removed and FP8 weights. Trending among security researchers for offering a domain-specialized open model in a memory-friendly precision. |
+The **Qwen3.8 family** is the clear headline of the week, with the flagship `Qwen3.8-27B` alone racking up **15,071 weekly likes** and **7.7M downloads**, complemented by `Qwen3.8-Flash-Next` and a wave of community GGUFs from Unsloth, ISTA-DASLab, and DavidAU. **Video generation** continues its breakout, led by `MiniMaxAI/MiniMax-H3` (5,266 likes) and a new ComfyUI LoRA ecosystem, alongside `Lightricks/LTX-2.5` and the `Minimax-h3_Singularity` variant. **MoE architectures** are visibly on the rise, with `Edge0-35B-A3B` and the `Nex-N2.5` series built on `qwen3_5_moe`. Meanwhile, **audio/music generation** is gaining ground via `YuE2-3B` and Tencent's `AuK` zero-shot TTS, and time-series forecasting gets a major boost from Google's `timesfm-3.0`.
 
 ---
 
-## 3. Ecosystem Signal
+## 🧠 Language Models
 
-The Qwen3.8 family is unambiguously the gravitational center of this week's Hub — **every** top-5 model by downloads is either Qwen3.8 directly or a derivative, and the experimental **Qwen3.8-Flash-Next** with `qwen4_exp` tags hints at imminent architectural evolution. The presence of three independent GGUF quantizers (unsloth, ISTA-DASLab, DavidAU) plus the official weights underscores a robust **open-weight ecosystem**: third parties are confidently betting infrastructure around Qwen before proprietary incumbents can match ecosystem momentum.
+| Model | Author | Likes | Downloads | Summary |
+| :--- | :--- | ---: | ---: | :--- |
+| [Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B) | Qwen | 15,071 | 7,703,400 | The flagship Qwen3.8 generation model leading the chart this week with conversational and image-text-to-text capabilities. Its 7.7M downloads and 15K likes signal broad community adoption as a base for downstream work. |
+| [Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct) | meta-llama | 7,592 | 5,620,539 | Meta's instruction-tuned 8B model remains a community favorite, riding sustained interest in the Llama 3.1 lineage. Strong download numbers reflect its role as a default open-weight baseline. |
+| [Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next) | Qwen | 5,198 | 645,881 | A faster experimental Qwen3.8 variant (`qwen4_exp` family) optimized for low-latency conversational use. Trending thanks to its image-text-to-text flexibility and "Flash" positioning. |
+| [DeepSeek-V4.1-Flash](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash) | deepseek-ai | 2,333 | 288,414 | DeepSeek's latest Flash release extends image-text-to-text generation with the new `deepseek_v41` architecture. Trending as a cost-effective multimodal option from a top-tier open-weight lab. |
+| [GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash) | zai-org | 2,319 | 1,770,038 | The newest "Flash" entry in Zhipu's GLM-5.3 lineup, supporting image-text-to-text and conversational tasks. Its 1.77M downloads show GLM's continued expansion in the open-weight LLM space. |
+| [NeoHorse-1-4B](https://huggingface.co/TokenRhythm/NeoHorse-1-4B) | TokenRhythm | 1,754 | 9,520 | A compact agentic text model built on the `qwen3_5_text` backbone, designed for tool-using workflows. Trending due to its small footprint and agentic positioning. |
+| [Edge0-35B-A3B-preview](https://huggingface.co/Edge0/Edge0-35B-A3B-preview) | Edge0 | 1,468 | 8,109 | A 35B-parameter MoE with only ~3B active, packaged in MLX format and tagged "edge-inference". It highlights the push toward efficient MoE deployments on consumer hardware. |
+| [MiniCPM5-2B](https://huggingface.co/openbmb/MiniCPM5-2B) | openbmb | 1,367 | 206,774 | The 5th-generation MiniCPM small model from OpenBMB, offering strong performance at 2B parameters. Trending for its balance of efficiency and capability in the Llama-derived lineup. |
+| [bert-base-uncased](https://huggingface.co/google-bert/bert-base-uncased) | google-bert | 3,337 | 46,435,111 | A classic encoder still pulling massive downloads (46M+) thanks to its role as a default NLP backbone. The 3,337 weekly likes reflect its enduring educational and research relevance. |
+| [distilbert-base-uncased](https://huggingface.co/distilbert/distilbert-base-uncased) | distilbert | 1,439 | 7,294,014 | The distilled BERT remains a go-to lightweight encoder for production pipelines. Continued downloads highlight its role in efficient NLP infrastructure. |
+| [gpt2](https://huggingface.co/openai-community/gpt2) | openai-community | 4,071 | 15,182,177 | OpenAI's original GPT-2 still trends on weekly likes (4,071), a testament to its foundational status. Its 15M downloads make it a perennial "hello world" of HF. |
+| [Spark-X2.5-4B](https://huggingface.co/XHToken/Spark-X2.5-4B) | XHToken | 1,163 | 24,084 | A 4B text-generation model in the `spark2_5` family from XHToken. Trending thanks to active development in the Spark small-model ecosystem. |
+| [Nex-N2.5-mini](https://huggingface.co/nex-agi/Nex-N2.5-mini) | nex-agi | 775 | 4,543 | A compact MoE model from nex-agi on the `qwen3_5_moe` backbone supporting image-text-to-text. Early traction reflects the lab's push into multimodal MoE variants. |
+| [Nex-N2.5-Pro](https://huggingface.co/nex-agi/Nex-N2.5-Pro) | nex-agi | 630 | 30,489 | The larger sibling in the Nex-N2.5 family, also built on `qwen3_5_moe` with multimodal support. Its 30K downloads show stronger early production interest than the mini variant. |
+| [Agnes-3.0-Flash](https://huggingface.co/Agnes-AI/Agnes-3.0-Flash) | Agnes-AI | 150 | 736 | A new image-text-to-text "Flash" release from Agnes-AI, marking the lab's third-generation debut. Early-stage traction with high like-to-download ratio signals curious experimentation. |
 
-Edge-inference MoE is the other clear story. **Edge0-35B-A3B-preview** and the qwen3_5_moe-based Nex-N2.5 models suggest a maturation of sparse architectures tuned for consumer GPUs and Apple Silicon — a notable shift from the 70B+ dense paradigm of 2024–25. Combined with unsloth/ISTA-DASLab quantization throughput, the practical floor for "locally-runnable strong model" keeps dropping.
+## 🎨 Multimodal & Generation
 
-Vertical fine-tunes are diversifying: cybersecurity (dealignai), agentic/coding (DavidAU, TokenRhythm), autonomous driving (Qwen-Drive), and music (YuE2) all appear, suggesting the next competitive axis is **domain specialization** rather than raw capability. Meanwhile, video generation has bifurcated into heavyweight diffusion pipelines (Lightricks/LTX-2.5, MiniMaxAI/MiniMax-H3) and lighter editing-focused tools (Viggle), with massive download counts validating commercial demand.
+| Model | Author | Likes | Downloads | Summary |
+| :--- | :--- | ---: | ---: | :--- |
+| [MiniMax-H3](https://huggingface.co/MiniMaxAI/MiniMax-H3) | MiniMaxAI | 5,266 | 4,827,156 | A flagship image-text-to-video model and the anchor of the H3 ecosystem, achieving 4.8M downloads in its first weeks. Its 5,266 weekly likes make it the most-liked video model on the chart. |
+| [LTX-2.5](https://huggingface.co/Lightricks/LTX-2.5) | Lightricks | 3,807 | 1,559,653 | Lightricks' updated video diffusion model supporting image-to-video, text-to-video, and video-to-video in a single-file pipeline. Trending as a strong open competitor in the video-generation space. |
+| [clip-vit-base-patch32](https://huggingface.co/openai/clip-vit-base-patch32) | openai | 1,528 | 21,349,787 | OpenAI's classic CLIP ViT-B/32 continues to dominate zero-shot image classification use cases. Its 21M+ downloads make it one of the most-used vision-language models ever. |
+| [mms-300m](https://huggingface.co/facebook/mms-300m) | facebook | 535 | 19,486 | Meta's 300M-parameter Massively Multilingual Speech (MMS) pretrained wav2vec2 model. Trending as a foundation for multilingual speech recognition across 1,000+ languages. |
+| [Minimax-h3_Singularity](https://huggingface.co/WarmBloodAban/Minimax-h3_Singularity) | WarmBloodAban | 387 | 141,057 | A community-tuned variant of the H3 video model with a creative "Singularity" branding. 141K downloads show the breadth of derivative demand around the H3 base. |
+| [YuE2-3B](https://huggingface.co/m-a-p/YuE2-3B) | m-a-p | 433 | 5,186 | A 3B music-generation model from the m-a-p team supporting symbolic planning and agentic editing. Trending as a niche but high-engagement entry in the AI music space. |
+| [AuK](https://huggingface.co/tencent/AuK) | tencent | 208 | 1,928 | Tencent's zero-shot text-to-speech model with voice-cloning capabilities. Trending as one of the few major-lab releases in the open TTS space this cycle. |
+
+## 🔧 Specialized Models
+
+| Model | Author | Likes | Downloads | Summary |
+| :--- | :--- | ---: | ---: | :--- |
+| [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) | sentence-transformers | 5,958 | 252,806,720 | The de-facto default sentence embedding model, with a staggering 252M+ downloads. Its 5,958 weekly likes reflect continued dominance in semantic search and RAG pipelines. |
+| [timesfm-3.0-pytorch](https://huggingface.co/google/timesfm-3.0-pytorch) | google | 784 | 826,017 | Google's 3rd-generation time-series foundation model for forecasting. Trending as the most prominent open release from a major lab in the time-series domain. |
+
+## 📦 Fine-tunes & Quantizations
+
+| Model | Author | Likes | Downloads | Summary |
+| :--- | :--- | ---: | ---: | :--- |
+| [unsloth/Qwen3.8-27B-GGUF](https://huggingface.co/unsloth/Qwen3.8-27B-GGUF) | unsloth | 4,056 | 10,077,938 | Unsloth's official GGUF quantization of Qwen3.8-27B, breaking 10M downloads. Trending as the primary distribution channel for running Qwen3.8 on local hardware. |
+| [Qwen3.8-27B-GSQ-RCO-GGUF](https://huggingface.co/ISTA-DASLab/Qwen3.8-27B-GSQ-RCO-GGUF) | ISTA-DASLab | 993 | 819,784 | An experimental mixed-precision GGUF using GSQ (Gradient-Scaled Quantization) and RCO techniques. Trending as a research-grade alternative to standard Q4/Q5 GGUFs. |
+| [Qwen3.8-27B-TURBO-Fable-Cold-Fusion-…-GGUF](https://huggingface.co/DavidAU/Qwen3.8-27B-TURBO-Fable-Cold-Fusion-735-882-Heretic-Uncensored-NEO-CODER-MAX-MTP-GGUF) | DavidAU | 658 | 875,703 | A heavily customized Qwen3.8-27B derivative combining Unsloth + Heretic + uncensored fine-tunes. Trending as a one-stop "uncensored coder" GGUF with 875K downloads. |
+| [GLM-5.3-CYBERSECURITY-FP8](https://huggingface.co/dealignai/GLM-5.3-CYBERSECURITY-FP8) | dealignai | 438 | 30,502 | A domain-specialized FP8 GLM-5.3 variant targeted at cybersecurity tasks, with abliteration and refusal-removal. Trending as a verticalized open-weight model in security AI. |
+| [MiniCPM5-2B-GGUF](https://huggingface.co/openbmb/MiniCPM5-2B-GGUF) | openbmb | 223 | 108,471 | The official GGUF build of MiniCPM5-2B for llama.cpp and local inference. Trending alongside the base model's release to enable edge deployment. |
+| [Minimax-H3-ComfyUI](https://huggingface.co/Alissonerdx/Minimax-H3-ComfyUI) | Alissonerdx | 149 | 13,295 | A ComfyUI-compatible LoRA wrapper for the H3 video model. Trending as one of the first community adapters bringing H3 into node-based workflows. |
 
 ---
 
-## 4. Worth Exploring
+## 📈 Ecosystem Signal
 
-- **[Qwen/Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B)** — With 14,969 weekly likes and 7.7M downloads, this is the single best baseline for evaluating where open-weight frontier chat-quality sits right now. Its multimodal capabilities also make it a one-stop model for vision-language prototyping.
-
-- **[MiniMaxAI/MiniMax-H3](https://huggingface.co/MiniMaxAI/MiniMax-H3)** — The leading open video generation model of the week. Worth studying for its prompt adherence and dual image-to-video / text-to-video support, especially given its competitive download velocity against Lightricks.
-
-- **[Edge0/Edge0-
+The week's trending list is dominated by the **Qwen3.8 family** from Alibaba, which appears in six of the top 30 entries spanning the base model, Flash-Next, and four quantization/fine-tune variants — a clear sign of Qwen's current gravitational pull in the open-weight ecosystem. The **MiniMaxAI/MiniMax-H3 video generation stack** has rapidly built its own flywheel, with a base model, an experimental "Singularity" fork, and a ComfyUI LoRA all trending within weeks of release. **MoE architectures** (`qwen3_5_moe` derivatives from Edge0 and nex-agi) and **edge/efficient inference** are clearly accelerating, reflecting community demand for high-quality but small active-parameter models. The quantization ecosystem remains robust: Unsloth's GGUFs are now consistently crossing 10M downloads, and
 
 ---
 *This digest is auto-generated by [agents-radar](https://github.com/sikm-lqs/agents-radar).*

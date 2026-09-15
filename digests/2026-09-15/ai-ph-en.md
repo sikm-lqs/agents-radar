@@ -1,75 +1,75 @@
 # Product Hunt AI Products Digest 2026-09-15
 
-> Source: [Product Hunt](https://www.producthunt.com/) | 12 products | Generated: 2026-09-14 23:30 UTC
+> Source: [Product Hunt](https://www.producthunt.com/) | 12 products | Generated: 2026-09-15 11:30 UTC
 
 ---
 
-# 📬 Product Hunt AI Products Digest — 2026-09-15
+# Product Hunt AI Products Digest
+**Date:** 2026-09-15 | **Total Launches:** 12
+
+---
 
 ## 1. Today's Highlights
 
-Today's Product Hunt lineup signals a clear push toward **local-first and privacy-conscious AI** on the Mac. **Perplexity Hybrid Compute** (230 votes) made the biggest splash with its cloud/local task-splitting architecture, while **Resurf** (295 votes) took the top spot as a personal context library for macOS — reflecting strong demand for on-device intelligence. Developer-focused AI also stood out: **Cognition's SWE-2** (188 votes) launched at 64% cheaper than Fable 5.1, intensifying the AI coding model price war. Meanwhile, AI-powered content and SEO tools (**GhostWriter**, **Visiby**, **Neopress**) dominated the mid-tier, suggesting that "AI for marketing workflows" remains the most active vertical niche.
+Today's Product Hunt lineup is dominated by **AI agents and assistants**, with **Web Search Agents by Nimble** taking the top spot at 355 votes — signaling strong developer appetite for autonomous research and retrieval workflows. **Email automation** is a clear secondary theme, with two top-4 launches (Hello Inbox at #3 and Slashy Assistant at #4) tackling opposite ends of the email pipeline: deliverability and reply automation. Developer tooling remains well-represented, with **Elva** positioning itself as a Postman alternative for AI API consumers, while open-source and on-device AI gains momentum through **Oats** (local meeting transcription) and **Juggler** (visual coding harness).
 
 ---
 
-## 2. Top Products
+## 2. Top Products by Category
 
 ### 🤖 AI Agents & Assistants
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Resurf](https://www.producthunt.com/products/resurf-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/64OVTILJFOSXX3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 295 | 22 | A personal context library for Mac that helps users capture, organize, and resurface knowledge across apps. It addresses context fragmentation in daily workflows and stands out by being Mac-native with a strong design-tool focus. |
-| [Gemini app for Windows](https://www.producthunt.com/products/gemini-6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/SUJWMVICSLS2SN?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 10 | 1 | Google's Gemini assistant for Windows, summoned via an Alt + Space shortcut for instant access. It tackles the friction of launching AI helpers and stands out as a system-level integration competing with native Copilot. |
+| [Web Search Agents by Nimble](https://www.producthunt.com/products/nimbleway?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/4KNJ3HJMVH26RK?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 355 | 49 | Self-learning agents that automate web research and retrieval end-to-end. Stands out by combining autonomy with adaptive learning, removing the need for brittle prompt chains. |
+| [Slashy Assistant](https://www.producthunt.com/products/slashy-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/SGBGN3ITJC3HGN?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 250 | 74 | AI assistant that handles email workflows autonomously on the user's behalf. Differentiates itself through deep inbox action-taking rather than mere drafting or summarization. |
+| [Aside](https://www.producthunt.com/products/aside-6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/ZG3CQQ442FU6YE?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 152 | 38 | An AI browser built to actually execute work tasks, not just assist with them. Positions itself as a task-completing agent layer on top of everyday browsing. |
 
 ### 🛠️ Developer Tools
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Cognition's SWE-2](https://www.producthunt.com/products/cognition-s-swe-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/FCGUK3GAKZ3BLA?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 188 | 3 | A coding-focused AI model positioned as 64% cheaper than Fable 5.1. It targets the escalating cost of AI-assisted development and stands out by aggressively undercutting competing coding models on price-performance. |
-| [TablePro](https://www.producthunt.com/products/tablepro?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/DQLUFLFL6B3CAX?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 17 | 1 | A native, free, and open-source database client built for developers who want a lightweight alternative. It addresses the bloat of legacy DB tools and stands out with native performance and zero licensing cost. |
-| [MonoDuty](https://www.producthunt.com/products/monoduty?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/BBPZQXI4QDOOSU?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 11 | 2 | An on-call alerting platform delivering notifications via email, SMS, and phone. It solves the reliability gap of single-channel alerting and stands out with multi-channel redundancy for incident response. |
+| [Elva](https://www.producthunt.com/products/elva?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/KKBBJSNCVH2VR2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 277 | 47 | A modern API client framed as "goodbye, Postman" — designed for the era of AI API consumers. Stands out by rethinking API interaction around agents rather than human-only workflows. |
+| [TryCase](https://www.producthunt.com/products/trycase?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/YEQOGPUKEO7XYC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 102 | 11 | AI that tests pull requests and produces a video walkthrough before merge. Differentiates by replacing static CI checks with reviewer-style visual QA. |
+| [Juggler](https://www.producthunt.com/products/juggler?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/B2PWXYKBA7ZKGW?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 95 | 4 | A visual AI coding harness that orchestrates coding agents through a graphical interface. Stands out for combining agentic coding with visual workflow control rather than chat-only IDEs. |
 
 ### 📊 AI Applications
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Visiby](https://www.producthunt.com/products/visiby?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/K5QKGJPDFGTEKH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 140 | 15 | A visibility-tracking platform for the new era of AI-powered search engines. It addresses the SEO gap left by ChatGPT, Perplexity, and Gemini citations and stands out by treating AI search engines as a first-class ranking surface. |
-| [Epilude Notetaker](https://www.producthunt.com/products/epilude?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/2NAVFS6PSGYRKR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 109 | 8 | A meeting-notes tool promising 100% privacy for confidential calls. It solves enterprise concerns about sensitive transcripts leaking to third-party AI services and stands out with a privacy-first architecture. |
-| [Neopress](https://www.producthunt.com/products/neopress?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/2EZNTKTNXHKP34?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 108 | 2 | A website builder that lets users chat with AI to design, build, and grow sites. It addresses the technical barrier of launching a website and stands out with conversational site creation built for SEO from the ground up. |
+| [Hello Inbox](https://www.producthunt.com/products/helloinbox?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/7RVHWJWDFELG6Q?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 274 | 41 | AI-powered deliverability tool that helps marketing emails actually reach the inbox. Tackles spam-folder placement, a long-standing pain point for email marketers. |
+| [Oats](https://www.producthunt.com/products/oats-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/P7NBVYHWM3F6PN?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 245 | 69 | Free, open-source, on-device meeting notetaker that runs locally for privacy. Stands out by avoiding cloud uploads entirely while still delivering structured notes. |
+| [OzBrain](https://www.producthunt.com/products/ozbrain?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/BUTDBT5AYLKBGS?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 105 | 15 | Knowledge layer that makes a team's notes accessible to both AI agents and human teammates. Differentiates by treating knowledge as a shared, queryable substrate. |
+| [Marqly 6.0](https://www.producthunt.com/products/marqly?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/D6WLJPUF7DH23E?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 80 | 1 | Bookmark manager that lets users query saved links conversationally and pipe them into AI tools. Turns passive bookmarks into an AI-ready knowledge resource. |
 
 ### 🎨 Creative & Content
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [GhostWriter by MyHandler](https://www.producthunt.com/products/ghostwriter-by-myhandler?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/BF5SIJICZW37PQ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 112 | 18 | A mobile writing assistant that promises "two taps and it's already written." It targets friction in on-the-go content creation and stands out by collapsing drafting to a near-zero-step interaction model. |
-| [SHIUI](https://www.producthunt.com/products/shiui-hinomaru-ink-ui-kit?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/DM2MJFTO3DRRTB?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 111 | 4 | An open-source Hinomaru Ink–style Web UI kit rooted in Japanese visual heritage. It solves the shortage of culturally distinct UI kits and stands out with a strong aesthetic identity rarely seen in mainstream design tooling. |
-| [Cue](https://www.producthunt.com/products/cue-21?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/3CV3Z57TD3CYBG?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 12 | 1 | An "Awwwards-tier" UI component library for web designers and developers. It addresses the gap between production-ready component kits and premium, portfolio-quality aesthetics and stands out with a curated, design-forward component set. |
+| [appdesigns](https://www.producthunt.com/products/appdesigns?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/W75L7NOSUW36S7?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 105 | 9 | Free tool to design polished App Store screenshots without design skills. Stands out by removing cost as a barrier to professional-grade ASO visuals. |
+| [Image to ASCII](https://www.producthunt.com/products/image-to-ascii-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/6FCFFCTUJR7SGE?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 102 | 6 | Converts images into ASCII art for READMEs, Discord, and creative assets. Fills a niche for developers and creators wanting text-based visual flair. |
 
 ### 🔧 Infrastructure & Models
 
-| Product | Votes | Comments | Summary |
-| :--- | ---: | ---: | :--- |
-| [Perplexity Hybrid Compute](https://www.producthunt.com/products/perplexity-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/5IWKJOELJGRMKZ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 230 | 3 | A hybrid compute architecture that runs research tasks in the cloud and privacy-sensitive work locally on Mac. It addresses the trade-off between AI capability and data privacy and stands out as one of the first mainstream hybrid routing frameworks for consumer AI. |
+*No launches in this category today.*
 
 ---
 
 ## 3. Market Signal
 
-The most crowded category today is **AI Applications** (3 launches), all targeting adjacent marketing/SEO/content workflows — confirming that "AI for growth teams" remains the highest-velocity vertical on Product Hunt. **Creative & Content** also showed surprising depth with three launches spanning writing, UI kits, and component libraries, suggesting that aesthetic differentiation is becoming a competitive moat in AI-adjacent tooling.
+Today's 12-launch slate shows a **clear tilt toward AI agents and productivity automation**, with roughly half of all launches (Nimble, Slashy, Aside, Elva, TryCase, Juggler) positioned around autonomous or semi-autonomous task execution rather than passive generation. The **email vertical is unusually crowded**, with two complementary products in the top 4 — Hello Inbox on the sender side and Slashy on the receiver side — suggesting the inbox remains a high-priority battleground for AI startups.
 
-The most novel idea is **Perplexity Hybrid Compute's** task-aware routing between cloud and local compute — a pattern likely to be widely copied as privacy regulation tightens. **Resurf's** "context library" framing is also distinctive, treating personal data as a first-class artifact rather than a side-effect of chat history.
-
-On openness: the day's launches lean **closed-source and proprietary**, with only **SHIUI** (UI kit) and **TablePro** (database client) explicitly marked as open source. Notably, both open-source launches sit outside the pure-AI category, hinting that monetizable AI infrastructure still favors closed models in 2026.
+**Open-source momentum is notable**: Oats (local meeting transcription), Juggler (visual coding harness), and to a lesser extent TryCase lean into transparency, self-hosting, or developer control, reflecting growing user concern around cloud AI costs and privacy. Meanwhile, **creative tooling is light** — only two launches (appdesigns, Image to ASCII) — and notably absent is any new foundation model or MLOps infrastructure release, which may indicate a market pause in core model launches as builders focus on application-layer differentiation.
 
 ---
 
 ## 4. Worth Trying
 
-1. **[Perplexity Hybrid Compute](https://www.producthunt.com/products/perplexity-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — A genuinely new architectural pattern (cloud/local routing). Developers should test it to understand the UX and latency trade-offs of hybrid AI inference, which is likely to define the next generation of consumer AI products.
+1. **[Web Search Agents by Nimble](https://www.producthunt.com/products/nimbleway?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — The day's #1 launch and a strong fit for developers building research pipelines or RAG systems that need fresher, more reliable web data without hand-rolled scrapers.
 
-2. **[Cognition's SWE-2](https://www.producthunt.com/products/cognition-s-swe-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — At 64% cheaper than Fable 5.1, it's worth benchmarking against your current coding assistant. Even partial wins on cost-per-PR could materially shift dev tooling budgets.
+2. **[Juggler](https://www.producthunt.com/products/juggler?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — An open-source visual harness for coding agents; worth exploring for engineers tired of CLI-only agent orchestration and curious about graph-driven agent control.
 
-3. **[Resurf](https://www.producthunt.com/products/resurf-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — A practical context-management layer for Mac power users. If you frequently context-switch between research, writing, and coding, it's a low-friction way to test whether a "personal context library" fits your workflow before the category matures.
+3. **[Elva](https://www.producthunt.com/products/elva?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — A compelling Postman alternative designed with AI API consumers in mind; ideal for developers whose API clients are increasingly agents rather than humans.
 
 ---
 *This digest is auto-generated by [agents-radar](https://github.com/sikm-lqs/agents-radar).*

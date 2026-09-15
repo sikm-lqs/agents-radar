@@ -1,75 +1,75 @@
 # Product Hunt AI 产品日报 2026-09-15
 
-> 数据来源: [Product Hunt](https://www.producthunt.com/) | 共 12 个产品 | 生成时间: 2026-09-14 23:30 UTC
+> 数据来源: [Product Hunt](https://www.producthunt.com/) | 共 12 个产品 | 生成时间: 2026-09-15 11:30 UTC
 
 ---
 
-#  Product Hunt AI 产品速递 — 2026-09-15
+# Product Hunt AI 产品日报
+**日期：** 2026-09-15 | **当日发布总数：** 12
+
+---
 
 ## 1. 今日亮点
 
-今日 Product Hunt 的产品阵容清晰地指向 Mac 上的 **本地优先与隐私保护型 AI**。**Perplexity Hybrid Compute**（230 票）凭借云端/本地任务分流架构引发最大关注，而 **Resurf**（295 票）以 macOS 个人上下文图书馆的定位登顶榜首——反映出用户对端侧智能的强劲需求。面向开发者的 AI 同样表现突出：**Cognition's SWE-2**（188 票）以比 Fable 5.1 便宜 64% 的价格发布，加剧了 AI 编程模型的价格战。与此同时，AI 驱动的内容与 SEO 工具（**GhostWriter**、**Visiby**、**Neopress**）占据了中段席位，表明"面向营销工作流的 AI"仍是最活跃的细分赛道。
+今日的 Product Hunt 榜单由 **AI 代理与助手** 类产品主导，其中 **Web Search Agents by Nimble** 以 355 票高居榜首 —— 表明开发者对自主研究及检索工作流有着强烈的需求。**邮件自动化** 是另一个明显的主题，前 4 名中有两款产品（Hello Inbox 第 3 名、Slashy Assistant 第 4 名）从邮件流水线的两端入手：邮件送达率与自动回复。开发者工具同样表现活跃，**Elva** 定位为面向 AI API 消费者的 Postman 替代品；而开源与本地化 AI 则通过 **Oats**（本地会议转录）和 **Juggler**（可视化编程脚手架）获得关注。
 
 ---
 
-## 2. 热门产品
+## 2. 按类别划分的热门产品
 
-###  AI 智能体与助手
-
-| Product | Votes | Comments | Summary |
-| :--- | ---: | ---: | :--- |
-| [Resurf](https://www.producthunt.com/products/resurf-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/64OVTILJFOSXX3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 295 | 22 | 一款面向 Mac 的个人上下文图书馆，帮助用户在各类应用间捕获、整理并重新调用知识。它解决了日常工作流中的上下文碎片化问题，凭借原生 Mac 体验与对设计工具的深度聚焦脱颖而出。 |
-| [Gemini app for Windows](https://www.producthunt.com/products/gemini-6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/SUJWMVICSLS2SN?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 10 | 1 | 谷歌 Gemini 助手的 Windows 版本，可通过 Alt + Space 快捷键一键呼出。它解决了启动 AI 助手的操作摩擦，凭借系统级集成能力与原生 Copilot 形成竞争。 |
-
-### 🛠️ 开发者工具
+###  AI 代理与助手
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Cognition's SWE-2](https://www.producthunt.com/products/cognition-s-swe-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/FCGUK3GAKZ3BLA?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 188 | 3 | 一款专注编程的 AI 模型，定位为比 Fable 5.1 便宜 64%。它瞄准了 AI 辅助开发日益攀升的成本问题，凭借在性价比上的激进定价脱颖而出。 |
-| [TablePro](https://www.producthunt.com/products/tablepro?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/DQLUFLFL6B3CAX?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 17 | 1 | 一款面向开发者的原生、免费、开源数据库客户端，定位为轻量替代品。它解决了传统数据库工具臃肿的问题，凭借原生性能与零授权成本脱颖而出。 |
-| [MonoDuty](https://www.producthunt.com/products/monoduty?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/BBPZQXI4QDOOSU?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 11 | 2 | 一款告警值班平台，通过邮件、短信和电话发送通知。它解决了单一渠道告警的可靠性短板，凭借多渠道冗余机制为事件响应提供保障。 |
+| [Web Search Agents by Nimble](https://www.producthunt.com/products/nimbleway?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/4KNJ3HJMVH26RK?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 355 | 49 | 端到端自动化网络研究与检索的自学习代理。亮点在于将自主性与自适应学习相结合，免去了脆弱的提示链。 |
+| [Slashy Assistant](https://www.producthunt.com/products/slashy-3?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/SGBGN3ITJC3HGN?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 250 | 74 | 可代替用户自主处理邮件工作流的 AI 助手。差异化之处在于深度执行收件箱操作，而非仅仅起草或摘要。 |
+| [Aside](https://www.producthunt.com/products/aside-6?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/ZG3CQQ442FU6YE?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 152 | 38 | 一款真正用于执行工作任务（而不仅仅是辅助）的 AI 浏览器。定位为日常浏览之上的任务执行型代理层。 |
+
+### 🛠️ 开发工具
+
+| Product | Votes | Comments | Summary |
+| :--- | ---: | ---: | :--- |
+| [Elva](https://www.producthunt.com/products/elva?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/KKBBJSNCVH2VR2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 277 | 47 | 一款以"告别 Postman"为口号设计的现代 API 客户端 —— 专为 AI API 消费时代而生。亮点在于围绕代理而非纯人工工作流重新设计 API 交互。 |
+| [TryCase](https://www.producthunt.com/products/trycase?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/YEQOGPUKEO7XYC?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 102 | 11 | 在合并前测试 Pull Request 并生成视频走查的 AI。差异化之处在于以审核员风格的视觉 QA 取代静态的 CI 检查。 |
+| [Juggler](https://www.producthunt.com/products/juggler?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/B2PWXYKBA7ZKGW?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 95 | 4 | 通过图形化界面编排编程代理的可视化 AI 编程脚手架。亮点在于将代理式编程与可视化工作流控制相结合，而非仅靠聊天的 IDE。 |
 
 ### 📊 AI 应用
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [Visiby](https://www.producthunt.com/products/visiby?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/K5QKGJPDFGTEKH?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 140 | 15 | 一款面向 AI 搜索引擎时代的可见性追踪平台。它填补了 ChatGPT、Perplexity、Gemini 引用场景下的 SEO 空白，将 AI 搜索引擎作为一等排序维度来对待。 |
-| [Epilude Notetaker](https://www.producthunt.com/products/epilude?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/2NAVFS6PSGYRKR?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 109 | 8 | 一款主打 100% 隐私保护的会议记录工具。它回应了企业对敏感会议转录泄露至第三方 AI 服务的担忧，凭借隐私优先的架构脱颖而出。 |
-| [Neopress](https://www.producthunt.com/products/neopress?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/2EZNTKTNXHKP34?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 108 | 2 | 一款通过对话式 AI 设计、搭建和运营网站的建站工具。它解决了上线网站的技术门槛问题，凭借对话式建站体验与 SEO 原生设计脱颖而出。 |
+| [Hello Inbox](https://www.producthunt.com/products/helloinbox?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/7RVHWJWDFELG6Q?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 274 | 41 | 帮助营销邮件真正抵达收件箱的 AI 送达率工具，直击邮件营销人员长期面临的痛点 —— 邮件被投入垃圾邮件文件夹。 |
+| [Oats](https://www.producthunt.com/products/oats-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/P7NBVYHWM3F6PN?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 245 | 69 | 免费、开源、本地运行的会议笔记工具，全程本地处理以保护隐私。亮点在于完全避免云端上传，同时仍能输出结构化笔记。 |
+| [OzBrain](https://www.producthunt.com/products/ozbrain?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/BUTDBT5AYLKBGS?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 105 | 15 | 让团队笔记同时对 AI 代理与人类同事可用的知识层。差异化之处在于将知识视为共享的、可查询的底层资源。 |
+| [Marqly 6.0](https://www.producthunt.com/products/marqly?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/D6WLJPUF7DH23E?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 80 | 1 | 支持以对话方式查询已保存链接并将其接入 AI 工具的书签管理器，将被动的书签转化为可被 AI 利用的知识资源。 |
 
 ### 🎨 创意与内容
 
 | Product | Votes | Comments | Summary |
 | :--- | ---: | ---: | :--- |
-| [GhostWriter by MyHandler](https://www.producthunt.com/products/ghostwriter-by-myhandler?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/BF5SIJICZW37PQ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 112 | 18 | 一款主打"两次点击即可成稿"的移动端写作助手。它瞄准了移动场景下内容创作的摩擦痛点，将撰写流程压缩到几乎零步骤的交互模型。 |
-| [SHIUI](https://www.producthunt.com/products/shiui-hinomaru-ink-ui-kit?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/DM2MJFTO3DRRTB?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 111 | 4 | 一款根植于日本视觉传统的开源 Hinomaru Ink 风格 Web UI 套件。它填补了具有文化辨识度 UI 套件的空白，凭借主流设计工具中罕见的高辨识度美学脱颖而出。 |
-| [Cue](https://www.producthunt.com/products/cue-21?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/3CV3Z57TD3CYBG?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 12 | 1 | 一款面向 Web 设计师与开发者的"Awwwards 级别"UI 组件库。它填补了可投产组件库与作品集级美学之间的鸿沟，凭借精挑细选且设计导向的组件集脱颖而出。 |
+| [appdesigns](https://www.producthunt.com/products/appdesigns?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/W75L7NOSUW36S7?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 105 | 9 | 无需设计技能即可制作精美 App Store 截图的免费工具，亮点在于消除了专业级 ASO 视觉素材的成本门槛。 |
+| [Image to ASCII](https://www.producthunt.com/products/image-to-ascii-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/6FCFFCTUJR7SGE?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 102 | 6 | 将图片转换为 ASCII 艺术，可用于 README、Discord 及创意素材，满足开发者和创作者对文字化视觉效果的细分需求。 |
 
-### 🔧 基础设施与模型
+###  基础设施与模型
 
-| Product | Votes | Comments | Summary |
-| :--- | ---: | ---: | :--- |
-| [Perplexity Hybrid Compute](https://www.producthunt.com/products/perplexity-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) · [site](https://www.producthunt.com/r/5IWKJOELJGRMKZ?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29) | 230 | 3 | 一款混合计算架构，将研究类任务放在云端、将隐私敏感型任务放在 Mac 本地执行。它解决了 AI 能力与数据隐私之间的权衡难题，是首批面向消费级 AI 的主流混合路由框架之一。 |
+*今日该类别无新发布。*
 
 ---
 
 ## 3. 市场信号
 
-今日最拥挤的赛道是 **AI Applications**（3 款新品），全部瞄准营销/SEO/内容工作流的相邻场景——印证了"面向增长团队的 AI"仍是 Product Hunt 上最高速增长的细分领域。**Creative & Content** 同样展现出意外深度，三款新品覆盖写作、UI 套件和组件库，表明美学差异化正成为 AI 相邻工具的竞争护城河。
+今日 12 款产品的整体格局明显向 **AI 代理与生产力自动化** 倾斜，约一半的产品（Nimble、Slashy、Aside、Elva、TryCase、Juggler）都定位于自主或半自主的任务执行，而非被动的生成。**邮件赛道异常拥挤**，前 4 名中出现了两款互补的产品 —— Hello Inbox 面向发件端，Slashy 面向收件端 —— 这表明收件箱仍是 AI 创业公司高度优先争夺的战场。
 
-最具新意的想法来自 **Perplexity Hybrid Compute**——云端与本地算力之间基于任务感知的路由调度，这一模式随着隐私监管趋严很可能被广泛效仿。**Resurf** 的"上下文图书馆"叙事也别具一格，将个人数据视为一等公民，而非聊天历史的副产品。
-
-从开放程度上看：今日新品整体偏向 **闭源与专有**，明确标注开源的只有 **SHIUI**（UI 套件）和 **TablePro**（数据库客户端）。值得注意的是，这两款开源产品均不在纯 AI 类别中，暗示在 2026 年，可商业化的 AI 基础设施仍更青睐闭源模型。
+**开源势头值得关注**：Oats（本地会议转录）、Juggler（可视化编程脚手架），以及程度稍弱的 TryCase，都在强调透明度、自托管或开发者控制力，反映出用户对云端 AI 成本与隐私的担忧日益增长。与此同时，**创意工具类较为清淡** —— 仅有两款产品（appdesigns、Image to ASCII）—— 而且值得注意的是，今日没有任何新的基础模型或 MLOps 基础设施发布，这或许意味着核心模型发布进入了一段市场静默期，开发者正将重心放在应用层的差异化上。
 
 ---
 
 ## 4. 值得一试
 
-1. **[Perplexity Hybrid Compute](https://www.producthunt.com/products/perplexity-ai?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 一种真正全新的架构模式（云端/本地路由）。开发者值得上手体验，以理解混合 AI 推理在体验与延迟上的取舍——这很可能定义下一代消费级 AI 产品的走向。
+1. **[Web Search Agents by Nimble](https://www.producthunt.com/products/nimbleway?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 当日榜首产品，非常适合需要更新、更可靠的网络数据来搭建研究流水线或 RAG 系统的开发者，免去了手写爬虫的麻烦。
 
-2. **[Cognition's SWE-2](https://www.producthunt.com/products/cognition-s-swe-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 相比 Fable 5.1 便宜 64%，值得与你当前在用的编程助手做一次基准对比。即便只是部分场景的成本下降，也可能实质性改变开发工具的预算分配。
+2. **[Juggler](https://www.producthunt.com/products/juggler?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 一款面向编程代理的开源可视化脚手架；对于厌倦了纯 CLI 代理编排、对图形化代理控制感兴趣的工程师值得一试。
 
-3. **[Resurf](https://www.producthunt.com/products/resurf-2?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 一层面向 Mac 重度用户的实用上下文管理层。如果你经常在调研、写作和编程之间频繁切换，这是一个低门槛的方式，可以提前验证"个人上下文图书馆"是否契合你的工作流，赶在该品类走向成熟之前。
+3. **[Elva](https://www.producthunt.com/products/elva?utm_campaign=producthunt-api&utm_medium=api-v2&utm_source=Application%3A+agents-radar+%28ID%3A+298441%29)** — 一款专为 AI API 消费者量身打造的 Postman 替代品；对于 API 客户端正逐渐由代理（而非人类）驱动的开发者而言，是理想之选。
 
 ---
 *本日报由 [agents-radar](https://github.com/sikm-lqs/agents-radar) 自动生成。*

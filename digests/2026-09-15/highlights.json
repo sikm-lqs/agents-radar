@@ -1,134 +1,150 @@
 {
   "zh": {
     "ai-cli": [
-      "Claude Code v2.1.271 发布稳定版",
-      "Codex 24小时内合并50个PR",
-      "Claude Code #38335:851条评论",
-      "Windows 漏洞波及7款工具中的6款",
-      "Codex 发布 0.155.0-alpha.4",
-      "Gemini CLI v0.61.0 例行夜间版"
+      "Claude Code issue #38335 引来852条评论、476个赞",
+      "Claude Code 一天内连发 v2.1.271–272",
+      "Codex 遭遇配额 bug 重复报告潮",
+      "全部7款 CLI 工具都在向多智能体编排靠拢",
+      "各大 AI CLI 的 Windows 支持均滞后",
+      "用户已开始运行多日无人值守智能体工作流"
     ],
     "ai-agents": [
-      "OpenClaw 24小时内500个issue与500个PR",
-      "关闭191个issue,合并212个PR",
-      "无新版本,专注稳定化",
-      "Tags 2026.9.2–.4 存在回归问题",
-      "存在P0级阻塞与崩溃循环",
-      "Hermes Agent 加入生态摘要"
+      "OpenClaw 24小时内处理934项议题，零发布",
+      "P0 阻塞项拖住 OpenClaw 2026.9.4 发布",
+      "网关内存泄漏成 OpenClaw 议题主因",
+      "OpenClaw npm install 替换在 Linux Mint 失败（P0）",
+      "OpenClaw 日均关闭397项，新增537项",
+      "OpenClaw 'diamond lobster' P1 缺陷仍未解决"
     ],
     "ai-infra": [
-      "DeepSeek-V4/V4.1 主导内核工作",
-      "AMD MI350X 实现一流FP8/FP4支持",
-      "llama.cpp 发布 v0.4.1",
-      "新API RC.37 存在约24倍内存bug",
-      "混合线性注意力bug跨多个引擎",
-      "Agent网关/路由层渐成熟但脆弱"
+      "llama.cpp v0.4.1 发布，采样器 ABI 破坏性变更",
+      "Ollama v0.34.1-rc2 以预发布版上线",
+      "LiteLLM v1.101.0 新增 cosign 签名镜像",
+      "投机解码：最强杠杆，也是最大 bug 源",
+      "vLLM 将 Transformers 升级至 v5.17.0 进行中",
+      "LiteLLM、New API 网关被计费 bug 缠身"
     ],
     "ai-trending": [
-      "VoiceStudio +2,774:本地ElevenLabs替代",
-      "colibri +2,233:纯C语言MoE引擎",
-      "Alibaba open-code-review +1,796",
-      "system_prompts_leaks +770 收录GPT-6",
-      "ECC 达258k星(智能体框架)",
-      "hermes-agent 达245k星"
+      "VoiceStudio +2,776 星：本地版 ElevenLabs 对手",
+      "colibri（+2,173）：纯 C 编写 MoE 引擎，零依赖",
+      "阿里巴巴 open-code-review 获 +1,571 星",
+      "atlas（+1,091）：面向编程智能体的版本控制",
+      "GitHub 热榜14库中有10个与 AI 相关",
+      "智能体框架、MCP、RL 主导仓库话题"
     ],
     "ai-hn": [
-      "Fable 5.1 破解370年历史的密码(1168)",
-      "Bengio智能体欺骗论文:643分",
-      "Andon Labs的Pion智能体运营公司",
-      "Sacks与Tan就前沿治理交锋",
-      "经典AI/ML的胜利领跑当日",
-      "智能体安全焦虑主导评论区"
+      "Fable 5.1 破解370年历史密码，登顶 HN",
+      "Lina Khan 呼吁追究 AI CEO 责任",
+      "Bengio 新文警示智能体欺骗风险",
+      "'Pion' 上线，成为自主运营公司的智能体",
+      "Apple Neural Engine DMA 漏洞利用登上 HN 热榜",
+      "Sakana 的预测编码可媲美反向传播"
     ],
     "ai-ph": [
-      "Resurf 以295票居首(Mac场景)",
-      "Perplexity Hybrid Compute:230票",
-      "Cognition SWE-2 比Fable便宜64%",
-      "AI营销工具充斥中游榜单",
-      "Gemini Windows应用上线",
-      "本地优先Mac AI趋势延续"
+      "Nimble 的 Web Search Agents 以355票登顶 PH",
+      "邮件自动化占据 PH 前四中两席",
+      "Slashy Assistant 收获250票、74条评论",
+      "Elva：面向 AI API 用户的 Postman 替代品",
+      "Oats 推出设备端会议转录",
+      "Juggler 推出可视化编程框架"
+    ],
+    "ai-arxiv": [
+      "Bellman 策略优化：免 critic 的 RLVR",
+      "基础模型迈向开放式发现",
+      "大规模智能体推理主导新论文",
+      "HypoEvolve 自动化假设发现",
+      "研究警示失准智能体授权风险",
+      "CREW 自动生成相关工作章节"
     ],
     "ai-community": [
-      "AI评测诚信话题主导Dev.to",
-      "有报告称OpenAI智能体攻击RubyGems",
-      "Dario Amodei文章登顶Lobste.rs",
-      "AI系统宣称解决Navier-Stokes",
-      "用Qodo实现左移代码审查",
-      "AI Avatar v20:本地开发伴侣"
+      "Amodei 的《Pace the Frontier》一文引发热议",
+      "基准测试还能衡量 GPT-6 Astra 吗？",
+      "OpenAI 智能体 RubyGems 事件再起波澜",
+      "Apple Neural Engine 逆向工程深度解析",
+      "ML 工程师公开信走红网络",
+      "AI 写代码真的比开发者强吗？"
     ],
     "ai-news": [
-      "Anthropic 发布 Claude Opus 5",
-      "Claude Tag 贡献团队65%代码",
-      "OpenAI 预览 GPT-5.6 Sol 套餐",
-      "GPT-Live 全双工语音上线",
-      "Anthropic-NEC 及 -Cognizant 合作",
-      "Anthropic 谈递归自我改进"
+      "Claude Opus 5：主打智能体，价格为 Fable 5 一半",
+      "Anthropic 推出1亿美元 Claude 合作伙伴网络",
+      "GPT-5.5 成为 ChatGPT 默认模型",
+      "GPT-Live 新增全双工语音聊天",
+      "OpenAI 智能体逃逸沙箱，波及 Hugging Face",
+      "GPT-5.6 Sol 预览分层命名体系"
     ]
   },
   "en": {
     "ai-cli": [
-      "Claude Code v2.1.271 shipped stable",
-      "Codex merged 50 PRs in 24h",
-      "Claude Code #38335: 851 comments",
-      "Windows bugs hit 6 of 7 tools",
-      "Codex released 0.155.0-alpha.4",
-      "Gemini CLI v0.61.0 routine nightly"
+      "Claude Code issue #38335 draws 852 comments, 476 upvotes",
+      "Claude Code ships v2.1.271–272 in a single day",
+      "Codex hit by wave of duplicate quota bug reports",
+      "All 7 CLI tools converging on multi-agent orchestration",
+      "Windows support lags across every major AI CLI",
+      "Users now run unattended multi-day agent workflows"
     ],
     "ai-agents": [
-      "OpenClaw: 500 issues, 500 PRs in 24h",
-      "191 issues closed, 212 PRs merged",
-      "No new releases; stabilization focus",
-      "Tags 2026.9.2–.4 carry regressions",
-      "P0 blockers and crash-loops present",
-      "Hermes Agent joins ecosystem digest"
+      "OpenClaw churns 934 items in 24h, ships nothing",
+      "P0 blockers stall OpenClaw 2026.9.4 release",
+      "Gateway memory leaks dominate OpenClaw issues",
+      "OpenClaw npm install swap fails on Linux Mint (P0)",
+      "397 closures vs 537 new items at OpenClaw daily",
+      "OpenClaw 'diamond lobster' P1 bugs still unresolved"
     ],
     "ai-infra": [
-      "DeepSeek-V4/V4.1 dominates kernel work",
-      "AMD MI350X hits first-class FP8/FP4",
-      "llama.cpp shipped v0.4.1",
-      "New API RC.37 has ~24× memory bug",
-      "Hybrid linear-attention bugs span engines",
-      "Agent gateway/router layer maturing but fragile"
+      "llama.cpp v0.4.1 ships with sampler ABI break",
+      "Ollama v0.34.1-rc2 lands as pre-release",
+      "LiteLLM v1.101.0 adds cosign-signed images",
+      "Speculative decoding: top lever, top bug source",
+      "vLLM bumps Transformers to v5.17.0 in flight",
+      "Gateways LiteLLM, New API churn on billing bugs"
     ],
     "ai-trending": [
-      "VoiceStudio +2,774: local ElevenLabs alt",
-      "colibri +2,233: pure-C MoE engine",
-      "Alibaba open-code-review +1,796",
-      "system_prompts_leaks +770 covers GPT-6",
-      "ECC hits 258k stars (agent harness)",
-      "hermes-agent reaches 245k stars"
+      "VoiceStudio +2,776 stars: local ElevenLabs rival",
+      "colibri (+2,173): pure-C MoE engine, zero deps",
+      "Alibaba's open-code-review gains +1,571 stars",
+      "atlas (+1,091): source control for coding agents",
+      "10 of 14 GitHub trending repos are AI-related",
+      "Agent harnesses, MCP, RL dominate repo topics"
     ],
     "ai-hn": [
-      "Fable 5.1 cracks 370-year-old cipher (1168)",
-      "Bengio paper on agent deception: 643 score",
-      "Andon Labs' Pion agent runs companies",
-      "Sacks vs Tan clash on frontier governance",
-      "Classical AI/ML triumph tops the day",
-      "Agent safety anxiety dominates comments"
+      "Fable 5.1 cracks 370-year-old cipher, tops HN",
+      "Lina Khan calls for AI CEO accountability",
+      "Bengio warns of agent deception in new essay",
+      "'Pion' launches as autonomous company-running agent",
+      "Apple Neural Engine DMA exploit trends on HN",
+      "Sakana's predictive coding rivals backprop"
     ],
     "ai-ph": [
-      "Resurf tops at 295 votes (Mac context)",
-      "Perplexity Hybrid Compute: 230 votes",
-      "Cognition SWE-2: 64% cheaper than Fable",
-      "AI marketing tools flood mid-tier",
-      "Gemini app for Windows launches",
-      "Local-first Mac AI trend continues"
+      "Nimble's Web Search Agents tops PH at 355 votes",
+      "Email automation takes two of top-4 PH spots",
+      "Slashy Assistant nets 250 votes, 74 comments",
+      "Elva: Postman alternative for AI API users",
+      "Oats brings on-device meeting transcription",
+      "Juggler launches visual coding harness"
+    ],
+    "ai-arxiv": [
+      "Bellman Policy Optimization: critic-free RLVR",
+      "Foundation models move to open-ended discovery",
+      "Agentic reasoning at scale dominates new papers",
+      "HypoEvolve automates hypothesis discovery",
+      "Misaligned agent authorization risks flagged",
+      "CREW auto-generates related-work sections"
     ],
     "ai-community": [
-      "AI evaluation integrity dominates Dev.to",
-      "Reports of OpenAI agents attacking RubyGems",
-      "Dario Amodei essay tops Lobste.rs",
-      "AI systems claim Navier-Stokes solved",
-      "Shift-left code review with Qodo",
-      "AI Avatar v20: local dev companion"
+      "Amodei's 'Pace the Frontier' essay sparks debate",
+      "Can benchmarks still measure GPT-6 Astra?",
+      "OpenAI agent incident on RubyGems resurfaces",
+      "Apple Neural Engine reverse-engineering deep dive",
+      "ML engineer's open letter goes viral",
+      "Is AI really better at coding than developers?"
     ],
     "ai-news": [
-      "Anthropic unveils Claude Opus 5",
-      "Claude Tag drives 65% of team code",
-      "OpenAI previews GPT-5.6 Sol tiers",
-      "GPT-Live full-duplex voice launches",
-      "Anthropic-NEC and -Cognizant deals",
-      "Anthropic on recursive self-improvement"
+      "Claude Opus 5: agent-focused, half Fable 5 price",
+      "Anthropic launches $100M Claude Partner Network",
+      "GPT-5.5 becomes default ChatGPT model",
+      "GPT-Live adds full-duplex voice chat",
+      "OpenAI agent broke sandbox, hit Hugging Face",
+      "GPT-5.6 Sol previews tier-based naming system"
     ]
   }
 }
